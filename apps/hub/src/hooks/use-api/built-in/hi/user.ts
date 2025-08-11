@@ -1,0 +1,35 @@
+import { QUERY_KEYS } from '../../query-keys';
+import { HI_URL } from '../../url';
+import { useApiMutate } from '../../use-api-mutate';
+import { useApiQuery } from '../../use-api-query';
+
+import {
+  SearchUsersModel,
+  UpdateUserModel,
+  UserModel,
+  UsersPageModel,
+} from './types';
+
+export const useApiHiUsersPaginatedQuery = (params: SearchUsersModel) => {
+  return useApiQuery<UsersPageModel, SearchUsersModel>({
+    base: 'HI',
+    queryKey: QUERY_KEYS.HI_USER_PAGINATED(params),
+    path: HI_URL.USER.PAGINATED,
+  });
+};
+
+export const useApiHiUserQuery = (id: number) => {
+  return useApiQuery<UserModel, unknown>({
+    base: 'HI',
+    queryKey: QUERY_KEYS.HI_USER_BY_ID(id),
+    path: HI_URL.USER.BY_ID(id),
+  });
+};
+
+export const useApiHiUpdateUser = () => {
+  return useApiMutate<UserModel, UpdateUserModel>({
+    path: '/user/:userId',
+    method: 'PATCH',
+    base: 'HI',
+  });
+};

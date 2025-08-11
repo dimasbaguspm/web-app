@@ -1,0 +1,14 @@
+{
+  "name": "web-app",
+  "author": "Dimas Bagus Prayogo Mukti<dimas.bagus.pm1@gmail.com>",
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "AGPL-3.0-only",
+  "packageManager": "yarn@4.9.2",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

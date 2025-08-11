@@ -1,0 +1,60 @@
+export const QUERY_KEYS = {
+  HI_AUTH_ME: ['hi', 'auth', 'me'],
+  HI_USER_PAGINATED: (params: object = {}) => [
+    'hi',
+    'user',
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  HI_USER_BY_ID: (id: number, params: object = {}) => [
+    'hi',
+    'user',
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_ACCOUNT_PAGINATED: (params: object = {}) => [
+    'spenicle',
+    'account',
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_ACCOUNT_BY_ID: (id: number, params: object = {}) => [
+    'spenicle',
+    'account',
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_CATEGORY_PAGINATED: (params: object = {}) => [
+    'spenicle',
+    'category',
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_CATEGORY_BY_ID: (id: number, params: object = {}) => [
+    'spenicle',
+    'category',
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_TRANSACTION_PAGINATED: (params: object = {}) => [
+    'spenicle',
+    'transaction',
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_TRANSACTION_BY_ID: (id: number, params: object = {}) => [
+    'spenicle',
+    'transaction',
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_SUMMARY: (params: object = {}) => [
+    'spenicle',
+    'summary',
+    JSON.stringify(params ?? {}),
+  ],
+};

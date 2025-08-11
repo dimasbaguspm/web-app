@@ -1,0 +1,16 @@
+import { createRoot } from 'react-dom/client';
+
+const bootstrap = async () => {
+  const rootEl = document.getElementById('app');
+  if (!rootEl) throw new Error('Root element not found');
+
+  const { App } = await import('./core/app');
+
+  const root = createRoot(rootEl);
+
+  root.render(<App />);
+};
+
+bootstrap().catch((error) => {
+  console.error('Error during bootstrap:', error);
+});

@@ -1,0 +1,11 @@
+{
+    "name": "@dimasbaguspm/typescript",
+    "type": "module",
+    "bin": "../../node_modules/.bin/tsc",
+    "exports": {
+        ".": "./src/config.json"
+    },
+    "devDependencies": {
+        "typescript": "5.9.2"
+    }
+}
