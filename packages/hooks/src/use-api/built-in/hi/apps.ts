@@ -14,6 +14,7 @@ export const useApiHiAppsPaginatedQuery = (
     ...options,
     base: 'HI',
     queryKey: QUERY_KEYS.HI_APPS_PAGINATED(params),
+    queryParams: params,
     path: HI_URL.APPS.PAGINATED,
   });
 };

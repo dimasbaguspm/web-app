@@ -21,6 +21,7 @@ export const useApiSpenicleTransactionsPaginatedQuery = (
     ...options,
     base: 'SPENICLE',
     queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_PAGINATED(params),
+    queryParams: params,
     path: SPENICLE_URL.TRANSACTION.PAGINATED,
   });
 };

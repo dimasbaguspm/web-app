@@ -2,6 +2,7 @@ export const ROUTES = {
   DASHBOARD: '/',
   MARKETPLACE: '/marketplace',
   PROFILE: '/profile',
+  GROUPS: '/groups',
 } as const;
 
 export const DEEP_LINKS = {
@@ -16,6 +17,10 @@ export const DEEP_LINKS = {
   PROFILE: {
     path: ROUTES.PROFILE,
     title: 'Profile',
+  },
+  GROUPS: {
+    path: ROUTES.GROUPS,
+    title: 'Groups',
   },
 } as const;
 

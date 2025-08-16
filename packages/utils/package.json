@@ -2,7 +2,8 @@
   "name": "@dimasbaguspm/utils",
   "type": "module",
   "exports": {
-    "./initial": "./src/initial.ts"
+    "./initial": "./src/initial.ts",
+    "./date": "./src/date.ts"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -15,6 +16,7 @@
     "@types/lodash": "^4.17.20"
   },
   "peerDependencies": {
+    "dayjs": "1.11.13",
     "lodash": "4.17.21"
   }
 }

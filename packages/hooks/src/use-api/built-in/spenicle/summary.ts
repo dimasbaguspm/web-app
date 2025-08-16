@@ -8,6 +8,7 @@ export const useApiSpenicleSummaryQuery = (params: SearchSummaryModel) => {
   return useApiQuery<SummaryModel, SearchSummaryModel>({
     base: 'SPENICLE',
     queryKey: QUERY_KEYS.SPENICLE_SUMMARY(params),
+    queryParams: params,
     path: SPENICLE_URL.SUMMARY,
   });
 };

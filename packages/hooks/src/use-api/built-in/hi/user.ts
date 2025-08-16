@@ -14,6 +14,7 @@ export const useApiHiUsersPaginatedQuery = (params: SearchUsersModel) => {
   return useApiQuery<UsersPageModel, SearchUsersModel>({
     base: 'HI',
     queryKey: QUERY_KEYS.HI_USER_PAGINATED(params),
+    queryParams: params,
     path: HI_URL.USER.PAGINATED,
   });
 };

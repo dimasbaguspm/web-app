@@ -20,6 +20,10 @@ const router = createBrowserRouter([
         path: ROUTES.PROFILE,
         Component: lazy(() => import('../pages/profile/page')),
       },
+      {
+        path: ROUTES.GROUPS,
+        Component: lazy(() => import('../pages/groups/page')),
+      },
     ],
   },
 ]);
