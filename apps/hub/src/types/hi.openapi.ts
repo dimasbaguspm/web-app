@@ -36,6 +36,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/apps/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getApps'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/apps/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getAppsById'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/auth/signup': {
     parameters: {
       query?: never;
@@ -62,22 +94,6 @@ export interface paths {
     get?: never;
     put?: never;
     post: operations['postAuthSignin'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/auth/refresh': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post: operations['postAuthRefresh'];
     delete?: never;
     options?: never;
     head?: never;
@@ -130,6 +146,122 @@ export interface paths {
     options?: never;
     head?: never;
     patch?: never;
+    trace?: never;
+  };
+  '/groups/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getGroups'];
+    put?: never;
+    post: operations['postGroups'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/groups/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getGroupsById'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['patchGroupsById'];
+    trace?: never;
+  };
+  '/group-apps/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getGroup-apps'];
+    put?: never;
+    post: operations['postGroup-apps'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/group-apps/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getGroup-appsById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteGroup-appsById'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/group-members/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get paginated group members
+     * @description Returns paginated list of group members with filtering options.
+     */
+    get: operations['getGroup-members'];
+    put?: never;
+    /**
+     * Create group member
+     * @description Creates a new group member with role "member". Only allows creating members, not owners.
+     */
+    post: operations['postGroup-members'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/group-members/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get group member by ID
+     * @description Returns a single group member by ID.
+     */
+    get: operations['getGroup-membersById'];
+    put?: never;
+    post?: never;
+    /**
+     * Delete group member
+     * @description Removes a group member from the group.
+     */
+    delete: operations['deleteGroup-membersById'];
+    options?: never;
+    head?: never;
+    /**
+     * Update group member
+     * @description Updates a group member, including role changes.
+     */
+    patch: operations['patchGroup-membersById'];
     trace?: never;
   };
   '/user/': {
@@ -226,6 +358,136 @@ export interface operations {
       };
     };
   };
+  getApps: {
+    parameters: {
+      query?: {
+        id?: number[];
+        name?: string[];
+        search?: string;
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'name';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              name: string;
+              description: string;
+              url: string;
+              logoUrl?: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              name: string;
+              description: string;
+              url: string;
+              logoUrl?: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              name: string;
+              description: string;
+              url: string;
+              logoUrl?: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  getAppsById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            description: string;
+            url: string;
+            logoUrl?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            name: string;
+            description: string;
+            url: string;
+            logoUrl?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            name: string;
+            description: string;
+            url: string;
+            logoUrl?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
   postAuthSignup: {
     parameters: {
       query?: never;
@@ -260,7 +522,23 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': {
+            success: boolean;
+            message: string;
+            userId: number;
+          };
+          'multipart/form-data': {
+            success: boolean;
+            message: string;
+            userId: number;
+          };
+          'text/plain': {
+            success: boolean;
+            message: string;
+            userId: number;
+          };
+        };
       };
     };
   };
@@ -295,24 +573,23 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
-      };
-    };
-  };
-  postAuthRefresh: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        content: {
+          'application/json': {
+            success: boolean;
+            message: string;
+            userId: number;
+          };
+          'multipart/form-data': {
+            success: boolean;
+            message: string;
+            userId: number;
+          };
+          'text/plain': {
+            success: boolean;
+            message: string;
+            userId: number;
+          };
         };
-        content?: never;
       };
     };
   };
@@ -329,7 +606,47 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': {
+            success: boolean;
+            user: {
+              id: number;
+              /** Format: email */
+              email: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+          };
+          'multipart/form-data': {
+            success: boolean;
+            user: {
+              id: number;
+              /** Format: email */
+              email: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+          };
+          'text/plain': {
+            success: boolean;
+            user: {
+              id: number;
+              /** Format: email */
+              email: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+          };
+        };
       };
     };
   };
@@ -346,7 +663,53 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': {
+            user: {
+              id: number;
+              /** Format: email */
+              email: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+            tokenPayload: {
+              userId: number;
+            };
+          };
+          'multipart/form-data': {
+            user: {
+              id: number;
+              /** Format: email */
+              email: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+            tokenPayload: {
+              userId: number;
+            };
+          };
+          'text/plain': {
+            user: {
+              id: number;
+              /** Format: email */
+              email: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+            tokenPayload: {
+              userId: number;
+            };
+          };
+        };
       };
     };
   };
@@ -363,7 +726,932 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': {
+            success: boolean;
+            message: string;
+          };
+          'multipart/form-data': {
+            success: boolean;
+            message: string;
+          };
+          'text/plain': {
+            success: boolean;
+            message: string;
+          };
+        };
+      };
+    };
+  };
+  getGroups: {
+    parameters: {
+      query?: {
+        id?: number[];
+        name?: string[];
+        creatorId?: number[];
+        search?: string;
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'name';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              name: string;
+              creatorId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              name: string;
+              creatorId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              name: string;
+              creatorId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  postGroups: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name: string;
+        };
+        'multipart/form-data': {
+          name: string;
+        };
+        'text/plain': {
+          name: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  getGroupsById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  patchGroupsById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name?: string;
+        };
+        'multipart/form-data': {
+          name?: string;
+        };
+        'text/plain': {
+          name?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            name: string;
+            creatorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getGroup-apps': {
+    parameters: {
+      query?: {
+        id?: number[];
+        groupId?: number[];
+        appId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              groupId: number;
+              appId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              groupId: number;
+              appId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              groupId: number;
+              appId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postGroup-apps': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          groupId: number;
+          appId: number;
+        };
+        'multipart/form-data': {
+          groupId: number;
+          appId: number;
+        };
+        'text/plain': {
+          groupId: number;
+          appId: number;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            groupId: number;
+            appId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            groupId: number;
+            appId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            groupId: number;
+            appId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getGroup-appsById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            groupId: number;
+            appId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            groupId: number;
+            appId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            groupId: number;
+            appId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteGroup-appsById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+    };
+  };
+  'getGroup-members': {
+    parameters: {
+      query?: {
+        groupId?: string | string[];
+        userId?: string | string[];
+        role?: ('member' | 'owner') | ('member' | 'owner')[];
+        pageNumber?: string;
+        pageSize?: string;
+        sortBy?: 'created_at' | 'updated_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              groupId: number;
+              userId: number;
+              role: 'member' | 'owner';
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              groupId: number;
+              userId: number;
+              role: 'member' | 'owner';
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              groupId: number;
+              userId: number;
+              role: 'member' | 'owner';
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postGroup-members': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          groupId: number;
+          userId: number;
+        };
+        'multipart/form-data': {
+          groupId: number;
+          userId: number;
+        };
+        'text/plain': {
+          groupId: number;
+          userId: number;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+    };
+  };
+  'getGroup-membersById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteGroup-membersById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            success: boolean;
+          };
+          'multipart/form-data': {
+            success: boolean;
+          };
+          'text/plain': {
+            success: boolean;
+          };
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+    };
+  };
+  'patchGroup-membersById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          role?: 'member' | 'owner';
+        };
+        'multipart/form-data': {
+          role?: 'member' | 'owner';
+        };
+        'text/plain': {
+          role?: 'member' | 'owner';
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            groupId: number;
+            userId: number;
+            role: 'member' | 'owner';
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
       };
     };
   };
@@ -446,7 +1734,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -496,7 +1784,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };

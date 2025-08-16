@@ -7,7 +7,8 @@ export type AccountsPageModel =
 export type CreateAccountModel =
   operations['postAccount']['requestBody']['content']['application/json'];
 export type UpdateAccountModel =
-  operations['patchAccountById']['requestBody']['content']['application/json'];
+  operations['patchAccountById']['requestBody']['content']['application/json'] &
+    operations['patchAccountById']['parameters']['path'];
 export type AccountModel =
   operations['getAccountById']['responses']['200']['content']['application/json'];
 
@@ -18,7 +19,8 @@ export type CategoriesPageModel =
 export type CreateCategoryModel =
   operations['postCategory']['requestBody']['content']['application/json'];
 export type UpdateCategoryModel =
-  operations['patchCategoryById']['requestBody']['content']['application/json'];
+  operations['patchCategoryById']['requestBody']['content']['application/json'] &
+    operations['patchCategoryById']['parameters']['path'];
 export type CategoryModel =
   operations['getCategoryById']['responses']['200']['content']['application/json'];
 
@@ -29,7 +31,8 @@ export type TransactionsPageModel =
 export type CreateTransactionModel =
   operations['postTransaction']['requestBody']['content']['application/json'];
 export type UpdateTransactionModel =
-  operations['patchTransactionById']['requestBody']['content']['application/json'];
+  operations['patchTransactionById']['requestBody']['content']['application/json'] &
+    operations['patchTransactionById']['parameters']['path'];
 export type TransactionModel =
   operations['getTransactionById']['responses']['200']['content']['application/json'];
 

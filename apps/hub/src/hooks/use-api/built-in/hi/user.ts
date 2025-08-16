@@ -28,7 +28,7 @@ export const useApiHiUserQuery = (id: number) => {
 
 export const useApiHiUpdateUser = () => {
   return useApiMutate<UserModel, UpdateUserModel>({
-    path: '/user/:userId',
+    path: '/user/:id',
     method: 'PATCH',
     base: 'HI',
   });

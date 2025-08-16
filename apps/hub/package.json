@@ -9,7 +9,7 @@
     "test": "vitest run",
     "lint": "eslint src/**/*.{ts,tsx}",
     "check": "tsc --noEmit",
-    "generate-types": "tsx scripts/generate-openapi-types.ts"
+    "generate": "tsx scripts/generate-openapi-types.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "4.1.7",
