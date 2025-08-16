@@ -4,6 +4,8 @@ import { FC, StrictMode } from 'react';
 
 import { AuthProvider } from '../providers/auth-provider';
 
+import { Router } from './routes';
+
 const qc = new QueryClient();
 
 export const App: FC = () => {
@@ -11,8 +13,7 @@ export const App: FC = () => {
     <StrictMode>
       <QueryClientProvider client={qc}>
         <AuthProvider>
-          <h1>Welcome to the Hub</h1>
-          <p>This is the main application component.</p>
+          <Router />
         </AuthProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

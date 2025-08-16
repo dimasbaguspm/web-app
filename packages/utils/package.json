@@ -1,9 +1,8 @@
 {
-  "name": "@dimasbaguspm/hooks",
+  "name": "@dimasbaguspm/utils",
   "type": "module",
   "exports": {
-    "./use-api": "./src/use-api/index.ts",
-    "./use-window-resize": "./src/use-window-resize/index.ts"
+    "./initial": "./src/initial.ts"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -12,9 +11,10 @@
   },
   "devDependencies": {
     "@dimasbaguspm/eslint": "workspace:*",
-    "@dimasbaguspm/typescript": "workspace:*"
+    "@dimasbaguspm/typescript": "workspace:*",
+    "@types/lodash": "^4.17.20"
   },
   "peerDependencies": {
-    "@tanstack/react-query": "5.77.0"
+    "lodash": "4.17.21"
   }
 }
