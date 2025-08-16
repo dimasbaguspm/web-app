@@ -1,4 +1,6 @@
+import type { GroupMemberModel, UserModel } from '@dimasbaguspm/hooks/use-api';
+
 export interface AuthProviderModel {
-  userId: number;
-  email: string;
+  user: UserModel;
+  groupMembers: GroupMemberModel[];
 }
