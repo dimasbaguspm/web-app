@@ -17,9 +17,9 @@ export const HI_URL = {
     PAGINATED: '/group-members',
     BY_ID: (id: number) => `/group-members/${id}`,
   },
-  GROUP_APPS: {
-    PAGINATED: '/group-apps',
-    BY_ID: (id: number) => `/group-apps/${id}`,
+  APP_PROFILES: {
+    PAGINATED: '/app-profiles',
+    BY_ID: (id: number) => `/app-profiles/${id}`,
   },
 };
 

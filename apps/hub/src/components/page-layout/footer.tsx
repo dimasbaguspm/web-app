@@ -30,16 +30,16 @@ export const Footer: FC = () => {
         onClick={handleNavigation(DEEP_LINKS.DASHBOARD.path)}
       />
       <BottomBar.Item
-        icon={<Icon as={UsersIcon} size="md" />}
-        label="Groups"
-        onClick={handleNavigation(DEEP_LINKS.GROUPS.path)}
-        active={isActive(DEEP_LINKS.GROUPS.path)}
-      />
-      <BottomBar.Item
         icon={<Icon as={StoreIcon} size="md" />}
         label="Marketplace"
         onClick={handleNavigation(DEEP_LINKS.MARKETPLACE.path)}
         active={isActive(DEEP_LINKS.MARKETPLACE.path)}
+      />
+      <BottomBar.Item
+        icon={<Icon as={UsersIcon} size="md" />}
+        label="Groups"
+        onClick={handleNavigation(DEEP_LINKS.GROUPS.path)}
+        active={isActive(DEEP_LINKS.GROUPS.path)}
       />
       <BottomBar.Item
         icon={<Icon as={UserIcon} size="md" />}

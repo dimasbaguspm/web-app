@@ -1,8 +1,10 @@
 import {
+  useApiHiAppProfilesPaginatedQuery,
   useApiHiAuthMeQuery,
   useApiHiGroupMembersPaginatedQuery,
   useApiHiUserQuery,
 } from '@dimasbaguspm/hooks/use-api';
+import { LoadingIndicator } from '@dimasbaguspm/versaur';
 import { FC, PropsWithChildren } from 'react';
 
 import { AuthContext } from './context';
@@ -28,16 +30,54 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       },
     );
 
-  const isDataFetching = isFetching || isUserFetching || isUserGroupFetching;
+  const [userAppProfiles, , { isFetching: isUserAppProfilesFetching }] =
+    useApiHiAppProfilesPaginatedQuery(
+      {
+        userId: [data?.user?.id ?? 0],
+        pageSize: 100,
+      },
+      {
+        enabled: !!data?.user?.id,
+      },
+    );
 
-  if (isDataFetching || !data || !user) {
-    return null;
-  }
+  const [
+    userGroupAppProfiles,
+    ,
+    { isFetching: isUserGroupAppProfilesFetching },
+  ] = useApiHiAppProfilesPaginatedQuery(
+    {
+      groupId: (userMembers?.items ?? []).map((member) => member.groupId),
+      pageSize: 100,
+    },
+    {
+      enabled: (userMembers?.items ?? []).length > 0 && !!data?.user?.id,
+    },
+  );
+
+  const isDataFetching =
+    isFetching ||
+    isUserFetching ||
+    isUserGroupFetching ||
+    isUserAppProfilesFetching ||
+    isUserGroupAppProfilesFetching;
 
   const groupMembers = userMembers?.items ?? [];
+  const appProfiles = [
+    ...(userAppProfiles?.items ?? []),
+    ...(userGroupAppProfiles?.items ?? []),
+  ];
+
+  if (isDataFetching) {
+    return (
+      <div>
+        <LoadingIndicator size="sm" type="bar" />
+      </div>
+    );
+  }
 
   return (
-    <AuthContext.Provider value={{ user, groupMembers }}>
+    <AuthContext.Provider value={{ user: user!, groupMembers, appProfiles }}>
       {children}
     </AuthContext.Provider>
   );

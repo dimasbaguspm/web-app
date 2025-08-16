@@ -16,6 +16,21 @@ export type SearchAppsModel = operations['getApps']['parameters']['query'];
 export type AppsPageModel =
   operations['getApps']['responses']['200']['content']['application/json'];
 
+export type SearchAppProfilesModel =
+  operations['getApp-profiles']['parameters']['query'];
+export type AppProfilesPageModel =
+  operations['getApp-profiles']['responses']['200']['content']['application/json'];
+export type AppProfileModel =
+  operations['getApp-profilesById']['responses']['200']['content']['application/json'];
+export type CreateAppProfileModel =
+  operations['postApp-profiles']['requestBody']['content']['application/json'] &
+    operations['postApp-profiles']['parameters']['path'];
+export type UpdateAppProfileModel =
+  operations['patchApp-profilesById']['requestBody']['content']['application/json'] &
+    operations['patchApp-profilesById']['parameters']['path'];
+export type DeleteAppProfileModel =
+  operations['deleteApp-profilesById']['parameters']['path'];
+
 export type SearchGroupsModel = operations['getGroups']['parameters']['query'];
 export type GroupPageModel =
   operations['getGroups']['responses']['200']['content']['application/json'];
@@ -40,14 +55,3 @@ export type UpdateGroupMemberModel =
     operations['patchGroup-membersById']['parameters']['path'];
 export type DeleteGroupMemberModel =
   operations['deleteGroup-membersById']['parameters']['path'];
-
-export type SearchGroupAppsModel =
-  operations['getGroup-apps']['parameters']['query'];
-export type GroupAppsPageModel =
-  operations['getGroup-apps']['responses']['200']['content']['application/json'];
-export type GroupAppModel =
-  operations['getGroup-appsById']['responses']['200']['content']['application/json'];
-export type CreateGroupAppModel =
-  operations['postGroup-apps']['requestBody']['content']['application/json'];
-export type DeleteGroupAppModel =
-  operations['deleteGroup-appsById']['parameters']['path'];

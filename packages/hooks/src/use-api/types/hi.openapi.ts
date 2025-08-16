@@ -68,6 +68,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/app-profiles/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getApp-profiles'];
+    put?: never;
+    post: operations['postApp-profiles'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/app-profiles/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getApp-profilesById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteApp-profilesById'];
+    options?: never;
+    head?: never;
+    patch: operations['patchApp-profilesById'];
+    trace?: never;
+  };
   '/auth/signup': {
     parameters: {
       query?: never;
@@ -148,6 +180,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/auth/set-active-profile': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['postAuthSet-active-profile'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/groups/': {
     parameters: {
       query?: never;
@@ -178,38 +226,6 @@ export interface paths {
     options?: never;
     head?: never;
     patch: operations['patchGroupsById'];
-    trace?: never;
-  };
-  '/group-apps/': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['getGroup-apps'];
-    put?: never;
-    post: operations['postGroup-apps'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/group-apps/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['getGroup-appsById'];
-    put?: never;
-    post?: never;
-    delete: operations['deleteGroup-appsById'];
-    options?: never;
-    head?: never;
-    patch?: never;
     trace?: never;
   };
   '/group-members/': {
@@ -488,6 +504,294 @@ export interface operations {
       };
     };
   };
+  'getApp-profiles': {
+    parameters: {
+      query?: {
+        id?: number[];
+        appId?: number[];
+        userId?: number[];
+        groupId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'app_id';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              appId: number;
+              userId?: number | null;
+              groupId?: number | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              appId: number;
+              userId?: number | null;
+              groupId?: number | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              appId: number;
+              userId?: number | null;
+              groupId?: number | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postApp-profiles': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          appId: number;
+          userId?: number;
+          groupId?: number;
+        };
+        'multipart/form-data': {
+          appId: number;
+          userId?: number;
+          groupId?: number;
+        };
+        'text/plain': {
+          appId: number;
+          userId?: number;
+          groupId?: number;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getApp-profilesById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteApp-profilesById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+    };
+  };
+  'patchApp-profilesById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          appId?: number;
+          userId?: number | null;
+          groupId?: number | null;
+        };
+        'multipart/form-data': {
+          appId?: number;
+          userId?: number | null;
+          groupId?: number | null;
+        };
+        'text/plain': {
+          appId?: number;
+          userId?: number | null;
+          groupId?: number | null;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            appId: number;
+            userId?: number | null;
+            groupId?: number | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
   postAuthSignup: {
     parameters: {
       query?: never;
@@ -676,7 +980,19 @@ export interface operations {
               updatedAt: string;
             };
             tokenPayload: {
-              userId: number;
+              userId: string | number;
+              appProfiles: {
+                id: string | number;
+                appId: string | number;
+                groupId: (string | number) | null;
+                userId: (string | number) | null;
+              }[];
+              activeProfile: {
+                id: (string | number) | null;
+                appId: (string | number) | null;
+                groupId: (string | number) | null;
+                userId: (string | number) | null;
+              } | null;
             };
           };
           'multipart/form-data': {
@@ -691,7 +1007,19 @@ export interface operations {
               updatedAt: string;
             };
             tokenPayload: {
-              userId: number;
+              userId: string | number;
+              appProfiles: {
+                id: string | number;
+                appId: string | number;
+                groupId: (string | number) | null;
+                userId: (string | number) | null;
+              }[];
+              activeProfile: {
+                id: (string | number) | null;
+                appId: (string | number) | null;
+                groupId: (string | number) | null;
+                userId: (string | number) | null;
+              } | null;
             };
           };
           'text/plain': {
@@ -706,7 +1034,19 @@ export interface operations {
               updatedAt: string;
             };
             tokenPayload: {
-              userId: number;
+              userId: string | number;
+              appProfiles: {
+                id: string | number;
+                appId: string | number;
+                groupId: (string | number) | null;
+                userId: (string | number) | null;
+              }[];
+              activeProfile: {
+                id: (string | number) | null;
+                appId: (string | number) | null;
+                groupId: (string | number) | null;
+                userId: (string | number) | null;
+              } | null;
             };
           };
         };
@@ -738,6 +1078,54 @@ export interface operations {
           'text/plain': {
             success: boolean;
             message: string;
+          };
+        };
+      };
+    };
+  };
+  'postAuthSet-active-profile': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          profileId: number | null;
+        };
+        'multipart/form-data': {
+          profileId: number | null;
+        };
+        'text/plain': {
+          profileId: number | null;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            success: boolean;
+            message: string;
+            profileId: number | null;
+            appUrl: string;
+          };
+          'multipart/form-data': {
+            success: boolean;
+            message: string;
+            profileId: number | null;
+            appUrl: string;
+          };
+          'text/plain': {
+            success: boolean;
+            message: string;
+            profileId: number | null;
+            appUrl: string;
           };
         };
       };
@@ -973,213 +1361,6 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-          };
-        };
-      };
-    };
-  };
-  'getGroup-apps': {
-    parameters: {
-      query?: {
-        id?: number[];
-        groupId?: number[];
-        appId?: number[];
-        pageNumber?: number;
-        pageSize?: number;
-        sortBy?: 'created_at' | 'updated_at';
-        sortOrder?: 'asc' | 'desc';
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            items: {
-              id: number;
-              groupId: number;
-              appId: number;
-              /** Format: date-time */
-              createdAt: string;
-              /** Format: date-time */
-              updatedAt: string;
-            }[];
-            pageNumber: number;
-            pageSize: number;
-            totalItems: number;
-            totalPages: number;
-          };
-          'multipart/form-data': {
-            items: {
-              id: number;
-              groupId: number;
-              appId: number;
-              /** Format: date-time */
-              createdAt: string;
-              /** Format: date-time */
-              updatedAt: string;
-            }[];
-            pageNumber: number;
-            pageSize: number;
-            totalItems: number;
-            totalPages: number;
-          };
-          'text/plain': {
-            items: {
-              id: number;
-              groupId: number;
-              appId: number;
-              /** Format: date-time */
-              createdAt: string;
-              /** Format: date-time */
-              updatedAt: string;
-            }[];
-            pageNumber: number;
-            pageSize: number;
-            totalItems: number;
-            totalPages: number;
-          };
-        };
-      };
-    };
-  };
-  'postGroup-apps': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          groupId: number;
-          appId: number;
-        };
-        'multipart/form-data': {
-          groupId: number;
-          appId: number;
-        };
-        'text/plain': {
-          groupId: number;
-          appId: number;
-        };
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            id: number;
-            groupId: number;
-            appId: number;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          };
-          'multipart/form-data': {
-            id: number;
-            groupId: number;
-            appId: number;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          };
-          'text/plain': {
-            id: number;
-            groupId: number;
-            appId: number;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          };
-        };
-      };
-    };
-  };
-  'getGroup-appsById': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            id: number;
-            groupId: number;
-            appId: number;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          };
-          'multipart/form-data': {
-            id: number;
-            groupId: number;
-            appId: number;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          };
-          'text/plain': {
-            id: number;
-            groupId: number;
-            appId: number;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          };
-        };
-      };
-    };
-  };
-  'deleteGroup-appsById': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            message: string;
-          };
-          'multipart/form-data': {
-            message: string;
-          };
-          'text/plain': {
-            message: string;
           };
         };
       };
