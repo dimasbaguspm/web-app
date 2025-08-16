@@ -1,6 +1,5 @@
+import { useApiHiAuthMeQuery } from '@dimasbaguspm/hooks/use-api';
 import { FC, PropsWithChildren } from 'react';
-
-import { useApiHiAuthMeQuery } from '../../hooks/use-api';
 
 import { AuthContext } from './context';
 

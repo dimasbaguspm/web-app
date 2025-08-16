@@ -1,11 +1,14 @@
 {
-    "name": "@dimasbaguspm/typescript",
-    "type": "module",
-    "bin": "../../node_modules/.bin/tsc",
-    "exports": {
-        ".": "./src/config.json"
-    },
-    "devDependencies": {
-        "typescript": "5.9.2"
-    }
+  "name": "@dimasbaguspm/typescript",
+  "type": "module",
+  "bin": {
+    "tsc": "../../node_modules/.bin/tsc",
+    "tsserver": "./../../node_modules/.bin/tsserver"
+  },
+  "exports": {
+    ".": "./src/config.json"
+  },
+  "devDependencies": {
+    "typescript": "5.9.2"
+  }
 }
