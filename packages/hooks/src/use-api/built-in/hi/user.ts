@@ -1,7 +1,7 @@
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
 import { useApiMutate } from '../../use-api-mutate';
-import { useApiQuery } from '../../use-api-query';
+import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 import {
   SearchUsersModel,
@@ -18,8 +18,12 @@ export const useApiHiUsersPaginatedQuery = (params: SearchUsersModel) => {
   });
 };
 
-export const useApiHiUserQuery = (id: number) => {
+export const useApiHiUserQuery = (
+  id: number,
+  options?: Partial<UseApiQueryOptions<UserModel, unknown, unknown>>,
+) => {
   return useApiQuery<UserModel, unknown>({
+    ...options,
     base: 'HI',
     queryKey: QUERY_KEYS.HI_USER_BY_ID(id),
     path: HI_URL.USER.BY_ID(id),

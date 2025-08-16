@@ -1,7 +1,7 @@
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
 import { useApiMutate } from '../../use-api-mutate';
-import { useApiQuery } from '../../use-api-query';
+import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 import {
   SearchGroupsModel,
@@ -11,16 +11,26 @@ import {
   UpdateGroupModel,
 } from './types';
 
-export const useApiHiGroupsPaginatedQuery = (params: SearchGroupsModel) => {
+export const useApiHiGroupsPaginatedQuery = (
+  params: SearchGroupsModel,
+  options?: Partial<
+    UseApiQueryOptions<GroupPageModel, SearchGroupsModel, unknown>
+  >,
+) => {
   return useApiQuery<GroupPageModel, SearchGroupsModel>({
+    ...options,
     base: 'HI',
     queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED(params),
     path: HI_URL.GROUPS.PAGINATED,
   });
 };
 
-export const useApiHiGroupQuery = (id: number) => {
+export const useApiHiGroupQuery = (
+  id: number,
+  options?: Partial<UseApiQueryOptions<GroupModel, unknown, unknown>>,
+) => {
   return useApiQuery<GroupModel, unknown>({
+    ...options,
     base: 'HI',
     queryKey: QUERY_KEYS.HI_GROUPS_BY_ID(id),
     path: HI_URL.GROUPS.BY_ID(id),
