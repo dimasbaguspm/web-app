@@ -21,6 +21,7 @@ export const useApiSpenicleAccountsPaginatedQuery = (
     ...options,
     base: 'SPENICLE',
     queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED(params),
+    queryParams: params,
     path: SPENICLE_URL.ACCOUNT.PAGINATED,
   });
 };

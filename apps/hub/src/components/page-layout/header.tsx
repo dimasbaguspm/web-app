@@ -27,19 +27,25 @@ export const Header: FC = () => {
   return (
     <TopBar>
       <TopBar.Leading>
-        <Brand name="spenicle" size="lg" shape="rounded" />
+        <Brand
+          name="spenicle"
+          size="lg"
+          shape="rounded"
+          aria-label="Spenicle Logo"
+          onClick={handleNavigation(DEEP_LINKS.DASHBOARD.path)}
+        />
         <TopBar.Nav>
-          <TopBar.NavItem
-            active={location.pathname === DEEP_LINKS.DASHBOARD.path}
-            onClick={handleNavigation(DEEP_LINKS.DASHBOARD.path)}
-          >
-            {DEEP_LINKS.DASHBOARD.title}
-          </TopBar.NavItem>
           <TopBar.NavItem
             active={isActive(DEEP_LINKS.MARKETPLACE.path)}
             onClick={handleNavigation(DEEP_LINKS.MARKETPLACE.path)}
           >
             {DEEP_LINKS.MARKETPLACE.title}
+          </TopBar.NavItem>
+          <TopBar.NavItem
+            active={isActive(DEEP_LINKS.GROUPS.path)}
+            onClick={handleNavigation(DEEP_LINKS.GROUPS.path)}
+          >
+            {DEEP_LINKS.GROUPS.title}
           </TopBar.NavItem>
         </TopBar.Nav>
       </TopBar.Leading>
