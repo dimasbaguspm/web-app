@@ -1360,6 +1360,8 @@ __metadata:
     "@dimasbaguspm/eslint": "workspace:*"
     "@dimasbaguspm/hooks": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
+    "@dimasbaguspm/utils": "workspace:*"
+    "@dimasbaguspm/versaur": "npm:0.0.20"
     "@tailwindcss/vite": "npm:4.1.12"
     "@tanstack/react-query": "npm:5.85.3"
     "@tanstack/react-query-devtools": "npm:5.85.3"
@@ -1403,6 +1405,29 @@ __metadata:
     tsserver: ./../../node_modules/.bin/tsserver
   languageName: unknown
   linkType: soft
+
+"@dimasbaguspm/utils@workspace:*, @dimasbaguspm/utils@workspace:packages/utils":
+  version: 0.0.0-use.local
+  resolution: "@dimasbaguspm/utils@workspace:packages/utils"
+  dependencies:
+    "@dimasbaguspm/eslint": "workspace:*"
+    "@dimasbaguspm/typescript": "workspace:*"
+    "@types/lodash": "npm:^4.17.20"
+  peerDependencies:
+    lodash: 4.17.21
+  languageName: unknown
+  linkType: soft
+
+"@dimasbaguspm/versaur@npm:0.0.20":
+  version: 0.0.20
+  resolution: "@dimasbaguspm/versaur@npm:0.0.20"
+  peerDependencies:
+    lucide-react: ">=0.525.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10/d64577128bee2e21f5f2ef3fa42963e8e5a6c8d2d6088168798bdcbf8942f23e4160fa3dc90757744785f5d0017425b2199ee89b06a31045556be223d4e898ea
+  languageName: node
+  linkType: hard
 
 "@emnapi/core@npm:^1.4.3, @emnapi/core@npm:^1.4.5":
   version: 1.4.5

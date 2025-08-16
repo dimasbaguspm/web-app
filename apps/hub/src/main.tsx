@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client';
+import './main.css';
 
 const bootstrap = async () => {
   const rootEl = document.getElementById('app');
