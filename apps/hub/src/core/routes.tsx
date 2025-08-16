@@ -15,6 +15,20 @@ const router = createBrowserRouter([
       {
         path: ROUTES.MARKETPLACE,
         Component: lazy(() => import('../pages/marketplace/page')),
+        children: [
+          {
+            path: ROUTES.MARKETPLACE_AVAILABLE,
+            Component: lazy(
+              () => import('../pages/marketplace/sub-pages/available/page'),
+            ),
+          },
+          {
+            path: ROUTES.MARKETPLACE_INSTALLED,
+            Component: lazy(
+              () => import('../pages/marketplace/sub-pages/installed/page'),
+            ),
+          },
+        ],
       },
       {
         path: ROUTES.PROFILE,

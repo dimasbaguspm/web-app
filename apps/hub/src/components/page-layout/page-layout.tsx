@@ -3,7 +3,6 @@ import {
   Skeleton,
   PageLayout as VersaurPageLayout,
 } from '@dimasbaguspm/versaur';
-import { cx } from 'class-variance-authority';
 import { Suspense } from 'react';
 import { Outlet } from 'react-router';
 
@@ -19,7 +18,6 @@ export const PageLayout = () => {
       <main className="flex-grow-1 relative overflow-y-scroll">
         <VersaurPageLayout
           type={isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}
-          className={cx(isMobile && 'px-4 pt-2')}
         >
           <Suspense fallback={<Skeleton size="xl" />}>
             <Outlet />

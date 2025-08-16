@@ -19,6 +19,19 @@ export const QUERY_KEYS = {
     'paginated',
     JSON.stringify(params ?? {}),
   ],
+  HI_APP_PROFILES_PAGINATED: (params: object = {}) => [
+    'hi',
+    'app-profiles',
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  HI_APP_PROFILES_BY_ID: (id: number, params: object = {}) => [
+    'hi',
+    'app-profiles',
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
   HI_GROUPS_PAGINATED: (params: object = {}) => [
     'hi',
     'groups',
@@ -41,19 +54,6 @@ export const QUERY_KEYS = {
   HI_GROUP_MEMBERS_BY_ID: (id: number, params: object = {}) => [
     'hi',
     'group-members',
-    'by-id',
-    id,
-    JSON.stringify(params ?? {}),
-  ],
-  HI_GROUP_APPS_PAGINATED: (params: object = {}) => [
-    'hi',
-    'group-apps',
-    'paginated',
-    JSON.stringify(params ?? {}),
-  ],
-  HI_GROUP_APPS_BY_ID: (id: number, params: object = {}) => [
-    'hi',
-    'group-apps',
     'by-id',
     id,
     JSON.stringify(params ?? {}),
