@@ -1,0 +1,42 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-apps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22.14
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+
+      - name: Enable Corepack (Yarn Berry)
+        run: |
+          corepack enable
+
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Lint check
+        run: |
+          yarn workspaces foreach --parallel --since --interlaced run lint
+
+      - name: Types check
+        run: |
+          yarn workspaces foreach --parallel --since --interlaced run check
+
+      - name: Test
+        run: |
+          yarn workspaces foreach --parallel --since --interlaced run test
+
+      - name: Build
+        run: |
+          yarn workspaces foreach --parallel --since --interlaced run build

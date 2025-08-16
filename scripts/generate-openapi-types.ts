@@ -15,7 +15,10 @@ const SWAGGER_URLS = {
   hi: 'https://hi.dimasbaguspm.com/swagger/json',
 };
 
-const OUTPUT_DIR = path.resolve(__dirname, '../src/types');
+const OUTPUT_DIR = path.resolve(
+  __dirname,
+  '../packages/hooks/src/use-api/types',
+);
 
 // Ensure output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {

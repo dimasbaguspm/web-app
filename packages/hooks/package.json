@@ -1,0 +1,19 @@
+{
+  "name": "@dimasbaguspm/hooks",
+  "type": "module",
+  "exports": {
+    "./use-api": "./src/use-api/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "test": "echo 'No tests specified'",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@dimasbaguspm/eslint": "workspace:*",
+    "@dimasbaguspm/typescript": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "5.77.0"
+  }
+}
