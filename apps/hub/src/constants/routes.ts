@@ -1,36 +1,26 @@
 export const ROUTES = {
-  DASHBOARD: '/',
-  MARKETPLACE: '/marketplace',
-  MARKETPLACE_AVAILABLE: '/marketplace/available',
-  MARKETPLACE_INSTALLED: '/marketplace/installed',
-  PROFILE: '/profile',
+  MARKETPLACE: '/',
+  PROFILES: '/profiles',
   GROUPS: '/groups',
+  ACCOUNTS: '/accounts',
 } as const;
 
 export const DEEP_LINKS = {
-  DASHBOARD: {
-    path: ROUTES.DASHBOARD,
-    title: 'Dashboard',
-  },
   MARKETPLACE: {
     path: ROUTES.MARKETPLACE,
     title: 'Marketplace',
   },
-  MARKETPLACE_AVAILABLE: {
-    path: ROUTES.MARKETPLACE_AVAILABLE,
-    title: 'Available Apps',
-  },
-  MARKETPLACE_INSTALLED: {
-    path: ROUTES.MARKETPLACE_INSTALLED,
-    title: 'Installed Apps',
-  },
-  PROFILE: {
-    path: ROUTES.PROFILE,
-    title: 'Profile',
+  PROFILES: {
+    path: ROUTES.PROFILES,
+    title: 'Profiles',
   },
   GROUPS: {
     path: ROUTES.GROUPS,
     title: 'Groups',
+  },
+  ACCOUNTS: {
+    path: ROUTES.ACCOUNTS,
+    title: 'Accounts',
   },
 } as const;
 

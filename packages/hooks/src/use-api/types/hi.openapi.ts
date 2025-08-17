@@ -530,6 +530,7 @@ export interface operations {
           'application/json': {
             items: {
               id: number;
+              name: string;
               appId: number;
               userId?: number | null;
               groupId?: number | null;
@@ -546,6 +547,7 @@ export interface operations {
           'multipart/form-data': {
             items: {
               id: number;
+              name: string;
               appId: number;
               userId?: number | null;
               groupId?: number | null;
@@ -562,6 +564,7 @@ export interface operations {
           'text/plain': {
             items: {
               id: number;
+              name: string;
               appId: number;
               userId?: number | null;
               groupId?: number | null;
@@ -589,16 +592,19 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
+          name: string;
           appId: number;
           userId?: number;
           groupId?: number;
         };
         'multipart/form-data': {
+          name: string;
           appId: number;
           userId?: number;
           groupId?: number;
         };
         'text/plain': {
+          name: string;
           appId: number;
           userId?: number;
           groupId?: number;
@@ -613,6 +619,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;
@@ -623,6 +630,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;
@@ -633,6 +641,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;
@@ -663,6 +672,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;
@@ -673,6 +683,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;
@@ -683,6 +694,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;
@@ -736,16 +748,19 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
+          name?: string;
           appId?: number;
           userId?: number | null;
           groupId?: number | null;
         };
         'multipart/form-data': {
+          name?: string;
           appId?: number;
           userId?: number | null;
           groupId?: number | null;
         };
         'text/plain': {
+          name?: string;
           appId?: number;
           userId?: number | null;
           groupId?: number | null;
@@ -760,6 +775,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;
@@ -770,6 +786,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;
@@ -780,6 +797,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            name: string;
             appId: number;
             userId?: number | null;
             groupId?: number | null;

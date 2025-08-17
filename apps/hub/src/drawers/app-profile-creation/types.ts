@@ -1,4 +1,5 @@
 export interface AppProfileCreationFormData {
+  name: string;
   profileType: 'user' | 'group';
   selectedId: number;
 }

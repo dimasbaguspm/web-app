@@ -1,4 +1,7 @@
 import {
+  AppModel,
+  AppProfileModel,
+  GroupModel,
   useApiHiAppProfilesPaginatedQuery,
   useApiHiAppsPaginatedQuery,
   useApiHiGroupsPaginatedQuery,
@@ -8,13 +11,7 @@ import { useMemo, useState } from 'react';
 import { useDrawerRoute } from '../../../hooks/use-drawer-route';
 import { useAuthProvider } from '../../../providers/auth-provider';
 
-import type {
-  App,
-  AppProfile,
-  Group,
-  MarketplaceContextType,
-  MarketplaceData,
-} from '../types';
+import type { MarketplaceContextType, MarketplaceData } from '../types';
 
 export const useMarketplaceData = (): MarketplaceContextType => {
   const { appProfiles, groupMembers } = useAuthProvider();
@@ -49,37 +46,37 @@ export const useMarketplaceData = (): MarketplaceContextType => {
       : [];
 
     // Create maps for quick lookup
-    const appsMap = new Map<number, App>();
-    filteredApps.forEach((app: App) => {
+    const appsMap = new Map<number, AppModel>();
+    filteredApps.forEach((app: AppModel) => {
       appsMap.set(app.id, app);
     });
 
-    const groupsMap = new Map<number, Group>();
+    const groupsMap = new Map<number, GroupModel>();
     if (groupsData?.items) {
-      groupsData.items.forEach((group: Group) => {
+      groupsData.items.forEach((group: GroupModel) => {
         groupsMap.set(group.id, group);
       });
     }
 
     // Process app profiles
-    let userAppProfiles: AppProfile[] = [];
-    let groupAppProfiles: AppProfile[] = [];
+    let userAppProfiles: AppProfileModel[] = [];
+    let groupAppProfiles: AppProfileModel[] = [];
     let installedAppIds = new Set<number>();
 
     if (appProfilesData?.items) {
       userAppProfiles = appProfilesData.items.filter(
-        (profile: AppProfile) => profile.userId,
+        (profile: AppProfileModel) => profile.userId,
       );
       groupAppProfiles = appProfilesData.items.filter(
-        (profile: AppProfile) => profile.groupId,
+        (profile: AppProfileModel) => profile.groupId,
       );
       installedAppIds = new Set(
-        appProfilesData.items.map((profile: AppProfile) => profile.appId),
+        appProfilesData.items.map((profile: AppProfileModel) => profile.appId),
       );
     }
 
     // Get available apps (not yet installed) from filtered apps
-    const availableApps: App[] = filteredApps;
+    const availableApps: AppModel[] = filteredApps;
 
     return {
       appsMap,

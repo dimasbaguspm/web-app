@@ -1,5 +1,10 @@
 import { GroupModel, UserModel } from '@dimasbaguspm/hooks/use-api';
-import { FormLayout, RadioInput, SelectInput } from '@dimasbaguspm/versaur';
+import {
+  FormLayout,
+  RadioInput,
+  SelectInput,
+  TextInput,
+} from '@dimasbaguspm/versaur';
 import { FC, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -14,7 +19,7 @@ export const AppProfileCreationForm: FC<AppProfileCreationFormProps> = ({
   user,
   groups,
 }) => {
-  const { register, watch, setValue } =
+  const { register, watch, setValue, formState } =
     useFormContext<AppProfileCreationFormData>();
 
   const [profileType] = watch(['profileType', 'selectedId']);
@@ -47,10 +52,21 @@ export const AppProfileCreationForm: FC<AppProfileCreationFormProps> = ({
   return (
     <FormLayout>
       <FormLayout.Column span={12}>
+        <TextInput
+          label="Name"
+          {...register('name', {
+            required: 'Name is required',
+          })}
+          autoFocus
+          error={formState.errors.name?.message}
+        />
+      </FormLayout.Column>
+      <FormLayout.Column span={12}>
         <RadioInput
-          label="Profile Type"
+          label="Type"
           name="profileType"
           value={profileType}
+          error={formState.errors.profileType?.message}
           onChange={(e) => {
             setValue(
               e.target.name as 'profileType',
@@ -79,6 +95,7 @@ export const AppProfileCreationForm: FC<AppProfileCreationFormProps> = ({
         <SelectInput
           {...register('selectedId')}
           label={`Select ${profileType === 'user' ? 'User' : 'Group'}`}
+          error={formState.errors.selectedId?.message}
         >
           {profileOptions.map((option) => (
             <option key={option.id} value={+option.id}>
