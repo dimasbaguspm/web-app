@@ -37,6 +37,7 @@ export const useAppProfileForm = (options: Props) => {
       try {
         const payload: CreateAppProfileModel = {
           appId: app.id,
+          name: data.name,
           userId: data.profileType === 'user' ? +data.selectedId : undefined,
           groupId: data.profileType === 'group' ? +data.selectedId : undefined,
         };

@@ -3,8 +3,6 @@ import { ChangeEvent, FC } from 'react';
 
 import { useMarketplaceContext } from '../context';
 
-import { Tab } from './tab';
-
 export const DesktopHeader: FC = () => {
   const { actions, data } = useMarketplaceContext();
 
@@ -13,7 +11,7 @@ export const DesktopHeader: FC = () => {
   };
 
   return (
-    <div className="mb-4 space-y-4">
+    <div className="mb-4">
       <div className="flex flex-row items-center justify-between gap-4">
         <div>
           <Text as="h1" fontSize="3xl" fontWeight="bold" color="black">
@@ -29,7 +27,6 @@ export const DesktopHeader: FC = () => {
           onChange={handleSearchChange}
         />
       </div>
-      <Tab className="mb-4" />
     </div>
   );
 };

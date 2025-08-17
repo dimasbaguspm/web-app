@@ -10,8 +10,6 @@ import { ChangeEvent, FC, useState } from 'react';
 
 import { useMarketplaceContext } from '../context';
 
-import { Tab } from './tab';
-
 export const MobileHeader: FC = () => {
   const { data, actions } = useMarketplaceContext();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -55,9 +53,6 @@ export const MobileHeader: FC = () => {
             onClick={handleOpenBottomSheet}
           />
         </AppBar.Trailing>
-        <AppBar.Bottom>
-          <Tab />
-        </AppBar.Bottom>
       </AppBar>
 
       <BottomSheet isOpen={isBottomSheetOpen} onClose={handleCloseBottomSheet}>

@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
@@ -17,34 +16,20 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: ROUTES.DASHBOARD,
-        Component: lazy(() => import('../pages/dashboard/page')),
-      },
-      {
         path: ROUTES.MARKETPLACE,
         Component: lazy(() => import('../pages/marketplace/page')),
-        children: [
-          {
-            path: ROUTES.MARKETPLACE_AVAILABLE,
-            Component: lazy(
-              () => import('../pages/marketplace/sub-pages/available/page'),
-            ),
-          },
-          {
-            path: ROUTES.MARKETPLACE_INSTALLED,
-            Component: lazy(
-              () => import('../pages/marketplace/sub-pages/installed/page'),
-            ),
-          },
-        ],
-      },
-      {
-        path: ROUTES.PROFILE,
-        Component: lazy(() => import('../pages/profile/page')),
       },
       {
         path: ROUTES.GROUPS,
         Component: lazy(() => import('../pages/groups/page')),
+      },
+      {
+        path: ROUTES.PROFILES,
+        Component: lazy(() => import('../pages/profiles/page')),
+      },
+      {
+        path: ROUTES.ACCOUNTS,
+        Component: lazy(() => import('../pages/account/page')),
       },
     ],
   },

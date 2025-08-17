@@ -32,11 +32,11 @@ export const Header: FC = () => {
           size="lg"
           shape="rounded"
           aria-label="Spenicle Logo"
-          onClick={handleNavigation(DEEP_LINKS.DASHBOARD.path)}
+          onClick={handleNavigation(DEEP_LINKS.MARKETPLACE.path)}
         />
         <TopBar.Nav>
           <TopBar.NavItem
-            active={isActive(DEEP_LINKS.MARKETPLACE.path)}
+            active={location.pathname === DEEP_LINKS.MARKETPLACE.path}
             onClick={handleNavigation(DEEP_LINKS.MARKETPLACE.path)}
           >
             {DEEP_LINKS.MARKETPLACE.title}
@@ -46,6 +46,18 @@ export const Header: FC = () => {
             onClick={handleNavigation(DEEP_LINKS.GROUPS.path)}
           >
             {DEEP_LINKS.GROUPS.title}
+          </TopBar.NavItem>
+          <TopBar.NavItem
+            active={isActive(DEEP_LINKS.PROFILES.path)}
+            onClick={handleNavigation(DEEP_LINKS.PROFILES.path)}
+          >
+            {DEEP_LINKS.PROFILES.title}
+          </TopBar.NavItem>
+          <TopBar.NavItem
+            active={isActive(DEEP_LINKS.ACCOUNTS.path)}
+            onClick={handleNavigation(DEEP_LINKS.ACCOUNTS.path)}
+          >
+            {DEEP_LINKS.ACCOUNTS.title}
           </TopBar.NavItem>
         </TopBar.Nav>
       </TopBar.Leading>
