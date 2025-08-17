@@ -19,6 +19,12 @@ export const QUERY_KEYS = {
     'paginated',
     JSON.stringify(params ?? {}),
   ],
+  HI_APPS_BY_ID: (id: number, params: object = {}) => [
+    'hi',
+    'apps',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
   HI_APP_PROFILES_PAGINATED: (params: object = {}) => [
     'hi',
     'app-profiles',

@@ -15,6 +15,8 @@ export type AuthMeModel =
 export type SearchAppsModel = operations['getApps']['parameters']['query'];
 export type AppsPageModel =
   operations['getApps']['responses']['200']['content']['application/json'];
+export type AppModel =
+  operations['getAppsById']['responses']['200']['content']['application/json'];
 
 export type SearchAppProfilesModel =
   operations['getApp-profiles']['parameters']['query'];
@@ -23,8 +25,7 @@ export type AppProfilesPageModel =
 export type AppProfileModel =
   operations['getApp-profilesById']['responses']['200']['content']['application/json'];
 export type CreateAppProfileModel =
-  operations['postApp-profiles']['requestBody']['content']['application/json'] &
-    operations['postApp-profiles']['parameters']['path'];
+  operations['postApp-profiles']['requestBody']['content']['application/json'];
 export type UpdateAppProfileModel =
   operations['patchApp-profilesById']['requestBody']['content']['application/json'] &
     operations['patchApp-profilesById']['parameters']['path'];

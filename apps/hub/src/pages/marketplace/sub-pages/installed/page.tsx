@@ -1,8 +1,9 @@
-import { Text } from '@dimasbaguspm/versaur';
+import { NoResults, Text } from '@dimasbaguspm/versaur';
+import { AppWindowIcon, SearchIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { useMarketplaceContext } from '../../context';
-import { AppsGrid, EmptyState } from '../../presentation';
+import { AppsGrid } from '../../presentation';
 
 const MarketplaceInstalledPage: FC = () => {
   const { data } = useMarketplaceContext();
@@ -34,13 +35,15 @@ const MarketplaceInstalledPage: FC = () => {
 
       {/* Empty State */}
       {totalInstalled === 0 && (
-        <EmptyState
-          title={data.searchTerm ? 'No results found' : 'No available apps'}
-          description={
+        <NoResults
+          title={data.searchTerm ? 'No results found' : 'No installed apps'}
+          subtitle={
             data.searchTerm
               ? `No apps found matching with "${data.searchTerm}" search term`
-              : 'Browse available apps to get started'
+              : 'Install apps to see them here'
           }
+          icon={data.searchTerm ? SearchIcon : AppWindowIcon}
+          hasGrayBackground
         />
       )}
     </div>

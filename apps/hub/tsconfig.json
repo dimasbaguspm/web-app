@@ -1,5 +1,5 @@
 {
-    "extends": "@dimasbaguspm/typescript",
-    "include": ["src", "vite.config.ts", "scripts"],
-    "exclude": ["node_modules"],
+  "extends": "@dimasbaguspm/typescript",
+  "include": ["src", "vite.config.ts", "scripts"],
+  "exclude": ["node_modules"]
 }

@@ -46,6 +46,7 @@ export const CreateGroupModal: FC<CreateGroupModalProps> = ({
           onChange={(e) => setNewGroupName(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Enter group name..."
+          autoFocus
         />
       </Modal.Body>
       <Modal.Footer>

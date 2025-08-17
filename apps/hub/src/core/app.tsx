@@ -1,3 +1,4 @@
+import { SnackbarsProvider } from '@dimasbaguspm/versaur';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { FC, StrictMode } from 'react';
@@ -11,12 +12,14 @@ const qc = new QueryClient();
 export const App: FC = () => {
   return (
     <StrictMode>
-      <QueryClientProvider client={qc}>
-        <AuthProvider>
-          <Router />
-        </AuthProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <SnackbarsProvider>
+        <QueryClientProvider client={qc}>
+          <AuthProvider>
+            <Router />
+          </AuthProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </SnackbarsProvider>
     </StrictMode>
   );
 };

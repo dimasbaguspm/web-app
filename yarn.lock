@@ -1349,7 +1349,7 @@ __metadata:
     "@dimasbaguspm/eslint": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
   peerDependencies:
-    "@tanstack/react-query": 5.77.0
+    "@dimasbaguspm/versaur": 0.0.21
   languageName: unknown
   linkType: soft
 
@@ -1361,7 +1361,7 @@ __metadata:
     "@dimasbaguspm/hooks": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.20"
+    "@dimasbaguspm/versaur": "npm:0.0.21"
     "@tailwindcss/vite": "npm:4.1.12"
     "@tanstack/react-query": "npm:5.85.3"
     "@tanstack/react-query-devtools": "npm:5.85.3"
@@ -1419,14 +1419,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dimasbaguspm/versaur@npm:0.0.20":
-  version: 0.0.20
-  resolution: "@dimasbaguspm/versaur@npm:0.0.20"
+"@dimasbaguspm/versaur@npm:0.0.21":
+  version: 0.0.21
+  resolution: "@dimasbaguspm/versaur@npm:0.0.21"
   peerDependencies:
     lucide-react: ">=0.525.0"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10/d64577128bee2e21f5f2ef3fa42963e8e5a6c8d2d6088168798bdcbf8942f23e4160fa3dc90757744785f5d0017425b2199ee89b06a31045556be223d4e898ea
+  checksum: 10/5e87ee7aaccc5c3cb9859220925ae45ccda6ca58e58dcc2ef5d9ccbc0a180fe79d6dede783d22766bd5e2149a5209be1a9d6827356b5e2acf5c99f33512f4482
   languageName: node
   linkType: hard
 

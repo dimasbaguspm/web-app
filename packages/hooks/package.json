@@ -15,6 +15,6 @@
     "@dimasbaguspm/typescript": "workspace:*"
   },
   "peerDependencies": {
-    "@tanstack/react-query": "5.77.0"
+    "@dimasbaguspm/versaur": "0.0.21"
   }
 }

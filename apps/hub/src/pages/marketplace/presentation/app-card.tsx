@@ -29,7 +29,7 @@ export const AppCard: FC<AppCardProps> = ({
   };
 
   return (
-    <Tile className="hover:shadow-md transition-shadow">
+    <Tile>
       <div className="flex items-start gap-4">
         <div className="flex-shrink-0">
           <Avatar size="lg" shape="rounded">

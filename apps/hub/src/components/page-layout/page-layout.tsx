@@ -1,6 +1,6 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import {
-  Skeleton,
+  LoadingIndicator,
   PageLayout as VersaurPageLayout,
 } from '@dimasbaguspm/versaur';
 import { Suspense } from 'react';
@@ -19,7 +19,7 @@ export const PageLayout = () => {
         <VersaurPageLayout
           type={isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}
         >
-          <Suspense fallback={<Skeleton size="xl" />}>
+          <Suspense fallback={<LoadingIndicator type="bar" size="sm" />}>
             <Outlet />
           </Suspense>
         </VersaurPageLayout>
