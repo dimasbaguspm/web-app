@@ -5,7 +5,10 @@ import { DRAWER_PARAM_KEY, DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 export const useDrawerRoute = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [additionalParams, setAdditionalParams] = useState<object | null>(
+  const [additionalParams, setAdditionalParams] = useState<Record<
+    string,
+    string
+  > | null>(
     searchParams.size > 0 ? Object.fromEntries(searchParams.entries()) : null,
   );
 
@@ -17,12 +20,7 @@ export const useDrawerRoute = () => {
   const isDrawerOpen = Boolean(drawerParam);
 
   const handleCloseDrawer = () => {
-    setSearchParams((prev) => {
-      prev.delete(DRAWER_PARAM_KEY);
-      return {
-        ...Object.fromEntries(Object.entries(additionalParams || {})),
-      };
-    });
+    setSearchParams({});
     setAdditionalParams(null);
   };
 
@@ -37,12 +35,19 @@ export const useDrawerRoute = () => {
         [DRAWER_PARAM_KEY]: route,
       };
     });
-    setAdditionalParams(params || {});
+    setAdditionalParams(
+      params
+        ? Object.fromEntries(
+            Object.entries(params).map(([k, v]) => [k, String(v)]),
+          )
+        : null,
+    );
   };
 
   return {
     isDrawerOpen,
     drawerRoute,
+    additionalParams,
     handleCloseDrawer,
     handleOpenDrawer,
   };

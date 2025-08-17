@@ -79,9 +79,7 @@ export const useMarketplaceData = (): MarketplaceContextType => {
     }
 
     // Get available apps (not yet installed) from filtered apps
-    const availableApps: App[] = filteredApps.filter(
-      (app: App) => !installedAppIds.has(app.id),
-    );
+    const availableApps: App[] = filteredApps;
 
     return {
       appsMap,

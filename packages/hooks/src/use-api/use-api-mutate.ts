@@ -1,5 +1,6 @@
+import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { BASE_URL, BaseUrl } from './constants';
 
@@ -39,7 +40,11 @@ export type UseApiMutateResult<TData, TVariables, TError> = [
   reset: () => void,
 ];
 
-export const useApiMutate = <TData, TVariables = unknown, TError = Error>(
+export const useApiMutate = <
+  TData,
+  TVariables = unknown,
+  TError = { message: string },
+>(
   options: UseApiMutateOptions<TData, TVariables, TError>,
 ): UseApiMutateResult<TData, TVariables, TError> => {
   const {
@@ -52,6 +57,8 @@ export const useApiMutate = <TData, TVariables = unknown, TError = Error>(
     onSettled,
     silentError = false,
   } = options;
+
+  const { showSnack } = useSnackbars();
 
   const mutationOptions: UseMutationOptions<TData, TError, TVariables> = {
     mutationFn: async (variables: TVariables) => {
@@ -113,14 +120,29 @@ export const useApiMutate = <TData, TVariables = unknown, TError = Error>(
 
         onSuccess?.(response.data, variables);
         return response.data;
-      } catch (error) {
-        onError?.(error as TError, variables);
-        const currentUrl = window.location.href;
+      } catch (err) {
+        let errorToThrow: TError;
 
-        window.location.href =
-          BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
+        if (err instanceof AxiosError) {
+          if (err.response?.status === 401) {
+            const currentUrl = window.location.href;
+            window.location.href =
+              BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
+          }
 
-        throw error;
+          // Use the response data if available, otherwise use the error message
+          errorToThrow = err.response?.data?.message;
+        } else {
+          errorToThrow = err as TError;
+        }
+
+        if (!silentError) {
+          // @ts-expect-error as expected
+          showSnack('danger', errorToThrow || 'An error occurred');
+        }
+
+        onError?.(errorToThrow, variables);
+        throw errorToThrow;
       }
     },
     onMutate,

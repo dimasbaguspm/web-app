@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import querystring from 'query-string';
 
 import { BASE_URL } from './constants';
@@ -54,7 +54,7 @@ export type UseApiQueryResult<TData, TError> = [
   ) => Promise<QueryObserverResult<TData | null, TError> | undefined>,
 ];
 
-export const useApiQuery = <TData, TQuery, TError = Error>(
+export const useApiQuery = <TData, TQuery, TError = { message: string }>(
   options: UseApiQueryOptions<TData, TQuery, TError>,
 ): UseApiQueryResult<TData, TError> => {
   const {
@@ -93,13 +93,18 @@ export const useApiQuery = <TData, TQuery, TError = Error>(
         onSuccess?.(data);
         return data;
       } catch (err) {
+        if (err instanceof AxiosError) {
+          if (err.response?.status === 401) {
+            const currentUrl = window.location.href;
+            window.location.href =
+              BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
+          }
+
+          return err.response?.data;
+        }
+
         onError?.(err as TError);
-
-        const currentUrl = window.location.href;
-        window.location.href =
-          BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
-
-        return null;
+        return err;
       }
     },
     enabled,
