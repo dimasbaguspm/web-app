@@ -1,12 +1,20 @@
+/* eslint-disable import/max-dependencies */
 import { lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import { PageLayout } from '../components/page-layout/page-layout';
 import { ROUTES } from '../constants/routes';
 
+import { DrawerRoutes } from './drawer-routes';
+
 const router = createBrowserRouter([
   {
-    element: <PageLayout />,
+    element: (
+      <>
+        <PageLayout />
+        <DrawerRoutes />
+      </>
+    ),
     children: [
       {
         path: ROUTES.DASHBOARD,

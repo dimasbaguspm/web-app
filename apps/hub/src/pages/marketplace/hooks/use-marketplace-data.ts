@@ -5,6 +5,7 @@ import {
 } from '@dimasbaguspm/hooks/use-api';
 import { useMemo, useState } from 'react';
 
+import { useDrawerRoute } from '../../../hooks/use-drawer-route';
 import { useAuthProvider } from '../../../providers/auth-provider';
 
 import type {
@@ -17,6 +18,7 @@ import type {
 
 export const useMarketplaceData = (): MarketplaceContextType => {
   const { appProfiles, groupMembers } = useAuthProvider();
+  const { handleOpenDrawer } = useDrawerRoute();
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const [appsData, , { isLoading: appsLoading }] = useApiHiAppsPaginatedQuery(
@@ -99,8 +101,7 @@ export const useMarketplaceData = (): MarketplaceContextType => {
         window.open(url, '_blank');
       },
       installApp: (appId: number) => {
-        // TODO: Implement app installation logic
-        console.log(`Installing app with ID: ${appId}`);
+        handleOpenDrawer('APP_PROFILE_CREATION', { appId });
       },
       onSearchChange: (newSearchTerm: string) => {
         setSearchTerm(newSearchTerm);
