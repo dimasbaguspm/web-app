@@ -377,11 +377,11 @@ export interface operations {
   getApps: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -507,12 +507,12 @@ export interface operations {
   'getApp-profiles': {
     parameters: {
       query?: {
-        id?: number[];
-        appId?: number[];
-        userId?: number[];
-        groupId?: number[];
-        pageNumber?: number;
-        pageSize?: number;
+        id?: (number | string)[];
+        appId?: (number | string)[];
+        userId?: (number | string)[];
+        groupId?: (number | string)[];
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'app_id';
         sortOrder?: 'asc' | 'desc';
       };
@@ -849,16 +849,28 @@ export interface operations {
             success: boolean;
             message: string;
             userId: number;
+            tokens: {
+              accessToken: string;
+              refreshToken: string;
+            };
           };
           'multipart/form-data': {
             success: boolean;
             message: string;
             userId: number;
+            tokens: {
+              accessToken: string;
+              refreshToken: string;
+            };
           };
           'text/plain': {
             success: boolean;
             message: string;
             userId: number;
+            tokens: {
+              accessToken: string;
+              refreshToken: string;
+            };
           };
         };
       };
@@ -900,16 +912,28 @@ export interface operations {
             success: boolean;
             message: string;
             userId: number;
+            tokens: {
+              accessToken: string;
+              refreshToken: string;
+            };
           };
           'multipart/form-data': {
             success: boolean;
             message: string;
             userId: number;
+            tokens: {
+              accessToken: string;
+              refreshToken: string;
+            };
           };
           'text/plain': {
             success: boolean;
             message: string;
             userId: number;
+            tokens: {
+              accessToken: string;
+              refreshToken: string;
+            };
           };
         };
       };
@@ -918,7 +942,9 @@ export interface operations {
   postAuthValidate: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        authorization?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -975,7 +1001,9 @@ export interface operations {
   getAuthMe: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        authorization?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1006,8 +1034,8 @@ export interface operations {
                 userId: (string | number) | null;
               }[];
               activeProfile: {
-                id: (string | number) | null;
-                appId: (string | number) | null;
+                id: string | number;
+                appId: string | number;
                 groupId: (string | number) | null;
                 userId: (string | number) | null;
               } | null;
@@ -1033,8 +1061,8 @@ export interface operations {
                 userId: (string | number) | null;
               }[];
               activeProfile: {
-                id: (string | number) | null;
-                appId: (string | number) | null;
+                id: string | number;
+                appId: string | number;
                 groupId: (string | number) | null;
                 userId: (string | number) | null;
               } | null;
@@ -1060,8 +1088,8 @@ export interface operations {
                 userId: (string | number) | null;
               }[];
               activeProfile: {
-                id: (string | number) | null;
-                appId: (string | number) | null;
+                id: string | number;
+                appId: string | number;
                 groupId: (string | number) | null;
                 userId: (string | number) | null;
               } | null;
@@ -1104,7 +1132,9 @@ export interface operations {
   'postAuthSet-active-profile': {
     parameters: {
       query?: never;
-      header?: never;
+      header: {
+        authorization: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1152,12 +1182,12 @@ export interface operations {
   getGroups: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string[];
-        creatorId?: number[];
+        creatorId?: (number | string)[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -1387,9 +1417,9 @@ export interface operations {
   'getGroup-members': {
     parameters: {
       query?: {
-        groupId?: string | string[];
-        userId?: string | string[];
-        role?: ('member' | 'owner') | ('member' | 'owner')[];
+        groupId?: string | (string | string[]);
+        userId?: string | (string | string[]);
+        role?: ('member' | 'owner') | (string | ('member' | 'owner')[]);
         pageNumber?: string;
         pageSize?: string;
         sortBy?: 'created_at' | 'updated_at';
@@ -1933,7 +1963,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
