@@ -236,6 +236,7 @@ export interface operations {
           'application/json': {
             items: {
               id: number;
+              profileId: number;
               name: string;
               type: string;
               note: string | null;
@@ -254,6 +255,7 @@ export interface operations {
           'multipart/form-data': {
             items: {
               id: number;
+              profileId: number;
               name: string;
               type: string;
               note: string | null;
@@ -272,6 +274,7 @@ export interface operations {
           'text/plain': {
             items: {
               id: number;
+              profileId: number;
               name: string;
               type: string;
               note: string | null;
@@ -331,6 +334,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -343,6 +347,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -355,6 +360,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -374,7 +380,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -387,6 +393,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -399,6 +406,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -411,6 +419,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -430,7 +439,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -449,7 +458,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -486,6 +495,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -498,6 +508,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -510,6 +521,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             name: string;
             type: string;
             note: string | null;
@@ -549,6 +561,7 @@ export interface operations {
           'application/json': {
             items: {
               id: number;
+              profileId: number;
               name: string;
               note: string | null;
               metadata?: unknown;
@@ -565,6 +578,7 @@ export interface operations {
           'multipart/form-data': {
             items: {
               id: number;
+              profileId: number;
               name: string;
               note: string | null;
               metadata?: unknown;
@@ -581,6 +595,7 @@ export interface operations {
           'text/plain': {
             items: {
               id: number;
+              profileId: number;
               name: string;
               note: string | null;
               metadata?: unknown;
@@ -632,6 +647,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -642,6 +658,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -652,6 +669,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -669,7 +687,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -682,6 +700,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -692,6 +711,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -702,6 +722,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -719,7 +740,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -738,7 +759,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -769,6 +790,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -779,6 +801,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -789,6 +812,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             name: string;
             note: string | null;
             metadata?: unknown;
@@ -829,6 +853,7 @@ export interface operations {
           'application/json': {
             items: {
               id: number;
+              profileId: number;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -850,6 +875,7 @@ export interface operations {
           'multipart/form-data': {
             items: {
               id: number;
+              profileId: number;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -871,6 +897,7 @@ export interface operations {
           'text/plain': {
             items: {
               id: number;
+              profileId: number;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -942,6 +969,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -957,6 +985,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -972,6 +1001,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -994,7 +1024,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -1007,6 +1037,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1022,6 +1053,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1037,6 +1069,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1059,7 +1092,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -1078,7 +1111,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string;
+        id: number;
       };
       cookie?: never;
     };
@@ -1124,6 +1157,7 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1139,6 +1173,7 @@ export interface operations {
           };
           'multipart/form-data': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1154,6 +1189,7 @@ export interface operations {
           };
           'text/plain': {
             id: number;
+            profileId: number;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;

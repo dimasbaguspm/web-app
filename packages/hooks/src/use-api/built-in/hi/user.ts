@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
 import { useApiMutate } from '../../use-api-mutate';
@@ -32,9 +34,18 @@ export const useApiHiUserQuery = (
 };
 
 export const useApiHiUpdateUser = () => {
+  const queryClient = useQueryClient();
+
   return useApiMutate<UserModel, UpdateUserModel>({
     path: '/user/:id',
     method: 'PATCH',
     base: 'HI',
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_USER_PAGINATED(),
+        exact: false,
+      });
+      queryClient.setQueryData(QUERY_KEYS.HI_USER_BY_ID(data.id), data);
+    },
   });
 };

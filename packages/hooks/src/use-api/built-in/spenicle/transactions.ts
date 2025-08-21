@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
 import { useApiMutate } from '../../use-api-mutate';
@@ -39,17 +41,39 @@ export const useApiSpenicleTransactionQuery = (
 };
 
 export const useApiSpenicleCreateTransaction = () => {
+  const queryClient = useQueryClient();
   return useApiMutate<TransactionModel, CreateTransactionModel>({
     path: '/transaction',
     method: 'POST',
     base: 'SPENICLE',
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_PAGINATED(),
+        exact: false,
+      });
+      queryClient.setQueryData(
+        QUERY_KEYS.SPENICLE_TRANSACTION_BY_ID(data.id),
+        data,
+      );
+    },
   });
 };
 
 export const useApiSpenicleUpdateTransaction = () => {
+  const queryClient = useQueryClient();
   return useApiMutate<TransactionModel, UpdateTransactionModel>({
     path: '/transaction/:id',
     method: 'PATCH',
     base: 'SPENICLE',
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_PAGINATED(),
+        exact: false,
+      });
+      queryClient.setQueryData(
+        QUERY_KEYS.SPENICLE_TRANSACTION_BY_ID(data.id),
+        data,
+      );
+    },
   });
 };

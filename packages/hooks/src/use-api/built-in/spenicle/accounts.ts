@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
 import { useApiMutate } from '../../use-api-mutate';
@@ -39,17 +41,39 @@ export const useApiSpenicleAccountQuery = (
 };
 
 export const useApiSpenicleCreateAccount = () => {
+  const queryClient = useQueryClient();
   return useApiMutate<AccountModel, CreateAccountModel>({
     path: '/account',
     method: 'POST',
     base: 'SPENICLE',
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED(),
+        exact: false,
+      });
+      queryClient.setQueryData(
+        QUERY_KEYS.SPENICLE_ACCOUNT_BY_ID(data.id),
+        data,
+      );
+    },
   });
 };
 
 export const useApiSpenicleUpdateAccount = () => {
+  const queryClient = useQueryClient();
   return useApiMutate<AccountModel, UpdateAccountModel>({
     path: '/account/:id',
     method: 'PATCH',
     base: 'SPENICLE',
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED(),
+        exact: false,
+      });
+      queryClient.setQueryData(
+        QUERY_KEYS.SPENICLE_ACCOUNT_BY_ID(data.id),
+        data,
+      );
+    },
   });
 };

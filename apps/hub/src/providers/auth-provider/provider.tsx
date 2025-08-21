@@ -68,7 +68,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     ...(userGroupAppProfiles?.items ?? []),
   ];
 
-  if (isDataFetching) {
+  if (isDataFetching || !data || !user) {
     return (
       <div>
         <LoadingIndicator size="sm" type="bar" />
@@ -77,7 +77,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user: user!, groupMembers, appProfiles }}>
+    <AuthContext.Provider value={{ user, groupMembers, appProfiles }}>
       {children}
     </AuthContext.Provider>
   );
