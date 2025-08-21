@@ -1,8 +1,5 @@
-import {
-  AppModel,
-  CreateAppProfileModel,
-  useApiHiCreateAppProfile,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiHiCreateAppProfile } from '@dimasbaguspm/hooks/use-api';
+import { AppModel, CreateAppProfileModel } from '@dimasbaguspm/interfaces';
 import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useForm } from 'react-hook-form';
 

@@ -3,7 +3,8 @@
   "type": "module",
   "exports": {
     "./initial": "./src/initial.ts",
-    "./date": "./src/date.ts"
+    "./date": "./src/date.ts",
+    "./data": "./src/data/index.ts"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -16,6 +17,7 @@
     "@types/lodash": "^4.17.20"
   },
   "peerDependencies": {
+    "@dimasbaguspm/interfaces": "workspace:*",
     "dayjs": "1.11.13",
     "lodash": "4.17.21"
   }

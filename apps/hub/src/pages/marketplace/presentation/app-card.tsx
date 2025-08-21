@@ -1,6 +1,5 @@
-import { formatDate } from '@dimasbaguspm/utils/date';
 import { Avatar, Button, Icon, Text, Tile } from '@dimasbaguspm/versaur';
-import { AppWindowIcon, PlusIcon } from 'lucide-react';
+import { AppWindowIcon, ArrowRightCircleIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { useMarketplaceContext } from '../context/context';
@@ -11,25 +10,19 @@ export const AppCard: FC<AppCardProps> = ({ app }) => {
   const { actions } = useMarketplaceContext();
 
   const handleAction = () => {
-    actions.installApp(app.id);
+    actions.goToDetailPage(app.id);
   };
 
   return (
     <Tile>
       <div className="flex items-start gap-4">
-        <div className="flex-shrink-0">
-          <Avatar size="lg" shape="rounded">
-            {app.logoUrl ? (
-              <img
-                alt={app.name}
-                className="w-full h-full object-cover"
-                src={app.logoUrl}
-              />
-            ) : (
-              <AppWindowIcon className="w-6 h-6" />
-            )}
-          </Avatar>
-        </div>
+        <Avatar size="lg" shape="rounded">
+          {app.logoUrl ? (
+            <img alt={app.name} src={app.logoUrl} />
+          ) : (
+            <AppWindowIcon className="w-6 h-6" />
+          )}
+        </Avatar>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
@@ -47,13 +40,10 @@ export const AppCard: FC<AppCardProps> = ({ app }) => {
             {app.description}
           </Text>
 
-          <div className="flex items-center justify-between">
-            <Text as="span" color="gray" fontSize="xs">
-              Available since {formatDate(app.createdAt, 'longDate')}
-            </Text>
+          <div className="flex items-center justify-end">
             <Button onClick={handleAction} size="sm" variant="primary">
-              <Icon as={PlusIcon} size="sm" color="inherit" />
-              Install
+              More
+              <Icon as={ArrowRightCircleIcon} size="sm" color="inherit" />
             </Button>
           </div>
         </div>

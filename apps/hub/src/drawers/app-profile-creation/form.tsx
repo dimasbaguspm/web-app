@@ -1,4 +1,4 @@
-import { GroupModel, UserModel } from '@dimasbaguspm/hooks/use-api';
+import { GroupModel, UserModel } from '@dimasbaguspm/interfaces';
 import {
   FormLayout,
   RadioInput,
@@ -23,6 +23,7 @@ export const AppProfileCreationForm: FC<AppProfileCreationFormProps> = ({
     useFormContext<AppProfileCreationFormData>();
 
   const [profileType] = watch(['profileType', 'selectedId']);
+  const hasGroups = Boolean(groups.length);
 
   const profileOptions: ProfileOption[] = useMemo(() => {
     const options: ProfileOption[] = [];
@@ -61,49 +62,53 @@ export const AppProfileCreationForm: FC<AppProfileCreationFormProps> = ({
           error={formState.errors.name?.message}
         />
       </FormLayout.Column>
-      <FormLayout.Column span={12}>
-        <RadioInput
-          label="Type"
-          name="profileType"
-          value={profileType}
-          error={formState.errors.profileType?.message}
-          onChange={(e) => {
-            setValue(
-              e.target.name as 'profileType',
-              e.target.value as 'user' | 'group',
-              {
-                shouldDirty: true,
-              },
-            );
-          }}
-        >
-          <RadioInput.Option
-            value="user"
-            defaultChecked={profileType === 'user'}
-          >
-            Personal Profile
-          </RadioInput.Option>
-          <RadioInput.Option
-            value="group"
-            defaultChecked={profileType === 'group'}
-          >
-            Group Profile
-          </RadioInput.Option>
-        </RadioInput>
-      </FormLayout.Column>
-      <FormLayout.Column span={12}>
-        <SelectInput
-          {...register('selectedId')}
-          label={`Select ${profileType === 'user' ? 'User' : 'Group'}`}
-          error={formState.errors.selectedId?.message}
-        >
-          {profileOptions.map((option) => (
-            <option key={option.id} value={+option.id}>
-              {option.name}
-            </option>
-          ))}
-        </SelectInput>
-      </FormLayout.Column>
+      {hasGroups && (
+        <>
+          <FormLayout.Column span={12}>
+            <RadioInput
+              label="Type"
+              name="profileType"
+              value={profileType}
+              error={formState.errors.profileType?.message}
+              onChange={(e) => {
+                setValue(
+                  e.target.name as 'profileType',
+                  e.target.value as 'user' | 'group',
+                  {
+                    shouldDirty: true,
+                  },
+                );
+              }}
+            >
+              <RadioInput.Option
+                value="user"
+                defaultChecked={profileType === 'user'}
+              >
+                Personal Profile
+              </RadioInput.Option>
+              <RadioInput.Option
+                value="group"
+                defaultChecked={profileType === 'group'}
+              >
+                Group Profile
+              </RadioInput.Option>
+            </RadioInput>
+          </FormLayout.Column>
+          <FormLayout.Column span={12}>
+            <SelectInput
+              {...register('selectedId')}
+              label={`Select ${profileType === 'user' ? 'User' : 'Group'}`}
+              error={formState.errors.selectedId?.message}
+            >
+              {profileOptions.map((option) => (
+                <option key={option.id} value={+option.id}>
+                  {option.name}
+                </option>
+              ))}
+            </SelectInput>
+          </FormLayout.Column>
+        </>
+      )}
     </FormLayout>
   );
 };

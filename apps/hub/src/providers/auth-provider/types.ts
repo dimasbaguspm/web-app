@@ -2,7 +2,7 @@ import type {
   AppProfileModel,
   GroupMemberModel,
   UserModel,
-} from '@dimasbaguspm/hooks/use-api';
+} from '@dimasbaguspm/interfaces';
 
 export interface AuthProviderModel {
   user: UserModel;

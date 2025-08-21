@@ -1,4 +1,4 @@
-import { CreateGroupModel } from '@dimasbaguspm/hooks/use-api';
+import { CreateGroupModel } from '@dimasbaguspm/interfaces';
 
 import { GroupData } from '../types';
 

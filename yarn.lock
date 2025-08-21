@@ -1324,6 +1324,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dimasbaguspm/constants@workspace:*, @dimasbaguspm/constants@workspace:packages/constants":
+  version: 0.0.0-use.local
+  resolution: "@dimasbaguspm/constants@workspace:packages/constants"
+  dependencies:
+    "@dimasbaguspm/eslint": "workspace:*"
+    "@dimasbaguspm/typescript": "workspace:*"
+  languageName: unknown
+  linkType: soft
+
 "@dimasbaguspm/eslint@workspace:*, @dimasbaguspm/eslint@workspace:packages/eslint":
   version: 0.0.0-use.local
   resolution: "@dimasbaguspm/eslint@workspace:packages/eslint"
@@ -1347,6 +1356,7 @@ __metadata:
   resolution: "@dimasbaguspm/hooks@workspace:packages/hooks"
   dependencies:
     "@dimasbaguspm/eslint": "workspace:*"
+    "@dimasbaguspm/interfaces": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
   peerDependencies:
     "@dimasbaguspm/versaur": 0.0.21
@@ -1358,11 +1368,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dimasbaguspm/hub@workspace:apps/hub"
   dependencies:
+    "@dimasbaguspm/constants": "workspace:*"
     "@dimasbaguspm/eslint": "workspace:*"
     "@dimasbaguspm/hooks": "workspace:*"
+    "@dimasbaguspm/interfaces": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.22"
+    "@dimasbaguspm/versaur": "npm:0.0.23"
     "@tailwindcss/vite": "npm:4.1.12"
     "@tanstack/react-query": "npm:5.85.5"
     "@tanstack/react-query-devtools": "npm:5.85.5"
@@ -1396,6 +1408,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@dimasbaguspm/interfaces@workspace:*, @dimasbaguspm/interfaces@workspace:packages/interfaces":
+  version: 0.0.0-use.local
+  resolution: "@dimasbaguspm/interfaces@workspace:packages/interfaces"
+  dependencies:
+    "@dimasbaguspm/eslint": "workspace:*"
+    "@dimasbaguspm/typescript": "workspace:*"
+  languageName: unknown
+  linkType: soft
+
 "@dimasbaguspm/typescript@workspace:*, @dimasbaguspm/typescript@workspace:packages/typescript":
   version: 0.0.0-use.local
   resolution: "@dimasbaguspm/typescript@workspace:packages/typescript"
@@ -1415,19 +1436,20 @@ __metadata:
     "@dimasbaguspm/typescript": "workspace:*"
     "@types/lodash": "npm:^4.17.20"
   peerDependencies:
+    "@dimasbaguspm/interfaces": "workspace:*"
     dayjs: 1.11.13
     lodash: 4.17.21
   languageName: unknown
   linkType: soft
 
-"@dimasbaguspm/versaur@npm:0.0.22":
-  version: 0.0.22
-  resolution: "@dimasbaguspm/versaur@npm:0.0.22"
+"@dimasbaguspm/versaur@npm:0.0.23":
+  version: 0.0.23
+  resolution: "@dimasbaguspm/versaur@npm:0.0.23"
   peerDependencies:
     lucide-react: ">=0.525.0"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10/6c453c23212abac4e458d3df631bce681848f5c430f0855766e871b07ddf266107ee7fb49d7fa04250ea736d74c41c7f27db3f1cf72dbc5830616ecb872577e8
+  checksum: 10/1840c4651f83eafcda75a0547f350e39b0946de5c038f5e1df28518025f8eb77d04c05d9bc34c7bf20bff28056b25334c18c80900db750b79db642f9b241dc2b
   languageName: node
   linkType: hard
 

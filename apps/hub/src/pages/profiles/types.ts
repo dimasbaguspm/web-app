@@ -1,4 +1,4 @@
-import { AppModel, AppProfileModel } from '@dimasbaguspm/hooks/use-api';
+import { AppModel, AppProfileModel } from '@dimasbaguspm/interfaces';
 
 export interface ProfileWithApp extends AppProfileModel {
   app: AppModel;

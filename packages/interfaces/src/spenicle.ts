@@ -1,4 +1,4 @@
-import { operations } from '../../types/spenicle.openapi';
+import { operations } from './generated/spenicle.openapi';
 
 export type SearchAccountsModel =
   operations['getAccount']['parameters']['query'];

@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@dimasbaguspm/eslint": "workspace:*",
+    "@dimasbaguspm/interfaces": "workspace:*",
     "@dimasbaguspm/typescript": "workspace:*"
   },
   "peerDependencies": {

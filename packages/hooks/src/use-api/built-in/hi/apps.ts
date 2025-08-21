@@ -1,8 +1,12 @@
+import {
+  SearchAppsModel,
+  AppsPageModel,
+  AppModel,
+} from '@dimasbaguspm/interfaces';
+
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
-
-import { SearchAppsModel, AppsPageModel, AppModel } from './types';
 
 export const useApiHiAppsPaginatedQuery = (
   params: SearchAppsModel,

@@ -1,21 +1,25 @@
 import {
-  AppModel,
-  AppProfileModel,
-  GroupModel,
   useApiHiAppProfilesPaginatedQuery,
   useApiHiAppsPaginatedQuery,
   useApiHiGroupsPaginatedQuery,
 } from '@dimasbaguspm/hooks/use-api';
+import {
+  AppModel,
+  AppProfileModel,
+  GroupModel,
+} from '@dimasbaguspm/interfaces';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router';
 
-import { useDrawerRoute } from '../../../hooks/use-drawer-route';
+import { DEEP_LINKS } from '../../../constants/routes';
 import { useAuthProvider } from '../../../providers/auth-provider';
 
 import type { MarketplaceContextType, MarketplaceData } from '../types';
 
 export const useMarketplaceData = (): MarketplaceContextType => {
   const { appProfiles, groupMembers } = useAuthProvider();
-  const { handleOpenDrawer } = useDrawerRoute();
+  const navigate = useNavigate();
+
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const [appsData, , { isLoading: appsLoading }] = useApiHiAppsPaginatedQuery(
@@ -95,8 +99,8 @@ export const useMarketplaceData = (): MarketplaceContextType => {
       openApp: (url: string) => {
         window.open(url, '_blank');
       },
-      installApp: (appId: number) => {
-        handleOpenDrawer('APP_PROFILE_CREATION', { appId });
+      goToDetailPage: (appId: number) => {
+        navigate(DEEP_LINKS.MARKETPLACE_DETAIL(appId).path);
       },
       onSearchChange: (newSearchTerm: string) => {
         setSearchTerm(newSearchTerm);

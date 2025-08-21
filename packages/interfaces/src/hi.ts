@@ -1,4 +1,4 @@
-import { operations } from '../../types/hi.openapi';
+import { operations } from './generated/hi.openapi';
 
 export type SearchUsersModel = operations['getUser']['parameters']['query'];
 export type UsersPageModel =

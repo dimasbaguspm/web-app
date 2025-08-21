@@ -1,0 +1,15 @@
+{
+  "name": "@dimasbaguspm/constants",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@dimasbaguspm/eslint": "workspace:*",
+    "@dimasbaguspm/typescript": "workspace:*"
+  }
+}

@@ -1,5 +1,6 @@
 export const ROUTES = {
   MARKETPLACE: '/',
+  MARKETPLACE_DETAIL: '/marketplace/:id',
   PROFILES: '/profiles',
   GROUPS: '/groups',
   ACCOUNTS: '/accounts',
@@ -10,6 +11,10 @@ export const DEEP_LINKS = {
     path: ROUTES.MARKETPLACE,
     title: 'Marketplace',
   },
+  MARKETPLACE_DETAIL: (appId: number) => ({
+    path: ROUTES.MARKETPLACE_DETAIL.replace(':id', appId.toString()),
+    title: 'Marketplace Detail',
+  }),
   PROFILES: {
     path: ROUTES.PROFILES,
     title: 'Profiles',
