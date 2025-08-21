@@ -2,7 +2,7 @@ import {
   AppModel,
   AppProfileModel,
   GroupModel,
-} from '@dimasbaguspm/hooks/use-api';
+} from '@dimasbaguspm/interfaces';
 
 export interface MarketplaceData {
   appsMap: Map<number, AppModel>;
@@ -22,7 +22,7 @@ export interface MarketplaceContextType {
   };
   actions: {
     openApp: (url: string) => void;
-    installApp: (appId: number) => void;
+    goToDetailPage: (appId: number) => void;
     onSearchChange: (searchTerm: string) => void;
   };
 }

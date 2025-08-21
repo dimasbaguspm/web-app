@@ -1,10 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
-
-import { QUERY_KEYS } from '../../query-keys';
-import { HI_URL } from '../../url';
-import { useApiMutate } from '../../use-api-mutate';
-import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
-
 import {
   SearchGroupMembersModel,
   GroupMembersPageModel,
@@ -12,7 +5,13 @@ import {
   CreateGroupMemberModel,
   UpdateGroupMemberModel,
   DeleteGroupMemberModel,
-} from './types';
+} from '@dimasbaguspm/interfaces';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { QUERY_KEYS } from '../../query-keys';
+import { HI_URL } from '../../url';
+import { useApiMutate } from '../../use-api-mutate';
+import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiHiGroupMembersPaginatedQuery = (
   params: SearchGroupMembersModel,

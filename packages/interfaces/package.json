@@ -1,0 +1,16 @@
+{
+  "name": "@dimasbaguspm/interfaces",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "test": "echo 'No tests specified'",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@dimasbaguspm/eslint": "workspace:*",
+    "@dimasbaguspm/typescript": "workspace:*"
+  }
+}

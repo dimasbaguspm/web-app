@@ -1,17 +1,16 @@
-import { useQueryClient } from '@tanstack/react-query';
-
-import { QUERY_KEYS } from '../../query-keys';
-import { SPENICLE_URL } from '../../url';
-import { useApiMutate } from '../../use-api-mutate';
-import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
-
 import {
   SearchAccountsModel,
   AccountsPageModel,
   AccountModel,
   CreateAccountModel,
   UpdateAccountModel,
-} from './types';
+} from '@dimasbaguspm/interfaces';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { QUERY_KEYS } from '../../query-keys';
+import { SPENICLE_URL } from '../../url';
+import { useApiMutate } from '../../use-api-mutate';
+import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiSpenicleAccountsPaginatedQuery = (
   params: SearchAccountsModel,

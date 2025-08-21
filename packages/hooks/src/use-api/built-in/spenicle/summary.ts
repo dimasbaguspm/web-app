@@ -1,8 +1,8 @@
+import { SearchSummaryModel, SummaryModel } from '@dimasbaguspm/interfaces';
+
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
 import { useApiQuery } from '../../use-api-query';
-
-import { SearchSummaryModel, SummaryModel } from './types';
 
 export const useApiSpenicleSummaryQuery = (params: SearchSummaryModel) => {
   return useApiQuery<SummaryModel, SearchSummaryModel>({

@@ -5,7 +5,7 @@ import { FC, StrictMode } from 'react';
 
 import { AuthProvider } from '../providers/auth-provider';
 
-import { Router } from './routes';
+import { PageRouter } from './page-routes';
 
 const qc = new QueryClient();
 
@@ -15,7 +15,7 @@ export const App: FC = () => {
       <SnackbarsProvider>
         <QueryClientProvider client={qc}>
           <AuthProvider>
-            <Router />
+            <PageRouter />
           </AuthProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

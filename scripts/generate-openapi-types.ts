@@ -17,7 +17,7 @@ const SWAGGER_URLS = {
 
 const OUTPUT_DIR = path.resolve(
   __dirname,
-  '../packages/hooks/src/use-api/types',
+  '../packages/interfaces/src/generated',
 );
 
 // Ensure output directory exists

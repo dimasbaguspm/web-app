@@ -20,6 +20,16 @@ const router = createBrowserRouter([
         Component: lazy(() => import('../pages/marketplace/page')),
       },
       {
+        path: ROUTES.MARKETPLACE_DETAIL,
+        lazy: async () => {
+          const { default: MarketplaceDetailPage } = await import(
+            '../pages/marketplace-detail/page'
+          );
+
+          return { Component: MarketplaceDetailPage };
+        },
+      },
+      {
         path: ROUTES.GROUPS,
         Component: lazy(() => import('../pages/groups/page')),
       },
@@ -35,6 +45,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-export const Router = () => {
+export const PageRouter = () => {
   return <RouterProvider router={router} />;
 };
