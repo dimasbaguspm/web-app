@@ -1,0 +1,26 @@
+{
+  "name": "@dimasbaguspm/providers",
+  "type": "module",
+  "exports": {
+    "./auth-provider": "./src/auth-provider/index.ts",
+    "./drawer-route-provider": "./src/drawer-route-provider/index.ts",
+    "./active-app-profile-provider": "./src/active-app-profile-provider/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "test": "echo 'No tests specified'",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@dimasbaguspm/eslint": "workspace:*",
+    "@dimasbaguspm/interfaces": "workspace:*",
+    "@dimasbaguspm/typescript": "workspace:*"
+  },
+  "peerDependencies": {
+    "@dimasbaguspm/constants": "workspace:*",
+    "@dimasbaguspm/hooks": "workspace:*",
+    "@tanstack/react-query": "5.85.5",
+    "react": "19.1.1",
+    "react-router": "7.8.1"
+  }
+}

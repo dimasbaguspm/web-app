@@ -4,7 +4,8 @@
   "exports": {
     "./initial": "./src/initial.ts",
     "./date": "./src/date.ts",
-    "./data": "./src/data/index.ts"
+    "./data": "./src/data/index.ts",
+    "./lazy-load": "./src/lazy-load.ts"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -19,6 +20,7 @@
   "peerDependencies": {
     "@dimasbaguspm/interfaces": "workspace:*",
     "dayjs": "1.11.13",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "react": "19.1.1"
   }
 }

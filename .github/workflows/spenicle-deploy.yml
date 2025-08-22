@@ -1,0 +1,18 @@
+name: Spenicle Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/spenicle/**'
+      - 'packages/**'
+      - '.github/**'
+      - 'scripts/**'
+      - 'package.json'
+
+jobs:
+  deploy-spenicle:
+    uses: ./.github/workflows/reuseable-deploy.yml
+    with:
+      app_name: spenicle
+    secrets: inherit
