@@ -1,4 +1,4 @@
-import { Skeleton, Tile } from '@dimasbaguspm/versaur';
+import { LoadingIndicator } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { useGroupsStateContext } from '../context';
@@ -28,25 +28,7 @@ export const GroupsList: FC<GroupsListProps> = ({
   const { searchQuery, setIsCreating, clearSearch } = useGroupsStateContext();
 
   if (isLoading) {
-    return (
-      <div className="space-y-4">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <Tile key={index}>
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                  <Skeleton className="w-10 h-10 rounded-lg" />
-                  <div className="flex-1">
-                    <Skeleton className="h-5 w-32 mb-2" />
-                    <Skeleton className="h-4 w-16" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Tile>
-        ))}
-      </div>
-    );
+    return <LoadingIndicator type="bar" size="sm" />;
   }
 
   if (!groups || groups.length === 0) {

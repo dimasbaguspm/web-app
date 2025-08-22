@@ -1,5 +1,5 @@
 export const ROUTES = {
-  MARKETPLACE: '/',
+  MARKETPLACE: '/marketplace',
   MARKETPLACE_DETAIL: '/marketplace/:id',
   PROFILES: '/profiles',
   GROUPS: '/groups',

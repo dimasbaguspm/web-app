@@ -36,7 +36,7 @@ export const Header: FC = () => {
         />
         <TopBar.Nav>
           <TopBar.NavItem
-            active={location.pathname === DEEP_LINKS.MARKETPLACE.path}
+            active={isActive(DEEP_LINKS.MARKETPLACE.path)}
             onClick={handleNavigation(DEEP_LINKS.MARKETPLACE.path)}
           >
             {DEEP_LINKS.MARKETPLACE.title}
@@ -52,12 +52,6 @@ export const Header: FC = () => {
             onClick={handleNavigation(DEEP_LINKS.PROFILES.path)}
           >
             {DEEP_LINKS.PROFILES.title}
-          </TopBar.NavItem>
-          <TopBar.NavItem
-            active={isActive(DEEP_LINKS.ACCOUNTS.path)}
-            onClick={handleNavigation(DEEP_LINKS.ACCOUNTS.path)}
-          >
-            {DEEP_LINKS.ACCOUNTS.title}
           </TopBar.NavItem>
         </TopBar.Nav>
       </TopBar.Leading>
