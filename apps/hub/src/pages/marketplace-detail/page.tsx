@@ -4,12 +4,13 @@ import {
   Button,
   ButtonGroup,
   Icon,
+  PageContent,
   PageHeader,
   Tabs,
 } from '@dimasbaguspm/versaur';
 import { DownloadIcon, ExternalLinkIcon } from 'lucide-react';
 import { FC, useState } from 'react';
-import { useParams } from 'react-router';
+import { Outlet, useParams } from 'react-router';
 
 import { useDrawerRoute } from '../../hooks/use-drawer-route';
 
@@ -71,6 +72,9 @@ const MarketplaceDetailPage: FC = () => {
           </Tabs>
         }
       />
+      <PageContent>
+        <Outlet />
+      </PageContent>
 
       {app && (
         <SelectProfileModal

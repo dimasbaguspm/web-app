@@ -1,6 +1,6 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { BottomBar, Icon } from '@dimasbaguspm/versaur';
-import { SettingsIcon, StoreIcon, User2Icon, UsersIcon } from 'lucide-react';
+import { StoreIcon, User2Icon, UsersIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -27,7 +27,7 @@ export const Footer: FC = () => {
         icon={<Icon as={StoreIcon} size="md" />}
         label="Marketplace"
         onClick={handleNavigation(DEEP_LINKS.MARKETPLACE.path)}
-        active={location.pathname === DEEP_LINKS.MARKETPLACE.path}
+        active={isActive(DEEP_LINKS.MARKETPLACE.path)}
       />
       <BottomBar.Item
         icon={<Icon as={UsersIcon} size="md" />}
@@ -40,12 +40,6 @@ export const Footer: FC = () => {
         label="Profiles"
         onClick={handleNavigation(DEEP_LINKS.PROFILES.path)}
         active={isActive(DEEP_LINKS.PROFILES.path)}
-      />
-      <BottomBar.Item
-        icon={<Icon as={SettingsIcon} size="md" />}
-        label="Account"
-        onClick={handleNavigation(DEEP_LINKS.ACCOUNTS.path)}
-        active={isActive(DEEP_LINKS.ACCOUNTS.path)}
       />
     </BottomBar>
   );

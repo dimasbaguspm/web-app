@@ -1,17 +1,19 @@
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { LoadingIndicator, NoResults } from '@dimasbaguspm/versaur';
+import {
+  LoadingIndicator,
+  NoResults,
+  PageContent,
+  PageHeader,
+  SearchInput,
+} from '@dimasbaguspm/versaur';
 import { AppWindowIcon, SearchIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { useMarketplaceContext } from './context/context';
 import { MarketplaceProvider } from './context/provider';
 import { AppsGrid } from './presentation';
-import { DesktopHeader } from './presentation/desktop-header';
-import { MobileHeader } from './presentation/mobile-header';
 
 const MarketplaceContent: FC = () => {
   const { loading, data } = useMarketplaceContext();
-  const { isDesktop } = useWindowResize();
 
   const isLoading = loading.apps || loading.appProfiles;
 
@@ -21,9 +23,16 @@ const MarketplaceContent: FC = () => {
 
   return (
     <>
-      {isDesktop ? <DesktopHeader /> : <MobileHeader />}
+      <PageHeader
+        title="Marketplace"
+        subtitle="Discover and manage your installed apps"
+      />
 
-      <div className="px-4 space-y-12">
+      <PageContent>
+        <div className="mb-6">
+          <SearchInput placeholder="Search apps... (⌘K)" />
+        </div>
+
         {data.availableApps.length > 0 ? (
           <AppsGrid />
         ) : (
@@ -38,7 +47,7 @@ const MarketplaceContent: FC = () => {
             icon={data.searchTerm ? SearchIcon : AppWindowIcon}
           />
         )}
-      </div>
+      </PageContent>
     </>
   );
 };

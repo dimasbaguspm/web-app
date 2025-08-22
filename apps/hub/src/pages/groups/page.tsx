@@ -1,28 +1,26 @@
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+import {
+  Button,
+  ButtonGroup,
+  Icon,
+  PageContent,
+  PageHeader,
+} from '@dimasbaguspm/versaur';
+import { PlusIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { useAuthProvider } from '../../providers/auth-provider';
 
 import { GroupsStateProvider, useGroupsStateContext } from './context';
 import { useCreateGroup, useGroupsData } from './hooks';
-import {
-  CreateGroupModal,
-  GroupHeader,
-  GroupSearchBar,
-  GroupsList,
-  GroupsQuickStats,
-} from './presentation';
+import { CreateGroupModal, GroupSearchBar, GroupsList } from './presentation';
 
 const GroupPageContent: FC = () => {
   const { user } = useAuthProvider();
-  const { isMobile } = useWindowResize();
 
   const { searchQuery, setIsCreating, closeModal } = useGroupsStateContext();
 
   const {
     myGroups,
-    myGroupMembers,
-    apps,
     isGroupsLoading,
     createGroup,
     getGroupMemberCount,
@@ -42,34 +40,30 @@ const GroupPageContent: FC = () => {
 
   return (
     <>
-      {/* Header Section */}
-      <GroupHeader
-        isMobile={isMobile}
-        onCreateGroup={() => setIsCreating(true)}
+      <PageHeader
+        title="My Groups"
+        subtitle="Manage your groups and discover apps together"
+        actions={
+          <ButtonGroup>
+            <Button onClick={() => setIsCreating(true)}>
+              <Icon as={PlusIcon} color="inherit" />
+              Create New Group
+            </Button>
+          </ButtonGroup>
+        }
       />
 
-      {/* Search Bar */}
-      <GroupSearchBar />
-
-      {/* Create Group Modal */}
-      <CreateGroupModal onCreateGroup={handleCreateGroupWithName} />
-
-      {/* Groups List */}
-      <GroupsList
-        groups={filteredGroups}
-        isLoading={isGroupsLoading}
-        getMemberCount={getGroupMemberCount}
-        isOwner={isGroupOwner}
-      />
-
-      {/* Quick Stats */}
-      {filteredGroups && filteredGroups.length > 0 && (
-        <GroupsQuickStats
-          groupsCount={filteredGroups.length}
-          totalMembers={myGroupMembers?.totalItems || 0}
-          availableApps={apps?.totalItems || 0}
+      <PageContent>
+        <GroupSearchBar />
+        <GroupsList
+          groups={filteredGroups}
+          isLoading={isGroupsLoading}
+          getMemberCount={getGroupMemberCount}
+          isOwner={isGroupOwner}
         />
-      )}
+      </PageContent>
+
+      <CreateGroupModal onCreateGroup={handleCreateGroupWithName} />
     </>
   );
 };

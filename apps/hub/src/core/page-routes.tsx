@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
 
 import { PageLayout } from '../components/page-layout/page-layout';
 import { ROUTES } from '../constants/routes';
@@ -15,6 +15,10 @@ const router = createBrowserRouter([
       </>
     ),
     children: [
+      {
+        path: '/',
+        element: <Navigate to={ROUTES.MARKETPLACE} replace />,
+      },
       {
         path: ROUTES.MARKETPLACE,
         Component: lazy(() => import('../pages/marketplace/page')),
@@ -36,10 +40,6 @@ const router = createBrowserRouter([
       {
         path: ROUTES.PROFILES,
         Component: lazy(() => import('../pages/profiles/page')),
-      },
-      {
-        path: ROUTES.ACCOUNTS,
-        Component: lazy(() => import('../pages/account/page')),
       },
     ],
   },

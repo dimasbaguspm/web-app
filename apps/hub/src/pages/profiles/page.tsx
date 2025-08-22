@@ -1,4 +1,8 @@
-import { LoadingIndicator } from '@dimasbaguspm/versaur';
+import {
+  LoadingIndicator,
+  PageContent,
+  PageHeader,
+} from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { ProfilesProvider } from './context/provider';
@@ -6,7 +10,6 @@ import { useProfilesContext } from './context/use-profiles-context';
 import {
   ProfilesEmptyState,
   ProfilesGrid,
-  ProfilesHeader,
   ProfilesSearchBar,
 } from './presentation';
 
@@ -24,18 +27,19 @@ const ProfilesContent: FC = () => {
 
   return (
     <>
-      <ProfilesHeader />
+      <PageHeader title="Profiles" subtitle="Manage your profiles" />
 
-      <ProfilesSearchBar />
-
-      {profiles.length > 0 ? (
-        <ProfilesGrid />
-      ) : (
-        <ProfilesEmptyState
-          searchTerm={searchTerm}
-          onClearSearch={handleClearSearch}
-        />
-      )}
+      <PageContent>
+        <ProfilesSearchBar />
+        {profiles.length > 0 ? (
+          <ProfilesGrid />
+        ) : (
+          <ProfilesEmptyState
+            searchTerm={searchTerm}
+            onClearSearch={handleClearSearch}
+          />
+        )}
+      </PageContent>
     </>
   );
 };
