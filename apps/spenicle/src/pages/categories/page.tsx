@@ -41,7 +41,7 @@ const CategoriesPage = () => {
           <ButtonGroup>
             <Button onClick={handleOpenDrawer}>
               <Icon as={PlusIcon} color="inherit" />
-              New Categories
+              New Category
             </Button>
           </ButtonGroup>
         }
