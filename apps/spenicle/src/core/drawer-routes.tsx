@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Drawer } from '@dimasbaguspm/versaur';
@@ -5,14 +6,18 @@ import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
 import { DetailAccountDrawer } from '../drawers/detail-account-drawer/drawer';
+import { DetailCategoryDrawer } from '../drawers/detail-category-drawer/drawer';
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
+import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
+import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
 
 export const DrawerRoutes: FC = () => {
   const { isDesktop } = useWindowResize();
   const { isOpen, drawerId, params, closeDrawer } = useDrawerRoute<{
     appId?: string;
     accountId?: number;
+    categoryId?: number;
   }>();
 
   const is = (id: string) => drawerId === id;
@@ -30,6 +35,13 @@ export const DrawerRoutes: FC = () => {
       )}
       {is(DRAWER_ROUTES.EDIT_ACCOUNT) && hasParam('accountId') && (
         <EditAccountDrawer accountId={params.accountId!} />
+      )}
+      {is(DRAWER_ROUTES.NEW_CATEGORY) && <NewCategoryDrawer />}
+      {is(DRAWER_ROUTES.DETAIL_CATEGORY) && hasParam('categoryId') && (
+        <DetailCategoryDrawer categoryId={params.categoryId!} />
+      )}
+      {is(DRAWER_ROUTES.EDIT_CATEGORY) && hasParam('categoryId') && (
+        <EditCategoryDrawer categoryId={params.categoryId!} />
       )}
     </Drawer>
   );
