@@ -18,10 +18,12 @@ import { useForm } from 'react-hook-form';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 interface SelectCategoryDrawerProps {
+  payloadId: string;
   payload: Record<string, unknown>;
 }
 
 export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
+  payloadId,
   payload,
 }) => {
   const { closeDrawer, openDrawer } = useDrawerRoute();
@@ -48,7 +50,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
       state: {
         payload: {
           ...payload,
-          categoryId: selectedCategoryId,
+          [payloadId]: selectedCategoryId,
         },
       },
     });
@@ -58,7 +60,6 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
     <>
       <Drawer.Header>
         <Drawer.Title>Select Category</Drawer.Title>
-        <Drawer.CloseButton />
       </Drawer.Header>
 
       <Drawer.Body>

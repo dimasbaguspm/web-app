@@ -19,9 +19,11 @@ import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 interface SelectAccountDrawerProps {
   payload: Record<string, unknown>;
+  payloadId: string;
 }
 
 export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
+  payloadId,
   payload,
 }) => {
   const { closeDrawer, openDrawer } = useDrawerRoute();
@@ -46,7 +48,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
       state: {
         payload: {
           ...payload,
-          accountId: selectedAccountId,
+          [payloadId]: selectedAccountId,
         },
       },
     });
@@ -56,7 +58,6 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
     <>
       <Drawer.Header>
         <Drawer.Title>Select Account</Drawer.Title>
-        <Drawer.CloseButton />
       </Drawer.Header>
 
       <Drawer.Body>
