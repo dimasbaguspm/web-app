@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 
 import { DrawerRouteContext } from './context';
-import { DrawerParams, DrawerRouteModel } from './types';
+import { DrawerRouteModel } from './types';
 
-export const useDrawerRoute = <Params extends DrawerParams>() => {
+export const useDrawerRoute = <Params, State>() => {
   const context = useContext(DrawerRouteContext);
   if (!context) {
     throw new Error('useDrawerRoute must be used within a DrawerRouteProvider');
   }
-  return context as DrawerRouteModel<Params>;
+  return context as DrawerRouteModel<Params, State>;
 };
