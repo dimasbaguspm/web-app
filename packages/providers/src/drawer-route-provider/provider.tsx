@@ -3,7 +3,12 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
 import { DrawerRouteContext } from './context';
 
-import type { DrawerParams, DrawerRouteModel } from './types';
+import type {
+  DrawerParams,
+  DrawerRouteModel,
+  DrawerState,
+  OpenDrawerOptions,
+} from './types';
 
 /**
  * Encodes drawer params to a URL-safe string
@@ -84,8 +89,15 @@ export function DrawerRouteProvider({
   const { drawerId, params } = parseDrawerFromUrl(drawerParam);
   const isOpen = drawerId !== null;
 
+  // Get the current location state
+  const state = location.state as DrawerState;
+
   const openDrawer = useCallback(
-    (newDrawerId: string, newParams?: DrawerParams) => {
+    (
+      newDrawerId: string,
+      newParams?: DrawerParams,
+      opts?: OpenDrawerOptions,
+    ) => {
       const newSearchParams = new URLSearchParams(searchParams);
       const formattedValue = formatDrawerForUrl(newDrawerId, newParams);
       newSearchParams.set(searchParamKey, formattedValue);
@@ -93,7 +105,7 @@ export function DrawerRouteProvider({
       const newSearch = newSearchParams.toString();
       const newUrl = `${location.pathname}${newSearch ? `?${newSearch}` : ''}${location.hash}`;
 
-      navigate(newUrl);
+      navigate(newUrl, { replace: opts?.replace, state: opts?.state });
     },
     [searchParams, searchParamKey, location.pathname, location.hash, navigate],
   );
@@ -107,10 +119,11 @@ export function DrawerRouteProvider({
       isOpen,
       drawerId,
       params,
+      state,
       openDrawer,
       closeDrawer,
     }),
-    [isOpen, drawerId, params, openDrawer, closeDrawer],
+    [isOpen, drawerId, params, state, openDrawer, closeDrawer],
   );
 
   return (

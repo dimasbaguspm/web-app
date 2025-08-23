@@ -11,17 +11,31 @@ import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
+import { NewTransactionDrawer } from '../drawers/new-transaction-drawer/drawer';
+import { SelectAccountDrawer } from '../drawers/select-account-drawer/drawer';
+import { SelectCategoryDrawer } from '../drawers/select-category-drawer/drawer';
+
+interface DrawerParams {
+  appId?: string;
+  accountId?: number;
+  categoryId?: number;
+  transactionId?: number;
+}
+
+interface DrawerState {
+  payload?: Record<string, string>;
+}
 
 export const DrawerRoutes: FC = () => {
   const { isDesktop } = useWindowResize();
-  const { isOpen, drawerId, params, closeDrawer } = useDrawerRoute<{
-    appId?: string;
-    accountId?: number;
-    categoryId?: number;
-  }>();
+  const { isOpen, drawerId, params, state, closeDrawer } = useDrawerRoute<
+    DrawerParams,
+    DrawerState
+  >();
 
   const is = (id: string) => drawerId === id;
   const hasParam = (param: keyof typeof params) => param in params;
+  const hasState = (stateKey: keyof typeof state) => stateKey in state;
 
   return (
     <Drawer
@@ -42,6 +56,15 @@ export const DrawerRoutes: FC = () => {
       )}
       {is(DRAWER_ROUTES.EDIT_CATEGORY) && hasParam('categoryId') && (
         <EditCategoryDrawer categoryId={params.categoryId!} />
+      )}
+      {is(DRAWER_ROUTES.NEW_TRANSACTION) && (
+        <NewTransactionDrawer payload={state?.payload} />
+      )}
+      {is(DRAWER_ROUTES.SELECT_ACCOUNT) && hasState('payload') && (
+        <SelectAccountDrawer payload={state.payload!} />
+      )}
+      {is(DRAWER_ROUTES.SELECT_CATEGORY) && hasState('payload') && (
+        <SelectCategoryDrawer payload={state.payload!} />
       )}
     </Drawer>
   );
