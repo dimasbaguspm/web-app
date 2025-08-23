@@ -99,20 +99,8 @@ export function DrawerRouteProvider({
   );
 
   const closeDrawer = useCallback(() => {
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.delete(searchParamKey);
-
-    const newSearch = newSearchParams.toString();
-    const newUrl = `${location.pathname}${newSearch ? `?${newSearch}` : ''}${location.hash}`;
-
-    navigate(newUrl);
-  }, [
-    searchParams,
-    searchParamKey,
-    location.pathname,
-    location.hash,
-    navigate,
-  ]);
+    navigate(-1);
+  }, [navigate]);
 
   const contextValue: DrawerRouteModel = useMemo(
     () => ({

@@ -1,8 +1,85 @@
+import { useApiSpenicleAccountsPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
+import { AccountModel } from '@dimasbaguspm/interfaces';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
+import { If } from '@dimasbaguspm/utils/if';
+import {
+  Button,
+  ButtonGroup,
+  Icon,
+  LoadingIndicator,
+  NoResults,
+  PageContent,
+  PageHeader,
+} from '@dimasbaguspm/versaur';
+import { PlusIcon } from 'lucide-react';
+
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+
+import { AccountCard } from './components';
+
 const AccountsPage = () => {
+  const { openDrawer } = useDrawerRoute();
+
+  const [accounts, , { isLoading }] = useApiSpenicleAccountsPaginatedQuery({
+    pageSize: 15,
+  });
+
+  const handleOpenDrawer = () => {
+    openDrawer(DRAWER_ROUTES.NEW_ACCOUNT);
+  };
+
+  const handleAccountClick = (account: AccountModel) => {
+    openDrawer(DRAWER_ROUTES.ACCOUNT_DETAIL, { accountId: account.id });
+  };
+
   return (
-    <div>
-      <h1>Accounts</h1>
-    </div>
+    <>
+      <PageHeader
+        title="Accounts"
+        subtitle="Manage your accounts"
+        actions={
+          <ButtonGroup>
+            <Button onClick={handleOpenDrawer}>
+              <Icon as={PlusIcon} color="inherit" />
+              New Account
+            </Button>
+          </ButtonGroup>
+        }
+      />
+      <PageContent>
+        <If condition={isLoading}>
+          <LoadingIndicator type="bar" size="sm" />
+        </If>
+
+        <If condition={[accounts, accounts?.items]}>
+          <div className="space-y-4">
+            <ul className="grid grid-cols-1 gap-4">
+              {accounts?.items.map((account) => (
+                <li key={account.id}>
+                  <AccountCard account={account} onClick={handleAccountClick} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </If>
+
+        <If condition={[!isLoading, accounts?.items.length === 0]}>
+          <NoResults
+            icon={PlusIcon}
+            title="No accounts yet"
+            subtitle="Create your first account to start managing your finances"
+            action={
+              <ButtonGroup>
+                <Button onClick={handleOpenDrawer}>
+                  <Icon as={PlusIcon} color="inherit" />
+                  Create Account
+                </Button>
+              </ButtonGroup>
+            }
+          />
+        </If>
+      </PageContent>
+    </>
   );
 };
 
