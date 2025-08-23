@@ -11,7 +11,7 @@ import {
   Text,
 } from '@dimasbaguspm/versaur';
 import dayjs, { Dayjs } from 'dayjs';
-import { Calendar1Icon, FilterIcon, PlusIcon } from 'lucide-react';
+import { CalendarCogIcon, FilterIcon, PlusIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -55,7 +55,7 @@ const TransactionsPage = () => {
           <Tabs
             value={formatDate(selectedDate.toDate(), DateFormat.ISO_DATE)}
             onValueChange={handleOnDateChange}
-            className="overflow-auto justify-between"
+            className="justify-between"
           >
             {dates.map((date) => {
               const isActive = date.isSame(selectedDate, 'day');
@@ -84,7 +84,7 @@ const TransactionsPage = () => {
             Filter
           </Button>
           <Button variant="outline">
-            <Icon as={Calendar1Icon} size="sm" color="gray" />
+            <Icon as={CalendarCogIcon} size="sm" color="gray" />
             Calendar
           </Button>
         </ButtonGroup>
