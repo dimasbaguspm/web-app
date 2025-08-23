@@ -16,6 +16,7 @@
     "@dimasbaguspm/typescript": "workspace:*"
   },
   "peerDependencies": {
+    "@dimasbaguspm/constants": "workspace:*",
     "@tanstack/react-query": "5.85.5"
   }
 }

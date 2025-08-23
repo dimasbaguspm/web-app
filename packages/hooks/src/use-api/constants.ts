@@ -1,6 +1,8 @@
-export const HI_BASE_URL = 'https://hi.dimasbaguspm.com';
-export const SPENICLE_BASE_URL = 'https://spenicle.dimasbaguspm.com';
-export const LOGIN_BASE_URL = 'https://login.dimasbaguspm.com';
+import {
+  HI_BASE_URL,
+  LOGIN_BASE_URL,
+  SPENICLE_BASE_URL,
+} from '@dimasbaguspm/constants';
 
 export const BASE_URL = {
   HI: HI_BASE_URL,

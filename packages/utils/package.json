@@ -5,7 +5,9 @@
     "./initial": "./src/initial.ts",
     "./date": "./src/date.ts",
     "./data": "./src/data/index.ts",
-    "./lazy-load": "./src/lazy-load.ts"
+    "./price": "./src/price.ts",
+    "./lazy-load": "./src/lazy-load.ts",
+    "./if": "./src/if.tsx"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",

@@ -1,4 +1,4 @@
-import { LOGIN_BASE_URL } from '@dimasbaguspm/constants';
+import { AppId, HUB_BASE_URL, LOGIN_BASE_URL } from '@dimasbaguspm/constants';
 import { FC, ReactNode } from 'react';
 
 import { useAuthProvider } from '../auth-provider';
@@ -6,7 +6,7 @@ import { useAuthProvider } from '../auth-provider';
 import { ActiveAppProfileContext } from './context';
 
 interface Props {
-  appId: number;
+  appId: AppId;
   children: ReactNode;
 }
 
@@ -15,14 +15,12 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
 
   const { appId, children } = props;
 
-  const url = new URL(LOGIN_BASE_URL + '/verify-app-access');
-
   if (!activeProfile) {
+    const url = new URL(HUB_BASE_URL);
     window.location.href = url.toString();
   }
 
-  url.searchParams.set('redirectTo', window.location.href);
-
+  const url = new URL(LOGIN_BASE_URL + '/verify-app-access');
   if (activeProfile?.appId !== appId) {
     window.location.href = url.toString();
   }
@@ -37,7 +35,6 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
   ) {
     window.location.href = url.toString();
   }
-  console.log('bar');
 
   return (
     <ActiveAppProfileContext.Provider value={activeProfile}>
