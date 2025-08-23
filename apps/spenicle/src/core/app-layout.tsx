@@ -94,15 +94,28 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
 
       {!isDesktop && (
         <BottomBar>
-          {LINKS.map((link) => (
-            <BottomBar.Item
-              key={link.path}
-              icon={<Icon as={link.icon} size="md" />}
-              label={link.title}
-              onClick={handleNavigation(link.path)}
-              active={isActive(link.path)}
-            />
-          ))}
+          {LINKS.map((link) => {
+            const isActiveLink =
+              link.path === DEEP_LINKS.TRANSACTIONS_ALT.path
+                ? DEEP_LINKS.TRANSACTIONS.path === location.pathname ||
+                  location.pathname.startsWith(DEEP_LINKS.TRANSACTIONS_ALT.path)
+                : isActive(link.path);
+            return (
+              <BottomBar.Item
+                key={link.path}
+                icon={
+                  <Icon
+                    as={link.icon}
+                    size="md"
+                    color={isActiveLink ? 'primary' : 'inherit'}
+                  />
+                }
+                label={link.title}
+                onClick={handleNavigation(link.path)}
+                active={isActiveLink}
+              />
+            );
+          })}
         </BottomBar>
       )}
     </div>
