@@ -47,7 +47,7 @@ export const useApiHiCreateGroup = () => {
     base: 'HI',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED(),
+        queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.HI_GROUPS_BY_ID(data.id), data);
@@ -63,7 +63,7 @@ export const useApiHiUpdateGroup = () => {
     base: 'HI',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED(),
+        queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.HI_GROUPS_BY_ID(data.id), data);

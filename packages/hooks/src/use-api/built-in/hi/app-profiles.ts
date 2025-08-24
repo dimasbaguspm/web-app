@@ -49,7 +49,7 @@ export const useApiHiCreateAppProfile = () => {
     base: 'HI',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.HI_APP_PROFILES_PAGINATED(),
+        queryKey: QUERY_KEYS.HI_APP_PROFILES_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.HI_APP_PROFILES_BY_ID(data.id), data);
@@ -66,7 +66,7 @@ export const useApiHiUpdateAppProfile = () => {
     base: 'HI',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.HI_APP_PROFILES_PAGINATED(),
+        queryKey: QUERY_KEYS.HI_APP_PROFILES_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.HI_APP_PROFILES_BY_ID(data.id), data);
@@ -83,7 +83,7 @@ export const useApiHiDeleteAppProfile = () => {
     base: 'HI',
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.HI_APP_PROFILES_PAGINATED(),
+        queryKey: QUERY_KEYS.HI_APP_PROFILES_PAGINATED().slice(0, 3),
         exact: false,
       });
     },

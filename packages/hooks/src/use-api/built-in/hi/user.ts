@@ -41,7 +41,7 @@ export const useApiHiUpdateUser = () => {
     base: 'HI',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.HI_USER_PAGINATED(),
+        queryKey: QUERY_KEYS.HI_USER_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.HI_USER_BY_ID(data.id), data);

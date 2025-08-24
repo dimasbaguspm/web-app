@@ -70,7 +70,11 @@ export const useApiSpenicleCreateTransaction = () => {
     base: 'SPENICLE',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_PAGINATED(),
+        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(
@@ -89,7 +93,11 @@ export const useApiSpenicleUpdateTransaction = () => {
     base: 'SPENICLE',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_PAGINATED(),
+        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(

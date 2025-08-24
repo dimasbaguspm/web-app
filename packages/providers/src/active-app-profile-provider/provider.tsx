@@ -32,24 +32,35 @@ interface Props {
 export const ActiveAppProfileProvider: FC<Props> = (props) => {
   const { appId, children } = props;
 
-  const { user, groupMembers, activeProfile, refetch } = useAuthProvider();
+  const { user, groupMembers, activeProfile } = useAuthProvider();
 
   const [selectedId, setSelectedId] = useState<number | null>(
     activeProfile ? +activeProfile.id : null,
   );
 
   const [userAppProfiles, , { isFetching: isUserFetching }] =
-    useApiHiAppProfilesPaginatedQuery({
-      appId: [appId],
-      userId: [user.id],
-      pageSize: 100,
-    });
+    useApiHiAppProfilesPaginatedQuery(
+      {
+        appId: [appId],
+        userId: [user.id],
+        pageSize: 100,
+      },
+      {
+        enabled: !!user.id,
+      },
+    );
+
   const [groupAppProfiles, , { isFetching: isGroupFetching }] =
-    useApiHiAppProfilesPaginatedQuery({
-      appId: [appId],
-      groupId: groupMembers.map((member) => member.groupId),
-      pageSize: 100,
-    });
+    useApiHiAppProfilesPaginatedQuery(
+      {
+        appId: [appId],
+        groupId: groupMembers.map((member) => member.groupId),
+        pageSize: 100,
+      },
+      {
+        enabled: groupMembers.length > 0,
+      },
+    );
 
   const [setActiveProfile, , { isPending: isSettingActiveProfile }] =
     useApiHiAuthSetActiveProfile();
@@ -63,7 +74,6 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
     await setActiveProfile({
       profileId: selectedId!,
     });
-    await refetch();
   };
 
   const isFetching = isUserFetching || isGroupFetching;
