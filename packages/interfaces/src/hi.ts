@@ -11,6 +11,8 @@ export type UpdateUserModel =
 
 export type AuthMeModel =
   operations['getAuthMe']['responses']['200']['content']['application/json'];
+export type SetActiveProfileModel =
+  operations['postAuthSet-active-profile']['requestBody']['content']['application/json'];
 
 export type SearchAppsModel = operations['getApps']['parameters']['query'];
 export type AppsPageModel =
