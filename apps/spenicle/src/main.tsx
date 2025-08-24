@@ -9,6 +9,7 @@ const bootstrap = async () => {
 
   const root = createRoot(rootEl);
 
+  //
   root.render(<App />);
 };
 
