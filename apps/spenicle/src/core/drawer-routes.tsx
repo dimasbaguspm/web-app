@@ -38,11 +38,17 @@ export const DrawerRoutes: FC = () => {
   const hasParam = (param: keyof typeof params) => param in params;
   const hasState = (stateKey: keyof typeof state) => stateKey in state;
 
+  const disableInteractive = (
+    [DRAWER_ROUTES.SELECT_ACCOUNT, DRAWER_ROUTES.SELECT_CATEGORY] as string[]
+  ).includes(drawerId ?? '');
+
   return (
     <Drawer
       isOpen={isOpen}
       onClose={closeDrawer}
       size={isDesktop ? 'md' : 'full'}
+      disableOverlayClickToClose={disableInteractive}
+      disableEscapeKeyDown={disableInteractive}
     >
       {is(DRAWER_ROUTES.NEW_ACCOUNT) && <NewAccountDrawer />}
       {is(DRAWER_ROUTES.ACCOUNT_DETAIL) && hasParam('accountId') && (

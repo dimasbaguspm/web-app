@@ -26,7 +26,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
   payloadId,
   payload,
 }) => {
-  const { closeDrawer, openDrawer } = useDrawerRoute();
+  const { openDrawer } = useDrawerRoute();
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(
     null,
   );
@@ -50,6 +50,15 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
           ...payload,
           [payloadId]: selectedAccountId,
         },
+      },
+    });
+  };
+
+  const handleOnCancel = () => {
+    openDrawer(DRAWER_ROUTES.NEW_TRANSACTION, null, {
+      replace: true,
+      state: {
+        payload,
       },
     });
   };
@@ -97,7 +106,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
 
       <Drawer.Footer>
         <ButtonGroup alignment="end">
-          <Button variant="ghost" onClick={closeDrawer}>
+          <Button variant="ghost" onClick={handleOnCancel}>
             Cancel
           </Button>
           <Button
