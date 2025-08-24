@@ -10,4 +10,5 @@ export interface AuthProviderModel {
   groupMembers: GroupMemberModel[];
   appProfiles: AppProfileModel[];
   activeProfile: AuthMeModel['tokenPayload']['activeProfile'];
+  refetch: () => Promise<void>;
 }

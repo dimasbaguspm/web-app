@@ -10,14 +10,12 @@ import { FC, PropsWithChildren } from 'react';
 import { AuthContext } from './context';
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [data, , { isFetching }] = useApiHiAuthMeQuery();
+  const [data, , { isFetching }, refetchAuth] = useApiHiAuthMeQuery();
 
-  const [user, , { isFetching: isUserFetching }] = useApiHiUserQuery(
-    data?.user?.id ?? 0,
-    {
+  const [user, , { isFetching: isUserFetching }, refetchUser] =
+    useApiHiUserQuery(data?.user?.id ?? 0, {
       enabled: !!data?.user?.id,
-    },
-  );
+    });
 
   const [userMembers, , { isFetching: isUserGroupFetching }] =
     useApiHiGroupMembersPaginatedQuery(
@@ -68,6 +66,11 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     ...(userGroupAppProfiles?.items ?? []),
   ];
 
+  const refetch = async () => {
+    await refetchAuth();
+    await refetchUser();
+  };
+
   if (isDataFetching || !data || !user) {
     return (
       <div>
@@ -83,6 +86,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         groupMembers,
         appProfiles,
         activeProfile: data.tokenPayload.activeProfile,
+        refetch,
       }}
     >
       {children}

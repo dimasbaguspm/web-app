@@ -1,5 +1,24 @@
-import { AppId, HUB_BASE_URL, LOGIN_BASE_URL } from '@dimasbaguspm/constants';
-import { FC, ReactNode } from 'react';
+import { AppId } from '@dimasbaguspm/constants';
+import {
+  useApiHiAppProfilesPaginatedQuery,
+  useApiHiAuthSetActiveProfile,
+} from '@dimasbaguspm/hooks/use-api';
+import { AppProfileModel } from '@dimasbaguspm/interfaces';
+import { formatAppProfile } from '@dimasbaguspm/utils/data';
+import { If } from '@dimasbaguspm/utils/if';
+import {
+  Avatar,
+  Badge,
+  BottomSheet,
+  Button,
+  ButtonGroup,
+  Icon,
+  LoadingIndicator,
+  SelectableSingleInput,
+  Text,
+} from '@dimasbaguspm/versaur';
+import { RocketIcon } from 'lucide-react';
+import { FC, ReactNode, useState } from 'react';
 
 import { useAuthProvider } from '../auth-provider';
 
@@ -11,29 +30,109 @@ interface Props {
 }
 
 export const ActiveAppProfileProvider: FC<Props> = (props) => {
-  const { user, groupMembers, activeProfile } = useAuthProvider();
-
   const { appId, children } = props;
 
+  const { user, groupMembers, activeProfile, refetch } = useAuthProvider();
+
+  const [selectedId, setSelectedId] = useState<number | null>(
+    activeProfile ? +activeProfile.id : null,
+  );
+
+  const [userAppProfiles, , { isFetching: isUserFetching }] =
+    useApiHiAppProfilesPaginatedQuery({
+      appId: [appId],
+      userId: [user.id],
+      pageSize: 100,
+    });
+  const [groupAppProfiles, , { isFetching: isGroupFetching }] =
+    useApiHiAppProfilesPaginatedQuery({
+      appId: [appId],
+      groupId: groupMembers.map((member) => member.groupId),
+      pageSize: 100,
+    });
+
+  const [setActiveProfile, , { isPending: isSettingActiveProfile }] =
+    useApiHiAuthSetActiveProfile();
+
+  const profiles: AppProfileModel[] = [
+    ...(userAppProfiles?.items ?? []),
+    ...(groupAppProfiles?.items ?? []),
+  ];
+
+  const handleOnSubmit = async () => {
+    await setActiveProfile({
+      profileId: selectedId!,
+    });
+    await refetch();
+  };
+
+  const isFetching = isUserFetching || isGroupFetching;
+
   if (!activeProfile) {
-    const url = new URL(HUB_BASE_URL);
-    window.location.href = url.toString();
-  }
+    return (
+      <BottomSheet
+        disableOverlayClickToClose
+        isOpen={!activeProfile}
+        onClose={() => {}}
+      >
+        <BottomSheet.Header>
+          <BottomSheet.Title>Select Profile</BottomSheet.Title>
+        </BottomSheet.Header>
 
-  const url = new URL(LOGIN_BASE_URL + '/verify-app-access');
-  if (activeProfile?.appId !== appId) {
-    window.location.href = url.toString();
-  }
+        <If condition={isFetching}>
+          <LoadingIndicator size="sm" type="bar" />
+        </If>
 
-  if (activeProfile?.userId && activeProfile.userId !== user.id) {
-    window.location.href = url.toString();
-  }
+        <If condition={[!isFetching, profiles.length]}>
+          <BottomSheet.Body>
+            <ul>
+              {profiles.map((profile) => {
+                const { name, initial, isGroupRelated } =
+                  formatAppProfile(profile);
 
-  if (
-    activeProfile?.groupId &&
-    !groupMembers.some((member) => member.groupId === activeProfile.groupId)
-  ) {
-    window.location.href = url.toString();
+                const isChecked = profile.id === selectedId;
+
+                const handleOnClick = () => {
+                  setSelectedId(isChecked ? null : profile.id);
+                };
+
+                return (
+                  <li key={profile.id}>
+                    <SelectableSingleInput
+                      value={profile.id.toString()}
+                      onChange={handleOnClick}
+                      checked={isChecked}
+                      label={
+                        <div className="flex gap-2 items-center">
+                          <Avatar>{initial}</Avatar>
+                          <Text>{name}</Text>
+                          {isGroupRelated ? (
+                            <Badge color="secondary">Group</Badge>
+                          ) : (
+                            <Badge color="tertiary">Personal</Badge>
+                          )}
+                        </div>
+                      }
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          </BottomSheet.Body>
+          <BottomSheet.Footer>
+            <ButtonGroup alignment="end">
+              <Button
+                onClick={handleOnSubmit}
+                disabled={isSettingActiveProfile}
+              >
+                Select
+                <Icon as={RocketIcon} color="inherit" size="sm" />
+              </Button>
+            </ButtonGroup>
+          </BottomSheet.Footer>
+        </If>
+      </BottomSheet>
+    );
   }
 
   return (
