@@ -66,7 +66,11 @@ export const useApiSpenicleCreateCategory = () => {
     base: 'SPENICLE',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_PAGINATED(),
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(
@@ -85,7 +89,11 @@ export const useApiSpenicleUpdateCategory = () => {
     base: 'SPENICLE',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_PAGINATED(),
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(

@@ -48,7 +48,7 @@ export const useApiHiCreateGroupMember = () => {
     base: 'HI',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED(),
+        queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(
@@ -67,7 +67,7 @@ export const useApiHiUpdateGroupMember = () => {
     base: 'HI',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED(),
+        queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(
@@ -79,9 +79,17 @@ export const useApiHiUpdateGroupMember = () => {
 };
 
 export const useApiHiDeleteGroupMember = () => {
+  const queryClient = useQueryClient();
+
   return useApiMutate<void, DeleteGroupMemberModel>({
     path: '/group-members/:id',
     method: 'DELETE',
     base: 'HI',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+    },
   });
 };
