@@ -26,7 +26,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
   payloadId,
   payload,
 }) => {
-  const { closeDrawer, openDrawer } = useDrawerRoute();
+  const { openDrawer } = useDrawerRoute();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null,
   );
@@ -52,6 +52,15 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
           ...payload,
           [payloadId]: selectedCategoryId,
         },
+      },
+    });
+  };
+
+  const handleOnCancel = () => {
+    openDrawer(DRAWER_ROUTES.NEW_TRANSACTION, null, {
+      replace: true,
+      state: {
+        payload,
       },
     });
   };
@@ -99,7 +108,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
 
       <Drawer.Footer>
         <ButtonGroup alignment="end">
-          <Button variant="ghost" onClick={closeDrawer}>
+          <Button variant="ghost" onClick={handleOnCancel}>
             Cancel
           </Button>
           <Button
