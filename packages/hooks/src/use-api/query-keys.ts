@@ -1,5 +1,6 @@
 export const QUERY_KEYS = {
   HI_AUTH_ME: ['hi', 'auth', 'me'],
+  HI_AUTH_TOKEN: ['hi', 'auth', 'token'],
   HI_USER_PAGINATED: (params: object = {}) => [
     'hi',
     'user',

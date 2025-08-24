@@ -1,6 +1,7 @@
 import {
   useApiHiAppProfilesPaginatedQuery,
   useApiHiAuthMeQuery,
+  useApiHiAuthTokenRefresher,
   useApiHiGroupMembersPaginatedQuery,
   useApiHiUserQuery,
 } from '@dimasbaguspm/hooks/use-api';
@@ -9,7 +10,7 @@ import { FC, PropsWithChildren } from 'react';
 
 import { AuthContext } from './context';
 
-export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
+const Provider: FC<PropsWithChildren> = ({ children }) => {
   const [data, , { isFetching }, refetchAuth] = useApiHiAuthMeQuery();
 
   const [user, , { isFetching: isUserFetching }, refetchUser] =
@@ -92,4 +93,12 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { data } = useApiHiAuthTokenRefresher();
+
+  if (!data) return null;
+
+  return <Provider>{children}</Provider>;
 };
