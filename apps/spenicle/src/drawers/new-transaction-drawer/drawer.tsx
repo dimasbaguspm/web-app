@@ -4,6 +4,7 @@ import {
   useApiSpenicleCreateTransaction,
 } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
+import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
@@ -16,6 +17,7 @@ import {
   Tabs,
   TextAreaInput,
   TextInput,
+  TimePickerInput,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
@@ -46,6 +48,7 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
     defaultValues: {
       type: payload?.type ?? 'expense',
       date: payload?.date ?? dayjs().toISOString(),
+      time: payload?.time ?? formatDate(dayjs(), DateFormat.TIME_24H),
       accountId: payload?.accountId ?? '',
       destinationAccountId: payload?.destinationAccountId ?? '',
       categoryId: payload?.categoryId ?? '',
@@ -58,7 +61,6 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
     },
   });
 
-  console.log(watch());
   const [accountId, categoryId, destinationAccountId] = watch([
     'accountId',
     'categoryId',
@@ -113,9 +115,18 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
   };
 
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
+    let date = dayjs(data.date);
+
+    // parse hour and minute from the time string and coerce to numbers
+    const [hourStr = '0', minuteStr = '0'] = (data.time ?? '').split(':');
+    const hour = Number.parseInt(hourStr, 10) || 0;
+    const minute = Number.parseInt(minuteStr, 10) || 0;
+
+    date = date.set('hour', hour).set('minute', minute);
+
     await createTransaction({
       type: data.type,
-      date: dayjs(data.date).toISOString(),
+      date: date.toISOString(),
       amount: data.amount,
       categoryId: data.categoryId,
       accountId: data.accountId,
@@ -170,7 +181,7 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
             onSubmit={handleSubmit(handleOnValidSubmit)}
           >
             <FormLayout>
-              <FormLayout.Column span={12}>
+              <FormLayout.Column span={6}>
                 <Controller
                   control={control}
                   name="date"
@@ -180,6 +191,19 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
                   render={({ field, fieldState }) => (
                     <DateSinglePickerInput
                       label="Date"
+                      {...field}
+                      error={fieldState.error?.message}
+                    />
+                  )}
+                />
+              </FormLayout.Column>
+              <FormLayout.Column span={6}>
+                <Controller
+                  control={control}
+                  name="time"
+                  render={({ field, fieldState }) => (
+                    <TimePickerInput
+                      label="Time"
                       {...field}
                       error={fieldState.error?.message}
                     />
