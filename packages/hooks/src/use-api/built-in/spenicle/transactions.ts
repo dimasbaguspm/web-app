@@ -9,8 +9,31 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
+import {
+  useApiInfiniteQuery,
+  UseApiInfiniteQueryOptions,
+} from '../../use-api-infinite-query';
 import { useApiMutate } from '../../use-api-mutate';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
+
+export const useApiSpenicleTransactionsInfiniteQuery = (
+  params: SearchTransactionsModel,
+  options?: Partial<
+    UseApiInfiniteQueryOptions<
+      TransactionModel,
+      SearchTransactionsModel,
+      unknown
+    >
+  >,
+) => {
+  return useApiInfiniteQuery({
+    ...options,
+    base: 'SPENICLE',
+    queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_INFINITE(params),
+    queryParams: params,
+    path: SPENICLE_URL.TRANSACTION.PAGINATED,
+  });
+};
 
 export const useApiSpenicleTransactionsPaginatedQuery = (
   params: SearchTransactionsModel,

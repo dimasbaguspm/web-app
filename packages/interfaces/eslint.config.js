@@ -1,3 +1,3 @@
-import { configs } from "@dimasbaguspm/eslint";
+import { configs } from '@dimasbaguspm/eslint';
 
 export default configs;

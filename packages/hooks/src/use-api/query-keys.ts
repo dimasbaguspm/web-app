@@ -64,6 +64,12 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  SPENICLE_ACCOUNT_INFINITE: (params: object = {}) => [
+    'spenicle',
+    'account',
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
   SPENICLE_ACCOUNT_PAGINATED: (params: object = {}) => [
     'spenicle',
     'account',
@@ -77,6 +83,12 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  SPENICLE_CATEGORY_INFINITE: (params: object = {}) => [
+    'spenicle',
+    'category',
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
   SPENICLE_CATEGORY_PAGINATED: (params: object = {}) => [
     'spenicle',
     'category',
@@ -88,6 +100,12 @@ export const QUERY_KEYS = {
     'category',
     'by-id',
     id,
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_TRANSACTION_INFINITE: (params: object = {}) => [
+    'spenicle',
+    'transaction',
+    'infinite',
     JSON.stringify(params ?? {}),
   ],
   SPENICLE_TRANSACTION_PAGINATED: (params: object = {}) => [

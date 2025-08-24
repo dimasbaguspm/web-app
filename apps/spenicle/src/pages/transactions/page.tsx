@@ -31,9 +31,15 @@ const TransactionsPage = () => {
   const { openDrawer } = useDrawerRoute();
 
   const { humanizedFilters } = useTransactionsFilter();
-  const { isFetching, transactions, accounts, categories } = useTransactionData(
-    { date: selectedDate },
-  );
+  const {
+    isFetching,
+    transactions,
+    accounts,
+    categories,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useTransactionData({ date: selectedDate });
 
   const handleOnDateChange = (date: Dayjs) => {
     setSelectedDate(date);
@@ -94,9 +100,9 @@ const TransactionsPage = () => {
           <LoadingIndicator size="sm" type="bar" />
         </If>
 
-        <If condition={[!isFetching, transactions?.items.length !== 0]}>
-          <ul className="flex flex-col gap-4">
-            {transactions?.items.map((transaction) => {
+        <If condition={[!isFetching, transactions.length !== 0]}>
+          <ul className="flex flex-col gap-4 mb-4">
+            {transactions.map((transaction) => {
               const account = accounts?.items.find(
                 (acc) => acc.id === transaction.accountId,
               );
@@ -116,9 +122,19 @@ const TransactionsPage = () => {
               );
             })}
           </ul>
+          <If condition={[hasNextPage]}>
+            <ButtonGroup alignment="center">
+              <Button
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+              >
+                Load More
+              </Button>
+            </ButtonGroup>
+          </If>
         </If>
 
-        <If condition={[!isFetching, transactions?.items.length === 0]}>
+        <If condition={[!isFetching, transactions.length === 0]}>
           <NoResults onNewTransactionClick={handleOnNewTransactionClick} />
         </If>
       </PageContent>
