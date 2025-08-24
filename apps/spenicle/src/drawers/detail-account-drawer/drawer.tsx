@@ -3,11 +3,11 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
+  AttributeList,
   Badge,
   BadgeGroup,
   Button,
   ButtonGroup,
-  DescriptionList,
   Drawer,
   Icon,
   LoadingIndicator,
@@ -69,23 +69,16 @@ export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({
                 </Badge>
               </BadgeGroup>
 
-              <DescriptionList>
-                <DescriptionList.Item span={12}>
-                  <DescriptionList.Term>Amount</DescriptionList.Term>
-                  <DescriptionList.Details>
-                    {formattedAmount}
-                  </DescriptionList.Details>
-                </DescriptionList.Item>
-
+              <AttributeList columns={1}>
+                <AttributeList.Item title="Amount">
+                  {formattedAmount}
+                </AttributeList.Item>
                 <If condition={account?.note}>
-                  <DescriptionList.Item span={12}>
-                    <DescriptionList.Term>Notes</DescriptionList.Term>
-                    <DescriptionList.Details>
-                      {account?.note || '-'}
-                    </DescriptionList.Details>
-                  </DescriptionList.Item>
+                  <AttributeList.Item title="Notes">
+                    {account?.note}
+                  </AttributeList.Item>
                 </If>
-              </DescriptionList>
+              </AttributeList>
             </Drawer.Body>
           );
         }}
