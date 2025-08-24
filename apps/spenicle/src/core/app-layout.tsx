@@ -1,4 +1,5 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import {
@@ -19,6 +20,8 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   const { isMobile, isTablet, isDesktop } = useWindowResize();
 
   const { user } = useAuthProvider();
+
+  const { toggleSwitchProfile } = useActiveAppProfile();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -77,7 +80,9 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             </TopBar.Nav>
           </TopBar.Leading>
           <TopBar.Trailing>
-            <Avatar size="sm">{nameToInitials(user.name)}</Avatar>
+            <Avatar size="sm" onClick={toggleSwitchProfile}>
+              {nameToInitials(user.name)}
+            </Avatar>
           </TopBar.Trailing>
         </TopBar>
       )}
