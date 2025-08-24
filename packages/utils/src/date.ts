@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -128,7 +128,7 @@ export type DateFormatType = (typeof DateFormat)[keyof typeof DateFormat];
  * @returns Formatted date string
  */
 export function formatDate(
-  date: Date | string,
+  date: Dayjs | Date | string,
   format: DateFormatType,
 ): string {
   const dayjsDate = dayjs(date);

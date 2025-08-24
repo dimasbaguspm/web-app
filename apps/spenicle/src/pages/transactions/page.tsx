@@ -1,42 +1,61 @@
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+/* eslint-disable import/max-dependencies */
+import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
+import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
   Icon,
+  LoadingIndicator,
   PageContent,
   PageHeader,
-  Tabs,
-  Text,
 } from '@dimasbaguspm/versaur';
 import dayjs, { Dayjs } from 'dayjs';
-import { CalendarCogIcon, FilterIcon, PlusIcon } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { PlusIcon } from 'lucide-react';
+import { useState } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
-import { getDateRange } from './helpers';
+import { ActionsControl } from './components/actions-control';
+import { FiltersControl } from './components/filters-control';
+import { NoResults } from './components/no-results';
+import { TabsDate } from './components/tabs-date';
+import { TransactionCard } from './components/transaction-card';
+import { useTransactionData } from './hooks/use-transactions-data';
+import { useTransactionsFilter } from './hooks/use-transactions-filter';
 
 const TransactionsPage = () => {
-  const [activeDate] = useState<Dayjs>(dayjs().startOf('day'));
+  const [activeDate, setActiveDate] = useState<Dayjs>(dayjs().startOf('day'));
   const [selectedDate, setSelectedDate] = useState<Dayjs>(activeDate);
 
   const { openDrawer } = useDrawerRoute();
 
-  const { isDesktop } = useWindowResize();
-
-  const dates = useMemo(
-    () => getDateRange(selectedDate, isDesktop ? 'twoWeeks' : 'week'),
-    [activeDate, isDesktop],
+  const { humanizedFilters } = useTransactionsFilter();
+  const { isFetching, transactions, accounts, categories } = useTransactionData(
+    { date: selectedDate },
   );
 
-  const handleOnDateChange = (date: string) => {
-    setSelectedDate(dayjs(date));
+  const handleOnDateChange = (date: Dayjs) => {
+    setSelectedDate(date);
   };
 
   const handleOnNewTransactionClick = () => {
     openDrawer(DRAWER_ROUTES.NEW_TRANSACTION);
+  };
+
+  const handleOnTransactionClick = (transaction: TransactionModel) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_TRANSACTION, {
+      transactionId: transaction.id,
+    });
+  };
+
+  const handleOnFilterClick = () => {
+    openDrawer(DRAWER_ROUTES.FILTER_TRANSACTION);
+  };
+
+  const handleOnCalendarDateChange = (date: Dayjs) => {
+    setSelectedDate(date);
+    setActiveDate(date);
   };
 
   return (
@@ -52,44 +71,56 @@ const TransactionsPage = () => {
           </ButtonGroup>
         }
         tabs={
-          <Tabs
-            value={formatDate(selectedDate.toDate(), DateFormat.ISO_DATE)}
-            onValueChange={handleOnDateChange}
-            className="justify-between"
-          >
-            {dates.map((date) => {
-              const isActive = date.isSame(selectedDate, 'day');
-
-              return (
-                <Tabs.Trigger
-                  key={date.toString()}
-                  value={formatDate(date.toISOString(), DateFormat.ISO_DATE)}
-                  className="flex flex-col"
-                >
-                  <Text fontSize="xs" color={isActive ? 'primary' : 'gray'}>
-                    {formatDate(date.toISOString(), DateFormat.SHORT_DAY)}
-                  </Text>
-                  <br />
-                  {formatDate(date.toISOString(), DateFormat.NUMERIC_DAY)}
-                </Tabs.Trigger>
-              );
-            })}
-          </Tabs>
+          <TabsDate
+            activeDate={activeDate}
+            selectedDate={selectedDate}
+            onDateChange={handleOnDateChange}
+          />
         }
       />
-      <PageContent>
-        <ButtonGroup alignment="start">
-          <Button variant="outline">
-            <Icon as={FilterIcon} size="sm" color="gray" />
-            Filter
-          </Button>
-          <Button variant="outline">
-            <Icon as={CalendarCogIcon} size="sm" color="gray" />
-            Calendar
-          </Button>
-        </ButtonGroup>
 
-        <p>Cards</p>
+      <PageContent>
+        <ActionsControl
+          date={selectedDate}
+          onFilterClick={handleOnFilterClick}
+          onDateChange={handleOnCalendarDateChange}
+        />
+
+        <If condition={[humanizedFilters.length]}>
+          <FiltersControl />
+        </If>
+
+        <If condition={[isFetching]}>
+          <LoadingIndicator size="sm" type="bar" />
+        </If>
+
+        <If condition={[!isFetching, transactions?.items.length !== 0]}>
+          <ul className="flex flex-col gap-4">
+            {transactions?.items.map((transaction) => {
+              const account = accounts?.items.find(
+                (acc) => acc.id === transaction.accountId,
+              );
+              const category = categories?.items.find(
+                (cat) => cat.id === transaction.categoryId,
+              );
+
+              return (
+                <li key={transaction.id}>
+                  <TransactionCard
+                    transaction={transaction}
+                    account={account}
+                    category={category}
+                    onClick={handleOnTransactionClick}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </If>
+
+        <If condition={[!isFetching, transactions?.items.length === 0]}>
+          <NoResults onNewTransactionClick={handleOnNewTransactionClick} />
+        </If>
       </PageContent>
     </>
   );
