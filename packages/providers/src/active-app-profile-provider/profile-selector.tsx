@@ -16,8 +16,9 @@ import {
   NoResults,
   SelectableSingleInput,
   Text,
+  Badge,
 } from '@dimasbaguspm/versaur';
-import { Badge, RocketIcon, UserSearchIcon } from 'lucide-react';
+import { RocketIcon, UserSearchIcon } from 'lucide-react';
 import { FC, useState } from 'react';
 
 import { formatAppProfile } from '../../../utils/src/data/app-profile';
