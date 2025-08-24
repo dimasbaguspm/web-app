@@ -16,6 +16,6 @@
   ],
   "devDependencies": {
     "swagger-typescript-api": "13.2.8",
-    "tsx": "4.20.4"
+    "tsx": "4.20.5"
   }
 }

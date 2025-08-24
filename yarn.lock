@@ -1374,7 +1374,7 @@ __metadata:
     "@dimasbaguspm/interfaces": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.28"
+    "@dimasbaguspm/versaur": "npm:0.0.29"
     "@tailwindcss/vite": "npm:4.1.12"
     "@tanstack/react-query": "npm:5.85.5"
     "@tanstack/react-query-devtools": "npm:5.85.5"
@@ -1444,7 +1444,7 @@ __metadata:
     "@dimasbaguspm/providers": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.28"
+    "@dimasbaguspm/versaur": "npm:0.0.29"
     "@tailwindcss/vite": "npm:4.1.12"
     "@tanstack/react-query": "npm:5.85.5"
     "@tanstack/react-query-devtools": "npm:5.85.5"
@@ -1504,14 +1504,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dimasbaguspm/versaur@npm:0.0.28":
-  version: 0.0.28
-  resolution: "@dimasbaguspm/versaur@npm:0.0.28"
+"@dimasbaguspm/versaur@npm:0.0.29":
+  version: 0.0.29
+  resolution: "@dimasbaguspm/versaur@npm:0.0.29"
   peerDependencies:
     lucide-react: ">=0.525.0"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10/5dc06632173ff360e8109c48766e8b4d94f92abac2ed7ff83e75387db09e7e064f99b8c6af0bb9733976b2e8d7d9945413acb6998b0993ebbb7498a827c72cd1
+  checksum: 10/691ed96f2ad8c3322dcf5f54e05658e30a68fd475a75b174d9d70ee8c3873004ed4de0ff9d4659a66d27c6569a4e0fd22c57598145fb1e2aaac981712b289c70
   languageName: node
   linkType: hard
 
@@ -7561,9 +7561,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:4.20.4":
-  version: 4.20.4
-  resolution: "tsx@npm:4.20.4"
+"tsx@npm:4.20.5":
+  version: 4.20.5
+  resolution: "tsx@npm:4.20.5"
   dependencies:
     esbuild: "npm:~0.25.0"
     fsevents: "npm:~2.3.3"
@@ -7573,7 +7573,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 10/dc5d7b7a15fc67f9e3bd20a6d0b3322bd798aa544ce6ab1e857134ea5803f2cd7ac8f4a2099e4ca842dd6e22f2d5a5ea0e0057f571f4d2101ba64b676ffaea3d
+  checksum: 10/161420678027c43d07b60b7b6b512cc67ff86ae3cca0641a19b0d3e742c5e262bca57034c4bff6d9346f9269e9ada24b6030e1d2bc890df5e1a9754865d3c08a
   languageName: node
   linkType: hard
 
@@ -8011,7 +8011,7 @@ __metadata:
   resolution: "web-app@workspace:."
   dependencies:
     swagger-typescript-api: "npm:13.2.8"
-    tsx: "npm:4.20.4"
+    tsx: "npm:4.20.5"
   languageName: unknown
   linkType: soft
 
