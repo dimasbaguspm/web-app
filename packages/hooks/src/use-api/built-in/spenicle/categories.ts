@@ -9,8 +9,27 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
+import {
+  useApiInfiniteQuery,
+  UseApiInfiniteQueryOptions,
+} from '../../use-api-infinite-query';
 import { useApiMutate } from '../../use-api-mutate';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
+
+export const useApiSpenicleCategoriesInfiniteQuery = (
+  params: SearchCategoriesModel,
+  options?: Partial<
+    UseApiInfiniteQueryOptions<CategoryModel, SearchCategoriesModel, unknown>
+  >,
+) => {
+  return useApiInfiniteQuery({
+    ...options,
+    base: 'SPENICLE',
+    queryKey: QUERY_KEYS.SPENICLE_CATEGORY_INFINITE(params),
+    queryParams: params,
+    path: SPENICLE_URL.CATEGORY.PAGINATED,
+  });
+};
 
 export const useApiSpenicleCategoriesPaginatedQuery = (
   params: SearchCategoriesModel,
