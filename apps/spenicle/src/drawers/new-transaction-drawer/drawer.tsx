@@ -58,6 +58,7 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
     },
   });
 
+  console.log(watch());
   const [accountId, categoryId, destinationAccountId] = watch([
     'accountId',
     'categoryId',
@@ -114,7 +115,7 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
     await createTransaction({
       type: data.type,
-      date: data.date,
+      date: dayjs(data.date).toISOString(),
       amount: data.amount,
       categoryId: data.categoryId,
       accountId: data.accountId,

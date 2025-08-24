@@ -832,7 +832,8 @@ export interface operations {
         accountId?: number[];
         categoryId?: number[];
         type?: ('income' | 'expense' | 'transfer')[];
-        date?: string;
+        dateFrom?: string;
+        dateTo?: string;
         search?: string;
         pageNumber?: number;
         pageSize?: number;
