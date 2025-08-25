@@ -1,6 +1,7 @@
 import { AuthMeModel, SetActiveProfileModel } from '@dimasbaguspm/interfaces';
+import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { BASE_URL } from '../../constants';
 import { QUERY_KEYS } from '../../query-keys';
@@ -17,6 +18,7 @@ export const useApiHiAuthMeQuery = () => {
 };
 
 export const useApiHiAuthTokenRefresher = () => {
+  const { showSnack } = useSnackbars();
   return useQuery<boolean, unknown>({
     queryKey: QUERY_KEYS.HI_AUTH_TOKEN,
     queryFn: async () => {
@@ -27,8 +29,6 @@ export const useApiHiAuthTokenRefresher = () => {
         if (!accessToken) throw new Error('No access token found');
 
         const [, payload] = accessToken?.split('.') ?? [];
-
-        if (!payload) throw new Error('Invalid payload');
 
         const expiredTime = new Date(JSON.parse(atob(payload)).exp * 1000);
 
@@ -45,10 +45,28 @@ export const useApiHiAuthTokenRefresher = () => {
         });
 
         return true;
-      } catch {
-        const currentUrl = window.location.href;
-        window.location.href =
-          BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
+      } catch (err) {
+        console.log(err);
+
+        if (err instanceof AxiosError) {
+          showSnack('danger', err.response?.data?.message || err.message, {
+            duration: 1000 * 60 * 60,
+          });
+        }
+
+        if (err instanceof Error) {
+          showSnack('danger', err.message, {
+            duration: 1000 * 60 * 60,
+          });
+        }
+
+        const wantToLogin = window.confirm('Do you want to login?');
+
+        if (wantToLogin) {
+          const currentUrl = window.location.href;
+          window.location.href =
+            BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
+        }
         return false;
       }
     },
