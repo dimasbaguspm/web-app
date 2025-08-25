@@ -1,7 +1,6 @@
 import { AuthMeModel, SetActiveProfileModel } from '@dimasbaguspm/interfaces';
-import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 import { BASE_URL } from '../../constants';
 import { QUERY_KEYS } from '../../query-keys';
@@ -17,8 +16,10 @@ export const useApiHiAuthMeQuery = () => {
   });
 };
 
+const clientId =
+  localStorage.getItem('client-id') || window.crypto.randomUUID();
+
 export const useApiHiAuthTokenRefresher = () => {
-  const { showSnack } = useSnackbars();
   return useQuery<boolean, unknown>({
     queryKey: QUERY_KEYS.HI_AUTH_TOKEN,
     queryFn: async () => {
@@ -42,33 +43,25 @@ export const useApiHiAuthTokenRefresher = () => {
 
         await axios.post(BASE_URL.HI + HI_URL.AUTH.REFRESH, null, {
           withCredentials: true,
+          headers: {
+            'client-id': clientId,
+          },
         });
 
         return true;
-      } catch (err) {
-        console.log(err);
+      } catch {
+        const currentUrl = new URL(window.location.href);
 
-        if (err instanceof AxiosError) {
-          showSnack('danger', err.response?.data?.message || err.message, {
-            duration: 1000 * 60 * 60,
-          });
-        }
-
-        if (err instanceof Error) {
-          showSnack('danger', err.message, {
-            duration: 1000 * 60 * 60,
-          });
-        }
-
-        const wantToLogin = window.confirm('Do you want to login?');
-
-        if (wantToLogin) {
-          const currentUrl = window.location.href;
-          window.location.href =
-            BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
-        }
-        return false;
+        window.location.href =
+          BASE_URL.LOGIN +
+          '/sign-in?redirectTo=' +
+          currentUrl.toString() +
+          '&clientId=' +
+          clientId;
+      } finally {
+        localStorage.setItem('client-id', clientId);
       }
+      return false;
     },
   });
 };

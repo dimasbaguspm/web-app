@@ -119,7 +119,11 @@ export const useApiInfiniteQuery = <
           if (err.response?.status === 401) {
             const currentUrl = window.location.href;
             window.location.href =
-              BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
+              BASE_URL.LOGIN +
+              '/sign-in?redirectTo=' +
+              currentUrl +
+              '&clientId=' +
+              localStorage.getItem('client-id');
           }
 
           return err.response?.data;

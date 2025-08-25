@@ -127,7 +127,11 @@ export const useApiMutate = <
           if (err.response?.status === 401) {
             const currentUrl = window.location.href;
             window.location.href =
-              BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
+              BASE_URL.LOGIN +
+              '/sign-in?redirectTo=' +
+              currentUrl +
+              '&clientId=' +
+              localStorage.getItem('client-id');
           }
 
           // Use the response data if available, otherwise use the error message
