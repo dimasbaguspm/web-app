@@ -1,6 +1,6 @@
 import { AuthMeModel, SetActiveProfileModel } from '@dimasbaguspm/interfaces';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 import { BASE_URL } from '../../constants';
 import { QUERY_KEYS } from '../../query-keys';
@@ -20,37 +20,37 @@ export const useApiHiAuthTokenRefresher = () => {
   return useQuery<boolean, unknown>({
     queryKey: QUERY_KEYS.HI_AUTH_TOKEN,
     queryFn: async () => {
-      const { value: accessToken } =
-        (await cookieStore.get('accessToken')) ?? {};
-
-      const [, payload] = accessToken?.split('.') ?? [];
-
-      const expiredTime = new Date(JSON.parse(atob(payload)).exp * 1000);
-
-      // Reduce 15 minutes (15 * 60 * 1000 milliseconds) from expiration time to catch expiration earlier
-      const adjustedExpiredTime = new Date(
-        expiredTime.getTime() - 15 * 60 * 1000,
-      );
-      const isExpired = adjustedExpiredTime < new Date();
-
-      if (!isExpired) return true;
-
       try {
+        const { value: accessToken } =
+          (await cookieStore.get('accessToken')) ?? {};
+
+        if (!accessToken) throw new Error('No access token found');
+
+        const [, payload] = accessToken?.split('.') ?? [];
+
+        if (!payload) throw new Error('Invalid payload');
+
+        const expiredTime = new Date(JSON.parse(atob(payload)).exp * 1000);
+
+        // Reduce 15 minutes (15 * 60 * 1000 milliseconds) from expiration time to catch expiration earlier
+        const adjustedExpiredTime = new Date(
+          expiredTime.getTime() - 15 * 60 * 1000,
+        );
+        const isExpired = adjustedExpiredTime < new Date();
+
+        if (!isExpired) return true;
+
         await axios.post(BASE_URL.HI + HI_URL.AUTH.REFRESH, null, {
           withCredentials: true,
         });
-      } catch (err) {
-        if (err instanceof AxiosError) {
-          if (err.response?.status === 401) {
-            const currentUrl = window.location.href;
-            window.location.href =
-              BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
-          }
-        }
+
+        return true;
+      } catch {
+        const currentUrl = window.location.href;
+        window.location.href =
+          BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl;
         return false;
       }
-
-      return true;
     },
   });
 };
