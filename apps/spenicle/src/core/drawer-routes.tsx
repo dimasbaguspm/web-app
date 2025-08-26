@@ -28,6 +28,8 @@ interface DrawerParams {
 
 interface DrawerState {
   payload?: Record<string, string>;
+  returnToDrawer?: string;
+  returnToDrawerId?: Record<string, string> | null;
 }
 
 export const DrawerRoutes: FC = () => {
@@ -82,18 +84,26 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.FILTER_TRANSACTION) && <FilterTransactionDrawer />}
       {is(DRAWER_ROUTES.SELECT_ACCOUNT) &&
         hasState('payload') &&
+        hasState('returnToDrawer') &&
         hasParam('payloadId') && (
           <SelectAccountDrawer
             payloadId={params.payloadId!}
             payload={state.payload!}
+            returnToDrawer={state.returnToDrawer!}
+            returnToDrawerId={state.returnToDrawerId!}
           />
         )}
-      {is(DRAWER_ROUTES.SELECT_CATEGORY) && hasState('payload') && (
-        <SelectCategoryDrawer
-          payloadId={params.payloadId!}
-          payload={state.payload!}
-        />
-      )}
+      {is(DRAWER_ROUTES.SELECT_CATEGORY) &&
+        hasState('payload') &&
+        hasState('returnToDrawer') &&
+        hasParam('payloadId') && (
+          <SelectCategoryDrawer
+            payloadId={params.payloadId!}
+            payload={state.payload!}
+            returnToDrawer={state.returnToDrawer!}
+            returnToDrawerId={state.returnToDrawerId!}
+          />
+        )}
     </Drawer>
   );
 };

@@ -31,7 +31,7 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
 
-  const [transactionData, , { isFetching }] =
+  const [transactionData, , { isLoading }] =
     useApiSpenicleTransactionQuery(transactionId);
 
   const [updateTransaction, , { isPending }] =
@@ -100,7 +100,7 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
 
   return (
     <>
-      <If condition={[isFetching, !transactionData]}>
+      <If condition={[isLoading, !transactionData]}>
         <Drawer.Header hasTab>
           <Drawer.Title>Edit Transaction</Drawer.Title>
           <Drawer.CloseButton />
@@ -108,8 +108,14 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
         <LoadingIndicator type="bar" size="sm" />
       </If>
 
-      <If condition={[!isFetching, transactionData]}>
+      <If condition={[!isLoading, transactionData]}>
+        <Drawer.Header hasTab>
+          <Drawer.Title>Edit Transaction</Drawer.Title>
+          <Drawer.CloseButton />
+        </Drawer.Header>
+
         <EditTransactionForm
+          transaction={transactionData!}
           defaultValues={defaultValues}
           onSubmit={handleOnSubmit}
         />

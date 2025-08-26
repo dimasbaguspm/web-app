@@ -15,14 +15,16 @@ import { SearchXIcon } from 'lucide-react';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-
 interface SelectAccountDrawerProps {
+  returnToDrawer: string;
+  returnToDrawerId?: Record<string, string> | null;
   payload: Record<string, unknown>;
   payloadId: string;
 }
 
 export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
+  returnToDrawer,
+  returnToDrawerId = null,
   payloadId,
   payload,
 }) => {
@@ -43,7 +45,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
   });
 
   const handleOnSubmit = () => {
-    openDrawer(DRAWER_ROUTES.NEW_TRANSACTION, null, {
+    openDrawer(returnToDrawer, returnToDrawerId, {
       replace: true,
       state: {
         payload: {
@@ -55,7 +57,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
   };
 
   const handleOnCancel = () => {
-    openDrawer(DRAWER_ROUTES.NEW_TRANSACTION, null, {
+    openDrawer(returnToDrawer, returnToDrawerId, {
       replace: true,
       state: {
         payload,
