@@ -7,13 +7,15 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import {
   Button,
   ButtonGroup,
+  ChipSingleInput,
   Drawer,
   FormLayout,
-  RadioInput,
+  Icon,
   TextAreaInput,
   TextInput,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
+import { TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
 import {
   Controller,
@@ -88,24 +90,20 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
                 control={control}
                 rules={{ required: 'Type is required' }}
                 render={({ field, fieldState }) => (
-                  <RadioInput
-                    label="Type"
+                  <ChipSingleInput
                     {...field}
+                    label="Type"
                     error={fieldState.error?.message}
                   >
-                    <RadioInput.Option
-                      value="income"
-                      description="Potential income source"
-                    >
+                    <ChipSingleInput.Option value="income">
+                      <Icon as={TrendingUpIcon} color="inherit" size="sm" />
                       Income
-                    </RadioInput.Option>
-                    <RadioInput.Option
-                      value="expense"
-                      description="Wasteful spending"
-                    >
+                    </ChipSingleInput.Option>
+                    <ChipSingleInput.Option value="expense">
+                      <Icon as={TrendingDownIcon} color="inherit" size="sm" />
                       Expense
-                    </RadioInput.Option>
-                  </RadioInput>
+                    </ChipSingleInput.Option>
+                  </ChipSingleInput>
                 )}
               />
             </FormLayout.Column>
@@ -113,6 +111,7 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
               <TextAreaInput
                 label="Notes"
                 fieldSizing="content"
+                minRows={4}
                 rows={6}
                 {...register('notes')}
               />

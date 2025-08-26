@@ -13,4 +13,6 @@ export const DRAWER_ROUTES = {
   DETAIL_TRANSACTION: 'transaction-detail',
   EDIT_TRANSACTION: 'edit-transaction',
   FILTER_TRANSACTION: 'filter-transaction',
+
+  FILTER_SUMMARY: 'filter-summary',
 } as const;

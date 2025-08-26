@@ -1,8 +1,11 @@
 import { useApiSpenicleAccountsPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
+import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
+  Badge,
+  BadgeGroup,
   Button,
   ButtonGroup,
   Drawer,
@@ -11,6 +14,7 @@ import {
   NoResults,
   SearchInput,
   SelectableSingleInput,
+  Text,
 } from '@dimasbaguspm/versaur';
 import { debounce } from 'lodash';
 import { SearchXIcon } from 'lucide-react';
@@ -43,6 +47,9 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
 
   const [accounts, , { isFetching }] = useApiSpenicleAccountsPaginatedQuery({
     search: searchValue,
+    type: ['expense', 'income'].includes(payload.type as string)
+      ? [payload.type as string]
+      : undefined,
   });
 
   const handleOnSubmit = () => {
@@ -88,16 +95,34 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
 
         <If condition={[accounts?.items.length, !isFetching]}>
           <ul>
-            {accounts?.items.map((account) => (
-              <li key={account.id}>
-                <SelectableSingleInput
-                  label={<span>{account.name}</span>}
-                  value={account.id.toString()}
-                  checked={account.id === selectedAccountId}
-                  onChange={() => setSelectedAccountId(account.id)}
-                />
-              </li>
-            ))}
+            {accounts?.items.map((account) => {
+              const { type, variant } = formatSpenicleAccount(account);
+              return (
+                <li key={account.id}>
+                  <SelectableSingleInput
+                    label={
+                      <div className="flex flex-col w-auto">
+                        <Text
+                          className="mb-2"
+                          fontSize="base"
+                          fontWeight="semibold"
+                        >
+                          {account.name}
+                        </Text>
+                        <BadgeGroup>
+                          <Badge color={variant} size="sm">
+                            {type}
+                          </Badge>
+                        </BadgeGroup>
+                      </div>
+                    }
+                    value={account.id.toString()}
+                    checked={account.id === selectedAccountId}
+                    onChange={() => setSelectedAccountId(account.id)}
+                  />
+                </li>
+              );
+            })}
           </ul>
         </If>
 

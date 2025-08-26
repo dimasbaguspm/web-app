@@ -8,6 +8,7 @@ export const formatSpenicleAccount = (
   account: AccountModel | null | undefined,
 ) => {
   const isExpense = account?.type === 'expense';
+  const variant = isExpense ? 'primary' : 'secondary';
 
   return {
     capitalizedName: capitalize(account?.name),
@@ -20,5 +21,6 @@ export const formatSpenicleAccount = (
       : '',
     type: capitalize(account?.type),
     isExpense,
-  };
+    variant,
+  } as const;
 };
