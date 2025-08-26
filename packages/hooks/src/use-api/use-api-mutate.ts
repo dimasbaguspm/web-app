@@ -1,3 +1,4 @@
+import { useGlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
@@ -57,6 +58,8 @@ export const useApiMutate = <
     onSettled,
     silentError = false,
   } = options;
+
+  const { clientId } = useGlobalProvider();
 
   const { showSnack } = useSnackbars();
 
@@ -131,7 +134,7 @@ export const useApiMutate = <
               '/sign-in?redirectTo=' +
               currentUrl +
               '&clientId=' +
-              localStorage.getItem('client-id');
+              clientId;
           }
 
           // Use the response data if available, otherwise use the error message

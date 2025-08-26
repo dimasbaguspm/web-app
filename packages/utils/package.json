@@ -7,7 +7,8 @@
     "./data": "./src/data/index.ts",
     "./price": "./src/price.ts",
     "./lazy-load": "./src/lazy-load.ts",
-    "./if": "./src/if.tsx"
+    "./if": "./src/if.tsx",
+    "./client-id": "./src/client-id.ts"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",
