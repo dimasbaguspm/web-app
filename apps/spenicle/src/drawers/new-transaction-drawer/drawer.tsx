@@ -94,6 +94,7 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
         replace: true,
         state: {
           payload: getValues(),
+          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
         },
       },
     );
@@ -109,6 +110,7 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
         replace: true,
         state: {
           payload: getValues(),
+          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
         },
       },
     );

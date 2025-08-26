@@ -2,6 +2,7 @@ import {
   useApiSpenicleAccountQuery,
   useApiSpenicleCategoryQuery,
 } from '@dimasbaguspm/hooks/use-api';
+import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -23,11 +24,13 @@ import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { EditTransactionFormSchema } from './types';
 
 interface EditTransactionFormProps {
+  transaction: TransactionModel;
   defaultValues?: EditTransactionFormSchema;
   onSubmit: (data: EditTransactionFormSchema) => void;
 }
 
 export const EditTransactionForm: FC<EditTransactionFormProps> = ({
+  transaction,
   defaultValues,
   onSubmit,
 }) => {
@@ -44,19 +47,16 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
     'destinationAccountId',
   ]);
 
-  const [accountData, , { isFetching: isAccountFetching }] =
+  const [accountData, , { isLoading: isAccountLoading }] =
     useApiSpenicleAccountQuery(+accountId, {
       enabled: !!accountId,
     });
-  const [
-    destinationAccountData,
-    ,
-    { isFetching: isDestinationAccountFetching },
-  ] = useApiSpenicleAccountQuery(+destinationAccountId!, {
-    enabled: !!destinationAccountId,
-  });
+  const [destinationAccountData, , { isLoading: isDestinationAccountLoading }] =
+    useApiSpenicleAccountQuery(+destinationAccountId!, {
+      enabled: !!destinationAccountId,
+    });
 
-  const [categoryData, , { isFetching: isCategoryFetching }] =
+  const [categoryData, , { isLoading: isCategoryLoading }] =
     useApiSpenicleCategoryQuery(+categoryId, {
       enabled: !!categoryId,
     });
@@ -71,6 +71,10 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
         replace: true,
         state: {
           payload: getValues(),
+          returnToDrawer: DRAWER_ROUTES.EDIT_TRANSACTION,
+          returnToDrawerId: {
+            transactionId: transaction.id,
+          },
         },
       },
     );
@@ -86,6 +90,10 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
         replace: true,
         state: {
           payload: getValues(),
+          returnToDrawer: DRAWER_ROUTES.EDIT_TRANSACTION,
+          returnToDrawerId: {
+            transactionId: transaction.id,
+          },
         },
       },
     );
@@ -99,29 +107,11 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
 
   return (
     <>
-      <Drawer.Header hasTab>
-        <Drawer.Title>Edit Transaction</Drawer.Title>
-        <Drawer.CloseButton />
-      </Drawer.Header>
-      <Drawer.Tab>
-        <Controller
-          name="type"
-          control={control}
-          render={({ field }) => (
-            <Tabs value={field.value} onValueChange={field.onChange}>
-              <Tabs.Trigger value="expense">Expense</Tabs.Trigger>
-              <Tabs.Trigger value="income">Income</Tabs.Trigger>
-              <Tabs.Trigger value="transfer">Transfer</Tabs.Trigger>
-            </Tabs>
-          )}
-        />
-      </Drawer.Tab>
-
       <If
         condition={[
-          isAccountFetching,
-          isCategoryFetching,
-          isDestinationAccountFetching,
+          isAccountLoading,
+          isCategoryLoading,
+          isDestinationAccountLoading,
         ]}
       >
         <LoadingIndicator size="sm" type="bar" />
@@ -129,11 +119,25 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
 
       <If
         condition={[
-          !isAccountFetching,
-          !isCategoryFetching,
-          !isDestinationAccountFetching,
+          !isAccountLoading,
+          !isCategoryLoading,
+          !isDestinationAccountLoading,
         ]}
       >
+        <Drawer.Tab>
+          <Controller
+            name="type"
+            control={control}
+            render={({ field }) => (
+              <Tabs value={field.value} onValueChange={field.onChange}>
+                <Tabs.Trigger value="expense">Expense</Tabs.Trigger>
+                <Tabs.Trigger value="income">Income</Tabs.Trigger>
+                <Tabs.Trigger value="transfer">Transfer</Tabs.Trigger>
+              </Tabs>
+            )}
+          />
+        </Drawer.Tab>
+
         <Drawer.Body>
           <form
             id="edit-transaction-form"

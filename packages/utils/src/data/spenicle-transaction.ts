@@ -19,7 +19,7 @@ export const formatSpenicleTransaction = (
 
   const variant = isIncome ? 'secondary' : isExpense ? 'primary' : 'tertiary';
   const capitalizedType = capitalize(transaction?.type);
-  const amount = formatPrice(transaction?.amount);
+  const amount = formatPrice(transaction?.amount ?? 0);
 
   return {
     isIncome,
