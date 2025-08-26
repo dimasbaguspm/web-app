@@ -117,12 +117,7 @@ export const useProfilesData = (): ProfilesContextValue => {
 
   const handlePlayProfile = (profile: ProfileWithApp) => {
     if (profile.app.url) {
-      // Open the app in a new tab with profile context
-      const appUrl = new URL(
-        'https://login.dimasbaguspm.com/verify-app-access',
-      );
-      appUrl.searchParams.set('profileId', profile.id.toString());
-      window.open(appUrl.toString(), '_blank');
+      window.open(profile.app.url, '_blank');
     }
   };
 
