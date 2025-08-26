@@ -102,7 +102,7 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
   return (
     <>
       <If condition={[isLoading, !transactionData]}>
-        <Drawer.Header hasTab>
+        <Drawer.Header>
           <Drawer.Title>Edit Transaction</Drawer.Title>
           <Drawer.CloseButton />
         </Drawer.Header>
@@ -110,7 +110,7 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
       </If>
 
       <If condition={[!isLoading, transactionData]}>
-        <Drawer.Header hasTab>
+        <Drawer.Header>
           <Drawer.Title>Edit Transaction</Drawer.Title>
           <Drawer.CloseButton />
         </Drawer.Header>

@@ -6,16 +6,22 @@ import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
+  ChipSingleInput,
   DateSinglePickerInput,
   Drawer,
   FormLayout,
+  Icon,
   LoadingIndicator,
   PriceInput,
-  Tabs,
   TextAreaInput,
   TextInput,
   TimePickerInput,
 } from '@dimasbaguspm/versaur';
+import {
+  TrendingDownIcon,
+  TrendingUpDownIcon,
+  TrendingUpIcon,
+} from 'lucide-react';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -124,20 +130,6 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
           !isDestinationAccountLoading,
         ]}
       >
-        <Drawer.Tab>
-          <Controller
-            name="type"
-            control={control}
-            render={({ field }) => (
-              <Tabs value={field.value} onValueChange={field.onChange}>
-                <Tabs.Trigger value="expense">Expense</Tabs.Trigger>
-                <Tabs.Trigger value="income">Income</Tabs.Trigger>
-                <Tabs.Trigger value="transfer">Transfer</Tabs.Trigger>
-              </Tabs>
-            )}
-          />
-        </Drawer.Tab>
-
         <Drawer.Body>
           <form
             id="edit-transaction-form"
@@ -170,6 +162,35 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                       {...field}
                       error={fieldState.error?.message}
                     />
+                  )}
+                />
+              </FormLayout.Column>
+              <FormLayout.Column span={12}>
+                <Controller
+                  control={control}
+                  name="type"
+                  rules={{
+                    required: 'Type is required',
+                  }}
+                  render={({ field }) => (
+                    <ChipSingleInput {...field} variant="primary" label="Type">
+                      <ChipSingleInput.Option value="expense">
+                        <Icon as={TrendingDownIcon} color="inherit" size="sm" />
+                        Expense
+                      </ChipSingleInput.Option>
+                      <ChipSingleInput.Option value="income">
+                        <Icon as={TrendingUpIcon} color="inherit" size="sm" />
+                        Income
+                      </ChipSingleInput.Option>
+                      <ChipSingleInput.Option value="transfer">
+                        <Icon
+                          as={TrendingUpDownIcon}
+                          color="inherit"
+                          size="sm"
+                        />
+                        Transfer
+                      </ChipSingleInput.Option>
+                    </ChipSingleInput>
                   )}
                 />
               </FormLayout.Column>

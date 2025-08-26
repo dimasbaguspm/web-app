@@ -11,9 +11,9 @@ import {
   SearchInput,
   SelectableSingleInput,
 } from '@dimasbaguspm/versaur';
+import { debounce } from 'lodash';
 import { SearchXIcon } from 'lucide-react';
-import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FC, useMemo, useState } from 'react';
 
 interface SelectAccountDrawerProps {
   returnToDrawer: string;
@@ -32,16 +32,15 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(
     null,
   );
+  const [searchValue, setSearchValue] = useState('');
 
-  const { register, watch } = useForm({
-    mode: 'onChange',
-    defaultValues: {
-      search: '',
-    },
-  });
+  const debouncedSetSearch = useMemo(
+    () => debounce((value: string) => setSearchValue(value), 1000),
+    [],
+  );
 
   const [accounts, , { isFetching }] = useApiSpenicleAccountsPaginatedQuery({
-    name: [watch('search')],
+    search: searchValue,
   });
 
   const handleOnSubmit = () => {
@@ -74,7 +73,10 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
       <Drawer.Body>
         <FormLayout className="mb-4">
           <FormLayout.Column span={12}>
-            <SearchInput {...register('search')} />
+            <SearchInput
+              defaultValue={searchValue}
+              onChange={(e) => debouncedSetSearch(e.target.value)}
+            />
           </FormLayout.Column>
         </FormLayout>
 
