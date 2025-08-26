@@ -53,7 +53,7 @@ export const useTransactionsFilter = () => {
     searchParams.delete('accountId');
     searchParams.delete('categoryId');
     searchParams.delete('type');
-    setSearchParams(searchParams);
+    setSearchParams(searchParams, { replace: true });
   }, [searchParams, setSearchParams]);
 
   const appliedFilters = useMemo(() => {

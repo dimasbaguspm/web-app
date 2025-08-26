@@ -343,7 +343,8 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
               <FormLayout.Column span={12}>
                 <TextAreaInput
                   label="Notes"
-                  fieldSizing="fixed"
+                  fieldSizing="content"
+                  minRows={4}
                   rows={6}
                   {...register('notes')}
                 />

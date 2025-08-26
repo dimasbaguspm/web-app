@@ -10,6 +10,7 @@ import { DetailTransactionDrawer } from '../drawers/detail-transaction-drawer/dr
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
 import { EditTransactionDrawer } from '../drawers/edit-transaction-drawer/drawer';
+import { FilterSummaryDrawer } from '../drawers/filter-summary-drawer/drawer';
 import { FilterTransactionDrawer } from '../drawers/filter-transaction-drawer/drawer';
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
@@ -104,6 +105,7 @@ export const DrawerRoutes: FC = () => {
             returnToDrawerId={state.returnToDrawerId!}
           />
         )}
+      {is(DRAWER_ROUTES.FILTER_SUMMARY) && <FilterSummaryDrawer />}
     </Drawer>
   );
 };

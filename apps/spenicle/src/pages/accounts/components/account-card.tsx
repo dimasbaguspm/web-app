@@ -10,7 +10,7 @@ interface AccountCardProps {
 }
 
 export const AccountCard: FC<AccountCardProps> = ({ account, onClick }) => {
-  const { formattedAmount, type, isExpense } = formatSpenicleAccount(account);
+  const { formattedAmount, type, variant } = formatSpenicleAccount(account);
 
   const handleClick = () => {
     onClick?.(account);
@@ -23,9 +23,7 @@ export const AccountCard: FC<AccountCardProps> = ({ account, onClick }) => {
       title={account.name}
       badge={
         <BadgeGroup>
-          <Badge shape="square" color={isExpense ? 'danger' : 'success'}>
-            {type}
-          </Badge>
+          <Badge color={variant}>{type}</Badge>
         </BadgeGroup>
       }
       supplementaryInfo={

@@ -11,6 +11,7 @@ import {
   NoResults,
   SearchInput,
   SelectableSingleInput,
+  Text,
 } from '@dimasbaguspm/versaur';
 import { debounce } from 'lodash';
 import { SearchXIcon } from 'lucide-react';
@@ -93,7 +94,11 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
             {categories?.items.map((category) => (
               <li key={category.id}>
                 <SelectableSingleInput
-                  label={<span>{category.name}</span>}
+                  label={
+                    <Text fontSize="base" fontWeight="semibold">
+                      {category.name}
+                    </Text>
+                  }
                   value={category.id.toString()}
                   checked={category.id === selectedCategoryId}
                   onChange={() => setSelectedCategoryId(category.id)}
