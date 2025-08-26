@@ -1,3 +1,4 @@
+import { useGlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import mergeWith from 'lodash/mergeWith';
@@ -88,6 +89,8 @@ export const useApiInfiniteQuery = <
     select,
   } = options ?? {};
 
+  const { clientId } = useGlobalProvider();
+
   const query = useInfiniteQuery<TData | null, TError>({
     queryKey: queryKey.filter(Boolean),
 
@@ -123,7 +126,7 @@ export const useApiInfiniteQuery = <
               '/sign-in?redirectTo=' +
               currentUrl +
               '&clientId=' +
-              localStorage.getItem('client-id');
+              clientId;
           }
 
           return err.response?.data;

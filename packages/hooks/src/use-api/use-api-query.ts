@@ -1,3 +1,4 @@
+import { useGlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import querystring from 'query-string';
@@ -74,6 +75,8 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
     select,
   } = options ?? {};
 
+  const { clientId } = useGlobalProvider();
+
   const query = useQuery<TData | null, TError>({
     queryKey: queryKey.filter(Boolean),
 
@@ -103,7 +106,7 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
               '/sign-in?redirectTo=' +
               currentUrl +
               '&clientId=' +
-              localStorage.getItem('client-id');
+              clientId;
           }
 
           return err.response?.data;

@@ -1,6 +1,7 @@
 import { AppId } from '@dimasbaguspm/constants';
 import { ActiveAppProfileProvider } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { AuthProvider } from '@dimasbaguspm/providers/auth-provider';
+import { GlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { SnackbarsProvider } from '@dimasbaguspm/versaur';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -13,16 +14,18 @@ const qc = new QueryClient();
 export const App: FC = () => {
   return (
     <StrictMode>
-      <SnackbarsProvider>
-        <QueryClientProvider client={qc}>
-          <AuthProvider>
-            <ActiveAppProfileProvider appId={AppId.Spenicle}>
-              <PageRouter />
-            </ActiveAppProfileProvider>
-          </AuthProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </SnackbarsProvider>
+      <GlobalProvider>
+        <SnackbarsProvider>
+          <QueryClientProvider client={qc}>
+            <AuthProvider>
+              <ActiveAppProfileProvider appId={AppId.Spenicle}>
+                <PageRouter />
+              </ActiveAppProfileProvider>
+            </AuthProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </SnackbarsProvider>
+      </GlobalProvider>
     </StrictMode>
   );
 };

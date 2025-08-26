@@ -1,4 +1,5 @@
 import { AuthMeModel, SetActiveProfileModel } from '@dimasbaguspm/interfaces';
+import { useGlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -16,12 +17,11 @@ export const useApiHiAuthMeQuery = () => {
   });
 };
 
-const clientId =
-  localStorage.getItem('client-id') || window.crypto.randomUUID();
-
 export const useApiHiAuthTokenRefresher = () => {
+  const { clientId } = useGlobalProvider();
   return useQuery<boolean, unknown>({
     queryKey: QUERY_KEYS.HI_AUTH_TOKEN,
+    enabled: !!clientId,
     queryFn: async () => {
       try {
         const { value: accessToken } =
@@ -58,8 +58,6 @@ export const useApiHiAuthTokenRefresher = () => {
           currentUrl.toString() +
           '&clientId=' +
           clientId;
-      } finally {
-        localStorage.setItem('client-id', clientId);
       }
       return false;
     },
