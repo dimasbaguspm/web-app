@@ -9,18 +9,14 @@ import {
   Tabs,
 } from '@dimasbaguspm/versaur';
 import { DownloadIcon, ExternalLinkIcon } from 'lucide-react';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Outlet, useParams } from 'react-router';
 
 import { useDrawerRoute } from '../../hooks/use-drawer-route';
 
-import { SelectProfileModal } from './presentation/select-profile-modal';
-
 const MarketplaceDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const { handleOpenDrawer } = useDrawerRoute();
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [app] = useApiHiAppQuery(+id!, {
     enabled: !!id,
@@ -32,12 +28,8 @@ const MarketplaceDetailPage: FC = () => {
     });
   };
 
-  const onOpenClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  const handleOnOpen = () => {
+    window.open(app?.url, '_blank');
   };
 
   return (
@@ -54,7 +46,7 @@ const MarketplaceDetailPage: FC = () => {
         }
         actions={
           <ButtonGroup>
-            <Button variant="outline" onClick={onOpenClick}>
+            <Button variant="outline" onClick={handleOnOpen}>
               <Icon as={ExternalLinkIcon} color="inherit" size="sm" />
               Open
             </Button>
@@ -75,14 +67,6 @@ const MarketplaceDetailPage: FC = () => {
       <PageContent>
         <Outlet />
       </PageContent>
-
-      {app && (
-        <SelectProfileModal
-          app={app}
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-        />
-      )}
     </>
   );
 };
