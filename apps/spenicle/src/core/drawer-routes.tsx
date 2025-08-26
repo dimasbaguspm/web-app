@@ -10,6 +10,7 @@ import { DetailCategoryDrawer } from '../drawers/detail-category-drawer/drawer';
 import { DetailTransactionDrawer } from '../drawers/detail-transaction-drawer/drawer';
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
+import { EditTransactionDrawer } from '../drawers/edit-transaction-drawer/drawer';
 import { FilterTransactionDrawer } from '../drawers/filter-transaction-drawer/drawer';
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
@@ -71,6 +72,12 @@ export const DrawerRoutes: FC = () => {
       )}
       {is(DRAWER_ROUTES.DETAIL_TRANSACTION) && hasParam('transactionId') && (
         <DetailTransactionDrawer transactionId={params.transactionId!} />
+      )}
+      {is(DRAWER_ROUTES.EDIT_TRANSACTION) && hasParam('transactionId') && (
+        <EditTransactionDrawer
+          transactionId={params.transactionId!}
+          payload={state?.payload}
+        />
       )}
       {is(DRAWER_ROUTES.FILTER_TRANSACTION) && <FilterTransactionDrawer />}
       {is(DRAWER_ROUTES.SELECT_ACCOUNT) &&
