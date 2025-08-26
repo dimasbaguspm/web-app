@@ -2,6 +2,7 @@ import {
   useApiSpenicleAccountsPaginatedQuery,
   useApiSpenicleCategoriesPaginatedQuery,
 } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -22,6 +23,7 @@ import {
 } from '../../pages/transactions/hooks/use-transactions-filter';
 
 export const FilterTransactionDrawer: FC = () => {
+  const { isDesktop } = useWindowResize();
   const { appliedFilters, setFilters } = useTransactionsFilter();
   const { closeDrawer } = useDrawerRoute();
 
@@ -142,7 +144,7 @@ export const FilterTransactionDrawer: FC = () => {
           </form>
         </Drawer.Body>
         <Drawer.Footer>
-          <ButtonGroup alignment="end">
+          <ButtonGroup alignment="end" fluid={!isDesktop}>
             <Button variant="ghost" onClick={closeDrawer}>
               Cancel
             </Button>

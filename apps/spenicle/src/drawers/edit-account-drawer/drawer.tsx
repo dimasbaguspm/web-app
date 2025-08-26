@@ -2,6 +2,7 @@ import {
   useApiSpenicleAccountQuery,
   useApiSpenicleUpdateAccount,
 } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import {
   Button,
@@ -26,6 +27,7 @@ interface Props {
 }
 
 export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
+  const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
 
@@ -119,7 +121,7 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
         </form>
       </Drawer.Body>
       <Drawer.Footer>
-        <ButtonGroup alignment="end">
+        <ButtonGroup alignment="end" fluid={!isDesktop}>
           <Button variant="ghost" onClick={closeDrawer}>
             Cancel
           </Button>

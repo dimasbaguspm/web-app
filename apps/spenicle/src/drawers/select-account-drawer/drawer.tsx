@@ -1,4 +1,5 @@
 import { useApiSpenicleAccountsPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -28,6 +29,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
   payloadId,
   payload,
 }) => {
+  const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(
     null,
@@ -109,7 +111,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
       </Drawer.Body>
 
       <Drawer.Footer>
-        <ButtonGroup alignment="end">
+        <ButtonGroup alignment="end" fluid={!isDesktop}>
           <Button variant="ghost" onClick={handleOnCancel}>
             Cancel
           </Button>

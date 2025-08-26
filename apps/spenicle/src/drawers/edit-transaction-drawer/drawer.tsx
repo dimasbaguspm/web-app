@@ -2,8 +2,8 @@ import {
   useApiSpenicleTransactionQuery,
   useApiSpenicleUpdateTransaction,
 } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
@@ -14,9 +14,10 @@ import {
 } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { FC } from 'react';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 
 import { EditTransactionForm } from './form';
+import { formatDefaultValues } from './helpers';
 import { EditTransactionFormSchema } from './types';
 
 interface EditTransactionDrawerProps {
@@ -30,6 +31,7 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
 }) => {
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
+  const { isDesktop } = useWindowResize();
 
   const [transactionData, , { isLoading }] =
     useApiSpenicleTransactionQuery(transactionId);
@@ -37,43 +39,9 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
   const [updateTransaction, , { isPending }] =
     useApiSpenicleUpdateTransaction();
 
-  const shouldUsePayload = payload && Object.keys(payload).length > 0;
-
-  const defaultValues: EditTransactionFormSchema = shouldUsePayload
-    ? {
-        type: (payload?.type ?? 'expense') as EditTransactionFormSchema['type'],
-        date: payload?.date ?? dayjs().toISOString(),
-        time: payload?.time ?? formatDate(dayjs(), DateFormat.TIME_24H),
-        accountId: payload?.accountId ? +payload.accountId : 0,
-        destinationAccountId: payload?.destinationAccountId
-          ? +payload.destinationAccountId
-          : 0,
-        categoryId: payload?.categoryId ? +payload.categoryId : 0,
-        amount: payload?.amount
-          ? isNaN(+payload?.amount)
-            ? 0
-            : +payload.amount!
-          : 0,
-        note: payload?.notes ?? '',
-      }
-    : {
-        type: transactionData?.type ?? 'expense',
-        date: formatDate(
-          transactionData?.date ?? dayjs().toISOString(),
-          DateFormat.ISO_DATE,
-        ),
-        time: formatDate(
-          transactionData?.date ?? dayjs().toISOString(),
-          DateFormat.TIME_24H,
-        ),
-        accountId: transactionData?.accountId ?? 0,
-        destinationAccountId: transactionData?.destinationAccountId ?? 0,
-        categoryId: transactionData?.categoryId ?? 0,
-        amount: transactionData?.amount ? +transactionData.amount : 0,
-        note: transactionData?.note ?? '',
-      };
-
-  const handleOnSubmit: SubmitHandler<FieldValues> = async (data) => {
+  const handleOnSubmit: SubmitHandler<EditTransactionFormSchema> = async (
+    data,
+  ) => {
     let date = dayjs(data.date);
 
     // parse hour and minute from the time string and coerce to numbers
@@ -91,8 +59,10 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
       categoryId: data.categoryId,
       accountId: data.accountId,
       destinationAccountId:
-        data.type === 'transfer' ? data.destinationAccountId : null,
-      note: data.note ?? '',
+        data.type === 'transfer' && data.destinationAccountId
+          ? data.destinationAccountId
+          : null,
+      note: data.notes ?? '',
     });
 
     showSnack('success', 'Transaction created successfully');
@@ -117,11 +87,11 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
 
         <EditTransactionForm
           transaction={transactionData!}
-          defaultValues={defaultValues}
+          defaultValues={formatDefaultValues(transactionData, payload)}
           onSubmit={handleOnSubmit}
         />
         <Drawer.Footer>
-          <ButtonGroup alignment="end">
+          <ButtonGroup alignment="end" fluid={!isDesktop}>
             <Button variant="ghost" onClick={closeDrawer}>
               Cancel
             </Button>

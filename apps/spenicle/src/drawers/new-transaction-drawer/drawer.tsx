@@ -1,41 +1,18 @@
-import {
-  useApiSpenicleAccountQuery,
-  useApiSpenicleCategoryQuery,
-  useApiSpenicleCreateTransaction,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleCreateTransaction } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
-import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
-  ChipSingleInput,
-  DateSinglePickerInput,
   Drawer,
-  FormLayout,
-  Icon,
-  LoadingIndicator,
-  PriceInput,
-  TextAreaInput,
-  TextInput,
-  TimePickerInput,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
-import {
-  TrendingDownIcon,
-  TrendingUpDownIcon,
-  TrendingUpIcon,
-} from 'lucide-react';
 import { FC } from 'react';
-import {
-  Controller,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
 
-import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+import { NewTransactionForm } from './form';
+import { formatDefaultValues } from './helpers';
+import { NewTransactionFormSchema } from './types';
 
 interface NewTransactionDrawerProps {
   payload?: Record<string, string>;
@@ -44,85 +21,14 @@ interface NewTransactionDrawerProps {
 export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
   payload,
 }) => {
-  const { openDrawer, closeDrawer } = useDrawerRoute();
+  const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
+  const { isDesktop } = useWindowResize();
 
   const [createTransaction, , { isPending }] =
     useApiSpenicleCreateTransaction();
 
-  const { register, handleSubmit, control, getValues, watch } = useForm({
-    defaultValues: {
-      type: payload?.type ?? 'expense',
-      date: payload?.date ?? dayjs().toISOString(),
-      time: payload?.time ?? formatDate(dayjs(), DateFormat.TIME_24H),
-      accountId: payload?.accountId ?? '',
-      destinationAccountId: payload?.destinationAccountId ?? '',
-      categoryId: payload?.categoryId ?? '',
-      amount: payload?.amount
-        ? isNaN(+payload?.amount)
-          ? 0
-          : +payload.amount!
-        : 0,
-      notes: payload?.notes ?? '',
-    },
-  });
-
-  const [accountId, categoryId, destinationAccountId] = watch([
-    'accountId',
-    'categoryId',
-    'destinationAccountId',
-  ]);
-
-  const [accountData, , { isFetching: isAccountFetching }] =
-    useApiSpenicleAccountQuery(+accountId, {
-      enabled: !!accountId,
-    });
-  const [
-    destinationAccountData,
-    ,
-    { isFetching: isDestinationAccountFetching },
-  ] = useApiSpenicleAccountQuery(+destinationAccountId, {
-    enabled: !!destinationAccountId,
-  });
-
-  const [categoryData, , { isFetching: isCategoryFetching }] =
-    useApiSpenicleCategoryQuery(+categoryId, {
-      enabled: !!categoryId,
-    });
-
-  const handleOnAccountSelect = (name: string) => () => {
-    openDrawer(
-      DRAWER_ROUTES.SELECT_ACCOUNT,
-      {
-        payloadId: name,
-      },
-      {
-        replace: true,
-        state: {
-          payload: getValues(),
-          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
-        },
-      },
-    );
-  };
-
-  const handleOnCategorySelect = (name: string) => () => {
-    openDrawer(
-      DRAWER_ROUTES.SELECT_CATEGORY,
-      {
-        payloadId: name,
-      },
-      {
-        replace: true,
-        state: {
-          payload: getValues(),
-          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
-        },
-      },
-    );
-  };
-
-  const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
+  const handleOnValidSubmit = async (data: NewTransactionFormSchema) => {
     let date = dayjs(data.date);
 
     // parse hour and minute from the time string and coerce to numbers
@@ -138,8 +44,11 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
       amount: data.amount,
       categoryId: data.categoryId,
       accountId: data.accountId,
-      destinationAccountId: data.destinationAccountId || null,
-      note: data.note ?? '',
+      destinationAccountId:
+        data.type === 'transfer' && data.destinationAccountId
+          ? data.destinationAccountId
+          : null,
+      note: data.notes ?? '',
     });
 
     showSnack('success', 'Transaction created successfully');
@@ -153,251 +62,25 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
         <Drawer.CloseButton />
       </Drawer.Header>
 
-      <If
-        condition={[
-          isAccountFetching,
-          isCategoryFetching,
-          isDestinationAccountFetching,
-        ]}
-      >
-        <LoadingIndicator size="sm" type="bar" />
-      </If>
+      <NewTransactionForm
+        defaultValues={formatDefaultValues(payload)}
+        onSubmit={handleOnValidSubmit}
+      />
 
-      <If
-        condition={[
-          !isAccountFetching,
-          !isCategoryFetching,
-          !isDestinationAccountFetching,
-        ]}
-      >
-        <Drawer.Body>
-          <form
-            id="new-transaction-form"
-            onSubmit={handleSubmit(handleOnValidSubmit)}
+      <Drawer.Footer>
+        <ButtonGroup alignment="end" fluid={!isDesktop}>
+          <Button variant="ghost" onClick={closeDrawer}>
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            form="new-transaction-form"
+            disabled={isPending}
           >
-            <FormLayout>
-              <FormLayout.Column span={6}>
-                <Controller
-                  control={control}
-                  name="date"
-                  rules={{
-                    required: 'Date is required',
-                  }}
-                  render={({ field, fieldState }) => (
-                    <DateSinglePickerInput
-                      label="Date"
-                      {...field}
-                      error={fieldState.error?.message}
-                    />
-                  )}
-                />
-              </FormLayout.Column>
-              <FormLayout.Column span={6}>
-                <Controller
-                  control={control}
-                  name="time"
-                  render={({ field, fieldState }) => (
-                    <TimePickerInput
-                      label="Time"
-                      {...field}
-                      error={fieldState.error?.message}
-                    />
-                  )}
-                />
-              </FormLayout.Column>
-              <FormLayout.Column span={12}>
-                <Controller
-                  control={control}
-                  name="type"
-                  rules={{
-                    required: 'Type is required',
-                  }}
-                  render={({ field }) => (
-                    <ChipSingleInput {...field} variant="primary" label="Type">
-                      <ChipSingleInput.Option value="expense">
-                        <Icon as={TrendingDownIcon} color="inherit" size="sm" />
-                        Expense
-                      </ChipSingleInput.Option>
-                      <ChipSingleInput.Option value="income">
-                        <Icon as={TrendingUpIcon} color="inherit" size="sm" />
-                        Income
-                      </ChipSingleInput.Option>
-                      <ChipSingleInput.Option value="transfer">
-                        <Icon
-                          as={TrendingUpDownIcon}
-                          color="inherit"
-                          size="sm"
-                        />
-                        Transfer
-                      </ChipSingleInput.Option>
-                    </ChipSingleInput>
-                  )}
-                />
-              </FormLayout.Column>
-              <FormLayout.Column span={12}>
-                <Controller
-                  control={control}
-                  name="amount"
-                  rules={{
-                    required: 'Amount is required',
-                    min: {
-                      value: 1,
-                      message: 'Amount must be at least 1',
-                    },
-                  }}
-                  render={({ field, fieldState }) => (
-                    <PriceInput
-                      label="Amount"
-                      {...field}
-                      // PriceInput likely expects a string value — provide a string representation
-                      value={field.value == null ? '' : String(field.value)}
-                      // normalize any incoming/formatted value to a number before updating the form state
-                      onChange={(val) => {
-                        // remove any non-numeric characters (except dot and minus) then parse
-                        const cleaned = String(val).replace(/[^0-9.-]+/g, '');
-                        const parsed = cleaned === '' ? 0 : parseFloat(cleaned);
-                        field.onChange(Number.isNaN(parsed) ? 0 : parsed);
-                      }}
-                      error={fieldState.error?.message}
-                    />
-                  )}
-                />
-              </FormLayout.Column>
-
-              <If condition={[watch('type') !== 'transfer']}>
-                <FormLayout.Column span={12}>
-                  <Controller
-                    control={control}
-                    name="accountId"
-                    rules={{
-                      required: 'Account is required',
-                    }}
-                    render={({ field, fieldState }) => (
-                      <>
-                        <TextInput
-                          readOnly
-                          onClick={handleOnAccountSelect('accountId')}
-                          label="Account"
-                          placeholder="Select account"
-                          value={accountData?.name ?? ''}
-                          error={fieldState.error?.message}
-                        />
-                        <input type="hidden" {...field} />
-                      </>
-                    )}
-                  />
-                </FormLayout.Column>
-              </If>
-
-              <If condition={[watch('type') === 'transfer']}>
-                <FormLayout.Column span={12}>
-                  <Controller
-                    control={control}
-                    name="accountId"
-                    rules={{
-                      deps: ['destinationAccountId'],
-                      validate: (value) => {
-                        if (value === watch('destinationAccountId')) {
-                          return 'From and To accounts must be different';
-                        }
-                        return true;
-                      },
-                    }}
-                    render={({ field, fieldState }) => (
-                      <>
-                        <TextInput
-                          readOnly
-                          onClick={handleOnAccountSelect('accountId')}
-                          label="From"
-                          placeholder="Select account"
-                          value={accountData?.name ?? ''}
-                          error={fieldState.error?.message}
-                        />
-                        <input type="hidden" {...field} />
-                      </>
-                    )}
-                  />
-                </FormLayout.Column>
-                <FormLayout.Column span={12}>
-                  <Controller
-                    control={control}
-                    name="destinationAccountId"
-                    rules={{
-                      deps: ['accountId'],
-                      validate: (value) => {
-                        if (value === watch('accountId')) {
-                          return 'From and To accounts must be different';
-                        }
-                        return true;
-                      },
-                    }}
-                    render={({ field, fieldState }) => (
-                      <>
-                        <TextInput
-                          readOnly
-                          onClick={handleOnAccountSelect(
-                            'destinationAccountId',
-                          )}
-                          label="To"
-                          placeholder="Select account"
-                          value={destinationAccountData?.name ?? ''}
-                          error={fieldState.error?.message}
-                        />
-                        <input type="hidden" {...field} />
-                      </>
-                    )}
-                  />
-                </FormLayout.Column>
-              </If>
-
-              <FormLayout.Column span={12}>
-                <Controller
-                  control={control}
-                  name="categoryId"
-                  rules={{
-                    required: 'Category is required',
-                  }}
-                  render={({ field, fieldState }) => (
-                    <>
-                      <TextInput
-                        readOnly
-                        label="Category"
-                        onClick={handleOnCategorySelect('categoryId')}
-                        placeholder="Select category"
-                        value={categoryData?.name ?? ''}
-                        error={fieldState.error?.message}
-                      />
-                      <input type="hidden" {...field} />
-                    </>
-                  )}
-                />
-              </FormLayout.Column>
-              <FormLayout.Column span={12}>
-                <TextAreaInput
-                  label="Notes"
-                  fieldSizing="content"
-                  rows={6}
-                  {...register('notes')}
-                />
-              </FormLayout.Column>
-            </FormLayout>
-          </form>
-        </Drawer.Body>
-        <Drawer.Footer>
-          <ButtonGroup alignment="end">
-            <Button variant="ghost" onClick={closeDrawer}>
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              form="new-transaction-form"
-              disabled={isPending}
-            >
-              Create
-            </Button>
-          </ButtonGroup>
-        </Drawer.Footer>
-      </If>
+            Create
+          </Button>
+        </ButtonGroup>
+      </Drawer.Footer>
     </>
   );
 };

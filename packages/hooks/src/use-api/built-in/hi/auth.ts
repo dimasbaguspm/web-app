@@ -49,7 +49,8 @@ export const useApiHiAuthTokenRefresher = () => {
         });
 
         return true;
-      } catch {
+      } catch (err) {
+        console.log(err);
         const currentUrl = new URL(window.location.href);
 
         window.location.href =
