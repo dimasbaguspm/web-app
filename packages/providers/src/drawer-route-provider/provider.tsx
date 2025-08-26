@@ -105,7 +105,11 @@ export function DrawerRouteProvider({
       const newSearch = newSearchParams.toString();
       const newUrl = `${location.pathname}${newSearch ? `?${newSearch}` : ''}${location.hash}`;
 
-      navigate(newUrl, { replace: opts?.replace, state: opts?.state });
+      navigate(newUrl, {
+        replace: opts?.replace,
+        state: opts?.state,
+        preventScrollReset: true,
+      });
     },
     [searchParams, searchParamKey, location.pathname, location.hash, navigate],
   );

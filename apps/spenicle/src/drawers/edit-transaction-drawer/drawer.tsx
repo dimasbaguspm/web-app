@@ -90,7 +90,8 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
       amount: data.amount,
       categoryId: data.categoryId,
       accountId: data.accountId,
-      destinationAccountId: data.destinationAccountId || null,
+      destinationAccountId:
+        data.type === 'transfer' ? data.destinationAccountId : null,
       note: data.note ?? '',
     });
 
