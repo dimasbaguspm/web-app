@@ -234,6 +234,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                     control={control}
                     name="accountId"
                     rules={{
+                      required: 'Source account is required',
                       deps: ['destinationAccountId'],
                       validate: (value) => {
                         if (value === watch('destinationAccountId')) {
@@ -262,6 +263,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                     control={control}
                     name="destinationAccountId"
                     rules={{
+                      required: 'Destination account is required',
                       deps: ['accountId'],
                       validate: (value) => {
                         if (value === watch('accountId')) {
