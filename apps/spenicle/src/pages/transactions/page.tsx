@@ -5,6 +5,7 @@ import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
+  ButtonIcon,
   Icon,
   LoadingIndicator,
   PageContent,
@@ -76,6 +77,15 @@ const TransactionsPage = () => {
             </Button>
           </ButtonGroup>
         }
+        mobileActions={
+          <ButtonGroup>
+            <ButtonIcon
+              as={PlusIcon}
+              aria-label="New Transaction"
+              onClick={handleOnNewTransactionClick}
+            />
+          </ButtonGroup>
+        }
         tabs={
           <TabsDate
             activeDate={activeDate}
@@ -101,7 +111,7 @@ const TransactionsPage = () => {
         </If>
 
         <If condition={[!isFetching, transactions.length !== 0]}>
-          <ul className="flex flex-col gap-4 mb-4">
+          <ul className="flex flex-col mb-4">
             {transactions.map((transaction) => {
               const account = accounts?.items.find(
                 (acc) => acc.id === transaction.accountId,
@@ -111,7 +121,7 @@ const TransactionsPage = () => {
               );
 
               return (
-                <li key={transaction.id}>
+                <li key={transaction.id} className="border-b border-border">
                   <TransactionCard
                     transaction={transaction}
                     account={account}

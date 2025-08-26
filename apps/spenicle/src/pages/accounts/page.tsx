@@ -5,6 +5,7 @@ import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
+  ButtonIcon,
   Icon,
   LoadingIndicator,
   NoResults,
@@ -45,6 +46,15 @@ const AccountsPage = () => {
             </Button>
           </ButtonGroup>
         }
+        mobileActions={
+          <ButtonGroup>
+            <ButtonIcon
+              as={PlusIcon}
+              aria-label="New Account"
+              onClick={handleOpenDrawer}
+            />
+          </ButtonGroup>
+        }
       />
       <PageContent>
         <If condition={isLoading}>
@@ -53,9 +63,9 @@ const AccountsPage = () => {
 
         <If condition={[accounts, accounts?.items]}>
           <div className="space-y-4">
-            <ul className="grid grid-cols-1 gap-4">
+            <ul className="grid grid-cols-1">
               {accounts?.items.map((account) => (
-                <li key={account.id}>
+                <li key={account.id} className="border-b border-border">
                   <AccountCard account={account} onClick={handleAccountClick} />
                 </li>
               ))}

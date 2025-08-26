@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   ButtonGroup,
+  ButtonIcon,
   Icon,
   PageContent,
   PageHeader,
@@ -54,6 +55,21 @@ const MarketplaceDetailPage: FC = () => {
               <Icon as={DownloadIcon} color="inherit" size="sm" />
               Install
             </Button>
+          </ButtonGroup>
+        }
+        mobileActions={
+          <ButtonGroup>
+            <ButtonIcon
+              variant="outline"
+              as={ExternalLinkIcon}
+              aria-label="Open"
+              onClick={handleOnOpen}
+            />
+            <ButtonIcon
+              as={DownloadIcon}
+              aria-label="Install"
+              onClick={onInstallClick}
+            />
           </ButtonGroup>
         }
         tabs={
