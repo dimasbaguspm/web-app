@@ -1,4 +1,5 @@
 import { useApiSpenicleCreateAccount } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import {
   Button,
@@ -21,6 +22,7 @@ import {
 export const NewAccountDrawer: FC = () => {
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
+  const { isDesktop } = useWindowResize();
 
   const [createAccount, , { isPending }] = useApiSpenicleCreateAccount();
   const { register, handleSubmit, control, formState, getFieldState } =
@@ -98,7 +100,7 @@ export const NewAccountDrawer: FC = () => {
         </form>
       </Drawer.Body>
       <Drawer.Footer>
-        <ButtonGroup alignment="end">
+        <ButtonGroup alignment="end" fluid={!isDesktop}>
           <Button variant="ghost" onClick={closeDrawer}>
             Cancel
           </Button>

@@ -142,6 +142,8 @@ export const useApiInfiniteQuery = <
         totalPages: number;
       };
 
+      if (!typedLastPage) return undefined;
+
       if (typedLastPage.pageNumber < typedLastPage.totalPages) {
         return typedLastPage.pageNumber + 1;
       }

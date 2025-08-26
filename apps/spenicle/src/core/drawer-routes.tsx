@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Drawer } from '@dimasbaguspm/versaur';
@@ -51,7 +50,7 @@ export const DrawerRoutes: FC = () => {
     <Drawer
       isOpen={isOpen}
       onClose={closeDrawer}
-      size={isDesktop ? 'md' : 'full'}
+      size={isDesktop ? 'lg' : 'full'}
       transitionType={isDesktop ? 'slide' : 'fade'}
       disableOverlayClickToClose={disableInteractive}
       disableEscapeKeyDown={disableInteractive}

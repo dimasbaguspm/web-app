@@ -1,4 +1,5 @@
 import { useApiSpenicleCategoriesPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -28,6 +29,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
   payloadId,
   payload,
 }) => {
+  const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null,
@@ -111,7 +113,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
       </Drawer.Body>
 
       <Drawer.Footer>
-        <ButtonGroup alignment="end">
+        <ButtonGroup alignment="end" fluid={!isDesktop}>
           <Button variant="ghost" onClick={handleOnCancel}>
             Cancel
           </Button>

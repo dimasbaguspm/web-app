@@ -1,4 +1,4 @@
-export interface EditTransactionFormSchema {
+export type NewTransactionFormSchema = {
   type: 'expense' | 'income' | 'transfer';
   date: string;
   time: string;
@@ -7,4 +7,4 @@ export interface EditTransactionFormSchema {
   categoryId: number;
   amount: number;
   notes: string;
-}
+};

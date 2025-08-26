@@ -1,4 +1,5 @@
 import { useApiSpenicleCreateCategory } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import {
   Button,
@@ -15,6 +16,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 export const NewCategoryDrawer: FC = () => {
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
+  const { isDesktop } = useWindowResize();
 
   const [createCategory, , { isPending }] = useApiSpenicleCreateCategory();
   const { register, handleSubmit, formState, getFieldState } = useForm();
@@ -63,7 +65,7 @@ export const NewCategoryDrawer: FC = () => {
         </form>
       </Drawer.Body>
       <Drawer.Footer>
-        <ButtonGroup alignment="end">
+        <ButtonGroup alignment="end" fluid={!isDesktop}>
           <Button variant="ghost" onClick={closeDrawer}>
             Cancel
           </Button>

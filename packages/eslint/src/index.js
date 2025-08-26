@@ -1,52 +1,52 @@
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
-import prettierlint from 'eslint-plugin-prettier/recommended'
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import prettierlint from 'eslint-plugin-prettier/recommended';
 // @ts-expect-error
-import importPlugin from "eslint-plugin-import";
+import importPlugin from 'eslint-plugin-import';
 
 const configs = tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommended,
   prettierlint,
   {
-    files: ["**/*.{js,jsx,ts,tsx}"],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
       import: importPlugin,
     },
-    ignores: ["eslint.config.js", "**/__assets__/"],
+    ignores: ['eslint.config.js', '**/__assets__/'],
     rules: {
-      "prettier/prettier": [
-        "error",
+      'prettier/prettier': [
+        'error',
         {
-          "singleQuote": true,
-          "trailingComma": "all",
-          "semi": true,
-          "tabWidth": 2,
-          "useTabs": false,
-          "printWidth": 80,
-        }
+          singleQuote: true,
+          trailingComma: 'all',
+          semi: true,
+          tabWidth: 2,
+          useTabs: false,
+          printWidth: 80,
+        },
       ],
-      "import/no-cycle": "error",
-      "import/newline-after-import": "error",
-      "import/max-dependencies": ["error", { max: 10 }],
-      "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
-      "import/order": [
-        "error",
+      'import/no-cycle': 'error',
+      'import/newline-after-import': 'error',
+      'import/max-dependencies': ['error', { max: 20 }],
+      'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+      'import/order': [
+        'error',
         {
           alphabetize: {
-            order: "asc",
+            order: 'asc',
             caseInsensitive: true,
           },
-          "newlines-between": "always",
+          'newlines-between': 'always',
           distinctGroup: false,
           groups: [
-            "builtin",
-            "internal",
-            "external",
-            "parent",
-            "sibling",
-            "index",
-            "type",
+            'builtin',
+            'internal',
+            'external',
+            'parent',
+            'sibling',
+            'index',
+            'type',
           ],
         },
       ],

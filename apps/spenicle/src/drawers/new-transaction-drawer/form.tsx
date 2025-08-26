@@ -2,7 +2,6 @@ import {
   useApiSpenicleAccountQuery,
   useApiSpenicleCategoryQuery,
 } from '@dimasbaguspm/hooks/use-api';
-import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -27,24 +26,22 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
-import { EditTransactionFormSchema } from './types';
+import { NewTransactionFormSchema } from './types';
 
-interface EditTransactionFormProps {
-  transaction: TransactionModel;
-  defaultValues?: EditTransactionFormSchema;
-  onSubmit: (data: EditTransactionFormSchema) => void;
+interface NewTransactionFormProps {
+  defaultValues?: Partial<NewTransactionFormSchema>;
+  onSubmit: (data: NewTransactionFormSchema) => void;
 }
 
-export const EditTransactionForm: FC<EditTransactionFormProps> = ({
-  transaction,
+export const NewTransactionForm: FC<NewTransactionFormProps> = ({
   defaultValues,
   onSubmit,
 }) => {
   const { openDrawer } = useDrawerRoute();
 
   const { register, handleSubmit, control, getValues, watch } =
-    useForm<EditTransactionFormSchema>({
-      defaultValues,
+    useForm<NewTransactionFormSchema>({
+      defaultValues: defaultValues,
     });
 
   const [accountId, categoryId, destinationAccountId] = watch([
@@ -53,16 +50,19 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
     'destinationAccountId',
   ]);
 
-  const [accountData, , { isLoading: isAccountLoading }] =
+  const [accountData, , { isFetching: isAccountFetching }] =
     useApiSpenicleAccountQuery(+accountId, {
       enabled: !!accountId,
     });
-  const [destinationAccountData, , { isLoading: isDestinationAccountLoading }] =
-    useApiSpenicleAccountQuery(+destinationAccountId!, {
-      enabled: !!destinationAccountId,
-    });
+  const [
+    destinationAccountData,
+    ,
+    { isFetching: isDestinationAccountFetching },
+  ] = useApiSpenicleAccountQuery(+destinationAccountId!, {
+    enabled: !!destinationAccountId,
+  });
 
-  const [categoryData, , { isLoading: isCategoryLoading }] =
+  const [categoryData, , { isFetching: isCategoryFetching }] =
     useApiSpenicleCategoryQuery(+categoryId, {
       enabled: !!categoryId,
     });
@@ -77,10 +77,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
         replace: true,
         state: {
           payload: getValues(),
-          returnToDrawer: DRAWER_ROUTES.EDIT_TRANSACTION,
-          returnToDrawerId: {
-            transactionId: transaction.id,
-          },
+          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
         },
       },
     );
@@ -96,16 +93,13 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
         replace: true,
         state: {
           payload: getValues(),
-          returnToDrawer: DRAWER_ROUTES.EDIT_TRANSACTION,
-          returnToDrawerId: {
-            transactionId: transaction.id,
-          },
+          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
         },
       },
     );
   };
 
-  const handleOnValidSubmit: SubmitHandler<EditTransactionFormSchema> = async (
+  const handleOnValidSubmit: SubmitHandler<NewTransactionFormSchema> = async (
     data,
   ) => {
     onSubmit(data);
@@ -115,9 +109,9 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
     <>
       <If
         condition={[
-          isAccountLoading,
-          isCategoryLoading,
-          isDestinationAccountLoading,
+          isAccountFetching,
+          isCategoryFetching,
+          isDestinationAccountFetching,
         ]}
       >
         <LoadingIndicator size="sm" type="bar" />
@@ -125,14 +119,14 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
 
       <If
         condition={[
-          !isAccountLoading,
-          !isCategoryLoading,
-          !isDestinationAccountLoading,
+          !isAccountFetching,
+          !isCategoryFetching,
+          !isDestinationAccountFetching,
         ]}
       >
         <Drawer.Body>
           <form
-            id="edit-transaction-form"
+            id="new-transaction-form"
             onSubmit={handleSubmit(handleOnValidSubmit)}
           >
             <FormLayout>
@@ -207,7 +201,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                   }}
                   render={({ field, fieldState }) => (
                     <PriceInput
-                      label="Amount"
+                      label="Source"
                       {...field}
                       // PriceInput likely expects a string value — provide a string representation
                       value={field.value == null ? '' : String(field.value)}
@@ -232,7 +226,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                     rules={{
                       validate: (value) => {
                         if (!value) {
-                          return 'Account is required';
+                          return 'Source account is required';
                         }
                         return true;
                       },
@@ -267,8 +261,9 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                         }
 
                         if (value === watch('destinationAccountId')) {
-                          return 'From and To accounts must be different';
+                          return 'Source and Destination accounts must be different';
                         }
+
                         return true;
                       },
                     }}
@@ -299,7 +294,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                         }
 
                         if (value === watch('accountId')) {
-                          return 'From and To accounts must be different';
+                          return 'Source and Destination accounts must be different';
                         }
                         return true;
                       },

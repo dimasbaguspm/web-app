@@ -14,8 +14,6 @@ export interface ClientIdOptions {
   secure?: boolean;
   /** SameSite attribute for the cookie */
   sameSite?: 'strict' | 'lax' | 'none';
-  /** Whether to use session storage as fallback */
-  useSessionStorage?: boolean;
   /** Custom prefix for the generated ID */
   idPrefix?: string;
 }
@@ -29,7 +27,6 @@ const DEFAULT_OPTIONS: Required<ClientIdOptions> = {
   domain: '.dimasbaguspm.com',
   secure: true,
   sameSite: 'lax',
-  useSessionStorage: true,
   idPrefix: 'moekthy',
 };
 
@@ -165,8 +162,7 @@ async function setCookieValue(
   // Try Cookie Store API first (modern browsers)
   if ('cookieStore' in window) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (window as any).cookieStore.set({
+      await cookieStore.set({
         name,
         value,
         expires: expires.getTime(),
@@ -243,16 +239,6 @@ export async function generateClientId(
       return existingId;
     }
 
-    // Check session storage as fallback
-    if (config.useSessionStorage && isStorageAvailable('sessionStorage')) {
-      const sessionId = sessionStorage.getItem(config.cookieName);
-      if (sessionId) {
-        // Move from session storage to cookie
-        await setCookieValue(config.cookieName, sessionId, config);
-        return sessionId;
-      }
-    }
-
     // Generate new client ID
     const browserFingerprint = generateBrowserFingerprint();
     const randomId = generateRandomId();
@@ -263,22 +249,12 @@ export async function generateClientId(
     // Store in cookie
     await setCookieValue(config.cookieName, clientId, config);
 
-    // Store in session storage as backup
-    if (config.useSessionStorage && isStorageAvailable('sessionStorage')) {
-      sessionStorage.setItem(config.cookieName, clientId);
-    }
-
     return clientId;
   } catch (error) {
     console.error('Failed to generate client ID:', error);
 
     // Emergency fallback
     const fallbackId = `${config.idPrefix}_fallback_${generateRandomId()}_${Date.now().toString(36)}`;
-
-    // Try to store fallback
-    if (config.useSessionStorage && isStorageAvailable('sessionStorage')) {
-      sessionStorage.setItem(config.cookieName, fallbackId);
-    }
 
     return fallbackId;
   }
@@ -294,9 +270,7 @@ export async function getClientId(
 
   // Try to get existing ID first
   const existingId = await getCookieValue(config.cookieName);
-  if (existingId) {
-    return existingId;
-  }
+  if (existingId) return existingId;
 
   // Generate new ID if none exists
   return generateClientId(options);
@@ -314,8 +288,7 @@ export async function clearClientId(
     // Clear from Cookie Store API
     if ('cookieStore' in window) {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        await (window as any).cookieStore.delete(config.cookieName);
+        await cookieStore.delete(config.cookieName);
       } catch (e) {
         console.warn('Cookie Store API delete failed:', e);
       }
@@ -323,11 +296,6 @@ export async function clearClientId(
 
     // Clear from document.cookie (fallback)
     document.cookie = `${config.cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-
-    // Clear from session storage
-    if (config.useSessionStorage && isStorageAvailable('sessionStorage')) {
-      sessionStorage.removeItem(config.cookieName);
-    }
   } catch (error) {
     console.error('Failed to clear client ID:', error);
   }
