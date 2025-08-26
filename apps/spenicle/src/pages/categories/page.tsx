@@ -5,6 +5,7 @@ import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
+  ButtonIcon,
   Icon,
   LoadingIndicator,
   NoResults,
@@ -45,6 +46,15 @@ const CategoriesPage = () => {
             </Button>
           </ButtonGroup>
         }
+        mobileActions={
+          <ButtonGroup>
+            <ButtonIcon
+              as={PlusIcon}
+              aria-label="New Category"
+              onClick={handleOpenDrawer}
+            />
+          </ButtonGroup>
+        }
       />
       <PageContent>
         <If condition={isLoading}>
@@ -53,9 +63,9 @@ const CategoriesPage = () => {
 
         <If condition={[categories, categories?.items]}>
           <div className="space-y-4">
-            <ul className="grid grid-cols-1 gap-4">
+            <ul className="grid grid-cols-1">
               {categories?.items.map((category) => (
-                <li key={category.id}>
+                <li key={category.id} className="border-b border-border">
                   <CategoryCard
                     category={category}
                     onClick={handleCategoryClick}

@@ -1,6 +1,7 @@
 import {
   Button,
   ButtonGroup,
+  ButtonIcon,
   Icon,
   PageContent,
   PageHeader,
@@ -49,6 +50,15 @@ const GroupPageContent: FC = () => {
               <Icon as={PlusIcon} color="inherit" />
               Create New Group
             </Button>
+          </ButtonGroup>
+        }
+        mobileActions={
+          <ButtonGroup>
+            <ButtonIcon
+              as={PlusIcon}
+              aria-label="New Group"
+              onClick={() => setIsCreating(true)}
+            />
           </ButtonGroup>
         }
       />
