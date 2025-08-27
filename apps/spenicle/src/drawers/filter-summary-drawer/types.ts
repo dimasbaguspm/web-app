@@ -1,4 +1,4 @@
-import { FrequencyType } from '../../pages/summary/hooks/use-summary-filter';
+import { FrequencyType } from '../../pages/summary-overview/hooks/use-summary-filter';
 
 export interface FilterSummaryFormSchema {
   frequency: FrequencyType;
