@@ -36,7 +36,19 @@ export type UpdateTransactionModel =
 export type TransactionModel =
   operations['getTransactionById']['responses']['200']['content']['application/json'];
 
-export type SearchSummaryModel =
-  operations['getSummary']['parameters']['query'];
-export type SummaryModel =
-  operations['getSummary']['responses']['200']['content']['application/json'];
+export type SearchSummaryTransactionsModel =
+  operations['getSummaryTransactions']['parameters']['query'];
+export type SummaryTransactionsModel =
+  operations['getSummaryTransactions']['responses']['200']['content']['application/json'];
+export type SearchSummaryAccountsModel =
+  operations['getSummaryAccount']['parameters']['query'];
+export type SummaryAccountsModel =
+  operations['getSummaryAccount']['responses']['200']['content']['application/json'];
+export type SearchSummaryCategoriesModel =
+  operations['getSummaryCategory']['parameters']['query'];
+export type SummaryCategoriesModel =
+  operations['getSummaryCategory']['responses']['200']['content']['application/json'];
+export type SearchSummaryTotalTransactionsModel =
+  operations['getSummaryTotal']['parameters']['query'];
+export type SummaryTotalTransactionsModel =
+  operations['getSummaryTotal']['responses']['200']['content']['application/json'];

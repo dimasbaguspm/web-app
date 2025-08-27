@@ -296,6 +296,50 @@ export interface paths {
     patch: operations['patchGroup-membersById'];
     trace?: never;
   };
+  '/sessions/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get paginated sessions
+     * @description Retrieve sessions with pagination and filtering
+     */
+    get: operations['getSessions'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/sessions/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get session by ID
+     * @description Retrieve a specific session by its ID
+     */
+    get: operations['getSessionsById'];
+    put?: never;
+    post?: never;
+    /**
+     * Delete session
+     * @description Delete a specific session by ID
+     */
+    delete: operations['deleteSessionsById'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/user/': {
     parameters: {
       query?: never;
@@ -829,7 +873,9 @@ export interface operations {
   postAuthSignup: {
     parameters: {
       query?: never;
-      header?: never;
+      header: {
+        'client-id': string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -895,7 +941,9 @@ export interface operations {
   postAuthSignin: {
     parameters: {
       query?: never;
-      header?: never;
+      header: {
+        'client-id': string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1017,8 +1065,8 @@ export interface operations {
   postAuthRefresh: {
     parameters: {
       query?: never;
-      header?: {
-        authorization?: string;
+      header: {
+        'client-id': string;
       };
       path?: never;
       cookie?: never;
@@ -1029,35 +1077,7 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content: {
-          'application/json': {
-            success: boolean;
-            message: string;
-            userId: number;
-            tokens: {
-              accessToken: string;
-              refreshToken: string;
-            };
-          };
-          'multipart/form-data': {
-            success: boolean;
-            message: string;
-            userId: number;
-            tokens: {
-              accessToken: string;
-              refreshToken: string;
-            };
-          };
-          'text/plain': {
-            success: boolean;
-            message: string;
-            userId: number;
-            tokens: {
-              accessToken: string;
-              refreshToken: string;
-            };
-          };
-        };
+        content?: never;
       };
     };
   };
@@ -1195,8 +1215,8 @@ export interface operations {
   'postAuthSet-active-profile': {
     parameters: {
       query?: never;
-      header: {
-        authorization: string;
+      header?: {
+        authorization?: string;
       };
       path?: never;
       cookie?: never;
@@ -1480,9 +1500,9 @@ export interface operations {
   'getGroup-members': {
     parameters: {
       query?: {
-        groupId?: string | string[];
-        userId?: string | string[];
-        role?: ('member' | 'owner') | ('member' | 'owner')[];
+        groupId?: string | (string | string[]);
+        userId?: string | (string | string[]);
+        role?: ('member' | 'owner') | (string | ('member' | 'owner')[]);
         pageNumber?: string;
         pageSize?: string;
         sortBy?: 'created_at' | 'updated_at';
@@ -1930,6 +1950,78 @@ export interface operations {
         };
       };
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+    };
+  };
+  getSessions: {
+    parameters: {
+      query?: {
+        id?: number[];
+        clientId?: string[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'last_used_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getSessionsById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteSessionsById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
