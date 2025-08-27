@@ -3,6 +3,7 @@ import { lazyLoad } from '@dimasbaguspm/utils/lazy-load';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router';
 
 import { ROUTES } from '../constants/page-routes';
+import SummaryLayout from '../pages/summary/page';
 
 import { AppLayout } from './app-layout';
 import { DrawerRoutes } from './drawer-routes';
@@ -36,7 +37,21 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.SUMMARY,
-        Component: lazyLoad(() => import('../pages/summary/page')),
+        Component: SummaryLayout,
+        children: [
+          {
+            index: true,
+            Component: lazyLoad(() => import('../pages/summary-overview/page')),
+          },
+          {
+            path: ROUTES.SUMMARY_CALENDAR,
+            Component: lazyLoad(() => import('../pages/summary-calendar/page')),
+          },
+          {
+            path: ROUTES.SUMMARY_TIMELINE,
+            Component: lazyLoad(() => import('../pages/summary-timeline/page')),
+          },
+        ],
       },
     ],
   },

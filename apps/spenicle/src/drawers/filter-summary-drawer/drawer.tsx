@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useSummaryFilter } from '../../pages/summary/hooks/use-summary-filter';
+import { useSummaryFilter } from '../../pages/summary-overview/hooks/use-summary-filter';
 
 import { FilterSummaryFormSchema } from './types';
 

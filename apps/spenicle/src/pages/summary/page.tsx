@@ -1,17 +1,9 @@
-import {
-  ButtonIcon,
-  PageContent,
-  PageHeader,
-  Text,
-  Tile,
-} from '@dimasbaguspm/versaur';
-import { SortDescIcon } from 'lucide-react';
+import { PageHeader } from '@dimasbaguspm/versaur';
+import { Outlet } from 'react-router';
 
-import { ActionControl } from './components/action-control';
 import { ActionHeader } from './components/action-header';
-import { FilterControl } from './components/filter-control';
 
-const SummaryPage = () => {
+const SummaryLayout = () => {
   return (
     <>
       <PageHeader
@@ -20,62 +12,9 @@ const SummaryPage = () => {
         actions={<ActionHeader />}
         mobileActions={<ActionHeader />}
       />
-      <PageContent>
-        <ActionControl />
-        <FilterControl />
-
-        <div className="grid grid-cols-1 gap-4">
-          <Tile>
-            <Text as="h4" fontWeight="medium">
-              Overview
-            </Text>
-          </Tile>
-
-          <div className="grid grid-cols-3 gap-4">
-            <Tile>
-              <div className="flex flex-row justify-between">
-                <Text as="h5" fontWeight="medium">
-                  Spending list
-                </Text>
-                <ButtonIcon
-                  aria-label="Sort"
-                  as={SortDescIcon}
-                  variant="ghost"
-                  size="sm"
-                />
-              </div>
-            </Tile>
-            <Tile>
-              <div className="flex flex-row justify-between">
-                <Text as="h5" fontWeight="medium">
-                  Income list
-                </Text>
-                <ButtonIcon
-                  aria-label="Sort"
-                  as={SortDescIcon}
-                  variant="ghost"
-                  size="sm"
-                />
-              </div>
-            </Tile>
-            <Tile>
-              <div className="flex flex-row justify-between">
-                <Text as="h5" fontWeight="medium">
-                  Date frequncy
-                </Text>
-                <ButtonIcon
-                  aria-label="Sort"
-                  as={SortDescIcon}
-                  variant="ghost"
-                  size="sm"
-                />
-              </div>
-            </Tile>
-          </div>
-        </div>
-      </PageContent>
+      <Outlet />
     </>
   );
 };
 
-export default SummaryPage;
+export default SummaryLayout;
