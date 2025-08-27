@@ -132,14 +132,62 @@ export interface paths {
     patch: operations['patchTransactionById'];
     trace?: never;
   };
-  '/summary/': {
+  '/summary/transactions': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['getSummary'];
+    get: operations['getSummaryTransactions'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/summary/account': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getSummaryAccount'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/summary/category': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getSummaryCategory'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/summary/total': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getSummaryTotal'];
     put?: never;
     post?: never;
     delete?: never;
@@ -214,9 +262,10 @@ export interface operations {
     parameters: {
       query?: {
         id?: number[];
-        name?: string[];
-        type?: string[];
+        type?: ('expense' | 'income')[];
         search?: string;
+        userId?: number[];
+        groupId?: number[];
         pageNumber?: number;
         pageSize?: number;
         sortBy?: 'created_at' | 'updated_at';
@@ -237,8 +286,10 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              userId: number;
+              groupId: number | null;
               name: string;
-              type: string;
+              type: 'expense' | 'income';
               note: string | null;
               amount: string | number;
               metadata?: unknown;
@@ -256,8 +307,10 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              userId: number;
+              groupId: number | null;
               name: string;
-              type: string;
+              type: 'expense' | 'income';
               note: string | null;
               amount: string | number;
               metadata?: unknown;
@@ -275,8 +328,10 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              userId: number;
+              groupId: number | null;
               name: string;
-              type: string;
+              type: 'expense' | 'income';
               note: string | null;
               amount: string | number;
               metadata?: unknown;
@@ -305,21 +360,21 @@ export interface operations {
       content: {
         'application/json': {
           name: string;
-          type: string;
+          type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name: string;
-          type: string;
+          type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
           metadata?: unknown;
         };
         'text/plain': {
           name: string;
-          type: string;
+          type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
           metadata?: unknown;
@@ -335,8 +390,10 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -348,8 +405,10 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -361,8 +420,10 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -394,8 +455,10 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -407,8 +470,10 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -420,8 +485,10 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -466,21 +533,21 @@ export interface operations {
       content: {
         'application/json': {
           name?: string;
-          type?: string;
+          type?: 'expense' | 'income';
           note?: string | null;
           amount: string | number;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name?: string;
-          type?: string;
+          type?: 'expense' | 'income';
           note?: string | null;
           amount: string | number;
           metadata?: unknown;
         };
         'text/plain': {
           name?: string;
-          type?: string;
+          type?: 'expense' | 'income';
           note?: string | null;
           amount: string | number;
           metadata?: unknown;
@@ -496,8 +563,10 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -509,8 +578,10 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -522,8 +593,10 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             name: string;
-            type: string;
+            type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -540,10 +613,11 @@ export interface operations {
     parameters: {
       query?: {
         id?: number[];
-        name?: string[];
         search?: string;
         pageNumber?: number;
         pageSize?: number;
+        userId?: number[];
+        groupId?: number[];
         sortBy?: 'created_at' | 'updated_at';
         sortOrder?: 'asc' | 'desc';
       };
@@ -564,6 +638,8 @@ export interface operations {
               profileId: number;
               name: string;
               note: string | null;
+              userId: number;
+              groupId: number | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -581,6 +657,8 @@ export interface operations {
               profileId: number;
               name: string;
               note: string | null;
+              userId: number;
+              groupId: number | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -598,6 +676,8 @@ export interface operations {
               profileId: number;
               name: string;
               note: string | null;
+              userId: number;
+              groupId: number | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -650,6 +730,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -661,6 +743,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -672,6 +756,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -703,6 +789,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -714,6 +802,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -725,6 +815,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -793,6 +885,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -804,6 +898,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -815,6 +911,8 @@ export interface operations {
             profileId: number;
             name: string;
             note: string | null;
+            userId: number;
+            groupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -829,6 +927,8 @@ export interface operations {
     parameters: {
       query?: {
         id?: number[];
+        userId?: number[];
+        groupId?: number[];
         accountId?: number[];
         categoryId?: number[];
         type?: ('income' | 'expense' | 'transfer')[];
@@ -855,6 +955,8 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              userId: number;
+              groupId: number | null;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -877,6 +979,8 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              userId: number;
+              groupId: number | null;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -899,6 +1003,8 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              userId: number;
+              groupId: number | null;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -971,6 +1077,8 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -987,6 +1095,8 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1003,6 +1113,8 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1039,6 +1151,8 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1055,6 +1169,8 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1071,6 +1187,8 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1159,6 +1277,8 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1175,6 +1295,8 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1191,6 +1313,8 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            userId: number;
+            groupId: number | null;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -1208,7 +1332,151 @@ export interface operations {
       };
     };
   };
-  getSummary: {
+  getSummaryTransactions: {
+    parameters: {
+      query: {
+        from: string;
+        to: string;
+        search?: string;
+        categoryId?: number[];
+        accountId?: number[];
+        type?: ('income' | 'expense' | 'transfer')[];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** Format: date-time */
+            date: string;
+            net: number;
+            income: number;
+            expense: number;
+            transfer: number;
+            totalTransactions: number;
+          }[];
+          'multipart/form-data': {
+            /** Format: date-time */
+            date: string;
+            net: number;
+            income: number;
+            expense: number;
+            transfer: number;
+            totalTransactions: number;
+          }[];
+          'text/plain': {
+            /** Format: date-time */
+            date: string;
+            net: number;
+            income: number;
+            expense: number;
+            transfer: number;
+            totalTransactions: number;
+          }[];
+        };
+      };
+    };
+  };
+  getSummaryAccount: {
+    parameters: {
+      query: {
+        from: string;
+        to: string;
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            accountId: number;
+            accountName: string;
+            net: number;
+            income: number;
+            expense: number;
+            totalTransactions: number;
+          }[];
+          'multipart/form-data': {
+            accountId: number;
+            accountName: string;
+            net: number;
+            income: number;
+            expense: number;
+            totalTransactions: number;
+          }[];
+          'text/plain': {
+            accountId: number;
+            accountName: string;
+            net: number;
+            income: number;
+            expense: number;
+            totalTransactions: number;
+          }[];
+        };
+      };
+    };
+  };
+  getSummaryCategory: {
+    parameters: {
+      query: {
+        from: string;
+        to: string;
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            categoryId: number;
+            categoryName: string;
+            net: number;
+            income: number;
+            expense: number;
+            totalTransactions: number;
+          }[];
+          'multipart/form-data': {
+            categoryId: number;
+            categoryName: string;
+            net: number;
+            income: number;
+            expense: number;
+            totalTransactions: number;
+          }[];
+          'text/plain': {
+            categoryId: number;
+            categoryName: string;
+            net: number;
+            income: number;
+            expense: number;
+            totalTransactions: number;
+          }[];
+        };
+      };
+    };
+  };
+  getSummaryTotal: {
     parameters: {
       query: {
         from: string;
@@ -1229,29 +1497,23 @@ export interface operations {
         };
         content: {
           'application/json': {
-            /** Format: date-time */
-            date: string;
-            net: number;
-            income: number;
             expense: number;
+            income: number;
+            transfer: number;
             totalTransactions: number;
-          }[];
+          };
           'multipart/form-data': {
-            /** Format: date-time */
-            date: string;
-            net: number;
-            income: number;
             expense: number;
+            income: number;
+            transfer: number;
             totalTransactions: number;
-          }[];
+          };
           'text/plain': {
-            /** Format: date-time */
-            date: string;
-            net: number;
-            income: number;
             expense: number;
+            income: number;
+            transfer: number;
             totalTransactions: number;
-          }[];
+          };
         };
       };
     };

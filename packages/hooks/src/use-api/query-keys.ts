@@ -122,9 +122,28 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
-  SPENICLE_SUMMARY: (params: object = {}) => [
+  SPENICLE_SUMMARY_TRANSACTIONS: (params: object = {}) => [
     'spenicle',
     'summary',
+    'transactions',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_SUMMARY_ACCOUNTS: (params: object = {}) => [
+    'spenicle',
+    'summary',
+    'accounts',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_SUMMARY_CATEGORIES: (params: object = {}) => [
+    'spenicle',
+    'summary',
+    'categories',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_SUMMARY_TOTAL: (params: object = {}) => [
+    'spenicle',
+    'summary',
+    'total',
     JSON.stringify(params ?? {}),
   ],
 };

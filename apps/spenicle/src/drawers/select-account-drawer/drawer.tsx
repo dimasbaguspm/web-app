@@ -48,7 +48,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
   const [accounts, , { isFetching }] = useApiSpenicleAccountsPaginatedQuery({
     search: searchValue,
     type: ['expense', 'income'].includes(payload.type as string)
-      ? [payload.type as string]
+      ? [payload.type as 'expense' | 'income']
       : undefined,
   });
 
