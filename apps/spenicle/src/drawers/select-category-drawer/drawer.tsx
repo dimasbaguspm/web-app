@@ -36,7 +36,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
   const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    typeof payload?.categoryId === 'number' ? payload?.categoryId : null,
+    typeof payload?.[payloadId] === 'number' ? payload[payloadId] : null,
   );
 
   const [searchValue, setSearchValue] = useState('');
