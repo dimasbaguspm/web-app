@@ -36,7 +36,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
   const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null,
+    typeof payload?.[payloadId] === 'number' ? payload[payloadId] : null,
   );
 
   const [searchValue, setSearchValue] = useState('');
@@ -49,7 +49,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
     {
       search: searchValue,
       type: ['expense', 'income', 'transfer'].includes(payload.type as string)
-        ? [payload.type as 'expense' | 'income', 'transfer']
+        ? [payload.type as 'expense' | 'income' | 'transfer']
         : undefined,
     },
   );
