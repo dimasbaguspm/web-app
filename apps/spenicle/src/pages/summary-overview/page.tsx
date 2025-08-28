@@ -32,15 +32,50 @@ const SummaryPage = () => {
 
   const [summaryTotal, , { isFetching: isFetchingSummaryTotal }] =
     useApiSpenicleSummaryTotalQuery(dateFilters);
-  const [summaryCategories, , { isFetching: isFetchingSummaryCategories }] =
-    useApiSpenicleSummaryCategoriesQuery({ ...dateFilters, sortOrder: 'desc' });
-  const [summaryAccounts, , { isFetching: isFetchingSummaryAccounts }] =
-    useApiSpenicleSummaryAccountsQuery({ ...dateFilters, sortOrder: 'desc' });
+  const [
+    summaryExpenseCategories,
+    ,
+    { isFetching: isFetchingSummaryExpenseCategories },
+  ] = useApiSpenicleSummaryCategoriesQuery({
+    ...dateFilters,
+    sortOrder: 'desc',
+    type: ['expense'],
+  });
+  const [
+    summaryIncomeCategories,
+    ,
+    { isFetching: isFetchingSummaryIncomeCategories },
+  ] = useApiSpenicleSummaryCategoriesQuery({
+    ...dateFilters,
+    sortOrder: 'desc',
+    type: ['income'],
+  });
+
+  const [
+    summaryExpenseAccounts,
+    ,
+    { isFetching: isFetchingSummaryExpenseAccounts },
+  ] = useApiSpenicleSummaryAccountsQuery({
+    ...dateFilters,
+    sortOrder: 'desc',
+    type: 'expense',
+  });
+  const [
+    summaryIncomeAccounts,
+    ,
+    { isFetching: isFetchingSummaryIncomeAccounts },
+  ] = useApiSpenicleSummaryAccountsQuery({
+    ...dateFilters,
+    sortOrder: 'desc',
+    type: 'income',
+  });
 
   const isLoading =
     isFetchingSummaryTotal ||
-    isFetchingSummaryCategories ||
-    isFetchingSummaryAccounts;
+    isFetchingSummaryExpenseCategories ||
+    isFetchingSummaryIncomeCategories ||
+    isFetchingSummaryExpenseAccounts ||
+    isFetchingSummaryIncomeAccounts;
 
   return (
     <>
@@ -58,7 +93,7 @@ const SummaryPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <CategoriesExpenseChart
-                data={summaryCategories!}
+                data={summaryExpenseCategories!}
                 order={categoryExpenseSortOrder}
                 onReorderClick={() => {
                   setCategoryExpenseSortOrder((prev) =>
@@ -67,7 +102,7 @@ const SummaryPage = () => {
                 }}
               />
               <CategoriesIncomeChart
-                data={summaryCategories!}
+                data={summaryIncomeCategories!}
                 order={categoryIncomeSortOrder}
                 onReorderClick={() => {
                   setCategoryIncomeSortOrder((prev) =>
@@ -79,7 +114,7 @@ const SummaryPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <AccountsExpenseChart
-                data={summaryAccounts!}
+                data={summaryExpenseAccounts!}
                 order={accountExpenseSortOrder}
                 onReorderClick={() => {
                   setAccountExpenseSortOrder((prev) =>
@@ -88,7 +123,7 @@ const SummaryPage = () => {
                 }}
               />
               <AccountsIncomeChart
-                data={summaryAccounts!}
+                data={summaryIncomeAccounts!}
                 order={accountIncomeSortOrder}
                 onReorderClick={() => {
                   setAccountIncomeSortOrder((prev) =>
