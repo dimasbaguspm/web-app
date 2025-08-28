@@ -1,11 +1,11 @@
 import { Button, FilterChip, FilterChipGroup } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-import { useSummaryOverviewFilter } from '../hooks/use-summary-overview-filter';
+import { useSummaryFilter } from '../hooks/use-summary-filter';
 
 export const FilterControl: FC = () => {
   const { humanizedFilters, removeFilter, removeAllFilters } =
-    useSummaryOverviewFilter();
+    useSummaryFilter();
 
   return (
     <FilterChipGroup className="mb-4">

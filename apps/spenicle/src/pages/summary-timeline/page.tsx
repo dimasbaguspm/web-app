@@ -1,12 +1,14 @@
-import { PageContent } from '@dimasbaguspm/versaur';
+import { useApiSpenicleTransactionsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import dayjs from 'dayjs';
 
 const SummaryTimeline = () => {
-  return (
-    <PageContent>
-      <h1>Summary Timeline</h1>
-      <p>Compare some progress with another frequency</p>
-    </PageContent>
-  );
+  const [transactions] = useApiSpenicleTransactionsInfiniteQuery({
+    dateFrom: dayjs().startOf('month').toISOString(),
+    dateTo: dayjs().endOf('month').toISOString(),
+    pageSize: 10,
+  });
+
+  return <pre>{JSON.stringify(transactions, null, 2)}</pre>;
 };
 
 export default SummaryTimeline;

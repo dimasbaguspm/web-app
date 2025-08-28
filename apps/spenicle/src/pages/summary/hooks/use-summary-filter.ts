@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 
-export type SummaryOverviewFrequencyType =
+export type SummaryFrequencyType =
   | 'thisWeek'
   | 'lastWeek'
   | 'thisMonth'
@@ -10,15 +10,17 @@ export type SummaryOverviewFrequencyType =
   | 'thisYear'
   | 'allTheTime';
 
-export type SummaryOverviewFilterModel = {
+export type SummaryFilterModel = {
   range: {
     startDate: Dayjs;
     endDate: Dayjs;
   };
+  categoryIds?: number[];
+  accountIds?: number[];
 };
 
 // Helper function to convert frequency to date range
-const frequencyToDateRange = (frequency: SummaryOverviewFrequencyType) => {
+const frequencyToDateRange = (frequency: SummaryFrequencyType) => {
   let dateStart = dayjs().startOf('week');
   let dateEnd = dayjs().endOf('week');
 
@@ -54,8 +56,8 @@ const frequencyToDateRange = (frequency: SummaryOverviewFrequencyType) => {
 // Helper function to convert humanized label to frequency
 const humanizedLabelToFrequency = (
   label: string,
-): SummaryOverviewFrequencyType | null => {
-  const labelMap: Record<string, SummaryOverviewFrequencyType> = {
+): SummaryFrequencyType | null => {
+  const labelMap: Record<string, SummaryFrequencyType> = {
     'This Week': 'thisWeek',
     'Last Week': 'lastWeek',
     'This Month': 'thisMonth',
@@ -70,36 +72,27 @@ const humanizedLabelToFrequency = (
 const getHumanizedLabel = (startDate: Dayjs, endDate: Dayjs): string => {
   const today = dayjs();
 
-  // Check if it's this week
   if (
     startDate.isSame(today.startOf('week'), 'day') &&
     endDate.isSame(today.endOf('week'), 'day')
   ) {
     return 'This Week';
-  }
-  // Check if it's last week
-  else if (
+  } else if (
     startDate.isSame(today.subtract(1, 'week').startOf('week'), 'day') &&
     endDate.isSame(today.subtract(1, 'week').endOf('week'), 'day')
   ) {
     return 'Last Week';
-  }
-  // Check if it's this month
-  else if (
+  } else if (
     startDate.isSame(today.startOf('month'), 'day') &&
     endDate.isSame(today.endOf('month'), 'day')
   ) {
     return 'This Month';
-  }
-  // Check if it's last month
-  else if (
+  } else if (
     startDate.isSame(today.subtract(1, 'month').startOf('month'), 'day') &&
     endDate.isSame(today.subtract(1, 'month').endOf('month'), 'day')
   ) {
     return 'Last Month';
-  }
-  // Check if it's this year
-  else if (
+  } else if (
     startDate.isSame(today.startOf('year'), 'day') &&
     endDate.isSame(today.endOf('year'), 'day')
   ) {
@@ -114,12 +107,14 @@ const getHumanizedLabel = (startDate: Dayjs, endDate: Dayjs): string => {
   return 'Custom Range';
 };
 
-export const useSummaryOverviewFilter = () => {
+export const useSummaryFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [plainDateStart, plainDateEnd] = [
+  const [plainDateStart, plainDateEnd, plainCategoryIds, plainAccountIds] = [
     searchParams.get('dateStart'),
     searchParams.get('dateEnd'),
+    searchParams.getAll('categoryIds').map(Number),
+    searchParams.getAll('accountIds').map(Number),
   ];
 
   useEffect(() => {
@@ -129,25 +124,31 @@ export const useSummaryOverviewFilter = () => {
           startDate: dayjs().startOf('week'),
           endDate: dayjs().endOf('week'),
         },
+        categoryIds: plainCategoryIds,
+        accountIds: plainAccountIds,
       });
     }
   }, [plainDateStart, plainDateEnd]);
 
-  const [dateStart, dateEnd] = [
+  const [dateStart, dateEnd, categoryIds, accountIds] = [
     plainDateStart ? dayjs(plainDateStart) : dayjs().startOf('week'),
     plainDateEnd ? dayjs(plainDateEnd) : dayjs().endOf('week'),
+    searchParams.getAll('categoryIds').map(Number),
+    searchParams.getAll('accountIds').map(Number),
   ];
 
-  const appliedFilters: SummaryOverviewFilterModel = {
+  const appliedFilters: SummaryFilterModel = {
     range: {
       startDate: dateStart,
       endDate: dateEnd,
     },
+    categoryIds,
+    accountIds,
   };
 
   const humanizedFilters = (() => {
     const list: {
-      key: keyof SummaryOverviewFilterModel;
+      key: keyof SummaryFilterModel;
       label: string;
     }[] = [];
 
@@ -161,15 +162,31 @@ export const useSummaryOverviewFilter = () => {
       });
     }
 
+    if (appliedFilters.categoryIds && appliedFilters.categoryIds.length > 0) {
+      list.push({
+        key: 'categoryIds',
+        label: 'Categories',
+      });
+    }
+
+    if (appliedFilters.accountIds && appliedFilters.accountIds.length > 0) {
+      list.push({
+        key: 'accountIds',
+        label: 'Accounts',
+      });
+    }
+
     return list;
   })();
 
-  const setFilters = (newFilters: SummaryOverviewFilterModel) => {
+  const setFilters = (newFilters: SummaryFilterModel) => {
     const stringifiedFilters: Record<string, string | string[]> = {};
 
     const parsedNewFiltes = {
       dateStart: newFilters.range.startDate.toISOString(),
       dateEnd: newFilters.range.endDate.toISOString(),
+      categoryIds: newFilters.categoryIds,
+      accountIds: newFilters.accountIds,
     };
 
     Object.entries(parsedNewFiltes).forEach(([key, value]) => {
@@ -183,7 +200,7 @@ export const useSummaryOverviewFilter = () => {
     setSearchParams(stringifiedFilters, { replace: true });
   };
 
-  const removeFilter = (key: keyof SummaryOverviewFilterModel) => {
+  const removeFilter = (key: keyof SummaryFilterModel) => {
     if (key === 'range') {
       searchParams.delete('dateStart');
       searchParams.delete('dateEnd');
@@ -196,27 +213,12 @@ export const useSummaryOverviewFilter = () => {
   const removeAllFilters = () => {
     searchParams.delete('dateStart');
     searchParams.delete('dateEnd');
+    searchParams.delete('categoryIds');
+    searchParams.delete('accountIds');
     setSearchParams(searchParams, { replace: true });
   };
 
-  const setFiltersByFrequency = (frequency: SummaryOverviewFrequencyType) => {
-    const { startDate, endDate } = frequencyToDateRange(frequency);
-    setFilters({
-      range: {
-        startDate,
-        endDate,
-      },
-    });
-  };
-
-  const setFiltersByHumanizedLabel = (label: string) => {
-    const frequency = humanizedLabelToFrequency(label);
-    if (frequency) {
-      setFiltersByFrequency(frequency);
-    }
-  };
-
-  const getCurrentFrequency = (): SummaryOverviewFrequencyType | null => {
+  const getCurrentFrequency = (): SummaryFrequencyType | null => {
     if (!appliedFilters.range) return null;
 
     const { startDate, endDate } = appliedFilters.range;
@@ -228,10 +230,9 @@ export const useSummaryOverviewFilter = () => {
     appliedFilters,
     humanizedFilters,
     setFilters,
-    setFiltersByFrequency,
-    setFiltersByHumanizedLabel,
     getCurrentFrequency,
     removeFilter,
     removeAllFilters,
+    frequencyToDateRange,
   };
 };
