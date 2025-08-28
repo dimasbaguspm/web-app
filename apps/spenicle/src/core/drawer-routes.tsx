@@ -10,13 +10,15 @@ import { DetailTransactionDrawer } from '../drawers/detail-transaction-drawer/dr
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
 import { EditTransactionDrawer } from '../drawers/edit-transaction-drawer/drawer';
-import { FilterSummaryOverviewDrawer } from '../drawers/filter-summary-overview-drawer/drawer';
+import { FilterSummaryDrawer } from '../drawers/filter-summary-drawer/drawer';
 import { FilterTransactionDrawer } from '../drawers/filter-transaction-drawer/drawer';
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
 import { NewTransactionDrawer } from '../drawers/new-transaction-drawer/drawer';
 import { SelectAccountDrawer } from '../drawers/select-account-drawer/drawer';
 import { SelectCategoryDrawer } from '../drawers/select-category-drawer/drawer';
+import { SelectMultipleAccountDrawer } from '../drawers/select-multiple-account-drawer/drawer';
+import { SelectMultipleCategoryDrawer } from '../drawers/select-multiple-category-drawer/drawer';
 
 interface DrawerParams {
   appId?: string;
@@ -94,6 +96,17 @@ export const DrawerRoutes: FC = () => {
             returnToDrawerId={state.returnToDrawerId!}
           />
         )}
+      {is(DRAWER_ROUTES.SELECT_MULTIPLE_ACCOUNT) &&
+        hasState('payload') &&
+        hasState('returnToDrawer') &&
+        hasParam('payloadId') && (
+          <SelectMultipleAccountDrawer
+            payloadId={params.payloadId!}
+            payload={state.payload!}
+            returnToDrawer={state.returnToDrawer!}
+            returnToDrawerId={state.returnToDrawerId!}
+          />
+        )}
       {is(DRAWER_ROUTES.SELECT_CATEGORY) &&
         hasState('payload') &&
         hasState('returnToDrawer') &&
@@ -105,8 +118,19 @@ export const DrawerRoutes: FC = () => {
             returnToDrawerId={state.returnToDrawerId!}
           />
         )}
-      {is(DRAWER_ROUTES.FILTER_SUMMARY_OVERVIEW) && (
-        <FilterSummaryOverviewDrawer />
+      {is(DRAWER_ROUTES.SELECT_MULTIPLE_CATEGORY) &&
+        hasState('payload') &&
+        hasState('returnToDrawer') &&
+        hasParam('payloadId') && (
+          <SelectMultipleCategoryDrawer
+            payloadId={params.payloadId!}
+            payload={state.payload!}
+            returnToDrawer={state.returnToDrawer!}
+            returnToDrawerId={state.returnToDrawerId!}
+          />
+        )}
+      {is(DRAWER_ROUTES.FILTER_SUMMARY) && (
+        <FilterSummaryDrawer payload={state?.payload} />
       )}
     </Drawer>
   );
