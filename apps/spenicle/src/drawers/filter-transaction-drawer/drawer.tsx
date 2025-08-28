@@ -8,10 +8,10 @@ import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
+  ChipSingleInput,
   Drawer,
   FormLayout,
   LoadingIndicator,
-  SegmentSingleInput,
   SelectInput,
 } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
@@ -75,27 +75,21 @@ export const FilterTransactionDrawer: FC = () => {
                 <Controller
                   name="type"
                   control={control}
-                  render={({ field, formState }) => (
-                    <SegmentSingleInput
-                      {...field}
-                      label="Type"
-                      placeholder="Select a type"
-                      size="sm"
-                      error={formState.errors.type?.message}
-                    >
-                      <SegmentSingleInput.Option value="">
-                        None
-                      </SegmentSingleInput.Option>
-                      <SegmentSingleInput.Option value="expense">
+                  render={({ field }) => (
+                    <ChipSingleInput {...field} variant="primary" label="Type">
+                      <ChipSingleInput.Option value="">
+                        All
+                      </ChipSingleInput.Option>
+                      <ChipSingleInput.Option value="expense">
                         Expense
-                      </SegmentSingleInput.Option>
-                      <SegmentSingleInput.Option value="income">
+                      </ChipSingleInput.Option>
+                      <ChipSingleInput.Option value="income">
                         Income
-                      </SegmentSingleInput.Option>
-                      <SegmentSingleInput.Option value="transfer">
+                      </ChipSingleInput.Option>
+                      <ChipSingleInput.Option value="transfer">
                         Transfer
-                      </SegmentSingleInput.Option>
-                    </SegmentSingleInput>
+                      </ChipSingleInput.Option>
+                    </ChipSingleInput>
                   )}
                 />
               </FormLayout.Column>

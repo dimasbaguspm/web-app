@@ -1,6 +1,7 @@
 import { CategoryModel } from '@dimasbaguspm/interfaces';
+import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
-import { Avatar, Card } from '@dimasbaguspm/versaur';
+import { Avatar, Badge, BadgeGroup, Card } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 interface CategoryCardProps {
@@ -9,6 +10,7 @@ interface CategoryCardProps {
 }
 
 export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick }) => {
+  const { variant, type } = formatSpenicleCategory(category);
   const handleClick = () => {
     onClick?.(category);
   };
@@ -16,8 +18,13 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick }) => {
   return (
     <Card
       onClick={handleClick}
-      avatar={<Avatar shape="square">{nameToInitials(category.name)}</Avatar>}
+      avatar={<Avatar shape="rounded">{nameToInitials(category.name)}</Avatar>}
       title={category.name}
+      badge={
+        <BadgeGroup>
+          <Badge color={variant}>{type}</Badge>
+        </BadgeGroup>
+      }
     />
   );
 };

@@ -83,6 +83,7 @@ export const FilterSummaryDrawer: FC = () => {
                     <option value="thisMonth">This Month</option>
                     <option value="lastMonth">Last Month</option>
                     <option value="thisYear">This Year</option>
+                    <option value="allTheTime">All Time</option>
                   </SelectInput>
                 )}
               />
