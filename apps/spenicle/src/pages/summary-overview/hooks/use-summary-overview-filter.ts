@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 
-export type FrequencyType =
+export type SummaryOverviewFrequencyType =
   | 'thisWeek'
   | 'lastWeek'
   | 'thisMonth'
@@ -10,7 +10,7 @@ export type FrequencyType =
   | 'thisYear'
   | 'allTheTime';
 
-export type SummaryFilterModel = {
+export type SummaryOverviewFilterModel = {
   range: {
     startDate: Dayjs;
     endDate: Dayjs;
@@ -18,7 +18,7 @@ export type SummaryFilterModel = {
 };
 
 // Helper function to convert frequency to date range
-const frequencyToDateRange = (frequency: FrequencyType) => {
+const frequencyToDateRange = (frequency: SummaryOverviewFrequencyType) => {
   let dateStart = dayjs().startOf('week');
   let dateEnd = dayjs().endOf('week');
 
@@ -52,8 +52,10 @@ const frequencyToDateRange = (frequency: FrequencyType) => {
 };
 
 // Helper function to convert humanized label to frequency
-const humanizedLabelToFrequency = (label: string): FrequencyType | null => {
-  const labelMap: Record<string, FrequencyType> = {
+const humanizedLabelToFrequency = (
+  label: string,
+): SummaryOverviewFrequencyType | null => {
+  const labelMap: Record<string, SummaryOverviewFrequencyType> = {
     'This Week': 'thisWeek',
     'Last Week': 'lastWeek',
     'This Month': 'thisMonth',
@@ -112,7 +114,7 @@ const getHumanizedLabel = (startDate: Dayjs, endDate: Dayjs): string => {
   return 'Custom Range';
 };
 
-export const useSummaryFilter = () => {
+export const useSummaryOverviewFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [plainDateStart, plainDateEnd] = [
@@ -136,7 +138,7 @@ export const useSummaryFilter = () => {
     plainDateEnd ? dayjs(plainDateEnd) : dayjs().endOf('week'),
   ];
 
-  const appliedFilters: SummaryFilterModel = {
+  const appliedFilters: SummaryOverviewFilterModel = {
     range: {
       startDate: dateStart,
       endDate: dateEnd,
@@ -145,7 +147,7 @@ export const useSummaryFilter = () => {
 
   const humanizedFilters = (() => {
     const list: {
-      key: keyof SummaryFilterModel;
+      key: keyof SummaryOverviewFilterModel;
       label: string;
     }[] = [];
 
@@ -162,7 +164,7 @@ export const useSummaryFilter = () => {
     return list;
   })();
 
-  const setFilters = (newFilters: SummaryFilterModel) => {
+  const setFilters = (newFilters: SummaryOverviewFilterModel) => {
     const stringifiedFilters: Record<string, string | string[]> = {};
 
     const parsedNewFiltes = {
@@ -181,7 +183,7 @@ export const useSummaryFilter = () => {
     setSearchParams(stringifiedFilters, { replace: true });
   };
 
-  const removeFilter = (key: keyof SummaryFilterModel) => {
+  const removeFilter = (key: keyof SummaryOverviewFilterModel) => {
     if (key === 'range') {
       searchParams.delete('dateStart');
       searchParams.delete('dateEnd');
@@ -197,7 +199,7 @@ export const useSummaryFilter = () => {
     setSearchParams(searchParams, { replace: true });
   };
 
-  const setFiltersByFrequency = (frequency: FrequencyType) => {
+  const setFiltersByFrequency = (frequency: SummaryOverviewFrequencyType) => {
     const { startDate, endDate } = frequencyToDateRange(frequency);
     setFilters({
       range: {
@@ -214,7 +216,7 @@ export const useSummaryFilter = () => {
     }
   };
 
-  const getCurrentFrequency = (): FrequencyType | null => {
+  const getCurrentFrequency = (): SummaryOverviewFrequencyType | null => {
     if (!appliedFilters.range) return null;
 
     const { startDate, endDate } = appliedFilters.range;

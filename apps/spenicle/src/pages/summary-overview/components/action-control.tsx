@@ -9,7 +9,7 @@ export const ActionControl: FC = () => {
   const { openDrawer } = useDrawerRoute();
 
   const handleOnFilterClick = () => {
-    openDrawer(DRAWER_ROUTES.FILTER_SUMMARY);
+    openDrawer(DRAWER_ROUTES.FILTER_SUMMARY_OVERVIEW);
   };
 
   return (

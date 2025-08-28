@@ -15,18 +15,18 @@ import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useSummaryFilter } from '../../pages/summary-overview/hooks/use-summary-filter';
+import { useSummaryOverviewFilter } from '../../pages/summary-overview/hooks/use-summary-overview-filter';
 
 import { FilterSummaryFormSchema } from './types';
 
-export const FilterSummaryDrawer: FC = () => {
+export const FilterSummaryOverviewDrawer: FC = () => {
   const { isDesktop } = useWindowResize();
   const {
     appliedFilters,
     setFilters,
     setFiltersByFrequency,
     getCurrentFrequency,
-  } = useSummaryFilter();
+  } = useSummaryOverviewFilter();
   const { closeDrawer } = useDrawerRoute();
 
   const { control, handleSubmit, watch } = useForm<FilterSummaryFormSchema>({

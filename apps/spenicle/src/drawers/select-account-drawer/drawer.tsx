@@ -36,7 +36,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
   const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(
-    null,
+    typeof payload?.accountId === 'number' ? payload?.accountId : null,
   );
   const [searchValue, setSearchValue] = useState('');
 

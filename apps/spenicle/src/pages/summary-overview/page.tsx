@@ -14,10 +14,10 @@ import { CategoriesIncomeChart } from './components/categories-income-chart';
 import { FilterControl } from './components/filter-control';
 import { OverviewChart } from './components/overview-chart';
 import { useSortOrder } from './hooks/use-sort-order';
-import { useSummaryFilter } from './hooks/use-summary-filter';
+import { useSummaryOverviewFilter } from './hooks/use-summary-overview-filter';
 
 const SummaryPage = () => {
-  const { appliedFilters } = useSummaryFilter();
+  const { appliedFilters } = useSummaryOverviewFilter();
 
   const [categoryExpenseSortOrder, setCategoryExpenseSortOrder] =
     useSortOrder();
