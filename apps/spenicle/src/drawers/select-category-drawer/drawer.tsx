@@ -1,8 +1,11 @@
 import { useApiSpenicleCategoriesPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
+import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
+  Badge,
+  BadgeGroup,
   Button,
   ButtonGroup,
   Drawer,
@@ -45,6 +48,9 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
   const [categories, , { isFetching }] = useApiSpenicleCategoriesPaginatedQuery(
     {
       search: searchValue,
+      type: ['expense', 'income', 'transfer'].includes(payload.type as string)
+        ? [payload.type as 'expense' | 'income', 'transfer']
+        : undefined,
     },
   );
 
@@ -91,20 +97,34 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
 
         <If condition={[categories?.items.length, !isFetching]}>
           <ul>
-            {categories?.items.map((category) => (
-              <li key={category.id}>
-                <SelectableSingleInput
-                  label={
-                    <Text fontSize="base" fontWeight="semibold">
-                      {category.name}
-                    </Text>
-                  }
-                  value={category.id.toString()}
-                  checked={category.id === selectedCategoryId}
-                  onChange={() => setSelectedCategoryId(category.id)}
-                />
-              </li>
-            ))}
+            {categories?.items.map((category) => {
+              const { variant, type } = formatSpenicleCategory(category);
+              return (
+                <li key={category.id}>
+                  <SelectableSingleInput
+                    label={
+                      <div className="flex flex-col w-auto">
+                        <Text
+                          className="mb-2"
+                          fontSize="base"
+                          fontWeight="semibold"
+                        >
+                          {category.name}
+                        </Text>
+                        <BadgeGroup>
+                          <Badge color={variant} size="sm">
+                            {type}
+                          </Badge>
+                        </BadgeGroup>
+                      </div>
+                    }
+                    value={category.id.toString()}
+                    checked={category.id === selectedCategoryId}
+                    onChange={() => setSelectedCategoryId(category.id)}
+                  />
+                </li>
+              );
+            })}
           </ul>
         </If>
 

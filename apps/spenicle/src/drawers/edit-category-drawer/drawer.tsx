@@ -58,6 +58,7 @@ export const EditCategoryDrawer: FC<Props> = ({ categoryId }) => {
       id: categoryId,
       name: data.name,
       note: data.notes,
+      type: data.type,
     });
 
     showSnack('success', 'Category updated successfully');

@@ -31,8 +31,15 @@ export const NewCategoryDrawer: FC = () => {
   const { isDesktop } = useWindowResize();
 
   const [createCategory, , { isPending }] = useApiSpenicleCreateCategory();
-  const { register, handleSubmit, formState, control, getFieldState } =
-    useForm();
+  const { register, handleSubmit, formState, control, getFieldState } = useForm(
+    {
+      defaultValues: {
+        name: '',
+        type: 'expense',
+        notes: '',
+      },
+    },
+  );
 
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
     await createCategory({

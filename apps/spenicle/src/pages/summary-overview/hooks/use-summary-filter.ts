@@ -7,7 +7,8 @@ export type FrequencyType =
   | 'lastWeek'
   | 'thisMonth'
   | 'lastMonth'
-  | 'thisYear';
+  | 'thisYear'
+  | 'allTheTime';
 
 export type SummaryFilterModel = {
   range: {
@@ -42,6 +43,9 @@ const frequencyToDateRange = (frequency: FrequencyType) => {
       dateStart = dayjs().startOf('year');
       dateEnd = dayjs().endOf('year');
       break;
+    case 'allTheTime':
+      dateStart = dayjs('1970-01-01');
+      dateEnd = dayjs();
   }
 
   return { startDate: dateStart, endDate: dateEnd };
@@ -98,6 +102,11 @@ const getHumanizedLabel = (startDate: Dayjs, endDate: Dayjs): string => {
     endDate.isSame(today.endOf('year'), 'day')
   ) {
     return 'This Year';
+  } else if (
+    startDate.isSame(dayjs('1970-01-01'), 'day') &&
+    endDate.isSame(today, 'day')
+  ) {
+    return 'All Time';
   }
 
   return 'Custom Range';
