@@ -612,12 +612,13 @@ export interface operations {
   getCategory: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
-        userId?: number[];
-        groupId?: number[];
+        type?: ('expense' | 'income' | 'transfer')[];
+        pageNumber?: string | number;
+        pageSize?: string | number;
+        userId?: (number | string)[];
+        groupId?: (number | string)[];
         sortBy?: 'created_at' | 'updated_at';
         sortOrder?: 'asc' | 'desc';
       };
@@ -637,6 +638,7 @@ export interface operations {
               id: number;
               profileId: number;
               name: string;
+              type: 'expense' | 'income' | 'transfer';
               note: string | null;
               userId: number;
               groupId: number | null;
@@ -656,6 +658,7 @@ export interface operations {
               id: number;
               profileId: number;
               name: string;
+              type: 'expense' | 'income' | 'transfer';
               note: string | null;
               userId: number;
               groupId: number | null;
@@ -675,6 +678,7 @@ export interface operations {
               id: number;
               profileId: number;
               name: string;
+              type: 'expense' | 'income' | 'transfer';
               note: string | null;
               userId: number;
               groupId: number | null;
@@ -704,16 +708,19 @@ export interface operations {
       content: {
         'application/json': {
           name: string;
+          type: 'expense' | 'income' | 'transfer';
           note: string | null;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name: string;
+          type: 'expense' | 'income' | 'transfer';
           note: string | null;
           metadata?: unknown;
         };
         'text/plain': {
           name: string;
+          type: 'expense' | 'income' | 'transfer';
           note: string | null;
           metadata?: unknown;
         };
@@ -729,6 +736,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -742,6 +750,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -755,6 +764,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -773,7 +783,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -788,6 +798,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -801,6 +812,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -814,6 +826,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -859,16 +872,19 @@ export interface operations {
       content: {
         'application/json': {
           name?: string;
+          type?: 'expense' | 'income' | 'transfer';
           note?: string | null;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name?: string;
+          type?: 'expense' | 'income' | 'transfer';
           note?: string | null;
           metadata?: unknown;
         };
         'text/plain': {
           name?: string;
+          type?: 'expense' | 'income' | 'transfer';
           note?: string | null;
           metadata?: unknown;
         };
@@ -884,6 +900,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -897,6 +914,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -910,6 +928,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            type: 'expense' | 'income' | 'transfer';
             note: string | null;
             userId: number;
             groupId: number | null;
@@ -1341,6 +1360,14 @@ export interface operations {
         categoryId?: number[];
         accountId?: number[];
         type?: ('income' | 'expense' | 'transfer')[];
+        sortBy?:
+          | 'date'
+          | 'net'
+          | 'income'
+          | 'expense'
+          | 'transfer'
+          | 'totalTransactions';
+        sortOrder?: 'asc' | 'desc';
       };
       header?: never;
       path?: never;
@@ -1389,6 +1416,13 @@ export interface operations {
       query: {
         from: string;
         to: string;
+        type?: 'income' | 'expense';
+        sortBy?:
+          | 'accountName'
+          | 'net'
+          | 'income'
+          | 'expense'
+          | 'totalTransactions';
         sortOrder?: 'asc' | 'desc';
       };
       header?: never;
@@ -1435,6 +1469,13 @@ export interface operations {
       query: {
         from: string;
         to: string;
+        type?: ('income' | 'expense' | 'transfer')[];
+        sortBy?:
+          | 'categoryName'
+          | 'net'
+          | 'income'
+          | 'expense'
+          | 'totalTransactions';
         sortOrder?: 'asc' | 'desc';
       };
       header?: never;
@@ -1482,8 +1523,9 @@ export interface operations {
         from: string;
         to: string;
         search?: string;
-        categoryId?: number[];
-        accountId?: number[];
+        type?: ('income' | 'expense' | 'transfer')[];
+        categoryId?: (number | string)[];
+        accountId?: (number | string)[];
       };
       header?: never;
       path?: never;

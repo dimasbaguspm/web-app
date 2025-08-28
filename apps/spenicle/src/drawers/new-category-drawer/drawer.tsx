@@ -4,14 +4,26 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import {
   Button,
   ButtonGroup,
+  ChipSingleInput,
   Drawer,
   FormLayout,
+  Icon,
   TextAreaInput,
   TextInput,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
+import {
+  TrendingDownIcon,
+  TrendingUpDownIcon,
+  TrendingUpIcon,
+} from 'lucide-react';
 import { FC } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  Controller,
+  FieldValues,
+  SubmitHandler,
+  useForm,
+} from 'react-hook-form';
 
 export const NewCategoryDrawer: FC = () => {
   const { closeDrawer } = useDrawerRoute();
@@ -19,12 +31,14 @@ export const NewCategoryDrawer: FC = () => {
   const { isDesktop } = useWindowResize();
 
   const [createCategory, , { isPending }] = useApiSpenicleCreateCategory();
-  const { register, handleSubmit, formState, getFieldState } = useForm();
+  const { register, handleSubmit, formState, control, getFieldState } =
+    useForm();
 
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
     await createCategory({
       name: data.name,
       note: data.notes,
+      type: data.type,
     });
     showSnack('success', 'Category created successfully');
     closeDrawer();
@@ -50,6 +64,31 @@ export const NewCategoryDrawer: FC = () => {
                   required: 'Name is required',
                 })}
                 error={getFieldState('name', formState).error?.message}
+              />
+            </FormLayout.Column>
+            <FormLayout.Column span={12}>
+              <Controller
+                control={control}
+                name="type"
+                rules={{
+                  required: 'Type is required',
+                }}
+                render={({ field }) => (
+                  <ChipSingleInput {...field} variant="primary" label="Type">
+                    <ChipSingleInput.Option value="expense">
+                      <Icon as={TrendingDownIcon} color="inherit" size="sm" />
+                      Expense
+                    </ChipSingleInput.Option>
+                    <ChipSingleInput.Option value="income">
+                      <Icon as={TrendingUpIcon} color="inherit" size="sm" />
+                      Income
+                    </ChipSingleInput.Option>
+                    <ChipSingleInput.Option value="transfer">
+                      <Icon as={TrendingUpDownIcon} color="inherit" size="sm" />
+                      Transfer
+                    </ChipSingleInput.Option>
+                  </ChipSingleInput>
+                )}
               />
             </FormLayout.Column>
             <FormLayout.Column span={12}>
