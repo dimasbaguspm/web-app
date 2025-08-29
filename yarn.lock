@@ -1358,11 +1358,13 @@ __metadata:
     "@dimasbaguspm/eslint": "workspace:*"
     "@dimasbaguspm/interfaces": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
+    "@types/lodash": "npm:^4.17.20"
   peerDependencies:
     "@dimasbaguspm/constants": "workspace:*"
     "@dimasbaguspm/providers": "workspace:*"
     "@dimasbaguspm/versaur": 0.0.30
     "@tanstack/react-query": 5.85.5
+    lodash: 4.17.21
   languageName: unknown
   linkType: soft
 

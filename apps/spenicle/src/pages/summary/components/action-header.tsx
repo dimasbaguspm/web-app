@@ -69,13 +69,13 @@ export const ActionHeader: FC = () => {
           <Icon as={TargetIcon} color="inherit" size="sm" />
           {isDesktop && 'Overview'}
         </ChipSingleInput.Option>
-        <ChipSingleInput.Option value="calendar">
-          <Icon as={CalendarCheck2Icon} color="inherit" size="sm" />
-          {isDesktop && 'Calendar'}
-        </ChipSingleInput.Option>
         <ChipSingleInput.Option value="timeline">
           <Icon as={ChartBarBigIcon} color="inherit" size="sm" />
           {isDesktop && 'Timeline'}
+        </ChipSingleInput.Option>
+        <ChipSingleInput.Option value="calendar">
+          <Icon as={CalendarCheck2Icon} color="inherit" size="sm" />
+          {isDesktop && 'Calendar'}
         </ChipSingleInput.Option>
       </ChipSingleInput>
     </div>
