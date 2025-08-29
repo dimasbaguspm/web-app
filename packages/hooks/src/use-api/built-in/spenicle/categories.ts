@@ -6,7 +6,9 @@ import {
   UpdateCategoryModel,
 } from '@dimasbaguspm/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
+import { uniqBy } from 'lodash';
 
+import { BASE_QUERY_KEYS } from '../../constants';
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
 import {
@@ -102,4 +104,32 @@ export const useApiSpenicleUpdateCategory = () => {
       );
     },
   });
+};
+
+export const useApiSpenicleCachedCategories = (): CategoryModel[] => {
+  const queryClient = useQueryClient();
+
+  const cacheSingleQuery = queryClient.getQueriesData<CategoryModel>({
+    queryKey: [...BASE_QUERY_KEYS.SPENICLE_CATEGORIES, 'by-id'],
+    exact: false,
+    type: 'all',
+  });
+  const cachePaginatedQuery = queryClient.getQueriesData<CategoriesPageModel>({
+    queryKey: [...BASE_QUERY_KEYS.SPENICLE_CATEGORIES, 'paginated'],
+    exact: false,
+    type: 'all',
+  });
+  const cacheInfiniteQuery = queryClient.getQueriesData<CategoryModel>({
+    queryKey: [...BASE_QUERY_KEYS.SPENICLE_CATEGORIES, 'infinite'],
+    exact: false,
+    type: 'all',
+  });
+
+  const cache: CategoryModel[] = [
+    ...cacheSingleQuery.map(([, account]) => account!),
+    ...cachePaginatedQuery.flatMap(([, page]) => page?.items ?? []),
+    ...cacheInfiniteQuery.map(([, account]) => account!),
+  ];
+
+  return uniqBy(cache, 'id').filter(Boolean);
 };

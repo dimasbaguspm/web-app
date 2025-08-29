@@ -21,7 +21,8 @@ export interface UseApiQueryOptions<Data, Query, TError> {
   enabled?: boolean;
   retry?: boolean;
   silentError?: boolean;
-  initialData?: Data | null;
+  initialData?: (() => Data | undefined) | null;
+  initialDataUpdatedAt?: number;
   onSuccess?: (data: Data) => void;
   onError?: (error: TError) => void;
   staleTime?: number;
@@ -70,6 +71,7 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
     headers = {},
     gcTime,
     initialData = null,
+    initialDataUpdatedAt,
     onSuccess,
     onError,
     select,
@@ -120,6 +122,7 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
     retry,
     gcTime,
     initialData,
+    initialDataUpdatedAt,
     select,
     meta: {
       silentError,

@@ -6,7 +6,9 @@ import {
   UpdateAccountModel,
 } from '@dimasbaguspm/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
+import { uniqBy } from 'lodash';
 
+import { BASE_QUERY_KEYS } from '../../constants';
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
 import {
@@ -50,11 +52,23 @@ export const useApiSpenicleAccountQuery = (
   id: number,
   options?: Partial<UseApiQueryOptions<AccountModel, unknown, unknown>>,
 ) => {
+  const queryClient = useQueryClient();
+
   return useApiQuery<AccountModel, unknown>({
     ...options,
     base: 'SPENICLE',
     queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_BY_ID(id),
     path: SPENICLE_URL.ACCOUNT.BY_ID(id),
+    initialData: () => {
+      return queryClient
+        .getQueryData<AccountsPageModel>(
+          QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED().slice(0, 3),
+        )
+        ?.items.find((account) => account.id === id);
+    },
+    initialDataUpdatedAt: queryClient.getQueryState(
+      QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED().slice(0, 3),
+    )?.dataUpdatedAt,
   });
 };
 
@@ -102,4 +116,32 @@ export const useApiSpenicleUpdateAccount = () => {
       );
     },
   });
+};
+
+export const useApiSpenicleCachedAccounts = (): AccountModel[] => {
+  const queryClient = useQueryClient();
+
+  const cacheSingleQuery = queryClient.getQueriesData<AccountModel>({
+    queryKey: [...BASE_QUERY_KEYS.SPENICLE_ACCOUNTS, 'by-id'],
+    exact: false,
+    type: 'all',
+  });
+  const cachePaginatedQuery = queryClient.getQueriesData<AccountsPageModel>({
+    queryKey: [...BASE_QUERY_KEYS.SPENICLE_ACCOUNTS, 'paginated'],
+    exact: false,
+    type: 'all',
+  });
+  const cacheInfiniteQuery = queryClient.getQueriesData<AccountModel>({
+    queryKey: [...BASE_QUERY_KEYS.SPENICLE_ACCOUNTS, 'infinite'],
+    exact: false,
+    type: 'all',
+  });
+
+  const cache: AccountModel[] = [
+    ...cacheSingleQuery.map(([, account]) => account!),
+    ...cachePaginatedQuery.flatMap(([, page]) => page?.items ?? []),
+    ...cacheInfiniteQuery.map(([, account]) => account!),
+  ];
+
+  return uniqBy(cache, 'id').filter(Boolean);
 };

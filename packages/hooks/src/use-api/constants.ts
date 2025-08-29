@@ -10,4 +10,16 @@ export const BASE_URL = {
   LOGIN: LOGIN_BASE_URL,
 };
 
+export const BASE_QUERY_KEYS = {
+  HI_USERS: ['hi', 'users'],
+  HI_APPS: ['hi', 'apps'],
+  HI_APP_PROFILES: ['hi', 'app-profiles'],
+  HI_GROUPS: ['hi', 'groups'],
+  HI_GROUP_MEMBERS: ['hi', 'group-members'],
+  SPENICLE_ACCOUNTS: ['spenicle', 'accounts'],
+  SPENICLE_CATEGORIES: ['spenicle', 'categories'],
+  SPENICLE_TRANSACTIONS: ['spenicle', 'transactions'],
+  SPENICLE_SUMMARY: ['spenicle', 'summary'],
+};
+
 export type BaseUrl = keyof typeof BASE_URL;
