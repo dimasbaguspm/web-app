@@ -37,12 +37,15 @@ export const TabsDate: FC<TabsDateProps> = ({
           <Tabs.Trigger
             key={date.toString()}
             value={formatDate(date.toISOString(), DateFormat.ISO_DATE)}
-            className="flex flex-col"
+            className="flex flex-col hover:text-primary"
           >
-            <Text fontSize="xs" color={isActive ? 'primary' : 'gray'}>
+            <Text
+              fontSize="xs"
+              align="center"
+              color={isActive ? 'primary' : 'inherit'}
+            >
               {formatDate(date.toISOString(), DateFormat.SHORT_DAY)}
             </Text>
-            <br />
             {formatDate(date.toISOString(), DateFormat.NUMERIC_DAY)}
           </Tabs.Trigger>
         );
