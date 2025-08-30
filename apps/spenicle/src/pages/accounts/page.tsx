@@ -17,12 +17,18 @@ import { PlusIcon } from 'lucide-react';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 import { AccountCard } from './components';
+import { ActionsControl } from './components/actions-control';
+import { FilterControl } from './components/filter-control';
+import { useAccountFilter } from './hooks/use-account-filter';
 
 const AccountsPage = () => {
   const { openDrawer } = useDrawerRoute();
+  const { appliedFilters } = useAccountFilter();
 
   const [accounts, , { isLoading }] = useApiSpenicleAccountsPaginatedQuery({
     pageSize: 15,
+    search: appliedFilters.q,
+    type: appliedFilters.type,
   });
 
   const handleOpenDrawer = () => {
@@ -62,6 +68,8 @@ const AccountsPage = () => {
         </If>
 
         <If condition={[accounts, accounts?.items]}>
+          <ActionsControl />
+          <FilterControl />
           <div className="space-y-4">
             <ul className="grid grid-cols-1">
               {accounts?.items.map((account) => (
