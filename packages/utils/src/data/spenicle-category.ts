@@ -13,6 +13,7 @@ export const formatSpenicleCategory = (
   const variant = isExpense ? 'primary' : isIncome ? 'secondary' : 'tertiary';
 
   return {
+    name: category?.name,
     capitalizedName: capitalize(category?.name),
     createdAt: category?.createdAt
       ? formatDate(category?.createdAt, DateFormat.LONG_DATE)

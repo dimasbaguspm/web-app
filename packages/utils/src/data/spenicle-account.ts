@@ -11,8 +11,9 @@ export const formatSpenicleAccount = (
   const variant = isExpense ? 'primary' : 'secondary';
 
   return {
+    name: account?.name,
     capitalizedName: capitalize(account?.name),
-    formattedAmount: formatPrice(account?.amount),
+    formattedAmount: formatPrice(account?.amount ?? 0),
     createdAt: account?.createdAt
       ? formatDate(account?.createdAt, 'longDate')
       : '',
