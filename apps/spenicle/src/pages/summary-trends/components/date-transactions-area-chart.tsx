@@ -4,7 +4,7 @@ import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
 import { Text } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { capitalize } from 'lodash';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import {
   Area,
   AreaChart,
@@ -16,6 +16,11 @@ import {
   YAxis,
 } from 'recharts';
 
+import {
+  SummaryFrequencyType,
+  useSummaryFilter,
+} from '../../summary/hooks/use-summary-filter';
+
 interface DateTransactionsAreaChartProps {
   data: SummaryTransactionsModel;
 }
@@ -23,24 +28,31 @@ interface DateTransactionsAreaChartProps {
 export const DateTransactionsAreaChart: FC<DateTransactionsAreaChartProps> = ({
   data,
 }) => {
-  const chartData = useMemo(
-    () =>
-      data.map((item) => ({
-        ...item,
-        date: formatDate(item.date, DateFormat.COMPACT_DATE),
-      })),
-    [data],
-  );
+  const { frequency } = useSummaryFilter();
+
+  const xAxisDateFormat =
+    frequency === SummaryFrequencyType.allTheTime
+      ? DateFormat.YEAR
+      : frequency === SummaryFrequencyType.thisYear
+        ? DateFormat.MONTH
+        : DateFormat.COMPACT_DATE;
+
+  const tooltipDateFormat =
+    frequency === SummaryFrequencyType.allTheTime
+      ? DateFormat.YEAR
+      : frequency === SummaryFrequencyType.thisYear
+        ? DateFormat.MONTH
+        : DateFormat.FULL_DATE;
 
   return (
-    <div className="w-full h-[65vh] md:h-[55vh]">
+    <div className="w-full h-80">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
-          data={chartData}
+          data={data}
           margin={{
             top: 0,
             right: 0,
-            left: 0,
+            left: -20,
             bottom: 35,
           }}
         >
@@ -50,6 +62,7 @@ export const DateTransactionsAreaChart: FC<DateTransactionsAreaChartProps> = ({
             tick={{ fontSize: 10 }}
             interval="preserveStartEnd"
             minTickGap={20}
+            tickFormatter={(value) => formatDate(value, xAxisDateFormat)}
           />
           <YAxis
             tick={{ fontSize: 10 }}
@@ -67,7 +80,7 @@ export const DateTransactionsAreaChart: FC<DateTransactionsAreaChartProps> = ({
                 return (
                   <div className="bg-white p-2 border border-border rounded shadow-lg max-w-48">
                     <Text color="black" fontSize="sm">
-                      {formatDate(dayjs(label), DateFormat.FULL_DATE)}
+                      {formatDate(dayjs(label), tooltipDateFormat)}
                     </Text>
                     <div className="flex flex-col gap-1 mt-1">
                       {payload.map((entry) => (
@@ -86,29 +99,32 @@ export const DateTransactionsAreaChart: FC<DateTransactionsAreaChartProps> = ({
             }}
           />
           <Area
+            isAnimationActive={false}
             type="monotone"
             dataKey="income"
             stackId="1"
             stroke="#81b29a"
             fill="#81b29a"
-            fillOpacity={0.6}
+            fillOpacity={0.3}
           />
           <Area
+            isAnimationActive={false}
             type="monotone"
             dataKey="expense"
             stackId="2"
             stroke="#e07a5f"
             fill="#e07a5f"
-            fillOpacity={0.4}
+            fillOpacity={0.3}
           />
+
           <Brush
             dataKey="date"
             height={40}
             stroke="#84a5c0"
             fill="#ffffff"
+            alwaysShowText={false}
             tickFormatter={(value) => {
-              const date = new Date(value);
-              return formatDate(date, DateFormat.COMPACT_DATE);
+              return formatDate(value, DateFormat.COMPACT_DATE);
             }}
           />
         </AreaChart>

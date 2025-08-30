@@ -2,13 +2,15 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 
-export type SummaryFrequencyType =
-  | 'thisWeek'
-  | 'lastWeek'
-  | 'thisMonth'
-  | 'lastMonth'
-  | 'thisYear'
-  | 'allTheTime';
+export const enum SummaryFrequencyType {
+  thisWeek = 'thisWeek',
+  lastWeek = 'lastWeek',
+  thisMonth = 'thisMonth',
+  lastMonth = 'lastMonth',
+  thisYear = 'thisYear',
+  allTheTime = 'allTheTime',
+  custom = 'custom',
+}
 
 export type SummaryFilterModel = {
   range: {
@@ -54,18 +56,17 @@ const frequencyToDateRange = (frequency: SummaryFrequencyType) => {
 };
 
 // Helper function to convert humanized label to frequency
-const humanizedLabelToFrequency = (
-  label: string,
-): SummaryFrequencyType | null => {
+const humanizedLabelToFrequency = (label: string): SummaryFrequencyType => {
   const labelMap: Record<string, SummaryFrequencyType> = {
-    'This Week': 'thisWeek',
-    'Last Week': 'lastWeek',
-    'This Month': 'thisMonth',
-    'Last Month': 'lastMonth',
-    'This Year': 'thisYear',
+    'This Week': SummaryFrequencyType.thisWeek,
+    'Last Week': SummaryFrequencyType.lastWeek,
+    'This Month': SummaryFrequencyType.thisMonth,
+    'Last Month': SummaryFrequencyType.lastMonth,
+    'This Year': SummaryFrequencyType.thisYear,
+    'All Time': SummaryFrequencyType.allTheTime,
   };
 
-  return labelMap[label] || null;
+  return labelMap[label] || SummaryFrequencyType.custom;
 };
 
 // Helper function to get humanized label from date range
@@ -218,19 +219,21 @@ export const useSummaryFilter = () => {
     setSearchParams(searchParams, { replace: true });
   };
 
-  const getCurrentFrequency = (): SummaryFrequencyType | null => {
-    if (!appliedFilters.range) return null;
+  const getCurrentFrequency = (): SummaryFrequencyType => {
+    if (!appliedFilters.range) return SummaryFrequencyType.custom;
 
     const { startDate, endDate } = appliedFilters.range;
     const label = getHumanizedLabel(startDate, endDate);
     return humanizedLabelToFrequency(label);
   };
 
+  const frequency = getCurrentFrequency();
+
   return {
     appliedFilters,
     humanizedFilters,
     setFilters,
-    getCurrentFrequency,
+    frequency,
     removeFilter,
     removeAllFilters,
     frequencyToDateRange,

@@ -1423,6 +1423,7 @@ export interface operations {
       query: {
         from: string;
         to: string;
+        id?: number[];
         type?: 'income' | 'expense';
         sortBy?:
           | 'accountName'
@@ -1476,6 +1477,7 @@ export interface operations {
       query: {
         from: string;
         to: string;
+        id?: number[];
         type?: ('income' | 'expense' | 'transfer')[];
         sortBy?:
           | 'categoryName'

@@ -2,6 +2,7 @@ import { CategoryModel } from '@dimasbaguspm/interfaces';
 import { capitalize } from 'lodash';
 
 import { DateFormat, formatDate } from '../date';
+import { nameToInitials } from '../initial';
 
 export const formatSpenicleCategory = (
   category: CategoryModel | null | undefined,
@@ -18,6 +19,7 @@ export const formatSpenicleCategory = (
   const note = category?.note;
 
   return {
+    initialName: nameToInitials(category?.name ?? ''),
     name: category?.name ?? '',
     capitalizedName: capitalize(category?.name ?? ''),
     createdAt: category?.createdAt

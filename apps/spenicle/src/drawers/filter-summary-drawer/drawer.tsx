@@ -22,7 +22,10 @@ import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-import { useSummaryFilter } from '../../pages/summary/hooks/use-summary-filter';
+import {
+  SummaryFrequencyType,
+  useSummaryFilter,
+} from '../../pages/summary/hooks/use-summary-filter';
 
 import { FilterSummaryFormSchema } from './types';
 
@@ -31,20 +34,16 @@ interface FilterSummaryDrawer {
 }
 export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
   const { isDesktop } = useWindowResize();
-  const {
-    appliedFilters,
-    setFilters,
-    frequencyToDateRange,
-    getCurrentFrequency,
-  } = useSummaryFilter();
+  const { appliedFilters, setFilters, frequencyToDateRange, frequency } =
+    useSummaryFilter();
 
   const { openDrawer, closeDrawer } = useDrawerRoute();
 
   const { control, handleSubmit, watch, getValues } =
     useForm<FilterSummaryFormSchema>({
       defaultValues: {
-        frequency: getCurrentFrequency() || 'thisWeek',
-        customRange: getCurrentFrequency() === null,
+        frequency: frequency || 'thisWeek',
+        customRange: frequency === SummaryFrequencyType.custom,
         startDate: formatDate(
           appliedFilters.range.startDate,
           DateFormat.ISO_DATE,

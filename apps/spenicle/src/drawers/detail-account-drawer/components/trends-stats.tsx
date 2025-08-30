@@ -51,23 +51,56 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ data, transactions }) => {
       0,
     );
 
-    // calculate growth (comparing first vs last month)
-    const firstValue = values[0] || 0;
+    // calculate growth based on period-over-period changes
+    let totalGrowthPercentage = 0;
+    let validPeriods = 0;
+
+    // Calculate month-over-month growth rates
+    for (let i = 1; i < values.length; i++) {
+      const previousValue = values[i - 1];
+      const currentValue = values[i];
+
+      if (previousValue > 0) {
+        const periodGrowth =
+          ((currentValue - previousValue) / previousValue) * 100;
+        totalGrowthPercentage += periodGrowth;
+        validPeriods++;
+      }
+    }
+
+    // Calculate average growth rate across all periods
+    const averageGrowthPercentage =
+      validPeriods > 0 ? totalGrowthPercentage / validPeriods : 0;
+
+    // Also calculate absolute growth (first vs last for backward compatibility)
+    const firstValue = values.find((val) => val > 0) || values[0] || 0;
     const lastValue = values[values.length - 1] || 0;
     const growth = lastValue - firstValue;
-    const growthPercentage = firstValue !== 0 ? (growth / firstValue) * 100 : 0;
 
-    // determine trend direction based on linear regression or simple comparison
-    const midPoint = Math.floor(values.length / 2);
-    const firstHalf =
-      values.slice(0, midPoint).reduce((sum, val) => sum + val, 0) / midPoint;
-    const secondHalf =
-      values.slice(midPoint).reduce((sum, val) => sum + val, 0) /
-      (values.length - midPoint);
+    // For display, use the average period growth rate as it's more representative
+    let growthPercentage = averageGrowthPercentage;
+
+    // Handle edge case: if no valid periods but we have first and last values
+    if (validPeriods === 0 && firstValue !== 0) {
+      growthPercentage =
+        ((lastValue - firstValue) / Math.abs(firstValue)) * 100;
+    } else if (validPeriods === 0 && firstValue === 0 && lastValue > 0) {
+      growthPercentage = 100;
+    }
 
     let trendDirection: 'up' | 'down' | 'neutral' = 'neutral';
-    if (secondHalf > firstHalf * 1.05) trendDirection = 'up';
-    else if (secondHalf < firstHalf * 0.95) trendDirection = 'down';
+
+    if (firstValue !== 0 && lastValue !== 0) {
+      if (lastValue > firstValue * 1.05) {
+        trendDirection = 'up';
+      } else if (lastValue < firstValue * 0.95) {
+        trendDirection = 'down';
+      }
+    } else if (firstValue === 0 && lastValue > 0) {
+      trendDirection = 'up';
+    } else if (firstValue > 0 && lastValue === 0) {
+      trendDirection = 'down';
+    }
 
     return {
       total,

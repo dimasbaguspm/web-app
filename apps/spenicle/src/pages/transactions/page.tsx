@@ -1,5 +1,6 @@
 import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
+import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
@@ -25,8 +26,8 @@ import { useTransactionData } from './hooks/use-transactions-data';
 import { useTransactionsFilter } from './hooks/use-transactions-filter';
 
 const TransactionsPage = () => {
-  const [activeDate, setActiveDate] = useState<Dayjs>(dayjs().startOf('day'));
-  const [selectedDate, setSelectedDate] = useState<Dayjs>(activeDate);
+  const [initialDate, setInitialDate] = useState<Dayjs>(dayjs().startOf('day'));
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(initialDate);
 
   const { openDrawer } = useDrawerRoute();
 
@@ -61,13 +62,14 @@ const TransactionsPage = () => {
 
   const handleOnCalendarDateChange = (date: Dayjs) => {
     setSelectedDate(date);
-    setActiveDate(date);
+    setInitialDate(date);
   };
 
   return (
     <>
       <PageHeader
         title="Transactions"
+        subtitle={formatDate(selectedDate, DateFormat.MONTH_YEAR)}
         actions={
           <ButtonGroup>
             <Button onClick={handleOnNewTransactionClick}>
@@ -87,7 +89,7 @@ const TransactionsPage = () => {
         }
         tabs={
           <TabsDate
-            activeDate={activeDate}
+            activeDate={initialDate}
             selectedDate={selectedDate}
             onDateChange={handleOnDateChange}
           />

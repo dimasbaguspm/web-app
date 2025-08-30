@@ -201,7 +201,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                   }}
                   render={({ field, fieldState }) => (
                     <PriceInput
-                      label="Source"
+                      label="Amount"
                       {...field}
                       // PriceInput likely expects a string value — provide a string representation
                       value={field.value == null ? '' : String(field.value)}

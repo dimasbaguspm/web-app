@@ -2,9 +2,9 @@ import { useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router';
 
 export type TransactionFilterModel = {
-  accountId: number;
-  categoryId: number;
-  type: 'income' | 'expense' | 'transfer';
+  accountId: number[];
+  categoryId: number[];
+  type: ('income' | 'expense' | 'transfer')[];
 };
 
 export const useTransactionsFilter = () => {
@@ -60,13 +60,13 @@ export const useTransactionsFilter = () => {
     const acc: Partial<TransactionFilterModel> = {};
 
     if (Array.isArray(filters.accountId) && filters.accountId.length > 0)
-      acc.accountId = filters.accountId[0];
+      acc.accountId = filters.accountId;
 
     if (Array.isArray(filters.categoryId) && filters.categoryId.length > 0)
-      acc.categoryId = filters.categoryId[0];
+      acc.categoryId = filters.categoryId;
 
     if (Array.isArray(filters.type) && filters.type.length > 0) {
-      acc.type = filters.type[0];
+      acc.type = filters.type;
     }
 
     return acc as TransactionFilterModel;

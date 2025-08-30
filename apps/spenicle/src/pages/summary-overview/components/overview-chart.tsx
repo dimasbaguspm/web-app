@@ -1,7 +1,7 @@
 import { SummaryTotalTransactionsModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { NoResults, Text, Tile } from '@dimasbaguspm/versaur';
+import { NoResults, Text } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC, useMemo } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
@@ -41,65 +41,62 @@ export const OverviewChart: FC<Props> = ({ data }) => {
   return (
     <div>
       <If condition={hasData}>
-        <Tile className="w-full">
-          <div className="h-64 relative">
-            <ResponsiveContainer className="h-64">
-              <PieChart>
-                <Pie
-                  data={pieChartData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={90}
-                  innerRadius={75}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {pieChartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-
-            {/* Center Content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <Text
-                fontSize="xs"
-                color="gray"
-                align="center"
-                className="text-center mb-1"
+        <div className="h-60 relative">
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                isAnimationActive={false}
+                data={pieChartData}
+                cx="50%"
+                cy="50%"
+                outerRadius={90}
+                innerRadius={75}
+                paddingAngle={5}
+                dataKey="value"
               >
-                Net Balance
-              </Text>
-              <Text
-                fontSize="lg"
-                fontWeight="semibold"
-                align="center"
-                color={isSurplus ? 'secondary' : 'primary'}
-              >
-                {formatPrice(data.income - data.expense)}
-              </Text>
-              <Text fontSize="xs" color="gray" className="text-center mt-1">
-                {data.totalTransactions} transactions
-              </Text>
-            </div>
-          </div>
+                {pieChartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
 
-          <div className="flex justify-center gap-6 ">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-primary rounded-full" />
-              <Text fontSize="sm">
-                Expense: {formatPrice(Math.abs(data?.expense || 0))}
-              </Text>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-secondary rounded-full" />
-              <Text fontSize="sm">
-                Income: {formatPrice(data?.income || 0)}
-              </Text>
-            </div>
+          {/* Center Content */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <Text
+              fontSize="xs"
+              color="gray"
+              align="center"
+              className="text-center mb-1"
+            >
+              Net Balance
+            </Text>
+            <Text
+              fontSize="lg"
+              fontWeight="semibold"
+              align="center"
+              color={isSurplus ? 'secondary' : 'primary'}
+            >
+              {formatPrice(data.income - data.expense)}
+            </Text>
+            <Text fontSize="xs" color="gray" className="text-center mt-1">
+              {data.totalTransactions} transactions
+            </Text>
           </div>
-        </Tile>
+        </div>
+
+        <div className="flex justify-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-primary rounded-full" />
+            <Text fontSize="sm">
+              Expense: {formatPrice(Math.abs(data?.expense || 0))}
+            </Text>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-secondary rounded-full" />
+            <Text fontSize="sm">Income: {formatPrice(data?.income || 0)}</Text>
+          </div>
+        </div>
       </If>
 
       <If condition={!hasData}>

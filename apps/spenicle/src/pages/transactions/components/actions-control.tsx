@@ -1,14 +1,8 @@
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import {
-  Button,
-  ButtonGroup,
-  Calendar,
-  Icon,
-  Modal,
-} from '@dimasbaguspm/versaur';
+import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
+import { Button, ButtonGroup, Icon } from '@dimasbaguspm/versaur';
 import dayjs, { Dayjs } from 'dayjs';
 import { CalendarCogIcon, FilterIcon } from 'lucide-react';
-import { FC, useState } from 'react';
+import { FC, useRef } from 'react';
 
 interface ActionsControlProps {
   date: Dayjs;
@@ -21,22 +15,17 @@ export const ActionsControl: FC<ActionsControlProps> = ({
   onFilterClick,
   onDateChange,
 }) => {
-  const { isDesktop } = useWindowResize();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [tempDate, setTempDate] = useState<Dayjs>(date);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleOnCalendarClick = () => {
-    setIsModalOpen(true);
-  };
+    if (!inputRef.current) return;
 
-  const handleOnCalendarConfirm = () => {
-    onDateChange(tempDate);
-    setIsModalOpen(false);
-  };
-
-  const handleOnCalendarCancel = () => {
-    setTempDate(date);
-    setIsModalOpen(false);
+    if ('showPicker' in inputRef.current) {
+      inputRef.current?.showPicker();
+    } else {
+      // @ts-expect-error as a fallback
+      inputRef.current?.focus();
+    }
   };
 
   return (
@@ -46,33 +35,22 @@ export const ActionsControl: FC<ActionsControlProps> = ({
           <Icon as={FilterIcon} size="sm" color="gray" />
           Filter
         </Button>
-        <Button variant="outline" onClick={handleOnCalendarClick}>
+        <Button
+          variant="outline"
+          onClick={handleOnCalendarClick}
+          className="relative"
+        >
           <Icon as={CalendarCogIcon} size="sm" color="gray" />
           Calendar
+          <input
+            type="date"
+            className="sr-only absolute -bottom-2.5 right-50 translate-x-1/2"
+            ref={inputRef}
+            value={formatDate(date, DateFormat.ISO_DATE)}
+            onChange={(e) => onDateChange(dayjs(e.target.value))}
+          />
         </Button>
       </ButtonGroup>
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        placement={isDesktop ? 'center' : 'top'}
-      >
-        <Modal.Body className="px-4">
-          <Calendar
-            type="single"
-            value={tempDate.toDate()}
-            onChange={(date) => setTempDate(dayjs(date as Date))}
-          />
-        </Modal.Body>
-        <Modal.Footer className="px-4">
-          <ButtonGroup alignment="end">
-            <Button variant="ghost" onClick={handleOnCalendarCancel}>
-              Cancel
-            </Button>
-            <Button onClick={handleOnCalendarConfirm}>Confirm</Button>
-          </ButtonGroup>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 };
