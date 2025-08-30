@@ -612,13 +612,13 @@ export interface operations {
   getCategory: {
     parameters: {
       query?: {
-        id?: (number | string)[];
+        id?: number[];
         search?: string;
         type?: ('expense' | 'income' | 'transfer')[];
-        pageNumber?: string | number;
-        pageSize?: string | number;
-        userId?: (number | string)[];
-        groupId?: (number | string)[];
+        pageNumber?: number;
+        pageSize?: number;
+        userId?: number[];
+        groupId?: number[];
         sortBy?: 'created_at' | 'updated_at';
         sortOrder?: 'asc' | 'desc';
       };
@@ -783,7 +783,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -1357,6 +1357,13 @@ export interface operations {
         from: string;
         to: string;
         search?: string;
+        frequency?:
+          | 'hourly'
+          | 'daily'
+          | 'weekly'
+          | 'monthly'
+          | 'quarterly'
+          | 'yearly';
         categoryId?: number[];
         accountId?: number[];
         type?: ('income' | 'expense' | 'transfer')[];
@@ -1524,8 +1531,8 @@ export interface operations {
         to: string;
         search?: string;
         type?: ('income' | 'expense' | 'transfer')[];
-        categoryId?: (number | string)[];
-        accountId?: (number | string)[];
+        categoryId?: number[];
+        accountId?: number[];
       };
       header?: never;
       path?: never;

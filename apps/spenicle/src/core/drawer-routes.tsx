@@ -29,6 +29,7 @@ interface DrawerParams {
   categoryId?: number;
   transactionId?: number;
   payloadId?: string;
+  tabId?: string;
 }
 
 interface DrawerState {
@@ -63,14 +64,20 @@ export const DrawerRoutes: FC = () => {
     >
       {is(DRAWER_ROUTES.NEW_ACCOUNT) && <NewAccountDrawer />}
       {is(DRAWER_ROUTES.ACCOUNT_DETAIL) && hasParam('accountId') && (
-        <DetailAccountDrawer accountId={params.accountId!} />
+        <DetailAccountDrawer
+          accountId={params.accountId!}
+          tabId={params.tabId!}
+        />
       )}
       {is(DRAWER_ROUTES.EDIT_ACCOUNT) && hasParam('accountId') && (
         <EditAccountDrawer accountId={params.accountId!} />
       )}
       {is(DRAWER_ROUTES.NEW_CATEGORY) && <NewCategoryDrawer />}
       {is(DRAWER_ROUTES.DETAIL_CATEGORY) && hasParam('categoryId') && (
-        <DetailCategoryDrawer categoryId={params.categoryId!} />
+        <DetailCategoryDrawer
+          categoryId={params.categoryId!}
+          tabId={params.tabId!}
+        />
       )}
       {is(DRAWER_ROUTES.EDIT_CATEGORY) && hasParam('categoryId') && (
         <EditCategoryDrawer categoryId={params.categoryId!} />

@@ -3,7 +3,8 @@
   "type": "module",
   "exports": {
     "./use-api": "./src/use-api/index.ts",
-    "./use-window-resize": "./src/use-window-resize/index.ts"
+    "./use-window-resize": "./src/use-window-resize/index.ts",
+    "./use-debounced-state": "./src/use-debounced-state/index.ts"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",

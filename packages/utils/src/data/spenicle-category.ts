@@ -12,9 +12,14 @@ export const formatSpenicleCategory = (
 
   const variant = isExpense ? 'primary' : isIncome ? 'secondary' : 'tertiary';
 
+  const trimmedNotes = category?.note
+    ? category.note.slice(0, 100) + (category.note.length > 100 ? +'...' : '')
+    : '';
+  const note = category?.note;
+
   return {
-    name: category?.name,
-    capitalizedName: capitalize(category?.name),
+    name: category?.name ?? '',
+    capitalizedName: capitalize(category?.name ?? ''),
     createdAt: category?.createdAt
       ? formatDate(category?.createdAt, DateFormat.LONG_DATE)
       : '',
@@ -26,5 +31,7 @@ export const formatSpenicleCategory = (
     isIncome,
     isExpense,
     isTransfer,
+    trimmedNotes,
+    note,
   } as const;
 };

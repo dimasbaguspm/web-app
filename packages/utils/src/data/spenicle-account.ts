@@ -10,6 +10,11 @@ export const formatSpenicleAccount = (
   const isExpense = account?.type === 'expense';
   const variant = isExpense ? 'primary' : 'secondary';
 
+  const trimmedNotes = account?.note
+    ? account.note.slice(0, 100) + (account.note.length > 100 ? '...' : '')
+    : '';
+  const note = account?.note;
+
   return {
     name: account?.name,
     capitalizedName: capitalize(account?.name),
@@ -23,5 +28,7 @@ export const formatSpenicleAccount = (
     type: capitalize(account?.type),
     isExpense,
     variant,
+    notes: note,
+    trimmedNotes,
   } as const;
 };

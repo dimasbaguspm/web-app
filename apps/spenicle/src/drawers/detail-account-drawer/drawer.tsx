@@ -2,86 +2,65 @@ import { useApiSpenicleAccountQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  AttributeList,
-  Badge,
-  BadgeGroup,
-  Button,
-  ButtonGroup,
-  Drawer,
-  Icon,
-  LoadingIndicator,
-} from '@dimasbaguspm/versaur';
-import { EditIcon } from 'lucide-react';
+import { Drawer, LoadingIndicator, Tabs } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
+import { DetailsTab } from './sub-tabs/details-tab';
+import { HistoryTab } from './sub-tabs/history-tab';
+import { TrendsTab } from './sub-tabs/trends-tab';
+
 interface DetailAccountDrawerProps {
   accountId: number;
+  tabId?: string;
 }
 
 export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({
   accountId,
+  tabId,
 }) => {
   const { openDrawer } = useDrawerRoute();
-  const [account, , { isLoading }] = useApiSpenicleAccountQuery(accountId);
+  const activeTab = tabId || 'details';
 
-  const handleEditClick = () => {
-    openDrawer(DRAWER_ROUTES.EDIT_ACCOUNT, { accountId });
+  const [account, , { isFetching }] = useApiSpenicleAccountQuery(accountId);
+
+  const { name } = formatSpenicleAccount(account);
+
+  const handleOnTabChange = (tabId: string) => {
+    openDrawer(
+      DRAWER_ROUTES.ACCOUNT_DETAIL,
+      { accountId, tabId },
+      {
+        replace: true,
+      },
+    );
   };
 
   return (
     <>
-      <Drawer.Header>
-        <If condition={isLoading}>
-          <Drawer.Title>Loading</Drawer.Title>
-        </If>
-        <If condition={!isLoading}>
-          <Drawer.Title>{account?.name}</Drawer.Title>
-        </If>
-
+      <Drawer.Header hasTab>
+        <Drawer.Title>{isFetching ? 'Loading...' : name}</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
+      <Drawer.Tab>
+        <Tabs value={activeTab} onValueChange={handleOnTabChange}>
+          <Tabs.Trigger value="details">Details</Tabs.Trigger>
+          <Tabs.Trigger value="trends">Trends</Tabs.Trigger>
+          <Tabs.Trigger value="history">History</Tabs.Trigger>
+        </Tabs>
+      </Drawer.Tab>
 
-      <If condition={isLoading}>
+      <If condition={isFetching}>
         <LoadingIndicator type="bar" size="sm" />
       </If>
 
-      <If condition={[!isLoading, account]}>
-        {() => {
-          const { formattedAmount, type, isExpense } = formatSpenicleAccount(
-            account!,
-          );
-
-          return (
-            <Drawer.Body>
-              <ButtonGroup className="mb-4">
-                <Button variant="outline" onClick={handleEditClick}>
-                  <Icon as={EditIcon} color="inherit" size="sm" />
-                  Edit
-                </Button>
-              </ButtonGroup>
-
-              <BadgeGroup className="mb-4">
-                <Badge color={isExpense ? 'danger' : 'success'} size="md">
-                  {type}
-                </Badge>
-              </BadgeGroup>
-
-              <AttributeList columns={1}>
-                <AttributeList.Item title="Amount">
-                  {formattedAmount}
-                </AttributeList.Item>
-                <If condition={account?.note}>
-                  <AttributeList.Item title="Notes">
-                    {account?.note}
-                  </AttributeList.Item>
-                </If>
-              </AttributeList>
-            </Drawer.Body>
-          );
-        }}
+      <If condition={[!isFetching, account]}>
+        <Drawer.Body>
+          {activeTab === 'details' && <DetailsTab data={account!} />}
+          {activeTab === 'trends' && <TrendsTab data={account!} />}
+          {activeTab === 'history' && <HistoryTab data={account!} />}
+        </Drawer.Body>
       </If>
     </>
   );
