@@ -96,9 +96,26 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
 };
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { data } = useApiHiAuthTokenRefresher();
+  const { data, isFetching, isError } = useApiHiAuthTokenRefresher();
 
-  if (!data) return null;
+  if (isFetching) {
+    return (
+      <div>
+        <LoadingIndicator size="sm" type="bar" />
+      </div>
+    );
+  }
+
+  if (!data) {
+    // If refresher failed or returned no data (common when client_id/cookies
+    // are missing on some mobile webviews), don't block the app UI by
+    // returning null which may trigger SSO. Proceed but log for diagnostics.
+    if (isError)
+      console.warn(
+        'Auth token refresher failed; proceeding without refresher data',
+      );
+    return <Provider>{children}</Provider>;
+  }
 
   return <Provider>{children}</Provider>;
 };
