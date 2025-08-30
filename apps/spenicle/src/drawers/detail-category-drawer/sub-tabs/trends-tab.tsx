@@ -1,14 +1,8 @@
 import { useApiSpenicleSummaryTransactionsQuery } from '@dimasbaguspm/hooks/use-api';
 import { CategoryModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Button,
-  ButtonGroup,
-  Icon,
-  LoadingIndicator,
-} from '@dimasbaguspm/versaur';
+import { LoadingIndicator } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
-import { FilterIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { TrendsChart } from '../components/trends-chart';
@@ -30,13 +24,6 @@ export const TrendsTab: FC<TrendsTabProps> = ({ data }) => {
 
   return (
     <>
-      <ButtonGroup className="mb-4">
-        <Button variant="outline">
-          <Icon as={FilterIcon} color="inherit" size="sm" />
-          Filter
-        </Button>
-      </ButtonGroup>
-
       <If condition={[isFetching]}>
         <LoadingIndicator type="bar" size="sm" />
       </If>

@@ -2,6 +2,7 @@ import { AccountModel } from '@dimasbaguspm/interfaces';
 import { capitalize } from 'lodash';
 
 import { formatDate } from '../date';
+import { nameToInitials } from '../initial';
 import { formatPrice } from '../price';
 
 export const formatSpenicleAccount = (
@@ -17,6 +18,7 @@ export const formatSpenicleAccount = (
 
   return {
     name: account?.name,
+    initialName: nameToInitials(account?.name ?? ''),
     capitalizedName: capitalize(account?.name),
     formattedAmount: formatPrice(account?.amount ?? 0),
     createdAt: account?.createdAt

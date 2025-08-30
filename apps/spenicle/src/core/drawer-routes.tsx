@@ -94,7 +94,9 @@ export const DrawerRoutes: FC = () => {
           payload={state?.payload}
         />
       )}
-      {is(DRAWER_ROUTES.FILTER_TRANSACTION) && <FilterTransactionDrawer />}
+      {is(DRAWER_ROUTES.FILTER_TRANSACTION) && (
+        <FilterTransactionDrawer payload={state.payload!} />
+      )}
       {is(DRAWER_ROUTES.SELECT_ACCOUNT) &&
         hasState('payload') &&
         hasState('returnToDrawer') &&

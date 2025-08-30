@@ -23,9 +23,9 @@ export const useTransactionData = (props: UseTransactionDataProps) => {
     { hasNextPage, isLoading: isLoadingTransactions, isFetchingNextPage },
     { fetchNextPage },
   ] = useApiSpenicleTransactionsInfiniteQuery({
-    accountId: appliedFilters?.accountId ? [appliedFilters.accountId] : [],
-    categoryId: appliedFilters?.categoryId ? [appliedFilters.categoryId] : [],
-    type: appliedFilters?.type ? [appliedFilters.type] : [],
+    accountId: appliedFilters?.accountId ? appliedFilters.accountId : [],
+    categoryId: appliedFilters?.categoryId ? appliedFilters.categoryId : [],
+    type: appliedFilters?.type ? appliedFilters.type : [],
     dateFrom: formatDate(date.startOf('day'), DateFormat.ISO_DATETIME),
     dateTo: formatDate(date.endOf('day'), DateFormat.ISO_DATETIME),
     pageSize: 15,

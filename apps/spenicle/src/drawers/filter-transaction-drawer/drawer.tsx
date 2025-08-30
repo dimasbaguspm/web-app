@@ -8,49 +8,111 @@ import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
-  ChipSingleInput,
+  ChipMultipleInput,
   Drawer,
   FormLayout,
+  Icon,
   LoadingIndicator,
-  SelectInput,
+  TextInput,
 } from '@dimasbaguspm/versaur';
+import { noop } from 'lodash';
+import {
+  TrendingDownIcon,
+  TrendingUpDownIcon,
+  TrendingUpIcon,
+} from 'lucide-react';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import {
   TransactionFilterModel,
   useTransactionsFilter,
 } from '../../pages/transactions/hooks/use-transactions-filter';
 
-export const FilterTransactionDrawer: FC = () => {
+interface FilterTransactionDrawerProps {
+  payload?: Record<string, unknown>;
+}
+
+export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({
+  payload,
+}) => {
   const { isDesktop } = useWindowResize();
   const { appliedFilters, setFilters } = useTransactionsFilter();
-  const { closeDrawer } = useDrawerRoute();
+  const { closeDrawer, openDrawer } = useDrawerRoute();
 
-  const [accounts, , { isFetching: isAccountsFetching }] =
-    useApiSpenicleAccountsPaginatedQuery({
-      pageSize: 100,
-    });
-
-  const [categories, , { isFetching: isCategoriesFetching }] =
-    useApiSpenicleCategoriesPaginatedQuery({
-      pageSize: 100,
-    });
-
-  const { control, handleSubmit } = useForm<TransactionFilterModel>({
+  const { control, handleSubmit, watch } = useForm<TransactionFilterModel>({
     defaultValues: {
-      accountId: appliedFilters?.accountId ?? '',
-      categoryId: appliedFilters?.categoryId ?? '',
-      type: appliedFilters?.type ?? '',
+      accountId:
+        (payload?.accountId as number[]) ?? appliedFilters?.accountId ?? [],
+      categoryId:
+        (payload?.categoryId as number[]) ?? appliedFilters?.categoryId ?? [],
+      type: appliedFilters?.type ?? [],
     },
   });
 
+  const [accountId, categoryId] = watch(['accountId', 'categoryId']);
+
+  const [accounts, , { isFetching: isAccountsFetching }] =
+    useApiSpenicleAccountsPaginatedQuery(
+      {
+        id: accountId,
+        pageSize: 100,
+      },
+      {
+        enabled: accountId.length > 0,
+      },
+    );
+
+  const [categories, , { isFetching: isCategoriesFetching }] =
+    useApiSpenicleCategoriesPaginatedQuery(
+      {
+        id: categoryId,
+        pageSize: 100,
+      },
+      {
+        enabled: categoryId.length > 0,
+      },
+    );
+
   const handleOnValidSubmit: SubmitHandler<TransactionFilterModel> = (data) => {
     setFilters({
-      accountId: data.accountId ? Number(data.accountId) : undefined,
-      categoryId: data.categoryId ? Number(data.categoryId) : undefined,
+      accountId: data.accountId ? data.accountId : undefined,
+      categoryId: data.categoryId ? data.categoryId : undefined,
       type: data.type ? data.type : undefined,
     });
+  };
+
+  const handleOnAccountClick = () => {
+    openDrawer(
+      DRAWER_ROUTES.SELECT_MULTIPLE_ACCOUNT,
+      {
+        payloadId: 'accountId',
+      },
+      {
+        replace: true,
+        state: {
+          payload: watch(),
+          returnToDrawer: DRAWER_ROUTES.FILTER_TRANSACTION,
+        },
+      },
+    );
+  };
+
+  const handleOnCategoryClick = () => {
+    openDrawer(
+      DRAWER_ROUTES.SELECT_MULTIPLE_CATEGORY,
+      {
+        payloadId: 'categoryId',
+      },
+      {
+        replace: true,
+        state: {
+          payload: watch(),
+          returnToDrawer: DRAWER_ROUTES.FILTER_TRANSACTION,
+        },
+      },
+    );
   };
 
   const isLoading = isAccountsFetching || isCategoriesFetching;
@@ -76,20 +138,28 @@ export const FilterTransactionDrawer: FC = () => {
                   name="type"
                   control={control}
                   render={({ field }) => (
-                    <ChipSingleInput {...field} variant="primary" label="Type">
-                      <ChipSingleInput.Option value="">
-                        All
-                      </ChipSingleInput.Option>
-                      <ChipSingleInput.Option value="expense">
+                    <ChipMultipleInput
+                      {...field}
+                      variant="primary"
+                      label="Type"
+                    >
+                      <ChipMultipleInput.Option value="expense">
+                        <Icon as={TrendingDownIcon} color="inherit" size="sm" />
                         Expense
-                      </ChipSingleInput.Option>
-                      <ChipSingleInput.Option value="income">
+                      </ChipMultipleInput.Option>
+                      <ChipMultipleInput.Option value="income">
+                        <Icon as={TrendingUpIcon} color="inherit" size="sm" />
                         Income
-                      </ChipSingleInput.Option>
-                      <ChipSingleInput.Option value="transfer">
+                      </ChipMultipleInput.Option>
+                      <ChipMultipleInput.Option value="transfer">
+                        <Icon
+                          as={TrendingUpDownIcon}
+                          color="inherit"
+                          size="sm"
+                        />
                         Transfer
-                      </ChipSingleInput.Option>
-                    </ChipSingleInput>
+                      </ChipMultipleInput.Option>
+                    </ChipMultipleInput>
                   )}
                 />
               </FormLayout.Column>
@@ -97,19 +167,27 @@ export const FilterTransactionDrawer: FC = () => {
                 <Controller
                   name="accountId"
                   control={control}
-                  render={({ field, formState }) => (
-                    <SelectInput
-                      {...field}
-                      label="Account"
-                      error={formState.errors.accountId?.message}
-                    >
-                      <option value="">None applied</option>
-                      {accounts?.items.map((account) => (
-                        <option key={account.id} value={account.id}>
-                          {account.name}
-                        </option>
-                      ))}
-                    </SelectInput>
+                  render={({ field, fieldState }) => (
+                    <>
+                      <TextInput
+                        label="Accounts"
+                        placeholder="Select Account"
+                        value={
+                          field.value
+                            ? accounts?.items?.map((acc) => acc.name).join(', ')
+                            : ''
+                        }
+                        onChange={noop}
+                        readOnly
+                        onClick={handleOnAccountClick}
+                        error={fieldState.error?.message}
+                      />
+                      <input
+                        type="hidden"
+                        {...field}
+                        value={field.value.map(String)}
+                      />
+                    </>
                   )}
                 />
               </FormLayout.Column>
@@ -118,19 +196,29 @@ export const FilterTransactionDrawer: FC = () => {
                 <Controller
                   name="categoryId"
                   control={control}
-                  render={({ field, formState }) => (
-                    <SelectInput
-                      {...field}
-                      label="Category"
-                      error={formState.errors.categoryId?.message}
-                    >
-                      <option value="">None applied</option>
-                      {categories?.items.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </SelectInput>
+                  render={({ field, fieldState }) => (
+                    <>
+                      <TextInput
+                        label="Categories"
+                        placeholder="Select Category"
+                        value={
+                          field.value
+                            ? categories?.items
+                                ?.map((cat) => cat.name)
+                                .join(', ')
+                            : ''
+                        }
+                        onChange={noop}
+                        readOnly
+                        onClick={handleOnCategoryClick}
+                        error={fieldState.error?.message}
+                      />
+                      <input
+                        type="hidden"
+                        {...field}
+                        value={field.value.map(String)}
+                      />
+                    </>
                   )}
                 />
               </FormLayout.Column>
