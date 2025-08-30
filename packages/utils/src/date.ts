@@ -87,6 +87,9 @@ export const DateFormat = {
   /** Short month name. Example: "Jan" */
   SHORT_MONTH: 'shortMonth',
 
+  /** Short month and year. Example: "Jan 2024" */
+  SHORT_MONTH_YEAR: 'shortMonthYear',
+
   /** Full month name. Example: "January" */
   MONTH: 'month',
 
@@ -202,6 +205,9 @@ export function formatDate(
 
     case DateFormat.MONTH_YEAR:
       return dayjsDate.format('MMMM YYYY'); // "January 2024"
+
+    case DateFormat.SHORT_MONTH_YEAR:
+      return dayjsDate.format('MMM YYYY'); // "Jan 2024"
 
     // Granular new variants
     case DateFormat.SHORT_DAY:
