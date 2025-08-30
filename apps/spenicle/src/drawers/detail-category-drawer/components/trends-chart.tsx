@@ -104,6 +104,7 @@ export const TrendsChart: FC<TrendsChartProps> = ({ data, transactions }) => {
               }}
             />
             <Area
+              isAnimationActive={false}
               type="monotone"
               dataKey={getDataKey()}
               stroke={getAreaColor()}

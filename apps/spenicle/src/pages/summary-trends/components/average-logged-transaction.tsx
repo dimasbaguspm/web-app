@@ -1,7 +1,14 @@
 import { SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
 import { Text, Tile } from '@dimasbaguspm/versaur';
-import { FC, useMemo } from 'react';
+import { lowerCase } from 'lodash';
+import { FC } from 'react';
+
+import { useGeneralSummaryStats } from '../../../hooks/use-general-summary-stats';
+import {
+  SummaryFrequencyType,
+  useSummaryFilter,
+} from '../../summary/hooks/use-summary-filter';
 
 interface AverageLoggedTransactionProps {
   data: SummaryTransactionsModel;
@@ -10,46 +17,39 @@ interface AverageLoggedTransactionProps {
 export const AverageLoggedTransaction: FC<AverageLoggedTransactionProps> = ({
   data,
 }) => {
-  const averageTransactions = useMemo(() => {
-    if (!data || data.length === 0) {
-      return {
-        daily: 0,
-        totalDays: 0,
-        activeDays: 0,
-      };
+  const { frequency } = useSummaryFilter();
+  const periodGranularity = (() => {
+    switch (frequency) {
+      case SummaryFrequencyType.allTheTime:
+        return 'year';
+      case SummaryFrequencyType.thisYear:
+        return 'month';
+      case SummaryFrequencyType.thisMonth:
+      case SummaryFrequencyType.lastMonth:
+        return 'week';
+      default:
+        return 'day';
     }
+  })();
 
-    // Filter to only days with actual transactions
-    const activeDays = data.filter((item) => item.totalTransactions > 0);
-
-    const totalTransactions = data.reduce(
-      (sum, item) => sum + item.totalTransactions,
-      0,
-    );
-    const totalDays = data.length;
-    const activeDaysCount = activeDays.length;
-
-    return {
-      daily: activeDaysCount > 0 ? totalTransactions / activeDaysCount : 0,
-      totalDays,
-      activeDays: activeDaysCount,
-    };
-  }, [data]);
+  const { avgTransactionsPerUnit } = useGeneralSummaryStats(data, {
+    periodGranularity,
+  });
 
   return (
     <Tile className="flex flex-col gap-1">
       <Text fontWeight="medium" fontSize="sm" color="gray">
-        Average daily transactions
+        Average {lowerCase(frequency)} transactions
       </Text>
-      <If condition={averageTransactions.activeDays > 0}>
+      <If condition={avgTransactionsPerUnit > 0}>
         <Text fontWeight="semibold" fontSize="lg">
-          {averageTransactions.daily.toFixed(1)}
+          {avgTransactionsPerUnit.toFixed(1)}
         </Text>
         <Text fontSize="xs" color="gray">
-          Per active day
+          Per period
         </Text>
       </If>
-      <If condition={averageTransactions.activeDays === 0}>
+      <If condition={avgTransactionsPerUnit === 0}>
         <Text fontWeight="semibold" fontSize="lg">
           No transactions
         </Text>

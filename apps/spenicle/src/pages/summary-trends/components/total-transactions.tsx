@@ -1,6 +1,5 @@
 import { SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
-import { formatPrice } from '@dimasbaguspm/utils/price';
 import { Text, Tile } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
@@ -10,13 +9,12 @@ import {
   useSummaryFilter,
 } from '../../summary/hooks/use-summary-filter';
 
-interface HighestSpendProps {
+interface MostActiveDayProps {
   data: SummaryTransactionsModel;
 }
 
-export const HighestSpend: FC<HighestSpendProps> = ({ data }) => {
+export const TotalTransactions: FC<MostActiveDayProps> = ({ data }) => {
   const { frequency } = useSummaryFilter();
-
   const periodGranularity = (() => {
     switch (frequency) {
       case SummaryFrequencyType.allTheTime:
@@ -31,29 +29,26 @@ export const HighestSpend: FC<HighestSpendProps> = ({ data }) => {
     }
   })();
 
-  const { maxExpenseDateInPeriod, maxExpenseInPeriod } = useGeneralSummaryStats(
-    data,
-    {
-      periodGranularity,
-    },
-  );
+  const { transactionCount } = useGeneralSummaryStats(data, {
+    periodGranularity: periodGranularity,
+  });
 
   return (
     <Tile className="flex flex-col gap-1">
       <Text fontWeight="medium" fontSize="sm" color="gray">
-        Highest spend
+        Total transactions
       </Text>
-      <If condition={maxExpenseInPeriod !== 0}>
+      <If condition={transactionCount}>
         <Text fontWeight="semibold" fontSize="lg">
-          {formatPrice(maxExpenseInPeriod)}
+          {transactionCount}
         </Text>
         <Text fontSize="xs" color="gray">
-          {maxExpenseDateInPeriod}
+          Recorded
         </Text>
       </If>
-      <If condition={maxExpenseInPeriod === 0}>
+      <If condition={!transactionCount}>
         <Text fontWeight="semibold" fontSize="lg">
-          No spend recorded
+          No activity recorded
         </Text>
       </If>
     </Tile>
