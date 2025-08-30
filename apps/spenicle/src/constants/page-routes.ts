@@ -3,8 +3,8 @@ import {
   CreditCard,
   Tag,
   PieChart,
-  Calendar1Icon,
   ChartBarBigIcon,
+  ChartNoAxesCombinedIcon,
 } from 'lucide-react';
 
 export const ROUTES = {
@@ -13,8 +13,8 @@ export const ROUTES = {
   ACCOUNTS: '/accounts',
   CATEGORIES: '/categories',
   SUMMARY: '/summary',
-  SUMMARY_CALENDAR: 'calendar',
   SUMMARY_TIMELINE: 'timeline',
+  SUMMARY_TRENDS: 'trends',
 } as const;
 
 export const DEEP_LINKS = {
@@ -43,10 +43,10 @@ export const DEEP_LINKS = {
     title: 'Summary',
     icon: PieChart,
   },
-  SUMMARY_CALENDAR: {
-    path: '/summary/calendar',
-    title: 'Calendar',
-    icon: Calendar1Icon,
+  SUMMARY_TRENDS: {
+    path: '/summary/trends',
+    title: 'Trends',
+    icon: ChartNoAxesCombinedIcon,
   },
   SUMMARY_TIMELINE: {
     path: '/summary/timeline',

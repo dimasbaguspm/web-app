@@ -44,8 +44,8 @@ const router = createBrowserRouter([
             Component: lazyLoad(() => import('../pages/summary-overview/page')),
           },
           {
-            path: ROUTES.SUMMARY_CALENDAR,
-            Component: lazyLoad(() => import('../pages/summary-calendar/page')),
+            path: ROUTES.SUMMARY_TRENDS,
+            Component: lazyLoad(() => import('../pages/summary-trends/page')),
           },
           {
             path: ROUTES.SUMMARY_TIMELINE,

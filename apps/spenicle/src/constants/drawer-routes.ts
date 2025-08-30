@@ -17,4 +17,5 @@ export const DRAWER_ROUTES = {
   FILTER_TRANSACTION: 'filter-transaction',
 
   FILTER_SUMMARY: 'filter-summary',
+  FILTER_SUMMARY_COMPARE: 'filter-summary-compare',
 } as const;
