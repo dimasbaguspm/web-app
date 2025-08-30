@@ -18,6 +18,8 @@ export interface FormatPriceOptions {
   maximumFractionDigits?: number;
   // when false, omit the currency symbol and just show the number
   showCurrencySymbol?: boolean;
+  // when true, use compact notation (e.g., Rp 1.4M instead of Rp 1.400.000)
+  compact?: boolean;
 }
 
 function sanitizeAmount(amount: number | string | null | undefined): number {
@@ -73,13 +75,59 @@ export function formatPrice(
     options.maximumFractionDigits ?? defaultFraction;
 
   const showCurrency = options.showCurrencySymbol ?? true;
+  const useCompact = options.compact ?? false;
 
-  const formatter = new Intl.NumberFormat(locale, {
+  // When using compact notation, we want to show more precision
+  // Override fraction digits for compact mode to show decimal places
+  let finalMinimumFractionDigits = minimumFractionDigits;
+  let finalMaximumFractionDigits = maximumFractionDigits;
+
+  if (useCompact) {
+    // For compact mode, be smart about decimal precision
+    // Only show decimals if they add meaningful value (not just .0)
+
+    // Check if the value has meaningful decimal places when divided by compact units
+    const hasSignificantDecimals = (val: number, divisor: number) => {
+      const divided = val / divisor;
+      return divided % 1 !== 0; // Has decimal part
+    };
+
+    // Determine if we need decimals based on the value
+    let needsDecimals = false;
+
+    // For millions (1,000,000+)
+    if (Math.abs(value) >= 1000000) {
+      needsDecimals = hasSignificantDecimals(value, 1000000);
+    }
+    // For thousands (1,000+)
+    else if (Math.abs(value) >= 1000) {
+      needsDecimals = hasSignificantDecimals(value, 1000);
+    }
+
+    if (needsDecimals) {
+      finalMinimumFractionDigits = 0; // Don't force decimals, let them show naturally
+      finalMaximumFractionDigits = Math.max(maximumFractionDigits, 2);
+    } else {
+      // No meaningful decimals, keep it clean
+      finalMinimumFractionDigits = 0;
+      finalMaximumFractionDigits = 0;
+    }
+  }
+
+  const formatOptions: Intl.NumberFormatOptions = {
     style: showCurrency ? 'currency' : 'decimal',
     currency,
-    minimumFractionDigits,
-    maximumFractionDigits,
-  } as Intl.NumberFormatOptions);
+    minimumFractionDigits: finalMinimumFractionDigits,
+    maximumFractionDigits: finalMaximumFractionDigits,
+  };
+
+  // Add compact notation if requested
+  if (useCompact) {
+    formatOptions.notation = 'compact';
+    formatOptions.compactDisplay = 'short';
+  }
+
+  const formatter = new Intl.NumberFormat(locale, formatOptions);
 
   return formatter.format(value);
 }

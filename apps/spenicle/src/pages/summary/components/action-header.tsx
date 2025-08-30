@@ -7,8 +7,8 @@ import {
   Icon,
 } from '@dimasbaguspm/versaur';
 import {
-  CalendarCheck2Icon,
   ChartBarBigIcon,
+  ChartNoAxesCombinedIcon,
   FilterIcon,
   TargetIcon,
 } from 'lucide-react';
@@ -24,11 +24,11 @@ export const ActionHeader: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleOnNavigate = (value: 'overview' | 'calendar' | 'timeline') => {
+  const handleOnNavigate = (value: 'overview' | 'trends' | 'timeline') => {
     navigate({
       pathname:
-        value === 'calendar'
-          ? DEEP_LINKS.SUMMARY_CALENDAR.path
+        value === 'trends'
+          ? DEEP_LINKS.SUMMARY_TRENDS.path
           : value === 'timeline'
             ? DEEP_LINKS.SUMMARY_TIMELINE.path
             : DEEP_LINKS.SUMMARY.path,
@@ -53,8 +53,8 @@ export const ActionHeader: FC = () => {
         value={
           location.pathname === DEEP_LINKS.SUMMARY.path
             ? 'overview'
-            : location.pathname === DEEP_LINKS.SUMMARY_CALENDAR.path
-              ? 'calendar'
+            : location.pathname === DEEP_LINKS.SUMMARY_TRENDS.path
+              ? 'trends'
               : 'timeline'
         }
         label=""
@@ -62,7 +62,7 @@ export const ActionHeader: FC = () => {
         name="1"
         className="w-auto"
         onChange={(data) =>
-          handleOnNavigate(data as 'overview' | 'calendar' | 'timeline')
+          handleOnNavigate(data as 'overview' | 'trends' | 'timeline')
         }
       >
         <ChipSingleInput.Option value="overview">
@@ -73,9 +73,9 @@ export const ActionHeader: FC = () => {
           <Icon as={ChartBarBigIcon} color="inherit" size="sm" />
           {isDesktop && 'Timeline'}
         </ChipSingleInput.Option>
-        <ChipSingleInput.Option value="calendar">
-          <Icon as={CalendarCheck2Icon} color="inherit" size="sm" />
-          {isDesktop && 'Calendar'}
+        <ChipSingleInput.Option value="trends">
+          <Icon as={ChartNoAxesCombinedIcon} color="inherit" size="sm" />
+          {isDesktop && 'Trends'}
         </ChipSingleInput.Option>
       </ChipSingleInput>
     </div>
