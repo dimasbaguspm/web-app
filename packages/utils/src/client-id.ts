@@ -18,14 +18,14 @@ export interface ClientIdOptions {
   idPrefix?: string;
 }
 
-/**
- * Default configuration for client ID generation
- */
-const DEFAULT_OPTIONS: Required<ClientIdOptions> = {
+// Default configuration for client ID generation. Domain is empty so that
+// the current hostname is used by default (works better for mobile/webviews).
+const DEFAULT_OPTIONS: ClientIdOptions = {
   cookieName: 'client_id',
   expirationDays: 365,
-  domain: '.dimasbaguspm.com',
-  secure: true,
+  domain: '',
+  // secure will be inferred at runtime from location.protocol if left undefined
+  secure: undefined,
   sameSite: 'lax',
   idPrefix: 'moekthy',
 };
@@ -153,21 +153,32 @@ async function setCookieValue(
   value: string,
   options: ClientIdOptions,
 ): Promise<void> {
+  const cfg = { ...DEFAULT_OPTIONS, ...options };
+
   const expires = new Date();
-  expires.setDate(
-    expires.getDate() +
-      (options.expirationDays || DEFAULT_OPTIONS.expirationDays),
-  );
+  expires.setDate(expires.getDate() + (cfg.expirationDays ?? 365));
+
+  // Compute runtime values
+  const domain =
+    cfg.domain && cfg.domain.length > 0 ? cfg.domain : window.location.hostname;
+  const sameSite = cfg.sameSite || 'lax';
+  const secureFlag =
+    typeof cfg.secure === 'boolean'
+      ? cfg.secure
+      : window.location.protocol === 'https:';
 
   // Try Cookie Store API first (modern browsers)
   if ('cookieStore' in window) {
     try {
-      await cookieStore.set({
+      // cookieStore.set accepts undefined for optional props
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (window as any).cookieStore.set({
         name,
         value,
         expires: expires.getTime(),
-        domain: options.domain || window.location.hostname,
-        sameSite: options.sameSite || 'lax',
+        domain: domain || undefined,
+        sameSite,
+        secure: secureFlag,
       });
       return;
     } catch (e) {
@@ -181,19 +192,25 @@ async function setCookieValue(
   // Fallback to document.cookie
   let cookieString = `${name}=${value}; expires=${expires.toUTCString()}; path=/`;
 
-  if (options.domain) {
-    cookieString += `; domain=${options.domain}`;
+  if (domain) {
+    cookieString += `; domain=${domain}`;
   }
 
-  if (options.secure !== false && window.location.protocol === 'https:') {
-    cookieString += '; secure';
+  if (secureFlag) {
+    cookieString += '; Secure';
   }
 
-  if (options.sameSite) {
-    cookieString += `; samesite=${options.sameSite}`;
+  if (sameSite) {
+    cookieString += `; samesite=${sameSite}`;
   }
 
   document.cookie = cookieString;
+  // Also persist to localStorage as a fallback for environments where cookies are unreliable
+  try {
+    window.localStorage.setItem(name, value);
+  } catch {
+    // ignore localStorage failures
+  }
 }
 
 /**
@@ -221,6 +238,14 @@ async function getCookieValue(name: string): Promise<string | null> {
     return parts.pop()?.split(';').shift() || null;
   }
 
+  // If cookie not found, try localStorage as a fallback (useful for mobile webviews)
+  try {
+    const ls = window.localStorage.getItem(name);
+    if (ls) return ls;
+  } catch {
+    // localStorage may be unavailable in some webviews/incognito modes
+  }
+
   return null;
 }
 
@@ -234,7 +259,7 @@ export async function generateClientId(
 
   try {
     // Check if we already have a client ID
-    const existingId = await getCookieValue(config.cookieName);
+    const existingId = await getCookieValue(config.cookieName ?? 'client_id');
     if (existingId) {
       return existingId;
     }
@@ -247,7 +272,7 @@ export async function generateClientId(
     const clientId = `${config.idPrefix}_${browserFingerprint}_${randomId}_${timestamp}`;
 
     // Store in cookie
-    await setCookieValue(config.cookieName, clientId, config);
+    await setCookieValue(config.cookieName ?? 'client_id', clientId, config);
 
     return clientId;
   } catch (error) {
@@ -269,7 +294,7 @@ export async function getClientId(
   const config = { ...DEFAULT_OPTIONS, ...options };
 
   // Try to get existing ID first
-  const existingId = await getCookieValue(config.cookieName);
+  const existingId = await getCookieValue(config.cookieName ?? 'client_id');
   if (existingId) return existingId;
 
   // Generate new ID if none exists
@@ -288,14 +313,22 @@ export async function clearClientId(
     // Clear from Cookie Store API
     if ('cookieStore' in window) {
       try {
-        await cookieStore.delete(config.cookieName);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (window as any).cookieStore.delete(
+          config.cookieName ?? 'client_id',
+        );
       } catch (e) {
         console.warn('Cookie Store API delete failed:', e);
       }
     }
 
     // Clear from document.cookie (fallback)
-    document.cookie = `${config.cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    document.cookie = `${config.cookieName ?? 'client_id'}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    try {
+      window.localStorage.removeItem(config.cookieName ?? 'client_id');
+    } catch {
+      // ignore
+    }
   } catch (error) {
     console.error('Failed to clear client ID:', error);
   }
