@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Drawer } from '@dimasbaguspm/versaur';
@@ -10,6 +11,8 @@ import { DetailTransactionDrawer } from '../drawers/detail-transaction-drawer/dr
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
 import { EditTransactionDrawer } from '../drawers/edit-transaction-drawer/drawer';
+import { FilterAccountDrawer } from '../drawers/filter-account-drawer/drawer';
+import { FilterCategoryDrawer } from '../drawers/filter-category-drawer/drawer';
 import { FilterSummaryDrawer } from '../drawers/filter-summary-drawer/drawer';
 import { FilterTransactionDrawer } from '../drawers/filter-transaction-drawer/drawer';
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
@@ -132,6 +135,8 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.FILTER_SUMMARY) && (
         <FilterSummaryDrawer payload={state?.payload} />
       )}
+      {is(DRAWER_ROUTES.FILTER_CATEGORY) && <FilterCategoryDrawer />}
+      {is(DRAWER_ROUTES.FILTER_ACCOUNT) && <FilterAccountDrawer />}
     </Drawer>
   );
 };

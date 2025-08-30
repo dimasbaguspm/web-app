@@ -17,12 +17,19 @@ import { PlusIcon } from 'lucide-react';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 import { CategoryCard } from './components';
+import { ActionsControl } from './components/actions-control';
+import { FilterControl } from './components/filter-control';
+import { useCategoryFilter } from './hooks/use-category-filter';
 
 const CategoriesPage = () => {
   const { openDrawer } = useDrawerRoute();
 
+  const { appliedFilters } = useCategoryFilter();
+
   const [categories, , { isLoading }] = useApiSpenicleCategoriesPaginatedQuery({
     pageSize: 15,
+    search: appliedFilters.q,
+    type: appliedFilters.type,
   });
 
   const handleOpenDrawer = () => {
@@ -62,6 +69,10 @@ const CategoriesPage = () => {
         </If>
 
         <If condition={[categories, categories?.items]}>
+          <ActionsControl />
+
+          <FilterControl />
+
           <div className="space-y-4">
             <ul className="grid grid-cols-1">
               {categories?.items.map((category) => (
