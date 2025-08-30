@@ -6,7 +6,7 @@ import {
   PageContent,
   PageHeader,
 } from '@dimasbaguspm/versaur';
-import { DownloadCloudIcon } from 'lucide-react';
+import { HardDriveDownloadIcon } from 'lucide-react';
 import { Outlet } from 'react-router';
 
 import { ActionHeader } from './components/action-header';
@@ -21,14 +21,14 @@ const SummaryLayout = () => {
         actions={
           <ButtonGroup>
             <Button>
-              <Icon as={DownloadCloudIcon} color="inherit" />
+              <Icon as={HardDriveDownloadIcon} color="inherit" />
               Report
             </Button>
           </ButtonGroup>
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon as={DownloadCloudIcon} aria-label="Export" />
+            <ButtonIcon as={HardDriveDownloadIcon} aria-label="Export" />
           </ButtonGroup>
         }
       />

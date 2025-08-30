@@ -77,6 +77,9 @@ export const useApiSpenicleCreateTransaction = () => {
         queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_INFINITE().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_SUMMARY_TRANSACTIONS().slice(0, 2),
+      });
       queryClient.setQueryData(
         QUERY_KEYS.SPENICLE_TRANSACTION_BY_ID(data.id),
         data,
@@ -99,6 +102,9 @@ export const useApiSpenicleUpdateTransaction = () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_INFINITE().slice(0, 3),
         exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_SUMMARY_TRANSACTIONS().slice(0, 2),
       });
       queryClient.setQueryData(
         QUERY_KEYS.SPENICLE_TRANSACTION_BY_ID(data.id),

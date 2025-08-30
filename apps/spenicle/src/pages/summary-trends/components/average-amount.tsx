@@ -1,6 +1,6 @@
 import { SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
-import { formatPrice } from '@dimasbaguspm/utils/price';
+import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
 import { Text, Tile } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
@@ -10,13 +10,12 @@ import {
   useSummaryFilter,
 } from '../../summary/hooks/use-summary-filter';
 
-interface HighestSpendProps {
+interface AverageAmountProps {
   data: SummaryTransactionsModel;
 }
 
-export const HighestSpend: FC<HighestSpendProps> = ({ data }) => {
+export const AverageAmount: FC<AverageAmountProps> = ({ data }) => {
   const { frequency } = useSummaryFilter();
-
   const periodGranularity = (() => {
     switch (frequency) {
       case SummaryFrequencyType.allTheTime:
@@ -31,29 +30,27 @@ export const HighestSpend: FC<HighestSpendProps> = ({ data }) => {
     }
   })();
 
-  const { maxExpenseDateInPeriod, maxExpenseInPeriod } = useGeneralSummaryStats(
-    data,
-    {
-      periodGranularity,
-    },
-  );
+  const { avgTransactionValue } = useGeneralSummaryStats(data, {
+    metric: 'net',
+    periodGranularity,
+  });
 
   return (
     <Tile className="flex flex-col gap-1">
       <Text fontWeight="medium" fontSize="sm" color="gray">
-        Highest spend
+        Average amount
       </Text>
-      <If condition={maxExpenseInPeriod !== 0}>
+      <If condition={avgTransactionValue !== 0}>
         <Text fontWeight="semibold" fontSize="lg">
-          {formatPrice(maxExpenseInPeriod)}
+          {formatPrice(avgTransactionValue, Currency.IDR, { compact: true })}
         </Text>
         <Text fontSize="xs" color="gray">
-          {maxExpenseDateInPeriod}
+          Net per transaction
         </Text>
       </If>
-      <If condition={maxExpenseInPeriod === 0}>
+      <If condition={avgTransactionValue === 0}>
         <Text fontWeight="semibold" fontSize="lg">
-          No spend recorded
+          No transactions
         </Text>
       </If>
     </Tile>

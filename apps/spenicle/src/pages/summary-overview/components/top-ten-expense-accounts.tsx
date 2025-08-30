@@ -53,7 +53,7 @@ export const TopTenExpenseAccounts: FC<TopTenExpenseAccountsProps> = ({
   return (
     <div className="flex flex-col gap-1">
       <Text fontWeight="semibold" fontSize="lg" className="mb-4">
-        Top Income Accounts
+        Top Expense Accounts
       </Text>
       <If condition={organizedData.length}>
         <ul className="flex flex-col ml-6 list-decimal">

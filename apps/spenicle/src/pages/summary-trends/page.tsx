@@ -8,13 +8,13 @@ import {
   useSummaryFilter,
 } from '../summary/hooks/use-summary-filter';
 
+import { AverageAmount } from './components/average-amount';
 import { AverageLoggedTransaction } from './components/average-logged-transaction';
-import { AverageTransactionValue } from './components/average-transaction-value';
 import { DateTransactionsAreaChart } from './components/date-transactions-area-chart';
 import { GrowthRate } from './components/growth-rate';
-import { HighestNetInADay } from './components/highest-net-in-a-day';
-import { HighestSpendInADay } from './components/highest-spend-in-a-day';
-import { MostActiveDay } from './components/most-active-day';
+import { HighestNet } from './components/highest-net';
+import { HighestSpend } from './components/highest-spend-in-a-day';
+import { TotalTransactions } from './components/total-transactions';
 
 const SummaryTrendsPage = () => {
   const { appliedFilters, frequency } = useSummaryFilter();
@@ -37,7 +37,7 @@ const SummaryTrendsPage = () => {
     }
   })();
 
-  const [transactions, , { isFetching }] =
+  const [transactions, , { isLoading }] =
     useApiSpenicleSummaryTransactionsQuery({
       from: dateFilters.from,
       to: dateFilters.to,
@@ -49,19 +49,19 @@ const SummaryTrendsPage = () => {
 
   return (
     <>
-      <If condition={isFetching}>
+      <If condition={[isLoading, !transactions?.length]}>
         <LoadingIndicator type="bar" size="sm" />
       </If>
-      <If condition={[!isFetching, transactions?.length]}>
+      <If condition={[!isLoading, transactions?.length]}>
         <DateTransactionsAreaChart data={transactions!} />
 
         <div className="grid lg:grid-cols-3 gap-4">
           <GrowthRate data={transactions!} />
-          <AverageTransactionValue data={transactions!} />
+          <AverageAmount data={transactions!} />
           <AverageLoggedTransaction data={transactions!} />
-          <HighestSpendInADay data={transactions!} />
-          <HighestNetInADay data={transactions!} />
-          <MostActiveDay data={transactions!} />
+          <HighestSpend data={transactions!} />
+          <HighestNet data={transactions!} />
+          <TotalTransactions data={transactions!} />
         </div>
       </If>
     </>
