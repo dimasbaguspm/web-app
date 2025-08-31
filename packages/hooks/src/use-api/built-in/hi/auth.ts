@@ -33,11 +33,7 @@ export const useApiHiAuthTokenRefresher = () => {
 
         const expiredTime = new Date(JSON.parse(atob(payload)).exp * 1000);
 
-        // Reduce 15 minutes (15 * 60 * 1000 milliseconds) from expiration time to catch expiration earlier
-        const adjustedExpiredTime = new Date(
-          expiredTime.getTime() - 15 * 60 * 1000,
-        );
-        const isExpired = adjustedExpiredTime < new Date();
+        const isExpired = expiredTime < new Date();
 
         if (!isExpired) return true;
 
@@ -49,8 +45,15 @@ export const useApiHiAuthTokenRefresher = () => {
         });
 
         return true;
-      } catch (err) {
-        console.log(err);
+      } catch (err: unknown) {
+        const message =
+          err instanceof Error
+            ? err.message
+            : typeof err === 'string'
+              ? err
+              : String(err);
+
+        window.confirm(message);
         const currentUrl = new URL(window.location.href);
 
         window.location.href =
