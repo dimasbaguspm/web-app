@@ -118,6 +118,25 @@ export const useApiSpenicleUpdateAccount = () => {
   });
 };
 
+export const useApiSpenicleDeleteAccount = () => {
+  const queryClient = useQueryClient();
+  return useApiMutate<{ id: number }, unknown>({
+    path: '/account/:id',
+    method: 'DELETE',
+    base: 'SPENICLE',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_INFINITE().slice(0, 3),
+        exact: false,
+      });
+    },
+  });
+};
+
 export const useApiSpenicleCachedAccounts = (): AccountModel[] => {
   const queryClient = useQueryClient();
 

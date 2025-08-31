@@ -106,6 +106,25 @@ export const useApiSpenicleUpdateCategory = () => {
   });
 };
 
+export const useApiSpenicleDeleteCategory = () => {
+  const queryClient = useQueryClient();
+  return useApiMutate<{ id: number }, unknown>({
+    path: '/category/:id',
+    method: 'DELETE',
+    base: 'SPENICLE',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_INFINITE().slice(0, 3),
+        exact: false,
+      });
+    },
+  });
+};
+
 export const useApiSpenicleCachedCategories = (): CategoryModel[] => {
   const queryClient = useQueryClient();
 

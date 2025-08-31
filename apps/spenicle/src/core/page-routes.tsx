@@ -1,4 +1,5 @@
 import { DrawerRouteProvider } from '@dimasbaguspm/providers/drawer-route-provider';
+import { ModalRouteProvider } from '@dimasbaguspm/providers/modal-route-provider';
 import { lazyLoad } from '@dimasbaguspm/utils/lazy-load';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router';
 
@@ -7,15 +8,19 @@ import SummaryLayout from '../pages/summary/page';
 
 import { AppLayout } from './app-layout';
 import { DrawerRoutes } from './drawer-routes';
+import { ModalRoutes } from './modal-routes';
 
 const router = createBrowserRouter([
   {
     element: (
       <DrawerRouteProvider>
-        <AppLayout>
-          <Outlet />
-        </AppLayout>
-        <DrawerRoutes />
+        <ModalRouteProvider>
+          <AppLayout>
+            <Outlet />
+          </AppLayout>
+          <DrawerRoutes />
+          <ModalRoutes />
+        </ModalRouteProvider>
       </DrawerRouteProvider>
     ),
     children: [
