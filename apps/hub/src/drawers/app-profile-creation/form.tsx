@@ -1,10 +1,5 @@
 import { GroupModel, UserModel } from '@dimasbaguspm/interfaces';
-import {
-  FormLayout,
-  RadioInput,
-  SelectInput,
-  TextInput,
-} from '@dimasbaguspm/versaur';
+import { FormLayout, RadioInput, SelectInput, TextInput } from '@dimasbaguspm/versaur';
 import { FC, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -15,12 +10,8 @@ interface AppProfileCreationFormProps {
   groups: GroupModel[];
 }
 
-export const AppProfileCreationForm: FC<AppProfileCreationFormProps> = ({
-  user,
-  groups,
-}) => {
-  const { register, watch, setValue, formState } =
-    useFormContext<AppProfileCreationFormData>();
+export const AppProfileCreationForm: FC<AppProfileCreationFormProps> = ({ user, groups }) => {
+  const { register, watch, setValue, formState } = useFormContext<AppProfileCreationFormData>();
 
   const [profileType] = watch(['profileType', 'selectedId']);
   const hasGroups = Boolean(groups.length);
@@ -71,25 +62,15 @@ export const AppProfileCreationForm: FC<AppProfileCreationFormProps> = ({
               value={profileType}
               error={formState.errors.profileType?.message}
               onChange={(e) => {
-                setValue(
-                  e.target.name as 'profileType',
-                  e.target.value as 'user' | 'group',
-                  {
-                    shouldDirty: true,
-                  },
-                );
+                setValue(e.target.name as 'profileType', e.target.value as 'user' | 'group', {
+                  shouldDirty: true,
+                });
               }}
             >
-              <RadioInput.Option
-                value="user"
-                defaultChecked={profileType === 'user'}
-              >
+              <RadioInput.Option value="user" defaultChecked={profileType === 'user'}>
                 Personal Profile
               </RadioInput.Option>
-              <RadioInput.Option
-                value="group"
-                defaultChecked={profileType === 'group'}
-              >
+              <RadioInput.Option value="group" defaultChecked={profileType === 'group'}>
                 Group Profile
               </RadioInput.Option>
             </RadioInput>

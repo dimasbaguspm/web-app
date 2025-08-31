@@ -4,10 +4,7 @@ import { FC } from 'react';
 
 import type { ProfilesEmptyStateProps } from '../types';
 
-export const ProfilesEmptyState: FC<ProfilesEmptyStateProps> = ({
-  searchTerm,
-  onClearSearch,
-}) => {
+export const ProfilesEmptyState: FC<ProfilesEmptyStateProps> = ({ searchTerm, onClearSearch }) => {
   if (searchTerm) {
     return (
       <NoResults

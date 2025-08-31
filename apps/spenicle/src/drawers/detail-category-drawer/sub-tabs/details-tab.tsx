@@ -3,15 +3,7 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  AttributeList,
-  Badge,
-  BadgeGroup,
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Icon,
-} from '@dimasbaguspm/versaur';
+import { AttributeList, Badge, BadgeGroup, Button, ButtonGroup, ButtonIcon, Icon } from '@dimasbaguspm/versaur';
 import { EditIcon, TrashIcon } from 'lucide-react';
 import { FC } from 'react';
 

@@ -12,18 +12,9 @@ import {
   TextInput,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
-import {
-  TrendingDownIcon,
-  TrendingUpDownIcon,
-  TrendingUpIcon,
-} from 'lucide-react';
+import { TrendingDownIcon, TrendingUpDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
-import {
-  Controller,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 export const NewCategoryDrawer: FC = () => {
   const { closeDrawer } = useDrawerRoute();
@@ -31,15 +22,13 @@ export const NewCategoryDrawer: FC = () => {
   const { isDesktop } = useWindowResize();
 
   const [createCategory, , { isPending }] = useApiSpenicleCreateCategory();
-  const { register, handleSubmit, formState, control, getFieldState } = useForm(
-    {
-      defaultValues: {
-        name: '',
-        type: 'expense',
-        notes: '',
-      },
+  const { register, handleSubmit, formState, control, getFieldState } = useForm({
+    defaultValues: {
+      name: '',
+      type: 'expense',
+      notes: '',
     },
-  );
+  });
 
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
     await createCategory({
@@ -58,10 +47,7 @@ export const NewCategoryDrawer: FC = () => {
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Body>
-        <form
-          id="new-category-form"
-          onSubmit={handleSubmit(handleOnValidSubmit)}
-        >
+        <form id="new-category-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
           <FormLayout>
             <FormLayout.Column span={12}>
               <TextInput
@@ -99,13 +85,7 @@ export const NewCategoryDrawer: FC = () => {
               />
             </FormLayout.Column>
             <FormLayout.Column span={12}>
-              <TextAreaInput
-                label="Notes"
-                fieldSizing="content"
-                minRows={4}
-                rows={6}
-                {...register('notes')}
-              />
+              <TextAreaInput label="Notes" fieldSizing="content" minRows={4} rows={6} {...register('notes')} />
             </FormLayout.Column>
           </FormLayout>
         </form>
@@ -115,11 +95,7 @@ export const NewCategoryDrawer: FC = () => {
           <Button variant="ghost" onClick={closeDrawer}>
             Cancel
           </Button>
-          <Button
-            type="submit"
-            form="new-category-form"
-            disabled={isPending || !formState.isValid}
-          >
+          <Button type="submit" form="new-category-form" disabled={isPending || !formState.isValid}>
             Create
           </Button>
         </ButtonGroup>

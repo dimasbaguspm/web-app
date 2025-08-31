@@ -3,18 +3,9 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { ModalRouteContext } from './context';
 
-import type {
-  ModalParams,
-  ModalRouteModel,
-  ModalState,
-  OpenModalOptions,
-} from './types';
+import type { ModalParams, ModalRouteModel, ModalState, OpenModalOptions } from './types';
 
-export function ModalRouteProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function ModalRouteProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -57,9 +48,5 @@ export function ModalRouteProvider({
     [isOpen, modalId, params, location.state, openModal, closeModal],
   );
 
-  return (
-    <ModalRouteContext.Provider value={contextValue}>
-      {children}
-    </ModalRouteContext.Provider>
-  );
+  return <ModalRouteContext.Provider value={contextValue}>{children}</ModalRouteContext.Provider>;
 }

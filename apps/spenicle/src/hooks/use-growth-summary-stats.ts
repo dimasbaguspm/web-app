@@ -16,9 +16,7 @@ export interface GrowthSummaryStatsModel {
 }
 
 const formatGrowthPercentage = (percentage: number) => {
-  return percentage > 0
-    ? `+${percentage.toFixed(2)}%`
-    : `${percentage.toFixed(2)}%`;
+  return percentage > 0 ? `+${percentage.toFixed(2)}%` : `${percentage.toFixed(2)}%`;
 };
 
 export const useGrowthSummaryStats = (
@@ -63,12 +61,7 @@ export const useGrowthSummaryStats = (
       percentage: pct,
       formattedPercentage: formatGrowthPercentage(pct),
       trend: dir,
-      TrendIcon:
-        dir === 'up'
-          ? TrendingUpIcon
-          : dir === 'down'
-            ? TrendingDownIcon
-            : MinusIcon,
+      TrendIcon: dir === 'up' ? TrendingUpIcon : dir === 'down' ? TrendingDownIcon : MinusIcon,
       getTrendColor: (isExpense: boolean) =>
         dir === 'up'
           ? isExpense
@@ -95,9 +88,7 @@ export const useGrowthSummaryStats = (
     { totalGrowth: 0, validComparisons: 0, prevSum: 0 },
   );
 
-  const averagePeriodGrowth = validComparisons
-    ? totalGrowth / validComparisons
-    : 0;
+  const averagePeriodGrowth = validComparisons ? totalGrowth / validComparisons : 0;
 
   // Compute percentage so it's consistent with `amount`:
   // use averagePeriodGrowth relative to average previous value.
@@ -112,11 +103,7 @@ export const useGrowthSummaryStats = (
     return (averagePeriodGrowth / Math.abs(averagePrevValue)) * 100;
   })();
   const trendDirection: 'up' | 'down' | 'neutral' =
-    averageGrowthPercentage > 0.1
-      ? 'up'
-      : averageGrowthPercentage < -0.1
-        ? 'down'
-        : 'neutral';
+    averageGrowthPercentage > 0.1 ? 'up' : averageGrowthPercentage < -0.1 ? 'down' : 'neutral';
 
   const TrendIcon = useMemo(() => {
     switch (trendDirection) {

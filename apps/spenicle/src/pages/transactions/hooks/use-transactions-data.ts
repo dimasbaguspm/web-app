@@ -17,20 +17,16 @@ export const useTransactionData = (props: UseTransactionDataProps) => {
 
   const { appliedFilters } = useTransactionsFilter();
 
-  const [
-    transactions,
-    ,
-    { hasNextPage, isLoading: isLoadingTransactions, isFetchingNextPage },
-    { fetchNextPage },
-  ] = useApiSpenicleTransactionsInfiniteQuery({
-    accountId: appliedFilters?.accountId ? appliedFilters.accountId : [],
-    categoryId: appliedFilters?.categoryId ? appliedFilters.categoryId : [],
-    type: appliedFilters?.type ? appliedFilters.type : [],
-    dateFrom: formatDate(date.startOf('day'), DateFormat.ISO_DATETIME),
-    dateTo: formatDate(date.endOf('day'), DateFormat.ISO_DATETIME),
-    pageSize: 15,
-    sortBy: 'date',
-  });
+  const [transactions, , { hasNextPage, isLoading: isLoadingTransactions, isFetchingNextPage }, { fetchNextPage }] =
+    useApiSpenicleTransactionsInfiniteQuery({
+      accountId: appliedFilters?.accountId ? appliedFilters.accountId : [],
+      categoryId: appliedFilters?.categoryId ? appliedFilters.categoryId : [],
+      type: appliedFilters?.type ? appliedFilters.type : [],
+      dateFrom: formatDate(date.startOf('day'), DateFormat.ISO_DATETIME),
+      dateTo: formatDate(date.endOf('day'), DateFormat.ISO_DATETIME),
+      pageSize: 15,
+      sortBy: 'date',
+    });
 
   const accountIds = [...new Set(transactions.map((item) => item.accountId))];
   const categoryIds = [...new Set(transactions.map((item) => item.categoryId))];

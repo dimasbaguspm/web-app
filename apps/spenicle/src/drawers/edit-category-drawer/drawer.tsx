@@ -1,7 +1,4 @@
-import {
-  useApiSpenicleCategoryQuery,
-  useApiSpenicleUpdateCategory,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleCategoryQuery, useApiSpenicleUpdateCategory } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import {
@@ -15,18 +12,9 @@ import {
   TextInput,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
-import {
-  TrendingDownIcon,
-  TrendingUpDownIcon,
-  TrendingUpIcon,
-} from 'lucide-react';
+import { TrendingDownIcon, TrendingUpDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
-import {
-  Controller,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 interface Props {
   categoryId: number;
@@ -41,15 +29,13 @@ export const EditCategoryDrawer: FC<Props> = ({ categoryId }) => {
 
   const [updateCategory, , { isPending }] = useApiSpenicleUpdateCategory();
 
-  const { register, handleSubmit, formState, control, getFieldState } = useForm(
-    {
-      defaultValues: {
-        name: categoryData?.name || '',
-        notes: categoryData?.note || '',
-        type: categoryData?.type || '',
-      },
+  const { register, handleSubmit, formState, control, getFieldState } = useForm({
+    defaultValues: {
+      name: categoryData?.name || '',
+      notes: categoryData?.note || '',
+      type: categoryData?.type || '',
     },
-  );
+  });
 
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (categoryData == null) return;
@@ -72,10 +58,7 @@ export const EditCategoryDrawer: FC<Props> = ({ categoryId }) => {
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Body>
-        <form
-          id="update-category-form"
-          onSubmit={handleSubmit(handleOnValidSubmit)}
-        >
+        <form id="update-category-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
           <FormLayout>
             <FormLayout.Column span={12}>
               <TextInput
@@ -114,13 +97,7 @@ export const EditCategoryDrawer: FC<Props> = ({ categoryId }) => {
             </FormLayout.Column>
 
             <FormLayout.Column span={12}>
-              <TextAreaInput
-                label="Notes"
-                fieldSizing="content"
-                minRows={4}
-                rows={6}
-                {...register('notes')}
-              />
+              <TextAreaInput label="Notes" fieldSizing="content" minRows={4} rows={6} {...register('notes')} />
             </FormLayout.Column>
           </FormLayout>
         </form>
@@ -130,11 +107,7 @@ export const EditCategoryDrawer: FC<Props> = ({ categoryId }) => {
           <Button variant="ghost" onClick={closeDrawer}>
             Cancel
           </Button>
-          <Button
-            type="submit"
-            form="update-category-form"
-            disabled={isPending || !formState.isValid}
-          >
+          <Button type="submit" form="update-category-form" disabled={isPending || !formState.isValid}>
             Update
           </Button>
         </ButtonGroup>

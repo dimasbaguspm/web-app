@@ -1,7 +1,4 @@
-import {
-  useApiHiAppQuery,
-  useApiHiGroupsPaginatedQuery,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiHiAppQuery, useApiHiGroupsPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
 import { useMemo } from 'react';
 
 import { useDrawerRoute } from '../../hooks/use-drawer-route';
@@ -20,15 +17,14 @@ export const useAppProfileData = () => {
     return [...new Set(groupMembers.map((member) => member.groupId))];
   }, [groupMembers]);
 
-  const [groupsData, , { isLoading: isGroupsLoading }] =
-    useApiHiGroupsPaginatedQuery(
-      {
-        id: groupIds,
-      },
-      {
-        enabled: Boolean(groupIds.length),
-      },
-    );
+  const [groupsData, , { isLoading: isGroupsLoading }] = useApiHiGroupsPaginatedQuery(
+    {
+      id: groupIds,
+    },
+    {
+      enabled: Boolean(groupIds.length),
+    },
+  );
 
   const isDataLoading = isAppLoading || isGroupsLoading;
 

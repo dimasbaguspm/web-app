@@ -29,18 +29,10 @@ export const AppProfileCreationDrawer: FC = () => {
             <AppProfileCreationForm user={user} groups={groups} />
           </Drawer.Body>
           <Drawer.Footer>
-            <Button
-              variant="ghost"
-              onClick={handleCloseDrawer}
-              disabled={isSubmitting}
-            >
+            <Button variant="ghost" onClick={handleCloseDrawer} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button
-              variant="primary"
-              onClick={handleOnSubmit}
-              disabled={isSubmitting}
-            >
+            <Button variant="primary" onClick={handleOnSubmit} disabled={isSubmitting}>
               {isSubmitting ? 'Creating...' : 'Create Profile'}
             </Button>
           </Drawer.Footer>

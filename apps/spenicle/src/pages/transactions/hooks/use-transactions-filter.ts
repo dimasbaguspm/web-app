@@ -15,11 +15,7 @@ export const useTransactionsFilter = () => {
     () => ({
       accountId: searchParams.getAll('accountId').map(Number),
       categoryId: searchParams.getAll('categoryId').map(Number),
-      type: searchParams.getAll('type') as (
-        | 'income'
-        | 'expense'
-        | 'transfer'
-      )[],
+      type: searchParams.getAll('type') as ('income' | 'expense' | 'transfer')[],
     }),
     [searchParams],
   );
@@ -59,11 +55,9 @@ export const useTransactionsFilter = () => {
   const appliedFilters = useMemo(() => {
     const acc: Partial<TransactionFilterModel> = {};
 
-    if (Array.isArray(filters.accountId) && filters.accountId.length > 0)
-      acc.accountId = filters.accountId;
+    if (Array.isArray(filters.accountId) && filters.accountId.length > 0) acc.accountId = filters.accountId;
 
-    if (Array.isArray(filters.categoryId) && filters.categoryId.length > 0)
-      acc.categoryId = filters.categoryId;
+    if (Array.isArray(filters.categoryId) && filters.categoryId.length > 0) acc.categoryId = filters.categoryId;
 
     if (Array.isArray(filters.type) && filters.type.length > 0) {
       acc.type = filters.type;

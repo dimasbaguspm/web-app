@@ -1,10 +1,6 @@
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
-import {
-  formatSpenicleAccount,
-  formatSpenicleCategory,
-  formatSpenicleTransaction,
-} from '@dimasbaguspm/utils/data';
+import { formatSpenicleAccount, formatSpenicleCategory, formatSpenicleTransaction } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   AttributeList,
@@ -31,27 +27,17 @@ interface DetailTransactionDrawerProps {
   transactionId: number;
 }
 
-export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({
-  transactionId,
-}) => {
+export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({ transactionId }) => {
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
 
-  const {
-    transactionData,
-    accountData,
-    destinationAccountData,
-    categoryData,
-    isInitialLoading,
-  } = useDetailTransactionData({ transactionId });
+  const { transactionData, accountData, destinationAccountData, categoryData, isInitialLoading } =
+    useDetailTransactionData({ transactionId });
 
-  const { note, variant, capitalizedType, time, date, amount } =
-    formatSpenicleTransaction(transactionData);
+  const { note, variant, capitalizedType, time, date, amount } = formatSpenicleTransaction(transactionData);
 
   const { name: accountName } = formatSpenicleAccount(accountData);
-  const { name: destinationAccountName } = formatSpenicleAccount(
-    destinationAccountData,
-  );
+  const { name: destinationAccountName } = formatSpenicleAccount(destinationAccountData);
   const { name: categoryName } = formatSpenicleCategory(categoryData);
 
   const handleOnEditClick = () => {

@@ -22,10 +22,7 @@ import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-import {
-  SummaryFrequencyType,
-  useSummaryFilter,
-} from '../../pages/summary/hooks/use-summary-filter';
+import { SummaryFrequencyType, useSummaryFilter } from '../../pages/summary/hooks/use-summary-filter';
 
 import { FilterSummaryFormSchema } from './types';
 
@@ -34,61 +31,41 @@ interface FilterSummaryDrawer {
 }
 export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
   const { isDesktop } = useWindowResize();
-  const { appliedFilters, setFilters, frequencyToDateRange, frequency } =
-    useSummaryFilter();
+  const { appliedFilters, setFilters, frequencyToDateRange, frequency } = useSummaryFilter();
 
   const { openDrawer, closeDrawer } = useDrawerRoute();
 
-  const { control, handleSubmit, watch, getValues } =
-    useForm<FilterSummaryFormSchema>({
-      defaultValues: {
-        frequency: frequency || 'thisWeek',
-        customRange: frequency === SummaryFrequencyType.custom,
-        startDate: formatDate(
-          appliedFilters.range.startDate,
-          DateFormat.ISO_DATE,
-        ),
-        endDate: formatDate(appliedFilters.range.endDate, DateFormat.ISO_DATE),
-        categoryIds:
-          (payload?.categoryIds as number[]) ||
-          appliedFilters.categoryIds ||
-          [],
-        accountIds:
-          (payload?.accountIds as number[]) || appliedFilters.accountIds || [],
-      },
-    });
+  const { control, handleSubmit, watch, getValues } = useForm<FilterSummaryFormSchema>({
+    defaultValues: {
+      frequency: frequency || 'thisWeek',
+      customRange: frequency === SummaryFrequencyType.custom,
+      startDate: formatDate(appliedFilters.range.startDate, DateFormat.ISO_DATE),
+      endDate: formatDate(appliedFilters.range.endDate, DateFormat.ISO_DATE),
+      categoryIds: (payload?.categoryIds as number[]) || appliedFilters.categoryIds || [],
+      accountIds: (payload?.accountIds as number[]) || appliedFilters.accountIds || [],
+    },
+  });
 
-  const [categories, , { isFetching: isCategoriesFetching }] =
-    useApiSpenicleCategoriesPaginatedQuery(
-      {
-        id: getValues().categoryIds,
-      },
-      {
-        enabled: Boolean(getValues().categoryIds),
-      },
-    );
+  const [categories, , { isFetching: isCategoriesFetching }] = useApiSpenicleCategoriesPaginatedQuery(
+    {
+      id: getValues().categoryIds,
+    },
+    {
+      enabled: Boolean(getValues().categoryIds),
+    },
+  );
 
-  const [accounts, , { isFetching: isAccountsFetching }] =
-    useApiSpenicleAccountsPaginatedQuery(
-      {
-        id: getValues().accountIds,
-      },
-      {
-        enabled: Boolean(getValues().accountIds),
-      },
-    );
+  const [accounts, , { isFetching: isAccountsFetching }] = useApiSpenicleAccountsPaginatedQuery(
+    {
+      id: getValues().accountIds,
+    },
+    {
+      enabled: Boolean(getValues().accountIds),
+    },
+  );
 
-  const handleOnValidSubmit: SubmitHandler<FilterSummaryFormSchema> = (
-    data,
-  ) => {
-    const {
-      frequency,
-      startDate,
-      endDate,
-      customRange,
-      categoryIds,
-      accountIds,
-    } = data ?? {};
+  const handleOnValidSubmit: SubmitHandler<FilterSummaryFormSchema> = (data) => {
+    const { frequency, startDate, endDate, customRange, categoryIds, accountIds } = data ?? {};
 
     if (customRange && startDate && endDate) {
       setFilters({
@@ -102,8 +79,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
       return;
     }
 
-    const { startDate: frequencyStartDate, endDate: frequencyEndDate } =
-      frequencyToDateRange(frequency);
+    const { startDate: frequencyStartDate, endDate: frequencyEndDate } = frequencyToDateRange(frequency);
 
     setFilters({
       range: {
@@ -160,10 +136,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
 
       <If condition={[!isAccountsFetching, !isCategoriesFetching]}>
         <Drawer.Body>
-          <form
-            id="filter-transaction-form"
-            onSubmit={handleSubmit(handleOnValidSubmit)}
-          >
+          <form id="filter-transaction-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
             <FormLayout>
               <FormLayout.Column span={12}>
                 <Controller
@@ -185,13 +158,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                 <Controller
                   name="customRange"
                   control={control}
-                  render={({ field }) => (
-                    <SwitchInput
-                      {...field}
-                      checked={field.value}
-                      label="Custom Range?"
-                    />
-                  )}
+                  render={({ field }) => <SwitchInput {...field} checked={field.value} label="Custom Range?" />}
                 />
               </FormLayout.Column>
               <If condition={watch('customRange')}>
@@ -205,9 +172,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                         const endDate = dayjs(watch('endDate'));
                         const startDate = dayjs(value);
 
-                        return startDate.isBefore(endDate)
-                          ? true
-                          : 'Start date must be before end date';
+                        return startDate.isBefore(endDate) ? true : 'Start date must be before end date';
                       },
                     }}
                     render={({ field, formState }) => (
@@ -230,9 +195,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                       validate: (value) => {
                         const startDate = dayjs(watch('startDate'));
                         const endDate = dayjs(value);
-                        return endDate.isAfter(startDate)
-                          ? true
-                          : 'End date must be after start date';
+                        return endDate.isAfter(startDate) ? true : 'End date must be after start date';
                       },
                     }}
                     render={({ field, formState }) => (
@@ -259,20 +222,14 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                         value={
                           field.value
                             ? accounts?.items
-                                ?.filter((account) =>
-                                  field.value?.includes(account.id),
-                                )
+                                ?.filter((account) => field.value?.includes(account.id))
                                 ?.map((account) => account.name)
                             : []
                         }
                         label="Accounts"
                         placeholder="Select accounts"
                       />
-                      <input
-                        type="hidden"
-                        {...field}
-                        value={field.value?.map(String)}
-                      />
+                      <input type="hidden" {...field} value={field.value?.map(String)} />
                     </>
                   )}
                 />
@@ -289,20 +246,14 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                         value={
                           field.value
                             ? categories?.items
-                                ?.filter((category) =>
-                                  field.value?.includes(category.id),
-                                )
+                                ?.filter((category) => field.value?.includes(category.id))
                                 ?.map((category) => category.name)
                             : []
                         }
                         label="Categories"
                         placeholder="Select categories"
                       />
-                      <input
-                        type="hidden"
-                        {...field}
-                        value={field.value?.map(String)}
-                      />
+                      <input type="hidden" {...field} value={field.value?.map(String)} />
                     </>
                   )}
                 />
@@ -315,11 +266,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
             <Button variant="ghost" onClick={closeDrawer}>
               Cancel
             </Button>
-            <Button
-              type="submit"
-              form="filter-transaction-form"
-              variant="primary"
-            >
+            <Button type="submit" form="filter-transaction-form" variant="primary">
               Apply
             </Button>
           </ButtonGroup>

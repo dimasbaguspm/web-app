@@ -1,7 +1,4 @@
-import {
-  useApiSpenicleAccountQuery,
-  useApiSpenicleUpdateAccount,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleAccountQuery, useApiSpenicleUpdateAccount } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import {
@@ -17,12 +14,7 @@ import {
 } from '@dimasbaguspm/versaur';
 import { TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
-import {
-  Controller,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 interface Props {
   accountId: number;
@@ -37,15 +29,13 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
 
   const [updateAccount, , { isPending }] = useApiSpenicleUpdateAccount();
 
-  const { register, handleSubmit, control, formState, getFieldState } = useForm(
-    {
-      defaultValues: {
-        name: accountData?.name || '',
-        type: accountData?.type || '',
-        notes: accountData?.note || '',
-      },
+  const { register, handleSubmit, control, formState, getFieldState } = useForm({
+    defaultValues: {
+      name: accountData?.name || '',
+      type: accountData?.type || '',
+      notes: accountData?.note || '',
     },
-  );
+  });
 
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (accountData == null) return;
@@ -69,10 +59,7 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Body>
-        <form
-          id="update-account-form"
-          onSubmit={handleSubmit(handleOnValidSubmit)}
-        >
+        <form id="update-account-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
           <FormLayout>
             <FormLayout.Column span={12}>
               <TextInput
@@ -90,11 +77,7 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
                 control={control}
                 rules={{ required: 'Type is required' }}
                 render={({ field, fieldState }) => (
-                  <ChipSingleInput
-                    {...field}
-                    label="Type"
-                    error={fieldState.error?.message}
-                  >
+                  <ChipSingleInput {...field} label="Type" error={fieldState.error?.message}>
                     <ChipSingleInput.Option value="income">
                       <Icon as={TrendingUpIcon} color="inherit" size="sm" />
                       Income
@@ -108,13 +91,7 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
               />
             </FormLayout.Column>
             <FormLayout.Column span={12}>
-              <TextAreaInput
-                label="Notes"
-                fieldSizing="content"
-                minRows={4}
-                rows={6}
-                {...register('notes')}
-              />
+              <TextAreaInput label="Notes" fieldSizing="content" minRows={4} rows={6} {...register('notes')} />
             </FormLayout.Column>
           </FormLayout>
         </form>
@@ -124,11 +101,7 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
           <Button variant="ghost" onClick={closeDrawer}>
             Cancel
           </Button>
-          <Button
-            type="submit"
-            form="update-account-form"
-            disabled={isPending || !formState.isValid}
-          >
+          <Button type="submit" form="update-account-form" disabled={isPending || !formState.isValid}>
             Update
           </Button>
         </ButtonGroup>

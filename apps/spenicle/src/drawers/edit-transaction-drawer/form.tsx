@@ -1,7 +1,4 @@
-import {
-  useApiSpenicleAccountQuery,
-  useApiSpenicleCategoryQuery,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleAccountQuery, useApiSpenicleCategoryQuery } from '@dimasbaguspm/hooks/use-api';
 import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
@@ -17,11 +14,7 @@ import {
   TextInput,
   TimePickerInput,
 } from '@dimasbaguspm/versaur';
-import {
-  TrendingDownIcon,
-  TrendingUpDownIcon,
-  TrendingUpIcon,
-} from 'lucide-react';
+import { TrendingDownIcon, TrendingUpDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -35,37 +28,28 @@ interface EditTransactionFormProps {
   onSubmit: (data: EditTransactionFormSchema) => void;
 }
 
-export const EditTransactionForm: FC<EditTransactionFormProps> = ({
-  transaction,
-  defaultValues,
-  onSubmit,
-}) => {
+export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction, defaultValues, onSubmit }) => {
   const { openDrawer } = useDrawerRoute();
 
-  const { register, handleSubmit, control, getValues, watch } =
-    useForm<EditTransactionFormSchema>({
-      defaultValues,
-    });
+  const { register, handleSubmit, control, getValues, watch } = useForm<EditTransactionFormSchema>({
+    defaultValues,
+  });
 
-  const [accountId, categoryId, destinationAccountId] = watch([
-    'accountId',
-    'categoryId',
-    'destinationAccountId',
-  ]);
+  const [accountId, categoryId, destinationAccountId] = watch(['accountId', 'categoryId', 'destinationAccountId']);
 
-  const [accountData, , { isLoading: isAccountLoading }] =
-    useApiSpenicleAccountQuery(+accountId, {
-      enabled: !!accountId,
-    });
-  const [destinationAccountData, , { isLoading: isDestinationAccountLoading }] =
-    useApiSpenicleAccountQuery(+destinationAccountId!, {
+  const [accountData, , { isLoading: isAccountLoading }] = useApiSpenicleAccountQuery(+accountId, {
+    enabled: !!accountId,
+  });
+  const [destinationAccountData, , { isLoading: isDestinationAccountLoading }] = useApiSpenicleAccountQuery(
+    +destinationAccountId!,
+    {
       enabled: !!destinationAccountId,
-    });
+    },
+  );
 
-  const [categoryData, , { isLoading: isCategoryLoading }] =
-    useApiSpenicleCategoryQuery(+categoryId, {
-      enabled: !!categoryId,
-    });
+  const [categoryData, , { isLoading: isCategoryLoading }] = useApiSpenicleCategoryQuery(+categoryId, {
+    enabled: !!categoryId,
+  });
 
   const handleOnAccountSelect = (name: string) => () => {
     openDrawer(
@@ -105,36 +89,19 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
     );
   };
 
-  const handleOnValidSubmit: SubmitHandler<EditTransactionFormSchema> = async (
-    data,
-  ) => {
+  const handleOnValidSubmit: SubmitHandler<EditTransactionFormSchema> = async (data) => {
     onSubmit(data);
   };
 
   return (
     <>
-      <If
-        condition={[
-          isAccountLoading,
-          isCategoryLoading,
-          isDestinationAccountLoading,
-        ]}
-      >
+      <If condition={[isAccountLoading, isCategoryLoading, isDestinationAccountLoading]}>
         <LoadingIndicator size="sm" type="bar" />
       </If>
 
-      <If
-        condition={[
-          !isAccountLoading,
-          !isCategoryLoading,
-          !isDestinationAccountLoading,
-        ]}
-      >
+      <If condition={[!isAccountLoading, !isCategoryLoading, !isDestinationAccountLoading]}>
         <Drawer.Body>
-          <form
-            id="edit-transaction-form"
-            onSubmit={handleSubmit(handleOnValidSubmit)}
-          >
+          <form id="edit-transaction-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
             <FormLayout>
               <FormLayout.Column span={6}>
                 <Controller
@@ -144,11 +111,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                     required: 'Date is required',
                   }}
                   render={({ field, fieldState }) => (
-                    <DateSinglePickerInput
-                      label="Date"
-                      {...field}
-                      error={fieldState.error?.message}
-                    />
+                    <DateSinglePickerInput label="Date" {...field} error={fieldState.error?.message} />
                   )}
                 />
               </FormLayout.Column>
@@ -157,11 +120,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                   control={control}
                   name="time"
                   render={({ field, fieldState }) => (
-                    <TimePickerInput
-                      label="Time"
-                      {...field}
-                      error={fieldState.error?.message}
-                    />
+                    <TimePickerInput label="Time" {...field} error={fieldState.error?.message} />
                   )}
                 />
               </FormLayout.Column>
@@ -183,11 +142,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                         Income
                       </ChipSingleInput.Option>
                       <ChipSingleInput.Option value="transfer">
-                        <Icon
-                          as={TrendingUpDownIcon}
-                          color="inherit"
-                          size="sm"
-                        />
+                        <Icon as={TrendingUpDownIcon} color="inherit" size="sm" />
                         Transfer
                       </ChipSingleInput.Option>
                     </ChipSingleInput>
@@ -308,9 +263,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                       <>
                         <TextInput
                           readOnly
-                          onClick={handleOnAccountSelect(
-                            'destinationAccountId',
-                          )}
+                          onClick={handleOnAccountSelect('destinationAccountId')}
                           label="Destination"
                           placeholder="Select account"
                           value={destinationAccountData?.name ?? ''}
@@ -346,13 +299,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({
                 />
               </FormLayout.Column>
               <FormLayout.Column span={12}>
-                <TextAreaInput
-                  label="Notes"
-                  fieldSizing="content"
-                  minRows={4}
-                  rows={6}
-                  {...register('notes')}
-                />
+                <TextAreaInput label="Notes" fieldSizing="content" minRows={4} rows={6} {...register('notes')} />
               </FormLayout.Column>
             </FormLayout>
           </form>

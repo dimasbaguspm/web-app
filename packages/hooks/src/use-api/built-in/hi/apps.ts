@@ -1,8 +1,4 @@
-import {
-  SearchAppsModel,
-  AppsPageModel,
-  AppModel,
-} from '@dimasbaguspm/interfaces';
+import { SearchAppsModel, AppsPageModel, AppModel } from '@dimasbaguspm/interfaces';
 
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
@@ -10,9 +6,7 @@ import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiHiAppsPaginatedQuery = (
   params: SearchAppsModel,
-  options?: Partial<
-    UseApiQueryOptions<AppsPageModel, SearchAppsModel, unknown>
-  >,
+  options?: Partial<UseApiQueryOptions<AppsPageModel, SearchAppsModel, unknown>>,
 ) => {
   return useApiQuery<AppsPageModel, SearchAppsModel>({
     ...options,
@@ -23,10 +17,7 @@ export const useApiHiAppsPaginatedQuery = (
   });
 };
 
-export const useApiHiAppQuery = (
-  id: number,
-  options?: Partial<UseApiQueryOptions<AppModel, void, unknown>>,
-) => {
+export const useApiHiAppQuery = (id: number, options?: Partial<UseApiQueryOptions<AppModel, void, unknown>>) => {
   return useApiQuery<AppModel, unknown>({
     ...options,
     base: 'HI',

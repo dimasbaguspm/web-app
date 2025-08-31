@@ -1,7 +1,4 @@
-import {
-  useApiSpenicleCachedCategories,
-  useApiSpenicleCategoriesPaginatedQuery,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleCachedCategories, useApiSpenicleCategoriesPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
 import { SummaryCategoriesModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
@@ -17,9 +14,7 @@ interface TopTenExpenseCategoriesProps {
   data: SummaryCategoriesModel;
 }
 
-export const TopTenExpenseCategories: FC<TopTenExpenseCategoriesProps> = ({
-  data,
-}) => {
+export const TopTenExpenseCategories: FC<TopTenExpenseCategoriesProps> = ({ data }) => {
   const { openDrawer } = useDrawerRoute();
   const sortedData = data
     .filter((item) => item.expense > 0)
@@ -65,13 +60,7 @@ export const TopTenExpenseCategories: FC<TopTenExpenseCategoriesProps> = ({
                   onClick={() => handleOnCategoryClick(item.category?.id ?? 0)}
                   title={name}
                   subtitle={
-                    <Text
-                      fontWeight="normal"
-                      color="gray"
-                      fontSize="sm"
-                      className="flex-grow"
-                      align="right"
-                    >
+                    <Text fontWeight="normal" color="gray" fontSize="sm" className="flex-grow" align="right">
                       {formatPrice(item.expense)}
                     </Text>
                   }

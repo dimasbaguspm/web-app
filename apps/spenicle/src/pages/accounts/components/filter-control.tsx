@@ -5,8 +5,7 @@ import { FC } from 'react';
 import { useAccountFilter } from '../hooks/use-account-filter';
 
 export const FilterControl: FC = () => {
-  const { humanizedFilters, removeFilter, removeAllFilters } =
-    useAccountFilter();
+  const { humanizedFilters, removeFilter, removeAllFilters } = useAccountFilter();
 
   return (
     <If condition={[humanizedFilters.length]}>

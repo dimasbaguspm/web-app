@@ -8,9 +8,7 @@ interface DeleteAccountModalProps {
   accountId: number;
 }
 
-export const DeleteAccountModal: FC<DeleteAccountModalProps> = ({
-  accountId,
-}) => {
+export const DeleteAccountModal: FC<DeleteAccountModalProps> = ({ accountId }) => {
   const { closeModal } = useModalRoute();
   const { closeDrawer, isOpen: isDrawerOpen } = useDrawerRoute();
 

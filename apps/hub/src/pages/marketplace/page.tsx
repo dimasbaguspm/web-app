@@ -1,10 +1,4 @@
-import {
-  LoadingIndicator,
-  NoResults,
-  PageContent,
-  PageHeader,
-  SearchInput,
-} from '@dimasbaguspm/versaur';
+import { LoadingIndicator, NoResults, PageContent, PageHeader, SearchInput } from '@dimasbaguspm/versaur';
 import { AppWindowIcon, SearchIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -23,10 +17,7 @@ const MarketplaceContent: FC = () => {
 
   return (
     <>
-      <PageHeader
-        title="Marketplace"
-        subtitle="Discover and manage your installed apps"
-      />
+      <PageHeader title="Marketplace" subtitle="Discover and manage your installed apps" />
 
       <PageContent>
         <div className="mb-6">

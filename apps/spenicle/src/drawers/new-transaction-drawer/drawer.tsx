@@ -1,12 +1,7 @@
 import { useApiSpenicleCreateTransaction } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import {
-  Button,
-  ButtonGroup,
-  Drawer,
-  useSnackbars,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, useSnackbars } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
@@ -18,15 +13,12 @@ interface NewTransactionDrawerProps {
   payload?: Record<string, string>;
 }
 
-export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
-  payload,
-}) => {
+export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({ payload }) => {
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
   const { isDesktop } = useWindowResize();
 
-  const [createTransaction, , { isPending }] =
-    useApiSpenicleCreateTransaction();
+  const [createTransaction, , { isPending }] = useApiSpenicleCreateTransaction();
 
   const handleOnValidSubmit = async (data: NewTransactionFormSchema) => {
     let date = dayjs(data.date);
@@ -44,10 +36,7 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
       amount: data.amount,
       categoryId: data.categoryId,
       accountId: data.accountId,
-      destinationAccountId:
-        data.type === 'transfer' && data.destinationAccountId
-          ? data.destinationAccountId
-          : null,
+      destinationAccountId: data.type === 'transfer' && data.destinationAccountId ? data.destinationAccountId : null,
       note: data.notes ?? '',
     });
 
@@ -62,21 +51,14 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({
         <Drawer.CloseButton />
       </Drawer.Header>
 
-      <NewTransactionForm
-        defaultValues={formatDefaultValues(payload)}
-        onSubmit={handleOnValidSubmit}
-      />
+      <NewTransactionForm defaultValues={formatDefaultValues(payload)} onSubmit={handleOnValidSubmit} />
 
       <Drawer.Footer>
         <ButtonGroup alignment="end" fluid={!isDesktop}>
           <Button variant="ghost" onClick={closeDrawer}>
             Cancel
           </Button>
-          <Button
-            type="submit"
-            form="new-transaction-form"
-            disabled={isPending}
-          >
+          <Button type="submit" form="new-transaction-form" disabled={isPending}>
             Create
           </Button>
         </ButtonGroup>

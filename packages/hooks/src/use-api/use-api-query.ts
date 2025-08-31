@@ -6,11 +6,7 @@ import querystring from 'query-string';
 import { BASE_URL } from './constants';
 
 import type { BaseUrl } from './constants';
-import type {
-  QueryObserverBaseResult,
-  QueryObserverResult,
-  RefetchOptions,
-} from '@tanstack/react-query';
+import type { QueryObserverBaseResult, QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 
 export interface UseApiQueryOptions<Data, Query, TError> {
   queryKey: (string | number | undefined)[];
@@ -52,9 +48,7 @@ export type UseApiQueryResult<TData, TError> = [
   data: TData | null,
   error: TError | null,
   state: QueryState,
-  refetch: (
-    options?: RefetchOptions,
-  ) => Promise<QueryObserverResult<TData | null, TError> | undefined>,
+  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<TData | null, TError> | undefined>,
 ];
 
 export const useApiQuery = <TData, TQuery, TError = { message: string }>(
@@ -103,12 +97,7 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
         if (err instanceof AxiosError) {
           if (err.response?.status === 401) {
             const currentUrl = window.location.href;
-            window.location.href =
-              BASE_URL.LOGIN +
-              '/sign-in?redirectTo=' +
-              currentUrl +
-              '&clientId=' +
-              clientId;
+            window.location.href = BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl + '&clientId=' + clientId;
           }
 
           return err.response?.data;

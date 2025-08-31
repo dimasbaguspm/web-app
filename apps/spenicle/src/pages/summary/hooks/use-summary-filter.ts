@@ -23,10 +23,7 @@ export type SummaryFilterModel = {
 };
 
 // Helper function to convert frequency to date range
-const frequencyToDateRange = (
-  frequency: SummaryFrequencyType,
-  firstDate: Dayjs,
-) => {
+const frequencyToDateRange = (frequency: SummaryFrequencyType, firstDate: Dayjs) => {
   let dateStart = dayjs().startOf('week');
   let dateEnd = dayjs().endOf('week');
 
@@ -74,42 +71,26 @@ const humanizedLabelToFrequency = (label: string): SummaryFrequencyType => {
 };
 
 // Helper function to get humanized label from date range
-const getHumanizedLabel = (
-  startDate: Dayjs,
-  endDate: Dayjs,
-  firstDate: Dayjs,
-): string => {
+const getHumanizedLabel = (startDate: Dayjs, endDate: Dayjs, firstDate: Dayjs): string => {
   const today = dayjs();
 
-  if (
-    startDate.isSame(today.startOf('week'), 'day') &&
-    endDate.isSame(today.endOf('week'), 'day')
-  ) {
+  if (startDate.isSame(today.startOf('week'), 'day') && endDate.isSame(today.endOf('week'), 'day')) {
     return 'This Week';
   } else if (
     startDate.isSame(today.subtract(1, 'week').startOf('week'), 'day') &&
     endDate.isSame(today.subtract(1, 'week').endOf('week'), 'day')
   ) {
     return 'Last Week';
-  } else if (
-    startDate.isSame(today.startOf('month'), 'day') &&
-    endDate.isSame(today.endOf('month'), 'day')
-  ) {
+  } else if (startDate.isSame(today.startOf('month'), 'day') && endDate.isSame(today.endOf('month'), 'day')) {
     return 'This Month';
   } else if (
     startDate.isSame(today.subtract(1, 'month').startOf('month'), 'day') &&
     endDate.isSame(today.subtract(1, 'month').endOf('month'), 'day')
   ) {
     return 'Last Month';
-  } else if (
-    startDate.isSame(today.startOf('year'), 'day') &&
-    endDate.isSame(today.endOf('year'), 'day')
-  ) {
+  } else if (startDate.isSame(today.startOf('year'), 'day') && endDate.isSame(today.endOf('year'), 'day')) {
     return 'This Year';
-  } else if (
-    startDate.isSame(firstDate, 'day') &&
-    endDate.isSame(today, 'day')
-  ) {
+  } else if (startDate.isSame(firstDate, 'day') && endDate.isSame(today, 'day')) {
     return 'All Time';
   }
 
@@ -168,10 +149,7 @@ export const useSummaryFilter = () => {
   };
 
   useEffect(() => {
-    if (
-      parsedParams.rawDateStart === null &&
-      parsedParams.rawDateEnd === null
-    ) {
+    if (parsedParams.rawDateStart === null && parsedParams.rawDateEnd === null) {
       setFilters({
         range: {
           startDate: dayjs().startOf('week'),
@@ -262,8 +240,7 @@ export const useSummaryFilter = () => {
 
   const frequency = getCurrentFrequency();
 
-  const curriedFrequencyToDateRange = (frequency: SummaryFrequencyType) =>
-    frequencyToDateRange(frequency, firstDate);
+  const curriedFrequencyToDateRange = (frequency: SummaryFrequencyType) => frequencyToDateRange(frequency, firstDate);
 
   return {
     appliedFilters,

@@ -26,29 +26,26 @@ export const useAppProfileForm = (options: Props) => {
     },
   });
 
-  const [createAppProfile, , { isPending: isSubmitting }] =
-    useApiHiCreateAppProfile();
+  const [createAppProfile, , { isPending: isSubmitting }] = useApiHiCreateAppProfile();
 
-  const handleOnSubmit = form.handleSubmit(
-    async (data: AppProfileCreationFormData) => {
-      try {
-        const payload: CreateAppProfileModel = {
-          appId: app.id,
-          name: data.name,
-          userId: data.profileType === 'user' ? +data.selectedId : undefined,
-          groupId: data.profileType === 'group' ? +data.selectedId : undefined,
-        };
+  const handleOnSubmit = form.handleSubmit(async (data: AppProfileCreationFormData) => {
+    try {
+      const payload: CreateAppProfileModel = {
+        appId: app.id,
+        name: data.name,
+        userId: data.profileType === 'user' ? +data.selectedId : undefined,
+        groupId: data.profileType === 'group' ? +data.selectedId : undefined,
+      };
 
-        await createAppProfile(payload);
-        form.reset();
-        showSnack('success', 'App profile created successfully');
+      await createAppProfile(payload);
+      form.reset();
+      showSnack('success', 'App profile created successfully');
 
-        return payload;
-      } finally {
-        handleCloseDrawer();
-      }
-    },
-  );
+      return payload;
+    } finally {
+      handleCloseDrawer();
+    }
+  });
 
   return {
     form,

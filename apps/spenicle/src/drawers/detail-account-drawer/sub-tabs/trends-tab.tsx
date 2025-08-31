@@ -13,14 +13,13 @@ interface TrendsTabProps {
 }
 
 export const TrendsTab: FC<TrendsTabProps> = ({ data }) => {
-  const [transactions, , { isFetching }] =
-    useApiSpenicleSummaryTransactionsQuery({
-      from: dayjs().startOf('year').add(1, 'day').toISOString(),
-      to: dayjs().endOf('month').toISOString(),
-      accountId: [data.id],
-      sortBy: 'date',
-      frequency: 'monthly',
-    });
+  const [transactions, , { isFetching }] = useApiSpenicleSummaryTransactionsQuery({
+    from: dayjs().startOf('year').add(1, 'day').toISOString(),
+    to: dayjs().endOf('month').toISOString(),
+    accountId: [data.id],
+    sortBy: 'date',
+    frequency: 'monthly',
+  });
 
   return (
     <>

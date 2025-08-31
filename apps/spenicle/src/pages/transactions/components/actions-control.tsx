@@ -10,11 +10,7 @@ interface ActionsControlProps {
   onDateChange: (date: Dayjs) => void;
 }
 
-export const ActionsControl: FC<ActionsControlProps> = ({
-  date,
-  onFilterClick,
-  onDateChange,
-}) => {
+export const ActionsControl: FC<ActionsControlProps> = ({ date, onFilterClick, onDateChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleOnCalendarClick = () => {
@@ -44,11 +40,7 @@ export const ActionsControl: FC<ActionsControlProps> = ({
           <Icon as={FilterIcon} size="sm" color="gray" />
           Filter
         </Button>
-        <Button
-          variant="outline"
-          onClick={handleOnCalendarClick}
-          className="relative"
-        >
+        <Button variant="outline" onClick={handleOnCalendarClick} className="relative">
           <Icon as={CalendarCogIcon} size="sm" color="gray" />
           Calendar
           <input

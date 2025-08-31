@@ -1,14 +1,5 @@
 import { useApiHiAppQuery } from '@dimasbaguspm/hooks/use-api';
-import {
-  Badge,
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Icon,
-  PageContent,
-  PageHeader,
-  Tabs,
-} from '@dimasbaguspm/versaur';
+import { Badge, Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader, Tabs } from '@dimasbaguspm/versaur';
 import { DownloadIcon, ExternalLinkIcon } from 'lucide-react';
 import { FC } from 'react';
 import { Outlet, useParams } from 'react-router';
@@ -59,17 +50,8 @@ const MarketplaceDetailPage: FC = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon
-              variant="outline"
-              as={ExternalLinkIcon}
-              aria-label="Open"
-              onClick={handleOnOpen}
-            />
-            <ButtonIcon
-              as={DownloadIcon}
-              aria-label="Install"
-              onClick={onInstallClick}
-            />
+            <ButtonIcon variant="outline" as={ExternalLinkIcon} aria-label="Open" onClick={handleOnOpen} />
+            <ButtonIcon as={DownloadIcon} aria-label="Install" onClick={onInstallClick} />
           </ButtonGroup>
         }
         tabs={

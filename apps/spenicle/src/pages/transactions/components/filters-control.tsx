@@ -4,8 +4,7 @@ import { FC } from 'react';
 import { useTransactionsFilter } from '../hooks/use-transactions-filter';
 
 export const FiltersControl: FC = () => {
-  const { humanizedFilters, removeAllFilters, removeFilter } =
-    useTransactionsFilter();
+  const { humanizedFilters, removeAllFilters, removeFilter } = useTransactionsFilter();
 
   return (
     <FilterChipGroup className="mb-4">

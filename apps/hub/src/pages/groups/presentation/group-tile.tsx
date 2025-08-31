@@ -5,11 +5,7 @@ import { FC } from 'react';
 
 import type { GroupTileProps } from '../types';
 
-export const GroupTile: FC<GroupTileProps> = ({
-  group,
-  memberCount,
-  isOwner,
-}) => {
+export const GroupTile: FC<GroupTileProps> = ({ group, memberCount, isOwner }) => {
   return (
     <Tile key={group.id}>
       <div className="flex items-center gap-3 mb-3">
@@ -17,18 +13,11 @@ export const GroupTile: FC<GroupTileProps> = ({
           {group.name.charAt(0).toUpperCase()}
         </Avatar>
         <div className="flex-1 min-w-0">
-          <Text
-            as="h3"
-            fontSize="lg"
-            fontWeight="semibold"
-            className="truncate mb-1"
-          >
+          <Text as="h3" fontSize="lg" fontWeight="semibold" className="truncate mb-1">
             {group.name}
           </Text>
           <div className="flex items-center gap-2 mb-2">
-            <Badge color={isOwner ? 'warning' : 'secondary'}>
-              {isOwner ? 'Owner' : 'Member'}
-            </Badge>
+            <Badge color={isOwner ? 'warning' : 'secondary'}>{isOwner ? 'Owner' : 'Member'}</Badge>
             <div className="flex items-center gap-1">
               <Icon as={UsersIcon} size="xs" color="ghost" />
               <Text as="span" fontSize="sm" color="gray">

@@ -3,28 +3,16 @@ import dayjs from 'dayjs';
 
 import { NewTransactionFormSchema } from './types';
 
-export const formatDefaultValues = (
-  payload?: Record<string, unknown>,
-): NewTransactionFormSchema => {
+export const formatDefaultValues = (payload?: Record<string, unknown>): NewTransactionFormSchema => {
   return {
     type:
-      payload?.type === 'expense' ||
-      payload?.type === 'income' ||
-      payload?.type === 'transfer'
+      payload?.type === 'expense' || payload?.type === 'income' || payload?.type === 'transfer'
         ? payload.type
         : 'expense',
-    date:
-      typeof payload?.date === 'string'
-        ? payload.date
-        : formatDate(dayjs(), DateFormat.ISO_DATE),
-    time:
-      typeof payload?.time === 'string'
-        ? payload?.time
-        : formatDate(dayjs(), DateFormat.TIME_24H),
+    date: typeof payload?.date === 'string' ? payload.date : formatDate(dayjs(), DateFormat.ISO_DATE),
+    time: typeof payload?.time === 'string' ? payload?.time : formatDate(dayjs(), DateFormat.TIME_24H),
     accountId:
-      payload?.accountId &&
-      typeof payload?.accountId === 'number' &&
-      !isNaN(+payload?.accountId)
+      payload?.accountId && typeof payload?.accountId === 'number' && !isNaN(+payload?.accountId)
         ? (+payload?.accountId as number)
         : 0,
     destinationAccountId:
@@ -34,15 +22,11 @@ export const formatDefaultValues = (
         ? (+payload?.destinationAccountId as number)
         : undefined,
     categoryId:
-      payload?.categoryId &&
-      typeof payload?.categoryId === 'number' &&
-      !isNaN(+payload?.categoryId)
+      payload?.categoryId && typeof payload?.categoryId === 'number' && !isNaN(+payload?.categoryId)
         ? (+payload?.categoryId as number)
         : 0,
     amount:
-      payload?.amount &&
-      !isNaN(+payload?.amount) &&
-      typeof payload?.amount === 'number'
+      payload?.amount && !isNaN(+payload?.amount) && typeof payload?.amount === 'number'
         ? (+payload?.amount as number)
         : 0,
     notes: typeof payload?.notes === 'string' ? payload?.notes : '',

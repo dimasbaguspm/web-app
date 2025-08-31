@@ -23,60 +23,49 @@ const SummaryPage = () => {
     to: appliedFilters.range.endDate.toISOString(),
   };
 
-  const [summaryTotal, , { isFetching: isFetchingSummaryTotal }] =
-    useApiSpenicleSummaryTotalQuery({
-      ...dateFilters,
-      categoryId: appliedFilters.categoryIds,
-      accountId: appliedFilters.accountIds,
-    });
+  const [summaryTotal, , { isFetching: isFetchingSummaryTotal }] = useApiSpenicleSummaryTotalQuery({
+    ...dateFilters,
+    categoryId: appliedFilters.categoryIds,
+    accountId: appliedFilters.accountIds,
+  });
 
-  const [summaryTransactions, , { isFetching: isFetchingSummaryTransactions }] =
-    useApiSpenicleSummaryTransactionsQuery({
+  const [summaryTransactions, , { isFetching: isFetchingSummaryTransactions }] = useApiSpenicleSummaryTransactionsQuery(
+    {
       ...dateFilters,
       frequency: 'daily',
       categoryId: appliedFilters.categoryIds,
       accountId: appliedFilters.accountIds,
+    },
+  );
+
+  const [summaryExpenseCategories, , { isFetching: isFetchingSummaryExpenseCategories }] =
+    useApiSpenicleSummaryCategoriesQuery({
+      ...dateFilters,
+      id: appliedFilters.categoryIds,
+      type: ['expense'],
     });
 
-  const [
-    summaryExpenseCategories,
-    ,
-    { isFetching: isFetchingSummaryExpenseCategories },
-  ] = useApiSpenicleSummaryCategoriesQuery({
-    ...dateFilters,
-    id: appliedFilters.categoryIds,
-    type: ['expense'],
-  });
+  const [summaryIncomeCategories, , { isFetching: isFetchingSummaryIncomeCategories }] =
+    useApiSpenicleSummaryCategoriesQuery({
+      ...dateFilters,
+      id: appliedFilters.categoryIds,
+      type: ['income'],
+    });
 
-  const [
-    summaryIncomeCategories,
-    ,
-    { isFetching: isFetchingSummaryIncomeCategories },
-  ] = useApiSpenicleSummaryCategoriesQuery({
-    ...dateFilters,
-    id: appliedFilters.categoryIds,
-    type: ['income'],
-  });
+  const [summaryExpenseAccounts, , { isFetching: isFetchingSummaryExpenseAccounts }] =
+    useApiSpenicleSummaryAccountsQuery({
+      ...dateFilters,
+      id: appliedFilters.accountIds,
+      type: 'expense',
+    });
 
-  const [
-    summaryExpenseAccounts,
-    ,
-    { isFetching: isFetchingSummaryExpenseAccounts },
-  ] = useApiSpenicleSummaryAccountsQuery({
-    ...dateFilters,
-    id: appliedFilters.accountIds,
-    type: 'expense',
-  });
-
-  const [
-    summaryIncomeAccounts,
-    ,
-    { isFetching: isFetchingSummaryIncomeAccounts },
-  ] = useApiSpenicleSummaryAccountsQuery({
-    ...dateFilters,
-    id: appliedFilters.accountIds,
-    type: 'income',
-  });
+  const [summaryIncomeAccounts, , { isFetching: isFetchingSummaryIncomeAccounts }] = useApiSpenicleSummaryAccountsQuery(
+    {
+      ...dateFilters,
+      id: appliedFilters.accountIds,
+      type: 'income',
+    },
+  );
 
   const isLoading =
     isFetchingSummaryTotal ||

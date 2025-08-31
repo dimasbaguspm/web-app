@@ -1,11 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Icon,
-  PageContent,
-  PageHeader,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader } from '@dimasbaguspm/versaur';
 import { HardDriveDownloadIcon } from 'lucide-react';
 import { Outlet } from 'react-router';
 

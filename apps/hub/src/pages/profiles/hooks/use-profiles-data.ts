@@ -20,31 +20,27 @@ export const useProfilesData = (): ProfilesContextValue => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Fetch apps data
-  const [appsData, , { isLoading: isAppsLoading }] = useApiHiAppsPaginatedQuery(
+  const [appsData, , { isLoading: isAppsLoading }] = useApiHiAppsPaginatedQuery({
+    pageSize: 100,
+  });
+
+  // Fetch detailed app profiles data
+  const [appProfilesData, , { isLoading: isAppProfilesLoading }] = useApiHiAppProfilesPaginatedQuery(
     {
+      id: appProfiles.map((profile) => profile.id),
       pageSize: 100,
+      sortBy: 'created_at',
+      sortOrder: 'desc',
+    },
+    {
+      enabled: !!appProfiles.length,
     },
   );
 
-  // Fetch detailed app profiles data
-  const [appProfilesData, , { isLoading: isAppProfilesLoading }] =
-    useApiHiAppProfilesPaginatedQuery(
-      {
-        id: appProfiles.map((profile) => profile.id),
-        pageSize: 100,
-        sortBy: 'created_at',
-        sortOrder: 'desc',
-      },
-      {
-        enabled: !!appProfiles.length,
-      },
-    );
-
   // Fetch groups for group profiles
-  const [groupsData, , { isLoading: isGroupsLoading }] =
-    useApiHiGroupsPaginatedQuery({
-      pageSize: 100,
-    });
+  const [groupsData, , { isLoading: isGroupsLoading }] = useApiHiGroupsPaginatedQuery({
+    pageSize: 100,
+  });
 
   // Delete profile mutation
   const [deleteProfile] = useApiHiDeleteAppProfile();

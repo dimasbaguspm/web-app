@@ -8,9 +8,7 @@ interface DeleteCategoryModalProps {
   categoryId: number;
 }
 
-export const DeleteCategoryModal: FC<DeleteCategoryModalProps> = ({
-  categoryId,
-}) => {
+export const DeleteCategoryModal: FC<DeleteCategoryModalProps> = ({ categoryId }) => {
   const { closeModal } = useModalRoute();
   const { closeDrawer, isOpen: isDrawerOpen } = useDrawerRoute();
 

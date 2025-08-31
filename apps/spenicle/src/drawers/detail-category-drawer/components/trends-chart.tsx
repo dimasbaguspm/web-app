@@ -1,22 +1,11 @@
-import {
-  CategoryModel,
-  SummaryTransactionsModel,
-} from '@dimasbaguspm/interfaces';
+import { CategoryModel, SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
 import { Text } from '@dimasbaguspm/versaur';
 import { capitalize } from 'lodash';
 import { FC } from 'react';
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface TrendsChartProps {
   data: CategoryModel;
@@ -82,10 +71,7 @@ export const TrendsChart: FC<TrendsChartProps> = ({ data, transactions }) => {
                   return (
                     <div className="bg-white p-2 border border-border rounded shadow-lg max-w-48">
                       <Text color="black" fontSize="sm">
-                        {formatDate(
-                          (label ?? '').toString(),
-                          DateFormat.MONTH_YEAR,
-                        )}
+                        {formatDate((label ?? '').toString(), DateFormat.MONTH_YEAR)}
                       </Text>
                       <div className="flex flex-col gap-1 mt-1">
                         {payload.map((entry) => (

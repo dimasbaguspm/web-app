@@ -13,38 +13,31 @@ import { AuthContext } from './context';
 const Provider: FC<PropsWithChildren> = ({ children }) => {
   const [data, , { isFetching }, refetchAuth] = useApiHiAuthMeQuery();
 
-  const [user, , { isFetching: isUserFetching }, refetchUser] =
-    useApiHiUserQuery(data?.user?.id ?? 0, {
+  const [user, , { isFetching: isUserFetching }, refetchUser] = useApiHiUserQuery(data?.user?.id ?? 0, {
+    enabled: !!data?.user?.id,
+  });
+
+  const [userMembers, , { isFetching: isUserGroupFetching }] = useApiHiGroupMembersPaginatedQuery(
+    {
+      userId: [(data?.user?.id ?? 0).toString()],
+      pageSize: '100',
+    },
+    {
       enabled: !!data?.user?.id,
-    });
+    },
+  );
 
-  const [userMembers, , { isFetching: isUserGroupFetching }] =
-    useApiHiGroupMembersPaginatedQuery(
-      {
-        userId: [(data?.user?.id ?? 0).toString()],
-        pageSize: '100',
-      },
-      {
-        enabled: !!data?.user?.id,
-      },
-    );
+  const [userAppProfiles, , { isFetching: isUserAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
+    {
+      userId: [data?.user?.id ?? 0],
+      pageSize: 100,
+    },
+    {
+      enabled: !!data?.user?.id,
+    },
+  );
 
-  const [userAppProfiles, , { isFetching: isUserAppProfilesFetching }] =
-    useApiHiAppProfilesPaginatedQuery(
-      {
-        userId: [data?.user?.id ?? 0],
-        pageSize: 100,
-      },
-      {
-        enabled: !!data?.user?.id,
-      },
-    );
-
-  const [
-    userGroupAppProfiles,
-    ,
-    { isFetching: isUserGroupAppProfilesFetching },
-  ] = useApiHiAppProfilesPaginatedQuery(
+  const [userGroupAppProfiles, , { isFetching: isUserGroupAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
     {
       groupId: (userMembers?.items ?? []).map((member) => member.groupId),
       pageSize: 100,
@@ -55,17 +48,10 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   const isDataFetching =
-    isFetching ||
-    isUserFetching ||
-    isUserGroupFetching ||
-    isUserAppProfilesFetching ||
-    isUserGroupAppProfilesFetching;
+    isFetching || isUserFetching || isUserGroupFetching || isUserAppProfilesFetching || isUserGroupAppProfilesFetching;
 
   const groupMembers = userMembers?.items ?? [];
-  const appProfiles = [
-    ...(userAppProfiles?.items ?? []),
-    ...(userGroupAppProfiles?.items ?? []),
-  ];
+  const appProfiles = [...(userAppProfiles?.items ?? []), ...(userGroupAppProfiles?.items ?? [])];
 
   const refetch = async () => {
     await refetchAuth();
@@ -110,10 +96,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     // If refresher failed or returned no data (common when client_id/cookies
     // are missing on some mobile webviews), don't block the app UI by
     // returning null which may trigger SSO. Proceed but log for diagnostics.
-    if (isError)
-      console.warn(
-        'Auth token refresher failed; proceeding without refresher data',
-      );
+    if (isError) console.warn('Auth token refresher failed; proceeding without refresher data');
     return <Provider>{children}</Provider>;
   }
 

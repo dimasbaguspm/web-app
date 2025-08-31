@@ -14,10 +14,7 @@ interface TabsDateProps {
 export const TabsDate: FC<TabsDateProps> = ({ date, onDateChange }) => {
   const { isDesktop } = useWindowResize();
 
-  const dates = useMemo(
-    () => getDateRange(date, isDesktop ? 'twoWeeks' : 'week'),
-    [date, isDesktop],
-  );
+  const dates = useMemo(() => getDateRange(date, isDesktop ? 'twoWeeks' : 'week'), [date, isDesktop]);
 
   const handleTabChange = (date: string) => {
     onDateChange(dayjs(date));
@@ -38,11 +35,7 @@ export const TabsDate: FC<TabsDateProps> = ({ date, onDateChange }) => {
             value={formatDate(mappedDate.toISOString(), DateFormat.ISO_DATE)}
             className="flex flex-col hover:text-primary"
           >
-            <Text
-              fontSize="xs"
-              align="center"
-              color={isActive ? 'primary' : 'inherit'}
-            >
+            <Text fontSize="xs" align="center" color={isActive ? 'primary' : 'inherit'}>
               {formatDate(mappedDate.toISOString(), DateFormat.SHORT_DAY)}
             </Text>
             {formatDate(mappedDate.toISOString(), DateFormat.NUMERIC_DAY)}

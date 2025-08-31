@@ -13,9 +13,7 @@ import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
 import { useApiQuery } from '../../use-api-query';
 
-export const useApiSpenicleSummaryTransactionsQuery = (
-  params: SearchSummaryTransactionsModel,
-) => {
+export const useApiSpenicleSummaryTransactionsQuery = (params: SearchSummaryTransactionsModel) => {
   return useApiQuery<SummaryTransactionsModel, SearchSummaryTransactionsModel>({
     base: 'SPENICLE',
     queryKey: QUERY_KEYS.SPENICLE_SUMMARY_TRANSACTIONS(params),
@@ -24,9 +22,7 @@ export const useApiSpenicleSummaryTransactionsQuery = (
   });
 };
 
-export const useApiSpenicleSummaryAccountsQuery = (
-  params: SearchSummaryAccountsModel,
-) => {
+export const useApiSpenicleSummaryAccountsQuery = (params: SearchSummaryAccountsModel) => {
   return useApiQuery<SummaryAccountsModel, SearchSummaryAccountsModel>({
     base: 'SPENICLE',
     queryKey: QUERY_KEYS.SPENICLE_SUMMARY_ACCOUNTS(params),
@@ -35,9 +31,7 @@ export const useApiSpenicleSummaryAccountsQuery = (
   });
 };
 
-export const useApiSpenicleSummaryCategoriesQuery = (
-  params: SearchSummaryCategoriesModel,
-) => {
+export const useApiSpenicleSummaryCategoriesQuery = (params: SearchSummaryCategoriesModel) => {
   return useApiQuery<SummaryCategoriesModel, SearchSummaryCategoriesModel>({
     base: 'SPENICLE',
     queryKey: QUERY_KEYS.SPENICLE_SUMMARY_CATEGORIES(params),
@@ -46,13 +40,8 @@ export const useApiSpenicleSummaryCategoriesQuery = (
   });
 };
 
-export const useApiSpenicleSummaryTotalQuery = (
-  params: SearchSummaryTotalTransactionsModel,
-) => {
-  return useApiQuery<
-    SummaryTotalTransactionsModel,
-    SearchSummaryTotalTransactionsModel
-  >({
+export const useApiSpenicleSummaryTotalQuery = (params: SearchSummaryTotalTransactionsModel) => {
+  return useApiQuery<SummaryTotalTransactionsModel, SearchSummaryTotalTransactionsModel>({
     base: 'SPENICLE',
     queryKey: QUERY_KEYS.SPENICLE_SUMMARY_TOTAL(params),
     queryParams: params,

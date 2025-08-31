@@ -40,18 +40,15 @@ interface DrawerState {
 
 export const DrawerRoutes: FC = () => {
   const { isDesktop } = useWindowResize();
-  const { isOpen, drawerId, params, state, closeDrawer } = useDrawerRoute<
-    DrawerParams,
-    DrawerState
-  >();
+  const { isOpen, drawerId, params, state, closeDrawer } = useDrawerRoute<DrawerParams, DrawerState>();
 
   const is = (id: string) => drawerId === id;
   const hasParam = (param: keyof typeof params) => param in params;
   const hasState = (stateKey: keyof typeof state) => stateKey in state;
 
-  const disableInteractive = (
-    [DRAWER_ROUTES.SELECT_ACCOUNT, DRAWER_ROUTES.SELECT_CATEGORY] as string[]
-  ).includes(drawerId ?? '');
+  const disableInteractive = ([DRAWER_ROUTES.SELECT_ACCOUNT, DRAWER_ROUTES.SELECT_CATEGORY] as string[]).includes(
+    drawerId ?? '',
+  );
 
   return (
     <Drawer
@@ -64,39 +61,24 @@ export const DrawerRoutes: FC = () => {
     >
       {is(DRAWER_ROUTES.NEW_ACCOUNT) && <NewAccountDrawer />}
       {is(DRAWER_ROUTES.ACCOUNT_DETAIL) && hasParam('accountId') && (
-        <DetailAccountDrawer
-          accountId={params.accountId!}
-          tabId={params.tabId!}
-        />
+        <DetailAccountDrawer accountId={params.accountId!} tabId={params.tabId!} />
       )}
-      {is(DRAWER_ROUTES.EDIT_ACCOUNT) && hasParam('accountId') && (
-        <EditAccountDrawer accountId={params.accountId!} />
-      )}
+      {is(DRAWER_ROUTES.EDIT_ACCOUNT) && hasParam('accountId') && <EditAccountDrawer accountId={params.accountId!} />}
       {is(DRAWER_ROUTES.NEW_CATEGORY) && <NewCategoryDrawer />}
       {is(DRAWER_ROUTES.DETAIL_CATEGORY) && hasParam('categoryId') && (
-        <DetailCategoryDrawer
-          categoryId={params.categoryId!}
-          tabId={params.tabId!}
-        />
+        <DetailCategoryDrawer categoryId={params.categoryId!} tabId={params.tabId!} />
       )}
       {is(DRAWER_ROUTES.EDIT_CATEGORY) && hasParam('categoryId') && (
         <EditCategoryDrawer categoryId={params.categoryId!} />
       )}
-      {is(DRAWER_ROUTES.NEW_TRANSACTION) && (
-        <NewTransactionDrawer payload={state?.payload} />
-      )}
+      {is(DRAWER_ROUTES.NEW_TRANSACTION) && <NewTransactionDrawer payload={state?.payload} />}
       {is(DRAWER_ROUTES.DETAIL_TRANSACTION) && hasParam('transactionId') && (
         <DetailTransactionDrawer transactionId={params.transactionId!} />
       )}
       {is(DRAWER_ROUTES.EDIT_TRANSACTION) && hasParam('transactionId') && (
-        <EditTransactionDrawer
-          transactionId={params.transactionId!}
-          payload={state?.payload}
-        />
+        <EditTransactionDrawer transactionId={params.transactionId!} payload={state?.payload} />
       )}
-      {is(DRAWER_ROUTES.FILTER_TRANSACTION) && (
-        <FilterTransactionDrawer payload={state?.payload} />
-      )}
+      {is(DRAWER_ROUTES.FILTER_TRANSACTION) && <FilterTransactionDrawer payload={state?.payload} />}
       {is(DRAWER_ROUTES.SELECT_ACCOUNT) &&
         hasState('payload') &&
         hasState('returnToDrawer') &&
@@ -141,9 +123,7 @@ export const DrawerRoutes: FC = () => {
             returnToDrawerId={state.returnToDrawerId!}
           />
         )}
-      {is(DRAWER_ROUTES.FILTER_SUMMARY) && (
-        <FilterSummaryDrawer payload={state?.payload} />
-      )}
+      {is(DRAWER_ROUTES.FILTER_SUMMARY) && <FilterSummaryDrawer payload={state?.payload} />}
       {is(DRAWER_ROUTES.FILTER_CATEGORY) && <FilterCategoryDrawer />}
       {is(DRAWER_ROUTES.FILTER_ACCOUNT) && <FilterAccountDrawer />}
     </Drawer>

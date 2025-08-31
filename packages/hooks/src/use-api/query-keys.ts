@@ -3,22 +3,14 @@ import { BASE_QUERY_KEYS } from './constants';
 export const QUERY_KEYS = {
   HI_AUTH_ME: ['hi', 'auth', 'me'],
   HI_AUTH_TOKEN: ['hi', 'auth', 'token'],
-  HI_USER_PAGINATED: (params: object = {}) => [
-    ...BASE_QUERY_KEYS.HI_USERS,
-    'paginated',
-    JSON.stringify(params ?? {}),
-  ],
+  HI_USER_PAGINATED: (params: object = {}) => [...BASE_QUERY_KEYS.HI_USERS, 'paginated', JSON.stringify(params ?? {})],
   HI_USER_BY_ID: (id: number, params: object = {}) => [
     ...BASE_QUERY_KEYS.HI_USERS,
     'by-id',
     id,
     JSON.stringify(params ?? {}),
   ],
-  HI_APPS_PAGINATED: (params: object = {}) => [
-    ...BASE_QUERY_KEYS.HI_APPS,
-    'paginated',
-    JSON.stringify(params ?? {}),
-  ],
+  HI_APPS_PAGINATED: (params: object = {}) => [...BASE_QUERY_KEYS.HI_APPS, 'paginated', JSON.stringify(params ?? {})],
   HI_APPS_BY_ID: (id: number, params: object = {}) => [
     ...BASE_QUERY_KEYS.HI_APPS,
     'by-id',

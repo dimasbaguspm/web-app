@@ -11,18 +11,13 @@ import { uniqBy } from 'lodash';
 import { BASE_QUERY_KEYS } from '../../constants';
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
-import {
-  useApiInfiniteQuery,
-  UseApiInfiniteQueryOptions,
-} from '../../use-api-infinite-query';
+import { useApiInfiniteQuery, UseApiInfiniteQueryOptions } from '../../use-api-infinite-query';
 import { useApiMutate } from '../../use-api-mutate';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiSpenicleAccountsInfiniteQuery = (
   params: SearchAccountsModel,
-  options?: Partial<
-    UseApiInfiniteQueryOptions<AccountModel, SearchAccountsModel, unknown>
-  >,
+  options?: Partial<UseApiInfiniteQueryOptions<AccountModel, SearchAccountsModel, unknown>>,
 ) => {
   return useApiInfiniteQuery({
     ...options,
@@ -35,9 +30,7 @@ export const useApiSpenicleAccountsInfiniteQuery = (
 
 export const useApiSpenicleAccountsPaginatedQuery = (
   params: SearchAccountsModel,
-  options?: Partial<
-    UseApiQueryOptions<AccountsPageModel, SearchAccountsModel, unknown>
-  >,
+  options?: Partial<UseApiQueryOptions<AccountsPageModel, SearchAccountsModel, unknown>>,
 ) => {
   return useApiQuery<AccountsPageModel, SearchAccountsModel>({
     ...options,
@@ -61,14 +54,10 @@ export const useApiSpenicleAccountQuery = (
     path: SPENICLE_URL.ACCOUNT.BY_ID(id),
     initialData: () => {
       return queryClient
-        .getQueryData<AccountsPageModel>(
-          QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED().slice(0, 3),
-        )
+        .getQueryData<AccountsPageModel>(QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED().slice(0, 3))
         ?.items.find((account) => account.id === id);
     },
-    initialDataUpdatedAt: queryClient.getQueryState(
-      QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED().slice(0, 3),
-    )?.dataUpdatedAt,
+    initialDataUpdatedAt: queryClient.getQueryState(QUERY_KEYS.SPENICLE_ACCOUNT_PAGINATED().slice(0, 3))?.dataUpdatedAt,
   });
 };
 
@@ -87,10 +76,7 @@ export const useApiSpenicleCreateAccount = () => {
         queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_INFINITE().slice(0, 3),
         exact: false,
       });
-      queryClient.setQueryData(
-        QUERY_KEYS.SPENICLE_ACCOUNT_BY_ID(data.id),
-        data,
-      );
+      queryClient.setQueryData(QUERY_KEYS.SPENICLE_ACCOUNT_BY_ID(data.id), data);
     },
   });
 };
@@ -110,10 +96,7 @@ export const useApiSpenicleUpdateAccount = () => {
         queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_INFINITE().slice(0, 3),
         exact: false,
       });
-      queryClient.setQueryData(
-        QUERY_KEYS.SPENICLE_ACCOUNT_BY_ID(data.id),
-        data,
-      );
+      queryClient.setQueryData(QUERY_KEYS.SPENICLE_ACCOUNT_BY_ID(data.id), data);
     },
   });
 };

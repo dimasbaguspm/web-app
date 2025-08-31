@@ -17,21 +17,12 @@ export const AppCard: FC<AppCardProps> = ({ app }) => {
     <Tile>
       <div className="flex items-start gap-4">
         <Avatar size="lg" shape="rounded">
-          {app.logoUrl ? (
-            <img alt={app.name} src={app.logoUrl} />
-          ) : (
-            <AppWindowIcon className="w-6 h-6" />
-          )}
+          {app.logoUrl ? <img alt={app.name} src={app.logoUrl} /> : <AppWindowIcon className="w-6 h-6" />}
         </Avatar>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
-            <Text
-              as="h3"
-              className="truncate"
-              fontSize="lg"
-              fontWeight="semibold"
-            >
+            <Text as="h3" className="truncate" fontSize="lg" fontWeight="semibold">
               {app.name}
             </Text>
           </div>

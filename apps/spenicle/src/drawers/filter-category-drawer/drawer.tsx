@@ -1,19 +1,7 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import {
-  Button,
-  ButtonGroup,
-  ChipMultipleInput,
-  Drawer,
-  FormLayout,
-  Icon,
-  TextInput,
-} from '@dimasbaguspm/versaur';
-import {
-  TrendingDownIcon,
-  TrendingUpDownIcon,
-  TrendingUpIcon,
-} from 'lucide-react';
+import { Button, ButtonGroup, ChipMultipleInput, Drawer, FormLayout, Icon, TextInput } from '@dimasbaguspm/versaur';
+import { TrendingDownIcon, TrendingUpDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -33,9 +21,7 @@ export const FilterCategoryDrawer: FC = () => {
     },
   });
 
-  const handleOnValidSubmit: SubmitHandler<FilterCategoryFormSchema> = (
-    data,
-  ) => {
+  const handleOnValidSubmit: SubmitHandler<FilterCategoryFormSchema> = (data) => {
     const { search, type } = data ?? {};
 
     setFilters({
@@ -52,22 +38,14 @@ export const FilterCategoryDrawer: FC = () => {
       </Drawer.Header>
 
       <Drawer.Body>
-        <form
-          id="filter-category-form"
-          onSubmit={handleSubmit(handleOnValidSubmit)}
-        >
+        <form id="filter-category-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
           <FormLayout>
             <FormLayout.Column span={12}>
               <Controller
                 name="search"
                 control={control}
                 render={({ field }) => (
-                  <TextInput
-                    {...field}
-                    variant="primary"
-                    label="Search"
-                    placeholder="Search categories..."
-                  />
+                  <TextInput {...field} variant="primary" label="Search" placeholder="Search categories..." />
                 )}
               />
             </FormLayout.Column>

@@ -23,10 +23,7 @@ interface ModalState {
 }
 
 export const ModalRoutes: FC = () => {
-  const { isOpen, modalId, params, closeModal } = useModalRoute<
-    ModalParams,
-    ModalState
-  >();
+  const { isOpen, modalId, params, closeModal } = useModalRoute<ModalParams, ModalState>();
 
   const is = (id: string) => modalId === id;
   const hasParam = (param: keyof typeof params) => param in params;
@@ -37,9 +34,7 @@ export const ModalRoutes: FC = () => {
       {is(MODAL_ROUTES.DELETE_TRANSACTION) && hasParam('transactionId') && (
         <DeleteTransactionModal transactionId={params.transactionId!} />
       )}
-      {is(MODAL_ROUTES.DELETE_ACCOUNT) && hasParam('accountId') && (
-        <DeleteAccountModal accountId={params.accountId!} />
-      )}
+      {is(MODAL_ROUTES.DELETE_ACCOUNT) && hasParam('accountId') && <DeleteAccountModal accountId={params.accountId!} />}
       {is(MODAL_ROUTES.DELETE_CATEGORY) && hasParam('categoryId') && (
         <DeleteCategoryModal categoryId={params.categoryId!} />
       )}

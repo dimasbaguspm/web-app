@@ -16,10 +16,7 @@ interface DetailAccountDrawerProps {
   tabId?: string;
 }
 
-export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({
-  accountId,
-  tabId,
-}) => {
+export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({ accountId, tabId }) => {
   const { openDrawer } = useDrawerRoute();
   const activeTab = tabId || 'details';
 

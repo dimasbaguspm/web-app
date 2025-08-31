@@ -41,18 +41,13 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
 
   const [searchValue, setSearchValue] = useState('');
 
-  const debouncedSetSearch = useMemo(
-    () => debounce((value: string) => setSearchValue(value), 1000),
-    [],
-  );
-  const [categories, , { isFetching }] = useApiSpenicleCategoriesPaginatedQuery(
-    {
-      search: searchValue,
-      type: ['expense', 'income', 'transfer'].includes(payload.type as string)
-        ? [payload.type as 'expense' | 'income' | 'transfer']
-        : undefined,
-    },
-  );
+  const debouncedSetSearch = useMemo(() => debounce((value: string) => setSearchValue(value), 1000), []);
+  const [categories, , { isFetching }] = useApiSpenicleCategoriesPaginatedQuery({
+    search: searchValue,
+    type: ['expense', 'income', 'transfer'].includes(payload.type as string)
+      ? [payload.type as 'expense' | 'income' | 'transfer']
+      : undefined,
+  });
 
   const handleOnSubmit = () => {
     openDrawer(returnToDrawer, returnToDrawerId, {
@@ -84,10 +79,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
       <Drawer.Body>
         <FormLayout className="mb-4">
           <FormLayout.Column span={12}>
-            <SearchInput
-              defaultValue={searchValue}
-              onChange={(e) => debouncedSetSearch(e.target.value)}
-            />
+            <SearchInput defaultValue={searchValue} onChange={(e) => debouncedSetSearch(e.target.value)} />
           </FormLayout.Column>
         </FormLayout>
 
@@ -104,11 +96,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
                   <SelectableSingleInput
                     label={
                       <div className="flex flex-col w-auto">
-                        <Text
-                          className="mb-2"
-                          fontSize="base"
-                          fontWeight="semibold"
-                        >
+                        <Text className="mb-2" fontSize="base" fontWeight="semibold">
                           {category.name}
                         </Text>
                         <BadgeGroup>
@@ -142,11 +130,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
           <Button variant="ghost" onClick={handleOnCancel}>
             Cancel
           </Button>
-          <Button
-            form="select-category-form"
-            onClick={handleOnSubmit}
-            disabled={!selectedCategoryId}
-          >
+          <Button form="select-category-form" onClick={handleOnSubmit} disabled={!selectedCategoryId}>
             Save
           </Button>
         </ButtonGroup>

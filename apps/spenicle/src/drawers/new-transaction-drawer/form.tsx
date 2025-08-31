@@ -15,12 +15,7 @@ import {
   TextInput,
   TimePickerInput,
 } from '@dimasbaguspm/versaur';
-import {
-  TrendingDownIcon,
-  TrendingUpDownIcon,
-  TrendingUpIcon,
-  Wand2Icon,
-} from 'lucide-react';
+import { TrendingDownIcon, TrendingUpDownIcon, TrendingUpIcon, Wand2Icon } from 'lucide-react';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -35,44 +30,35 @@ interface NewTransactionFormProps {
   onSubmit: (data: NewTransactionFormSchema) => void;
 }
 
-export const NewTransactionForm: FC<NewTransactionFormProps> = ({
-  defaultValues,
-  onSubmit,
-}) => {
+export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues, onSubmit }) => {
   const { openDrawer } = useDrawerRoute();
 
-  const { handleSubmit, control, getValues, watch } =
-    useForm<NewTransactionFormSchema>({
-      defaultValues: defaultValues,
-    });
+  const { handleSubmit, control, getValues, watch, setValue } = useForm<NewTransactionFormSchema>({
+    defaultValues: defaultValues,
+  });
 
   const payload = watch();
 
-  const { accountData, destinationAccountData, categoryData, isLoading } =
-    useNewTransactionData(payload);
-  const [suggestions, isVisible, fetchSuggestions, resetSuggestions] =
-    useNewTransactionSuggestion(payload);
+  const { accountData, destinationAccountData, categoryData, isLoading } = useNewTransactionData(payload);
+  const [suggestions, isVisible, fetchSuggestions, resetSuggestions] = useNewTransactionSuggestion(payload);
 
-  const handleOnOpenSelectDrawer =
-    (drawerId: string, fieldId: string) => () => {
-      openDrawer(
-        drawerId,
-        {
-          payloadId: fieldId,
+  const handleOnOpenSelectDrawer = (drawerId: string, fieldId: string) => () => {
+    openDrawer(
+      drawerId,
+      {
+        payloadId: fieldId,
+      },
+      {
+        replace: true,
+        state: {
+          payload: getValues(),
+          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
         },
-        {
-          replace: true,
-          state: {
-            payload: getValues(),
-            returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
-          },
-        },
-      );
-    };
+      },
+    );
+  };
 
-  const handleOnValidSubmit: SubmitHandler<NewTransactionFormSchema> = async (
-    data,
-  ) => {
+  const handleOnValidSubmit: SubmitHandler<NewTransactionFormSchema> = async (data) => {
     onSubmit(data);
   };
 
@@ -84,10 +70,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
 
       <If condition={[!isLoading]}>
         <Drawer.Body>
-          <form
-            id="new-transaction-form"
-            onSubmit={handleSubmit(handleOnValidSubmit)}
-          >
+          <form id="new-transaction-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
             <FormLayout>
               <FormLayout.Column span={6}>
                 <Controller
@@ -97,11 +80,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                     required: 'Date is required',
                   }}
                   render={({ field, fieldState }) => (
-                    <DateSinglePickerInput
-                      label="Date"
-                      {...field}
-                      error={fieldState.error?.message}
-                    />
+                    <DateSinglePickerInput label="Date" {...field} error={fieldState.error?.message} />
                   )}
                 />
               </FormLayout.Column>
@@ -110,11 +89,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                   control={control}
                   name="time"
                   render={({ field, fieldState }) => (
-                    <TimePickerInput
-                      label="Time"
-                      {...field}
-                      error={fieldState.error?.message}
-                    />
+                    <TimePickerInput label="Time" {...field} error={fieldState.error?.message} />
                   )}
                 />
               </FormLayout.Column>
@@ -136,11 +111,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                         Income
                       </ChipSingleInput.Option>
                       <ChipSingleInput.Option value="transfer">
-                        <Icon
-                          as={TrendingUpDownIcon}
-                          color="inherit"
-                          size="sm"
-                        />
+                        <Icon as={TrendingUpDownIcon} color="inherit" size="sm" />
                         Transfer
                       </ChipSingleInput.Option>
                     </ChipSingleInput>
@@ -194,10 +165,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                       <>
                         <TextInput
                           readOnly
-                          onClick={handleOnOpenSelectDrawer(
-                            DRAWER_ROUTES.SELECT_ACCOUNT,
-                            'accountId',
-                          )}
+                          onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'accountId')}
                           label="Source"
                           placeholder="Select account"
                           value={accountData?.name ?? ''}
@@ -233,10 +201,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                       <>
                         <TextInput
                           readOnly
-                          onClick={handleOnOpenSelectDrawer(
-                            DRAWER_ROUTES.SELECT_ACCOUNT,
-                            'accountId',
-                          )}
+                          onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'accountId')}
                           label="Source"
                           placeholder="Select account"
                           value={accountData?.name ?? ''}
@@ -268,10 +233,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                       <>
                         <TextInput
                           readOnly
-                          onClick={handleOnOpenSelectDrawer(
-                            DRAWER_ROUTES.SELECT_ACCOUNT,
-                            'destinationAccountId',
-                          )}
+                          onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'destinationAccountId')}
                           label="Destination"
                           placeholder="Select account"
                           value={destinationAccountData?.name ?? ''}
@@ -296,10 +258,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                       <TextInput
                         readOnly
                         label="Category"
-                        onClick={handleOnOpenSelectDrawer(
-                          DRAWER_ROUTES.SELECT_CATEGORY,
-                          'categoryId',
-                        )}
+                        onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_CATEGORY, 'categoryId')}
                         placeholder="Select category"
                         value={categoryData?.name ?? ''}
                         error={fieldState.error?.message}
@@ -331,10 +290,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                             </If>
                             <If condition={!isVisible}>
                               <Icon as={Wand2Icon} color="primary" size="sm" />
-                              <Anchor
-                                fontSize="sm"
-                                onClick={() => fetchSuggestions()}
-                              >
+                              <Anchor fontSize="sm" onClick={() => fetchSuggestions()}>
                                 Generate Suggestions
                               </Anchor>
                             </If>
@@ -343,18 +299,27 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                           <If condition={isVisible}>
                             <div className="flex flex-col gap-2">
                               <If condition={!!suggestions.length}>
-                                <ul className="max-h-60 overflow-auto flex flex-row gap-2 ">
+                                <ul className="flex flex-row gap-2 flex-wrap">
                                   {suggestions.map((suggestion) => (
-                                    <li key={suggestion}>
+                                    <li key={suggestion.trimmedNotes}>
                                       <Button
                                         variant="outline"
                                         size="sm"
                                         onClick={() => {
-                                          field.onChange(suggestion);
+                                          field.onChange(suggestion.notes);
+                                          if (!payload.accountId && suggestion.accountId) {
+                                            setValue('accountId', suggestion.accountId);
+                                          }
+                                          if (!payload.categoryId && suggestion.categoryId) {
+                                            setValue('categoryId', suggestion.categoryId);
+                                          }
+                                          if (!payload.amount && suggestion.amount) {
+                                            setValue('amount', suggestion.amount);
+                                          }
                                           resetSuggestions();
                                         }}
                                       >
-                                        {suggestion}
+                                        {suggestion.trimmedNotes}
                                       </Button>
                                     </li>
                                   ))}
@@ -365,10 +330,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                                   No suggestions available
                                 </Text>
                               </If>
-                              <Anchor
-                                onClick={() => fetchSuggestions()}
-                                fontSize="sm"
-                              >
+                              <Anchor onClick={() => fetchSuggestions()} fontSize="sm">
                                 Regenerate
                               </Anchor>
                             </div>

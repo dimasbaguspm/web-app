@@ -1,9 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-export const getDateRange = (
-  currentDate: Dayjs,
-  range: 'month' | 'week' | 'twoWeeks',
-): Dayjs[] => {
+export const getDateRange = (currentDate: Dayjs, range: 'month' | 'week' | 'twoWeeks'): Dayjs[] => {
   const ranges: Dayjs[] = [];
 
   let startDate: Dayjs = dayjs();
@@ -23,13 +20,10 @@ export const getDateRange = (
     // week index within the year (1-based)
     const weekIndex = currentWeekStart.diff(yearFirstWeekStart, 'week') + 1;
 
-    const groupStartIndex =
-      Math.floor((weekIndex - 1) / GROUP_SIZE) * GROUP_SIZE + 1;
+    const groupStartIndex = Math.floor((weekIndex - 1) / GROUP_SIZE) * GROUP_SIZE + 1;
     const groupEndIndex = groupStartIndex + GROUP_SIZE - 1;
 
-    startDate = yearFirstWeekStart
-      .add(groupStartIndex - 1, 'week')
-      .startOf('week');
+    startDate = yearFirstWeekStart.add(groupStartIndex - 1, 'week').startOf('week');
     endDate = yearFirstWeekStart.add(groupEndIndex - 1, 'week').endOf('week');
   } else if (range === 'week') {
     startDate = currentDate.startOf('week');

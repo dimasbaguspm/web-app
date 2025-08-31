@@ -1,21 +1,12 @@
-import {
-  LoadingIndicator,
-  PageContent,
-  PageHeader,
-} from '@dimasbaguspm/versaur';
+import { LoadingIndicator, PageContent, PageHeader } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { ProfilesProvider } from './context/provider';
 import { useProfilesContext } from './context/use-profiles-context';
-import {
-  ProfilesEmptyState,
-  ProfilesGrid,
-  ProfilesSearchBar,
-} from './presentation';
+import { ProfilesEmptyState, ProfilesGrid, ProfilesSearchBar } from './presentation';
 
 const ProfilesContent: FC = () => {
-  const { profiles, searchTerm, isLoading, onSearchChange } =
-    useProfilesContext();
+  const { profiles, searchTerm, isLoading, onSearchChange } = useProfilesContext();
 
   if (isLoading) {
     return <LoadingIndicator size="sm" type="bar" />;
@@ -34,10 +25,7 @@ const ProfilesContent: FC = () => {
         {profiles.length > 0 ? (
           <ProfilesGrid />
         ) : (
-          <ProfilesEmptyState
-            searchTerm={searchTerm}
-            onClearSearch={handleClearSearch}
-          />
+          <ProfilesEmptyState searchTerm={searchTerm} onClearSearch={handleClearSearch} />
         )}
       </PageContent>
     </>

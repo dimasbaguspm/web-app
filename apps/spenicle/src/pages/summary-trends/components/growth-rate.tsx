@@ -20,11 +20,7 @@ export const GrowthRate: FC<GrowthRateProps> = ({ data }) => {
         <Text fontWeight="medium" fontSize="sm" color="gray">
           Growth rate
         </Text>
-        <Icon
-          as={growthStats.TrendIcon}
-          size="xs"
-          color={growthStats.getTrendColor(false)}
-        />
+        <Icon as={growthStats.TrendIcon} size="xs" color={growthStats.getTrendColor(false)} />
       </div>
       <If condition={data && data.length > 1}>
         <Text fontWeight="semibold" fontSize="lg">

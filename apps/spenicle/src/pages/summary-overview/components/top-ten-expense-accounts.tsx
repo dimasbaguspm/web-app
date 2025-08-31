@@ -1,7 +1,4 @@
-import {
-  useApiSpenicleAccountsPaginatedQuery,
-  useApiSpenicleCachedAccounts,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleAccountsPaginatedQuery, useApiSpenicleCachedAccounts } from '@dimasbaguspm/hooks/use-api';
 import { SummaryAccountsModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
@@ -17,9 +14,7 @@ interface TopTenExpenseAccountsProps {
   data: SummaryAccountsModel;
 }
 
-export const TopTenExpenseAccounts: FC<TopTenExpenseAccountsProps> = ({
-  data,
-}) => {
+export const TopTenExpenseAccounts: FC<TopTenExpenseAccountsProps> = ({ data }) => {
   const { openDrawer } = useDrawerRoute();
   const sortedData = data
     .filter((item) => item.expense > 0)
@@ -65,13 +60,7 @@ export const TopTenExpenseAccounts: FC<TopTenExpenseAccountsProps> = ({
                   onClick={() => handleOnAccountClick(item.account?.id ?? 0)}
                   title={name}
                   subtitle={
-                    <Text
-                      fontWeight="normal"
-                      color="gray"
-                      fontSize="sm"
-                      className="flex-grow"
-                      align="right"
-                    >
+                    <Text fontWeight="normal" color="gray" fontSize="sm" className="flex-grow" align="right">
                       {formatPrice(item.expense)}
                     </Text>
                   }

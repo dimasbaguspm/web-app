@@ -5,29 +5,15 @@ import { Text } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { capitalize } from 'lodash';
 import { FC } from 'react';
-import {
-  Area,
-  AreaChart,
-  Brush,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Area, AreaChart, Brush, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import {
-  SummaryFrequencyType,
-  useSummaryFilter,
-} from '../../summary/hooks/use-summary-filter';
+import { SummaryFrequencyType, useSummaryFilter } from '../../summary/hooks/use-summary-filter';
 
 interface DateTransactionsAreaChartProps {
   data: SummaryTransactionsModel;
 }
 
-export const DateTransactionsAreaChart: FC<DateTransactionsAreaChartProps> = ({
-  data,
-}) => {
+export const DateTransactionsAreaChart: FC<DateTransactionsAreaChartProps> = ({ data }) => {
   const { frequency } = useSummaryFilter();
 
   const xAxisDateFormat =

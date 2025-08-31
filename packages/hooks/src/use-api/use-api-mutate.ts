@@ -6,10 +6,7 @@ import querystring from 'query-string';
 
 import { BASE_URL, BaseUrl } from './constants';
 
-import type {
-  MutationObserverBaseResult,
-  UseMutationOptions,
-} from '@tanstack/react-query';
+import type { MutationObserverBaseResult, UseMutationOptions } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -21,19 +18,12 @@ export interface UseApiMutateOptions<TData, TVariables, TError> {
   onSuccess?: (data: TData, variables: TVariables) => void;
   onError?: (error: TError, variables: TVariables) => void;
   onMutate?: (variables: TVariables) => Promise<unknown>;
-  onSettled?: (
-    data: TData | undefined,
-    error: TError | null,
-    variables: TVariables,
-  ) => void;
+  onSettled?: (data: TData | undefined, error: TError | null, variables: TVariables) => void;
   silentError?: boolean;
   headers?: Record<string, string>;
 }
 
-type States = Pick<
-  MutationObserverBaseResult,
-  'isError' | 'isIdle' | 'isPending' | 'isSuccess'
->;
+type States = Pick<MutationObserverBaseResult, 'isError' | 'isIdle' | 'isPending' | 'isSuccess'>;
 
 export type UseApiMutateResult<TData, TVariables, TError> = [
   mutateAsync: (variables: TVariables) => Promise<TData>,
@@ -42,23 +32,10 @@ export type UseApiMutateResult<TData, TVariables, TError> = [
   reset: () => void,
 ];
 
-export const useApiMutate = <
-  TData,
-  TVariables = unknown,
-  TError = { message: string },
->(
+export const useApiMutate = <TData, TVariables = unknown, TError = { message: string }>(
   options: UseApiMutateOptions<TData, TVariables, TError>,
 ): UseApiMutateResult<TData, TVariables, TError> => {
-  const {
-    path,
-    base,
-    method = 'GET',
-    onSuccess,
-    onError,
-    onMutate,
-    onSettled,
-    silentError = false,
-  } = options;
+  const { path, base, method = 'GET', onSuccess, onError, onMutate, onSettled, silentError = false } = options;
 
   const { clientId } = useGlobalProvider();
 
@@ -98,25 +75,13 @@ export const useApiMutate = <
             });
             break;
           case 'POST':
-            response = await axios.post<TData>(
-              templatedPath,
-              variables,
-              axiosConfig,
-            );
+            response = await axios.post<TData>(templatedPath, variables, axiosConfig);
             break;
           case 'PUT':
-            response = await axios.put<TData>(
-              templatedPath,
-              variables,
-              axiosConfig,
-            );
+            response = await axios.put<TData>(templatedPath, variables, axiosConfig);
             break;
           case 'PATCH':
-            response = await axios.patch<TData>(
-              templatedPath,
-              variables,
-              axiosConfig,
-            );
+            response = await axios.patch<TData>(templatedPath, variables, axiosConfig);
             break;
           case 'DELETE':
             response = await axios.delete<TData>(templatedPath, {
@@ -136,12 +101,7 @@ export const useApiMutate = <
         if (err instanceof AxiosError) {
           if (err.response?.status === 401) {
             const currentUrl = window.location.href;
-            window.location.href =
-              BASE_URL.LOGIN +
-              '/sign-in?redirectTo=' +
-              currentUrl +
-              '&clientId=' +
-              clientId;
+            window.location.href = BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl + '&clientId=' + clientId;
           }
 
           // Use the response data if available, otherwise use the error message

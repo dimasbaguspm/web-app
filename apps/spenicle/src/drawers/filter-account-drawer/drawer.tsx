@@ -1,15 +1,7 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { SearchAccountsModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import {
-  Button,
-  ButtonGroup,
-  ChipSingleInput,
-  Drawer,
-  FormLayout,
-  Icon,
-  TextInput,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ChipSingleInput, Drawer, FormLayout, Icon, TextInput } from '@dimasbaguspm/versaur';
 import { TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -21,18 +13,14 @@ export const FilterAccountDrawer: FC = () => {
   const { closeDrawer } = useDrawerRoute();
   const { appliedFilters, setFilters } = useAccountFilter();
 
-  const { control, handleSubmit } = useForm<
-    Partial<NonNullable<SearchAccountsModel>>
-  >({
+  const { control, handleSubmit } = useForm<Partial<NonNullable<SearchAccountsModel>>>({
     defaultValues: {
       search: appliedFilters.q,
       type: appliedFilters.type ?? [],
     },
   });
 
-  const handleOnValidSubmit: SubmitHandler<NonNullable<SearchAccountsModel>> = (
-    data,
-  ) => {
+  const handleOnValidSubmit: SubmitHandler<NonNullable<SearchAccountsModel>> = (data) => {
     const { search, type } = data ?? {};
 
     setFilters({
@@ -49,22 +37,14 @@ export const FilterAccountDrawer: FC = () => {
       </Drawer.Header>
 
       <Drawer.Body>
-        <form
-          id="filter-account-form"
-          onSubmit={handleSubmit(handleOnValidSubmit)}
-        >
+        <form id="filter-account-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
           <FormLayout>
             <FormLayout.Column span={12}>
               <Controller
                 name="search"
                 control={control}
                 render={({ field }) => (
-                  <TextInput
-                    {...field}
-                    variant="primary"
-                    label="Search"
-                    placeholder="Search accounts..."
-                  />
+                  <TextInput {...field} variant="primary" label="Search" placeholder="Search accounts..." />
                 )}
               />
             </FormLayout.Column>
@@ -75,19 +55,11 @@ export const FilterAccountDrawer: FC = () => {
                 render={({ field }) => (
                   <ChipSingleInput
                     {...field}
-                    value={
-                      field.value?.length === 0
-                        ? ''
-                        : field.value?.includes('expense')
-                          ? 'expense'
-                          : 'income'
-                    }
+                    value={field.value?.length === 0 ? '' : field.value?.includes('expense') ? 'expense' : 'income'}
                     variant="primary"
                     label="Type"
                   >
-                    <ChipSingleInput.Option value="">
-                      All
-                    </ChipSingleInput.Option>
+                    <ChipSingleInput.Option value="">All</ChipSingleInput.Option>
                     <ChipSingleInput.Option value="expense">
                       <Icon as={TrendingDownIcon} color="inherit" />
                       Expense

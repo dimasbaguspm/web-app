@@ -8,14 +8,11 @@ interface DeleteTransactionModalProps {
   transactionId: number;
 }
 
-export const DeleteTransactionModal: FC<DeleteTransactionModalProps> = ({
-  transactionId,
-}) => {
+export const DeleteTransactionModal: FC<DeleteTransactionModalProps> = ({ transactionId }) => {
   const { closeModal } = useModalRoute();
   const { closeDrawer, isOpen: isDrawerOpen } = useDrawerRoute();
 
-  const [deleteTransaction, , { isPending }] =
-    useApiSpenicleDeleteTransaction();
+  const [deleteTransaction, , { isPending }] = useApiSpenicleDeleteTransaction();
 
   const handleDelete = async () => {
     await deleteTransaction({

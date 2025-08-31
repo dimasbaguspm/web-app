@@ -18,19 +18,15 @@ export const useSummaryTimelineData = () => {
     accountIds: appliedFilters.accountIds,
   };
 
-  const [
-    transactions,
-    ,
-    { hasNextPage, isFetching, isFetchingNextPage },
-    { fetchNextPage },
-  ] = useApiSpenicleTransactionsInfiniteQuery({
-    dateFrom: dateFilters.from,
-    dateTo: dateFilters.to,
-    categoryId: appliedFilters.categoryIds,
-    accountId: appliedFilters.accountIds,
-    pageSize: 15,
-    sortBy: 'date',
-  });
+  const [transactions, , { hasNextPage, isFetching, isFetchingNextPage }, { fetchNextPage }] =
+    useApiSpenicleTransactionsInfiniteQuery({
+      dateFrom: dateFilters.from,
+      dateTo: dateFilters.to,
+      categoryId: appliedFilters.categoryIds,
+      accountId: appliedFilters.accountIds,
+      pageSize: 15,
+      sortBy: 'date',
+    });
 
   const cachedAccounts = useApiSpenicleCachedAccounts();
   const needToFetchAccounts = transactions
@@ -63,9 +59,7 @@ export const useSummaryTimelineData = () => {
 
   const data = (transactions || []).map((transaction) => {
     const account = cachedAccounts.find((a) => a.id === transaction.accountId)!;
-    const category = cachedCategories.find(
-      (c) => c.id === transaction.categoryId,
-    )!;
+    const category = cachedCategories.find((c) => c.id === transaction.categoryId)!;
     return {
       transaction,
       account,

@@ -2,12 +2,7 @@ import { useApiSpenicleCategoryQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Drawer,
-  LoadingIndicator,
-  NoResults,
-  Tabs,
-} from '@dimasbaguspm/versaur';
+import { Drawer, LoadingIndicator, NoResults, Tabs } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -22,10 +17,7 @@ interface DetailCategoryDrawerProps {
   tabId?: string;
 }
 
-export const DetailCategoryDrawer: FC<DetailCategoryDrawerProps> = ({
-  categoryId,
-  tabId,
-}) => {
+export const DetailCategoryDrawer: FC<DetailCategoryDrawerProps> = ({ categoryId, tabId }) => {
   const { openDrawer } = useDrawerRoute();
   const activeTab = tabId || 'details';
   const [category, , { isFetching }] = useApiSpenicleCategoryQuery(categoryId);

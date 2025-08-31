@@ -40,16 +40,10 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
   );
   const [searchValue, setSearchValue] = useState('');
 
-  const debouncedSetSearch = useMemo(
-    () => debounce((value: string) => setSearchValue(value), 1000),
-    [],
-  );
+  const debouncedSetSearch = useMemo(() => debounce((value: string) => setSearchValue(value), 1000), []);
 
   const [accounts, , { isFetching }] = useApiSpenicleAccountsPaginatedQuery({
     search: searchValue,
-    type: ['expense', 'income'].includes(payload.type as string)
-      ? [payload.type as 'expense' | 'income']
-      : undefined,
   });
 
   const handleOnSubmit = () => {
@@ -82,10 +76,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
       <Drawer.Body>
         <FormLayout className="mb-4">
           <FormLayout.Column span={12}>
-            <SearchInput
-              defaultValue={searchValue}
-              onChange={(e) => debouncedSetSearch(e.target.value)}
-            />
+            <SearchInput defaultValue={searchValue} onChange={(e) => debouncedSetSearch(e.target.value)} />
           </FormLayout.Column>
         </FormLayout>
 
@@ -102,11 +93,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
                   <SelectableSingleInput
                     label={
                       <div className="flex flex-col w-auto">
-                        <Text
-                          className="mb-2"
-                          fontSize="base"
-                          fontWeight="semibold"
-                        >
+                        <Text className="mb-2" fontSize="base" fontWeight="semibold">
                           {account.name}
                         </Text>
                         <BadgeGroup>
@@ -140,11 +127,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
           <Button variant="ghost" onClick={handleOnCancel}>
             Cancel
           </Button>
-          <Button
-            form="select-account-form"
-            onClick={handleOnSubmit}
-            disabled={!selectedAccountId}
-          >
+          <Button form="select-account-form" onClick={handleOnSubmit} disabled={!selectedAccountId}>
             Save
           </Button>
         </ButtonGroup>

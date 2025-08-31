@@ -16,37 +16,26 @@ export const useGroupsData = (user: User) => {
   });
 
   // Fetch all groups to show group details
-  const [allGroups, , { isLoading: isGroupsLoading }] =
-    useApiHiGroupsPaginatedQuery({
-      id: myGroupMembers?.items.map(
-        (member: GroupMemberData) => member.groupId,
-      ),
-    });
+  const [allGroups, , { isLoading: isGroupsLoading }] = useApiHiGroupsPaginatedQuery({
+    id: myGroupMembers?.items.map((member: GroupMemberData) => member.groupId),
+  });
 
   // Fetch available apps for stats
   const [apps] = useApiHiAppsPaginatedQuery({});
 
   // Get the groups I'm a member of
   const myGroups = allGroups?.items.filter((group: GroupData) =>
-    myGroupMembers?.items.some(
-      (member: GroupMemberData) => member.groupId === group.id,
-    ),
+    myGroupMembers?.items.some((member: GroupMemberData) => member.groupId === group.id),
   );
 
   const getGroupMemberCount = (groupId: number) => {
-    return (
-      myGroupMembers?.items.filter(
-        (member: GroupMemberData) => member.groupId === groupId,
-      ).length || 0
-    );
+    return myGroupMembers?.items.filter((member: GroupMemberData) => member.groupId === groupId).length || 0;
   };
 
   const isGroupOwner = (groupId: number) => {
     return (
-      myGroupMembers?.items.find(
-        (member: GroupMemberData) =>
-          member.groupId === groupId && member.userId === user.id,
-      )?.role === 'owner'
+      myGroupMembers?.items.find((member: GroupMemberData) => member.groupId === groupId && member.userId === user.id)
+        ?.role === 'owner'
     );
   };
 

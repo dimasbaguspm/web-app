@@ -3,15 +3,7 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  AttributeList,
-  Badge,
-  BadgeGroup,
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Icon,
-} from '@dimasbaguspm/versaur';
+import { AttributeList, Badge, BadgeGroup, Button, ButtonGroup, ButtonIcon, Icon } from '@dimasbaguspm/versaur';
 import { EditIcon, TrashIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -25,8 +17,7 @@ interface DetailsTabProps {
 export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
-  const { type, isExpense, formattedAmount, notes } =
-    formatSpenicleAccount(data);
+  const { type, isExpense, formattedAmount, notes } = formatSpenicleAccount(data);
 
   const handleEditClick = () => {
     openDrawer(DRAWER_ROUTES.EDIT_ACCOUNT, { accountId: data.id });
@@ -60,9 +51,7 @@ export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
       </BadgeGroup>
 
       <AttributeList columns={1}>
-        <AttributeList.Item title="Amount">
-          {formattedAmount}
-        </AttributeList.Item>
+        <AttributeList.Item title="Amount">{formattedAmount}</AttributeList.Item>
         <If condition={notes}>
           <AttributeList.Item title="Notes">{notes}</AttributeList.Item>
         </If>

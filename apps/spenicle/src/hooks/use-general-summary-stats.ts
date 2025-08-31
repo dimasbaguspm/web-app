@@ -85,33 +85,23 @@ export const useGeneralSummaryStats = (
     const values = active.map(getValue);
 
     summaryStats.metricTotal = values.reduce((sum, val) => sum + val, 0);
-    summaryStats.metricAveragePerPeriod =
-      summaryStats.metricTotal / active.length;
+    summaryStats.metricAveragePerPeriod = summaryStats.metricTotal / active.length;
     summaryStats.metricMax = Math.max(...values);
     summaryStats.metricMin = Math.min(...values);
-    summaryStats.transactionCount = active.reduce(
-      (sum, tx) => sum + (tx.totalTransactions ?? 0),
-      0,
-    );
+    summaryStats.transactionCount = active.reduce((sum, tx) => sum + (tx.totalTransactions ?? 0), 0);
 
     // additional metrics
     summaryStats.avgTransactionValue =
-      summaryStats.transactionCount > 0
-        ? summaryStats.metricTotal / summaryStats.transactionCount
-        : 0;
+      summaryStats.transactionCount > 0 ? summaryStats.metricTotal / summaryStats.transactionCount : 0;
 
     // days span (if single period use days in that month)
     const firstDate = dayjs(active[0].date);
     const lastDate = dayjs(active[active.length - 1].date);
 
     // compute days span
-    const daysSpan =
-      active.length === 1
-        ? firstDate.endOf('month').date()
-        : lastDate.diff(firstDate, 'day') + 1;
+    const daysSpan = active.length === 1 ? firstDate.endOf('month').date() : lastDate.diff(firstDate, 'day') + 1;
 
-    summaryStats.avgTransactionsPerDay =
-      daysSpan > 0 ? summaryStats.transactionCount / daysSpan : 0;
+    summaryStats.avgTransactionsPerDay = daysSpan > 0 ? summaryStats.transactionCount / daysSpan : 0;
 
     // compute average transactions per requested granularity if provided
     const { periodGranularity = 'day' } = options || {};
@@ -134,27 +124,16 @@ export const useGeneralSummaryStats = (
     }
 
     // attach averageTransactionsPerUnit for reporting
-    summaryStats.avgTransactionsPerUnit =
-      unitsSpan > 0 ? summaryStats.transactionCount / unitsSpan : 0;
+    summaryStats.avgTransactionsPerUnit = unitsSpan > 0 ? summaryStats.transactionCount / unitsSpan : 0;
 
-    summaryStats.maxExpenseInPeriod = Math.max(
-      ...active.map((t) => t.expense ?? 0),
-    );
+    summaryStats.maxExpenseInPeriod = Math.max(...active.map((t) => t.expense ?? 0));
     summaryStats.maxNetInPeriod = Math.max(...active.map((t) => t.net ?? 0));
-    summaryStats.maxIncomeInPeriod = Math.max(
-      ...active.map((t) => t.income ?? 0),
-    );
+    summaryStats.maxIncomeInPeriod = Math.max(...active.map((t) => t.income ?? 0));
 
     // find dates for maxima and format them
-    const maxExpenseTx = active.find(
-      (t) => (t.expense ?? 0) === summaryStats.maxExpenseInPeriod,
-    );
-    const maxNetTx = active.find(
-      (t) => (t.net ?? 0) === summaryStats.maxNetInPeriod,
-    );
-    const maxIncomeTx = active.find(
-      (t) => (t.income ?? 0) === summaryStats.maxIncomeInPeriod,
-    );
+    const maxExpenseTx = active.find((t) => (t.expense ?? 0) === summaryStats.maxExpenseInPeriod);
+    const maxNetTx = active.find((t) => (t.net ?? 0) === summaryStats.maxNetInPeriod);
+    const maxIncomeTx = active.find((t) => (t.income ?? 0) === summaryStats.maxIncomeInPeriod);
 
     const dateFormat = (() => {
       switch (periodGranularity) {
@@ -169,36 +148,18 @@ export const useGeneralSummaryStats = (
       }
     })();
 
-    summaryStats.maxExpenseDateInPeriod = formatDate(
-      maxExpenseTx?.date || '',
-      dateFormat,
-    );
-    summaryStats.maxNetDateInPeriod = formatDate(
-      maxNetTx?.date || '',
-      dateFormat,
-    );
-    summaryStats.maxIncomeDateInPeriod = formatDate(
-      maxIncomeTx?.date || '',
-      dateFormat,
-    );
+    summaryStats.maxExpenseDateInPeriod = formatDate(maxExpenseTx?.date || '', dateFormat);
+    summaryStats.maxNetDateInPeriod = formatDate(maxNetTx?.date || '', dateFormat);
+    summaryStats.maxIncomeDateInPeriod = formatDate(maxIncomeTx?.date || '', dateFormat);
 
     const peakByTx = active.reduce(
-      (best, t) =>
-        (t.totalTransactions ?? 0) > (best.totalTransactions ?? 0) ? t : best,
+      (best, t) => ((t.totalTransactions ?? 0) > (best.totalTransactions ?? 0) ? t : best),
       active[0],
     );
-    summaryStats.peakPeriodByTransactionCount = formatDate(
-      peakByTx?.date || '',
-      dateFormat,
-    );
+    summaryStats.peakPeriodByTransactionCount = formatDate(peakByTx?.date || '', dateFormat);
 
-    const peakByNet =
-      active.find((t) => (t.net ?? 0) === summaryStats.maxNetInPeriod) ||
-      active[0];
-    summaryStats.peakPeriodByHighestNet = formatDate(
-      peakByNet?.date || '',
-      dateFormat,
-    );
+    const peakByNet = active.find((t) => (t.net ?? 0) === summaryStats.maxNetInPeriod) || active[0];
+    summaryStats.peakPeriodByHighestNet = formatDate(peakByNet?.date || '', dateFormat);
 
     // peak month by highest selected value
     const peak = active.find((tx) => getValue(tx) === summaryStats.metricMax);

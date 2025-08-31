@@ -5,8 +5,7 @@ import { FC } from 'react';
 import { useCategoryFilter } from '../hooks/use-category-filter';
 
 export const FilterControl: FC = () => {
-  const { humanizedFilters, removeFilter, removeAllFilters } =
-    useCategoryFilter();
+  const { humanizedFilters, removeFilter, removeAllFilters } = useCategoryFilter();
 
   return (
     <If condition={[humanizedFilters.length]}>

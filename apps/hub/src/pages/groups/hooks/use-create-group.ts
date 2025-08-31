@@ -2,10 +2,7 @@ import { CreateGroupModel } from '@dimasbaguspm/interfaces';
 
 import { GroupData } from '../types';
 
-export const useCreateGroup = (
-  createGroup: (data: CreateGroupModel) => Promise<GroupData>,
-  closeModal: () => void,
-) => {
+export const useCreateGroup = (createGroup: (data: CreateGroupModel) => Promise<GroupData>, closeModal: () => void) => {
   const handleCreateGroup = async (groupName: string) => {
     if (!groupName.trim()) return;
 

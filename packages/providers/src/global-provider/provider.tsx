@@ -6,9 +6,5 @@ import { GlobalProviderContext } from './context';
 export const GlobalProvider: FC<PropsWithChildren> = ({ children }) => {
   const { clientId } = useClientId();
 
-  return (
-    <GlobalProviderContext.Provider value={{ clientId }}>
-      {children}
-    </GlobalProviderContext.Provider>
-  );
+  return <GlobalProviderContext.Provider value={{ clientId }}>{children}</GlobalProviderContext.Provider>;
 };

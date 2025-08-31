@@ -55,11 +55,7 @@ const CategoriesPage = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon
-              as={PlusIcon}
-              aria-label="New Category"
-              onClick={handleOpenDrawer}
-            />
+            <ButtonIcon as={PlusIcon} aria-label="New Category" onClick={handleOpenDrawer} />
           </ButtonGroup>
         }
       />
@@ -77,10 +73,7 @@ const CategoriesPage = () => {
             <ul className="grid grid-cols-1">
               {categories?.items.map((category) => (
                 <li key={category.id} className="border-b border-border">
-                  <CategoryCard
-                    category={category}
-                    onClick={handleCategoryClick}
-                  />
+                  <CategoryCard category={category} onClick={handleCategoryClick} />
                 </li>
               ))}
             </ul>

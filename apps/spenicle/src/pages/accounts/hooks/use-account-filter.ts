@@ -13,8 +13,7 @@ export const useAccountFilter = () => {
 
   const appliedFilters = {
     q: searchParams.get('q') ?? undefined,
-    type: (searchParams.getAll('type') ??
-      []) as NonNullable<SearchAccountsModel>['type'],
+    type: (searchParams.getAll('type') ?? []) as NonNullable<SearchAccountsModel>['type'],
   } satisfies AccountFilterModel;
 
   const humanizedFilters = FILTERS.reduce(

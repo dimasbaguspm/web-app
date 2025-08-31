@@ -8,14 +8,8 @@ interface MarketplaceProviderProps {
   children: ReactNode;
 }
 
-export const MarketplaceProvider: FC<MarketplaceProviderProps> = ({
-  children,
-}) => {
+export const MarketplaceProvider: FC<MarketplaceProviderProps> = ({ children }) => {
   const contextValue = useMarketplaceData();
 
-  return (
-    <MarketplaceContext.Provider value={contextValue}>
-      {children}
-    </MarketplaceContext.Provider>
-  );
+  return <MarketplaceContext.Provider value={contextValue}>{children}</MarketplaceContext.Provider>;
 };

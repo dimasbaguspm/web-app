@@ -24,8 +24,7 @@ export const useApiHiAuthTokenRefresher = () => {
     enabled: !!clientId,
     queryFn: async () => {
       try {
-        const { value: accessToken } =
-          (await cookieStore.get('accessToken')) ?? {};
+        const { value: accessToken } = (await cookieStore.get('accessToken')) ?? {};
 
         if (!accessToken) throw new Error('No access token found');
 
@@ -46,22 +45,13 @@ export const useApiHiAuthTokenRefresher = () => {
 
         return true;
       } catch (err: unknown) {
-        const message =
-          err instanceof Error
-            ? err.message
-            : typeof err === 'string'
-              ? err
-              : String(err);
+        const message = err instanceof Error ? err.message : typeof err === 'string' ? err : String(err);
 
         window.confirm(message);
         const currentUrl = new URL(window.location.href);
 
         window.location.href =
-          BASE_URL.LOGIN +
-          '/sign-in?redirectTo=' +
-          currentUrl.toString() +
-          '&clientId=' +
-          clientId;
+          BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl.toString() + '&clientId=' + clientId;
       }
       return false;
     },

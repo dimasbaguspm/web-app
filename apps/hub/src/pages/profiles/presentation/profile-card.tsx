@@ -1,29 +1,11 @@
 import { formatDate } from '@dimasbaguspm/utils/date';
-import {
-  Avatar,
-  Badge,
-  Button,
-  ButtonIcon,
-  Icon,
-  Text,
-  Tile,
-} from '@dimasbaguspm/versaur';
-import {
-  AppWindowIcon,
-  PlayIcon,
-  TrashIcon,
-  User2Icon,
-  UsersIcon,
-} from 'lucide-react';
+import { Avatar, Badge, Button, ButtonIcon, Icon, Text, Tile } from '@dimasbaguspm/versaur';
+import { AppWindowIcon, PlayIcon, TrashIcon, User2Icon, UsersIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import type { ProfileCardProps } from '../types';
 
-export const ProfileCard: FC<ProfileCardProps> = ({
-  profile,
-  onDelete,
-  onPlay,
-}) => {
+export const ProfileCard: FC<ProfileCardProps> = ({ profile, onDelete, onPlay }) => {
   const handleDelete = () => {
     onDelete(profile.id);
   };
@@ -42,11 +24,7 @@ export const ProfileCard: FC<ProfileCardProps> = ({
         <div className="flex-shrink-0">
           <Avatar size="lg" shape="rounded">
             {profile.app.logoUrl ? (
-              <img
-                alt={profile.app.name}
-                className="w-full h-full object-cover"
-                src={profile.app.logoUrl}
-              />
+              <img alt={profile.app.name} className="w-full h-full object-cover" src={profile.app.logoUrl} />
             ) : (
               <AppWindowIcon className="w-6 h-6" />
             )}
@@ -58,12 +36,7 @@ export const ProfileCard: FC<ProfileCardProps> = ({
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <Text
-                  as="h3"
-                  className="truncate"
-                  fontSize="lg"
-                  fontWeight="semibold"
-                >
+                <Text as="h3" className="truncate" fontSize="lg" fontWeight="semibold">
                   {profile.name}
                 </Text>
                 <Badge color={typeColor}>

@@ -6,9 +6,7 @@ import { DRAWER_PARAM_KEY, DRAWER_ROUTES } from '../../constants/drawer-routes';
 export const useDrawerRoute = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const drawerParam = searchParams.get(DRAWER_PARAM_KEY) as
-    | keyof typeof DRAWER_ROUTES
-    | null;
+  const drawerParam = searchParams.get(DRAWER_PARAM_KEY) as keyof typeof DRAWER_ROUTES | null;
 
   const drawerRoute = drawerParam ? DRAWER_ROUTES[drawerParam] : null;
   const isDrawerOpen = Boolean(drawerParam);
@@ -26,10 +24,7 @@ export const useDrawerRoute = () => {
     setSearchParams({});
   };
 
-  const handleOpenDrawer = (
-    route: keyof typeof DRAWER_ROUTES,
-    params?: object,
-  ) => {
+  const handleOpenDrawer = (route: keyof typeof DRAWER_ROUTES, params?: object) => {
     setSearchParams(() => {
       // Clear previous params and set new ones
       const newParams = {

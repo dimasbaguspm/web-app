@@ -4,11 +4,7 @@ import { FC } from 'react';
 
 import type { GroupsEmptyStateProps } from '../types';
 
-export const GroupsEmptyState: FC<GroupsEmptyStateProps> = ({
-  searchQuery,
-  onCreateGroup,
-  onClearSearch,
-}) => {
+export const GroupsEmptyState: FC<GroupsEmptyStateProps> = ({ searchQuery, onCreateGroup, onClearSearch }) => {
   if (searchQuery) {
     return (
       <NoResults

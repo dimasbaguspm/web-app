@@ -17,11 +17,7 @@ export const GroupSearchBar: FC = () => {
 
   return (
     <div className="mb-6">
-      <SearchInput
-        onChange={handleOnSearchChange}
-        placeholder="Search your groups... (⌘K)"
-        value={searchQuery}
-      />
+      <SearchInput onChange={handleOnSearchChange} placeholder="Search your groups... (⌘K)" value={searchQuery} />
     </div>
   );
 };

@@ -1,8 +1,5 @@
 import { HUB_BASE_URL } from '@dimasbaguspm/constants';
-import {
-  useApiHiAppProfilesPaginatedQuery,
-  useApiHiAuthSetActiveProfile,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiHiAppProfilesPaginatedQuery, useApiHiAuthSetActiveProfile } from '@dimasbaguspm/hooks/use-api';
 import { AppProfileModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -33,51 +30,38 @@ interface Props {
   onSuccess: () => void;
 }
 
-export const ProfileSelector: FC<Props> = ({
-  appId,
-  variant = 'modal',
-  isSwitchingProfile,
-  onSuccess,
-}) => {
+export const ProfileSelector: FC<Props> = ({ appId, variant = 'modal', isSwitchingProfile, onSuccess }) => {
   const { user, groupMembers, activeProfile } = useAuthProvider();
 
-  const [selectedId, setSelectedId] = useState<number | null>(
-    activeProfile ? +activeProfile.id : null,
-  );
+  const [selectedId, setSelectedId] = useState<number | null>(activeProfile ? +activeProfile.id : null);
 
-  const [userAppProfiles, , { isFetching: isUserFetching }] =
-    useApiHiAppProfilesPaginatedQuery(
-      {
-        appId: [appId],
-        userId: [user.id],
-        pageSize: 100,
-      },
-      {
-        enabled: !!user.id,
-      },
-    );
+  const [userAppProfiles, , { isFetching: isUserFetching }] = useApiHiAppProfilesPaginatedQuery(
+    {
+      appId: [appId],
+      userId: [user.id],
+      pageSize: 100,
+    },
+    {
+      enabled: !!user.id,
+    },
+  );
 
   type GroupMember = { groupId: number };
 
-  const [groupAppProfiles, , { isFetching: isGroupFetching }] =
-    useApiHiAppProfilesPaginatedQuery(
-      {
-        appId: [appId],
-        groupId: groupMembers.map((member: GroupMember) => member.groupId),
-        pageSize: 100,
-      },
-      {
-        enabled: groupMembers.length > 0,
-      },
-    );
+  const [groupAppProfiles, , { isFetching: isGroupFetching }] = useApiHiAppProfilesPaginatedQuery(
+    {
+      appId: [appId],
+      groupId: groupMembers.map((member: GroupMember) => member.groupId),
+      pageSize: 100,
+    },
+    {
+      enabled: groupMembers.length > 0,
+    },
+  );
 
-  const [setActiveProfile, , { isPending: isSettingActiveProfile }] =
-    useApiHiAuthSetActiveProfile();
+  const [setActiveProfile, , { isPending: isSettingActiveProfile }] = useApiHiAuthSetActiveProfile();
 
-  const profiles: AppProfileModel[] = [
-    ...(userAppProfiles?.items ?? []),
-    ...(groupAppProfiles?.items ?? []),
-  ];
+  const profiles: AppProfileModel[] = [...(userAppProfiles?.items ?? []), ...(groupAppProfiles?.items ?? [])];
 
   const handleOnSubmit = async () => {
     await setActiveProfile({
@@ -129,11 +113,7 @@ export const ProfileSelector: FC<Props> = ({
         </ul>
       </If>
       <If condition={[!profiles.length]}>
-        <NoResults
-          icon={UserSearchIcon}
-          title="No profiles found"
-          subtitle="Register a new profile to get started"
-        />
+        <NoResults icon={UserSearchIcon} title="No profiles found" subtitle="Register a new profile to get started" />
       </If>
     </>
   );
@@ -171,9 +151,7 @@ export const ProfileSelector: FC<Props> = ({
         </If>
 
         <If condition={[!isFetching]}>
-          <BottomSheet.Body className="max-h-[56dvh] overflow-y-auto">
-            {listContent}
-          </BottomSheet.Body>
+          <BottomSheet.Body className="max-h-[56dvh] overflow-y-auto">{listContent}</BottomSheet.Body>
           <BottomSheet.Footer>{footerContent}</BottomSheet.Footer>
         </If>
       </BottomSheet>
@@ -181,12 +159,7 @@ export const ProfileSelector: FC<Props> = ({
   }
 
   return (
-    <Modal
-      disableOverlayClickToClose
-      disableEscapeKeyDown
-      isOpen
-      onClose={() => {}}
-    >
+    <Modal disableOverlayClickToClose disableEscapeKeyDown isOpen onClose={() => {}}>
       <Modal.Header>Select Profile</Modal.Header>
 
       <If condition={isFetching}>
@@ -194,9 +167,7 @@ export const ProfileSelector: FC<Props> = ({
       </If>
 
       <If condition={[!isFetching]}>
-        <Modal.Body className="max-h-[56dvh] overflow-y-auto">
-          {listContent}
-        </Modal.Body>
+        <Modal.Body className="max-h-[56dvh] overflow-y-auto">{listContent}</Modal.Body>
         <Modal.Footer>{footerContent}</Modal.Footer>
       </If>
     </Modal>

@@ -2,15 +2,7 @@ import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { CategoryModel, TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Button,
-  ButtonGroup,
-  FormLayout,
-  Icon,
-  LoadingIndicator,
-  NoResults,
-  SearchInput,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, FormLayout, Icon, LoadingIndicator, NoResults, SearchInput } from '@dimasbaguspm/versaur';
 import { FilterIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -46,10 +38,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
     <>
       <FormLayout className="mb-4">
         <FormLayout.Column span={10}>
-          <SearchInput
-            onChange={(ev) => setSearchValue(ev.target.value)}
-            placeholder="Search name or notes"
-          />
+          <SearchInput onChange={(ev) => setSearchValue(ev.target.value)} placeholder="Search name or notes" />
         </FormLayout.Column>
         <FormLayout.Column span={2} className="flex items-end justify-end">
           <Button variant="outline" aria-label="Filter history">
@@ -64,11 +53,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
 
       <If condition={[!isInitialLoading]}>
         <If condition={!transactions.length}>
-          <NoResults
-            icon={SearchXIcon}
-            title="No history available"
-            subtitle="Try adjusting your search criteria"
-          />
+          <NoResults icon={SearchXIcon} title="No history available" subtitle="Try adjusting your search criteria" />
         </If>
         <If condition={[transactions.length]}>
           <ul>
@@ -86,11 +71,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
 
           <If condition={hasNextPage}>
             <ButtonGroup alignment="center">
-              <Button
-                variant="outline"
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-              >
+              <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
                 Load more
               </Button>
             </ButtonGroup>

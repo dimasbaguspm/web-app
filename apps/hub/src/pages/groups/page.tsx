@@ -1,11 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Icon,
-  PageContent,
-  PageHeader,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader } from '@dimasbaguspm/versaur';
 import { PlusIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -20,13 +13,7 @@ const GroupPageContent: FC = () => {
 
   const { searchQuery, setIsCreating, closeModal } = useGroupsStateContext();
 
-  const {
-    myGroups,
-    isGroupsLoading,
-    createGroup,
-    getGroupMemberCount,
-    isGroupOwner,
-  } = useGroupsData(user);
+  const { myGroups, isGroupsLoading, createGroup, getGroupMemberCount, isGroupOwner } = useGroupsData(user);
 
   const { handleCreateGroup } = useCreateGroup(createGroup, closeModal);
 
@@ -35,9 +22,7 @@ const GroupPageContent: FC = () => {
   };
 
   // Filter groups based on search query
-  const filteredGroups = myGroups?.filter((group) =>
-    group.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredGroups = myGroups?.filter((group) => group.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <>
@@ -54,11 +39,7 @@ const GroupPageContent: FC = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon
-              as={PlusIcon}
-              aria-label="New Group"
-              onClick={() => setIsCreating(true)}
-            />
+            <ButtonIcon as={PlusIcon} aria-label="New Group" onClick={() => setIsCreating(true)} />
           </ButtonGroup>
         }
       />

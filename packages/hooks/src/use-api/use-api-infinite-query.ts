@@ -7,10 +7,7 @@ import querystring from 'query-string';
 import { BASE_URL } from './constants';
 
 import type { BaseUrl } from './constants';
-import type {
-  InfiniteData,
-  InfiniteQueryObserverBaseResult,
-} from '@tanstack/react-query';
+import type { InfiniteData, InfiniteQueryObserverBaseResult } from '@tanstack/react-query';
 
 export interface UseApiInfiniteQueryOptions<Data, Query, TError> {
   queryKey: (string | number | undefined)[];
@@ -27,10 +24,7 @@ export interface UseApiInfiniteQueryOptions<Data, Query, TError> {
   staleTime?: number;
   gcTime?: number;
   select?: (data: Data[] | null) => Data[];
-  getNextPageParam?: (
-    lastPage: Data | null,
-    pages: (Data | null)[],
-  ) => unknown | undefined;
+  getNextPageParam?: (lastPage: Data | null, pages: (Data | null)[]) => unknown | undefined;
 }
 
 type InfiniteQueryState = Pick<
@@ -66,11 +60,7 @@ export type UseApiInfiniteQueryResult<TData, TError> = [
   funcs: InfiniteQueryFuncs<InfiniteData<TData | null>, TError>,
 ];
 
-export const useApiInfiniteQuery = <
-  TData,
-  TQuery,
-  TError = { message: string },
->(
+export const useApiInfiniteQuery = <TData, TQuery, TError = { message: string }>(
   options: UseApiInfiniteQueryOptions<TData, TQuery, TError>,
 ): UseApiInfiniteQueryResult<TData, TError> => {
   const {
@@ -121,12 +111,7 @@ export const useApiInfiniteQuery = <
         if (err instanceof AxiosError) {
           if (err.response?.status === 401) {
             const currentUrl = window.location.href;
-            window.location.href =
-              BASE_URL.LOGIN +
-              '/sign-in?redirectTo=' +
-              currentUrl +
-              '&clientId=' +
-              clientId;
+            window.location.href = BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl + '&clientId=' + clientId;
           }
 
           return err.response?.data;
@@ -202,14 +187,10 @@ export const useApiInfiniteQuery = <
 
     if (pages.every((p) => Array.isArray(p))) {
       // concat arrays across pages
-      combinedRaw = ([] as unknown[]).concat(
-        ...(pages as unknown as unknown[][]),
-      );
+      combinedRaw = ([] as unknown[]).concat(...(pages as unknown as unknown[][]));
     } else if (first && typeof first === 'object' && !Array.isArray(first)) {
       // detect paginated response shape { items: Data[], pageNumber, pageSize, totalItems, totalPages }
-      const hasItemsArray = Array.isArray(
-        (first as unknown as Record<string, unknown>)?.items,
-      );
+      const hasItemsArray = Array.isArray((first as unknown as Record<string, unknown>)?.items);
       if (hasItemsArray) {
         // concat items across pages and return the items array as the hook data
         const allItems: unknown[] = [];
@@ -225,12 +206,9 @@ export const useApiInfiniteQuery = <
         // merge object pages: concatenate array fields, take last scalar/object for non-array fields
         combinedRaw = mergeWith(
           {},
-          ...pages.map((p) =>
-            p && typeof p === 'object' && !Array.isArray(p) ? p : {},
-          ),
+          ...pages.map((p) => (p && typeof p === 'object' && !Array.isArray(p) ? p : {})),
           (objValue: unknown, srcValue: unknown) => {
-            if (Array.isArray(objValue))
-              return (objValue as unknown[]).concat(srcValue as unknown[]);
+            if (Array.isArray(objValue)) return (objValue as unknown[]).concat(srcValue as unknown[]);
             return undefined;
           },
         );
@@ -241,14 +219,9 @@ export const useApiInfiniteQuery = <
     }
   }
 
-  const combined = select
-    ? (select(combinedRaw as TData[] | null) as TData[] | null)
-    : (combinedRaw as TData | null);
+  const combined = select ? (select(combinedRaw as TData[] | null) as TData[] | null) : (combinedRaw as TData | null);
 
-  const dataResult = combined as unknown as UseApiInfiniteQueryResult<
-    TData,
-    TError
-  >[0];
+  const dataResult = combined as unknown as UseApiInfiniteQueryResult<TData, TError>[0];
 
   return [dataResult ?? [], error, state, funcs];
 };

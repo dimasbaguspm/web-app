@@ -130,10 +130,7 @@ export type DateFormatType = (typeof DateFormat)[keyof typeof DateFormat];
  * @param format - The format type to use
  * @returns Formatted date string
  */
-export function formatDate(
-  date: Dayjs | Date | string,
-  format: DateFormatType,
-): string {
+export function formatDate(date: Dayjs | Date | string, format: DateFormatType): string {
   const dayjsDate = dayjs(date);
 
   if (!dayjsDate.isValid()) {

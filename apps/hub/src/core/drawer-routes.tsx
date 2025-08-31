@@ -6,13 +6,11 @@ import { AppProfileCreationDrawer } from '../drawers/app-profile-creation/drawer
 import { useDrawerRoute } from '../hooks/use-drawer-route';
 
 export const DrawerRoutes: FC = () => {
-  const { isDrawerOpen, handleCloseDrawer, drawerRoute, additionalParams } =
-    useDrawerRoute();
+  const { isDrawerOpen, handleCloseDrawer, drawerRoute, additionalParams } = useDrawerRoute();
 
   return (
     <Drawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} size="md">
-      {drawerRoute === DRAWER_ROUTES.APP_PROFILE_CREATION &&
-        additionalParams?.appId && <AppProfileCreationDrawer />}
+      {drawerRoute === DRAWER_ROUTES.APP_PROFILE_CREATION && additionalParams?.appId && <AppProfileCreationDrawer />}
     </Drawer>
   );
 };

@@ -36,29 +36,17 @@ const TransactionsPage = () => {
 
   const hasParams = year && month && day;
   const startDate = hasParams
-    ? dayjs()
-        .set('y', parseInt(year))
-        .set('M', parseInt(month))
-        .set('D', parseInt(day))
-    : dayjs().startOf('day');
+    ? dayjs().set('y', parseInt(year)).set('M', parseInt(month)).set('D', parseInt(day))
+    : dayjs();
 
   const { openDrawer } = useDrawerRoute();
 
   const { humanizedFilters } = useTransactionsFilter();
-  const {
-    isFetching,
-    transactions,
-    accounts,
-    categories,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useTransactionData({ date: startDate });
+  const { isFetching, transactions, accounts, categories, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useTransactionData({ date: startDate });
 
   const handleOnDateChange = (date: Dayjs) => {
-    navigate(
-      DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()),
-    );
+    navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()));
   };
 
   const handleOnNewTransactionClick = () => {
@@ -83,9 +71,7 @@ const TransactionsPage = () => {
   };
 
   const handleOnCalendarDateChange = (date: Dayjs) => {
-    navigate(
-      DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()),
-    );
+    navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()));
   };
 
   return (
@@ -103,11 +89,7 @@ const TransactionsPage = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon
-              as={PlusIcon}
-              aria-label="New Transaction"
-              onClick={handleOnNewTransactionClick}
-            />
+            <ButtonIcon as={PlusIcon} aria-label="New Transaction" onClick={handleOnNewTransactionClick} />
           </ButtonGroup>
         }
         tabs={<TabsDate date={startDate} onDateChange={handleOnDateChange} />}
@@ -131,12 +113,8 @@ const TransactionsPage = () => {
         <If condition={[!isFetching, transactions.length !== 0]}>
           <ul className="flex flex-col mb-4">
             {transactions.map((transaction) => {
-              const account = accounts?.items.find(
-                (acc) => acc.id === transaction.accountId,
-              );
-              const category = categories?.items.find(
-                (cat) => cat.id === transaction.categoryId,
-              );
+              const account = accounts?.items.find((acc) => acc.id === transaction.accountId);
+              const category = categories?.items.find((cat) => cat.id === transaction.categoryId);
 
               return (
                 <li key={transaction.id} className="border-b border-border">
@@ -152,10 +130,7 @@ const TransactionsPage = () => {
           </ul>
           <If condition={[hasNextPage]}>
             <ButtonGroup alignment="center">
-              <Button
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-              >
+              <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
                 Load More
               </Button>
             </ButtonGroup>

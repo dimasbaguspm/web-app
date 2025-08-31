@@ -15,9 +15,7 @@ import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiHiGroupMembersPaginatedQuery = (
   params: SearchGroupMembersModel,
-  options?: Partial<
-    UseApiQueryOptions<GroupMembersPageModel, SearchGroupMembersModel, unknown>
-  >,
+  options?: Partial<UseApiQueryOptions<GroupMembersPageModel, SearchGroupMembersModel, unknown>>,
 ) => {
   return useApiQuery<GroupMembersPageModel, SearchGroupMembersModel>({
     ...options,
@@ -51,10 +49,7 @@ export const useApiHiCreateGroupMember = () => {
         queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED().slice(0, 3),
         exact: false,
       });
-      queryClient.setQueryData(
-        QUERY_KEYS.HI_GROUP_MEMBERS_BY_ID(data.id),
-        data,
-      );
+      queryClient.setQueryData(QUERY_KEYS.HI_GROUP_MEMBERS_BY_ID(data.id), data);
     },
   });
 };
@@ -70,10 +65,7 @@ export const useApiHiUpdateGroupMember = () => {
         queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED().slice(0, 3),
         exact: false,
       });
-      queryClient.setQueryData(
-        QUERY_KEYS.HI_GROUP_MEMBERS_BY_ID(data.id),
-        data,
-      );
+      queryClient.setQueryData(QUERY_KEYS.HI_GROUP_MEMBERS_BY_ID(data.id), data);
     },
   });
 };

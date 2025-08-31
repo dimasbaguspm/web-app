@@ -1,7 +1,4 @@
-import {
-  CategoryModel,
-  SummaryTransactionsModel,
-} from '@dimasbaguspm/interfaces';
+import { CategoryModel, SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
 import { Icon, Text, Tile } from '@dimasbaguspm/versaur';
@@ -73,11 +70,7 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ data, transactions }) => {
             <Text fontWeight="medium" fontSize="sm" color="gray">
               Growth
             </Text>
-            <Icon
-              as={growthStats.TrendIcon}
-              size="xs"
-              color={growthStats.getTrendColor(isExpense)}
-            />
+            <Icon as={growthStats.TrendIcon} size="xs" color={growthStats.getTrendColor(isExpense)} />
           </div>
           <Text fontWeight="semibold" fontSize="lg">
             {growthStats.formattedPercentage}

@@ -1,17 +1,8 @@
-import {
-  useApiSpenicleTransactionQuery,
-  useApiSpenicleUpdateTransaction,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleTransactionQuery, useApiSpenicleUpdateTransaction } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Button,
-  ButtonGroup,
-  Drawer,
-  LoadingIndicator,
-  useSnackbars,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, LoadingIndicator, useSnackbars } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 import { SubmitHandler } from 'react-hook-form';
@@ -25,23 +16,16 @@ interface EditTransactionDrawerProps {
   payload?: Record<string, string>;
 }
 
-export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
-  transactionId,
-  payload,
-}) => {
+export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({ transactionId, payload }) => {
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
   const { isDesktop } = useWindowResize();
 
-  const [transactionData, , { isLoading }] =
-    useApiSpenicleTransactionQuery(transactionId);
+  const [transactionData, , { isLoading }] = useApiSpenicleTransactionQuery(transactionId);
 
-  const [updateTransaction, , { isPending }] =
-    useApiSpenicleUpdateTransaction();
+  const [updateTransaction, , { isPending }] = useApiSpenicleUpdateTransaction();
 
-  const handleOnSubmit: SubmitHandler<EditTransactionFormSchema> = async (
-    data,
-  ) => {
+  const handleOnSubmit: SubmitHandler<EditTransactionFormSchema> = async (data) => {
     let date = dayjs(data.date);
 
     // parse hour and minute from the time string and coerce to numbers
@@ -58,10 +42,7 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
       amount: data.amount,
       categoryId: data.categoryId,
       accountId: data.accountId,
-      destinationAccountId:
-        data.type === 'transfer' && data.destinationAccountId
-          ? data.destinationAccountId
-          : null,
+      destinationAccountId: data.type === 'transfer' && data.destinationAccountId ? data.destinationAccountId : null,
       note: data.notes ?? '',
     });
 
@@ -95,11 +76,7 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({
             <Button variant="ghost" onClick={closeDrawer}>
               Cancel
             </Button>
-            <Button
-              type="submit"
-              form="edit-transaction-form"
-              disabled={isPending}
-            >
+            <Button type="submit" form="edit-transaction-form" disabled={isPending}>
               Update
             </Button>
           </ButtonGroup>

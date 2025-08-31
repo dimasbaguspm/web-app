@@ -11,22 +11,11 @@ export const generatePayloadCopyTransaction = (
     type: transactionData?.type,
     date: formatDate(dayjs(), DateFormat.ISO_DATE),
     time: formatDate(dayjs(), DateFormat.TIME_24H),
-    accountId:
-      typeof transactionData?.accountId === 'number'
-        ? transactionData?.accountId
-        : undefined,
+    accountId: typeof transactionData?.accountId === 'number' ? transactionData?.accountId : undefined,
     destinationAccountId:
-      typeof transactionData?.destinationAccountId === 'number'
-        ? transactionData?.destinationAccountId
-        : undefined,
-    categoryId:
-      typeof transactionData?.categoryId === 'number'
-        ? transactionData?.categoryId
-        : undefined,
-    amount:
-      typeof transactionData?.amount === 'number'
-        ? transactionData?.amount
-        : undefined,
+      typeof transactionData?.destinationAccountId === 'number' ? transactionData?.destinationAccountId : undefined,
+    categoryId: typeof transactionData?.categoryId === 'number' ? transactionData?.categoryId : undefined,
+    amount: typeof transactionData?.amount === 'number' ? transactionData?.amount : undefined,
     notes: transactionData?.note ?? undefined,
   };
 };

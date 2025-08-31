@@ -1,12 +1,19 @@
 import { useApiSpenicleGetPaginatedTransactions } from '@dimasbaguspm/hooks/use-api';
+import { uniqBy } from 'lodash';
 import { useState } from 'react';
 
 import { NewTransactionFormSchema } from '../types';
 
-export const useNewTransactionSuggestion = (
-  payload: NewTransactionFormSchema,
-) => {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+export interface NewTransactionSuggestion {
+  trimmedNotes: string | undefined;
+  notes: string | undefined;
+  categoryId: number | undefined;
+  accountId: number | undefined;
+  amount: number | undefined;
+}
+
+export const useNewTransactionSuggestion = (payload: NewTransactionFormSchema) => {
+  const [suggestions, setSuggestions] = useState<NewTransactionSuggestion[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const [mutateAsync] = useApiSpenicleGetPaginatedTransactions();
@@ -18,9 +25,7 @@ export const useNewTransactionSuggestion = (
   const fetchSuggestions = async () => {
     const response = await mutateAsync({
       type: [payload?.type],
-      amount: payload?.amount
-        ? [payload?.amount - 10000, payload?.amount + 10000]
-        : undefined,
+      amount: payload?.amount ? [payload?.amount - 10000, payload?.amount + 10000] : undefined,
       search: payload?.notes ? payload?.notes : undefined,
       categoryId: payload?.categoryId ? [payload?.categoryId] : undefined,
       accountId:
@@ -35,11 +40,20 @@ export const useNewTransactionSuggestion = (
     });
 
     if (response) {
-      setSuggestions(
-        response.items
-          .filter(({ note }) => note !== '')
-          .map(({ note }) => shouldTrim(note || '')),
+      const data = response.items.map(({ note, categoryId, accountId, amount }) => ({
+        trimmedNotes: shouldTrim(note || ''),
+        notes: note || '',
+        categoryId: +categoryId,
+        accountId: +accountId,
+        amount: +amount,
+      })) satisfies NewTransactionSuggestion[];
+
+      const filteredData = uniqBy(
+        data,
+        ({ trimmedNotes, categoryId, accountId }) => `${trimmedNotes ?? ''}::${categoryId ?? ''}::${accountId ?? ''}`,
       );
+
+      setSuggestions(filteredData);
       setIsVisible(true);
     }
   };

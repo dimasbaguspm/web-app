@@ -15,9 +15,7 @@ import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiHiAppProfilesPaginatedQuery = (
   params: SearchAppProfilesModel,
-  options?: Partial<
-    UseApiQueryOptions<AppProfilesPageModel, SearchAppProfilesModel, unknown>
-  >,
+  options?: Partial<UseApiQueryOptions<AppProfilesPageModel, SearchAppProfilesModel, unknown>>,
 ) => {
   return useApiQuery<AppProfilesPageModel, SearchAppProfilesModel>({
     ...options,

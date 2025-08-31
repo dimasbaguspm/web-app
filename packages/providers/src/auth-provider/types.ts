@@ -1,9 +1,4 @@
-import type {
-  AppProfileModel,
-  AuthMeModel,
-  GroupMemberModel,
-  UserModel,
-} from '@dimasbaguspm/interfaces';
+import type { AppProfileModel, AuthMeModel, GroupMemberModel, UserModel } from '@dimasbaguspm/interfaces';
 
 export interface AuthProviderModel {
   user: UserModel;

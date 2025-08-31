@@ -27,9 +27,12 @@ interface SelectMultipleAccountDrawerProps {
   payloadId: string;
 }
 
-export const SelectMultipleAccountDrawer: FC<
-  SelectMultipleAccountDrawerProps
-> = ({ returnToDrawer, returnToDrawerId = null, payloadId, payload }) => {
+export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> = ({
+  returnToDrawer,
+  returnToDrawerId = null,
+  payloadId,
+  payload,
+}) => {
   const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
 
@@ -42,16 +45,10 @@ export const SelectMultipleAccountDrawer: FC<
   );
   const [searchValue, setSearchValue] = useState('');
 
-  const debouncedSetSearch = useMemo(
-    () => debounce((value: string) => setSearchValue(value), 1000),
-    [],
-  );
+  const debouncedSetSearch = useMemo(() => debounce((value: string) => setSearchValue(value), 1000), []);
 
   const [accounts, , { isFetching }] = useApiSpenicleAccountsPaginatedQuery({
     search: searchValue,
-    type: ['expense', 'income'].includes(payload.type as string)
-      ? [payload.type as 'expense' | 'income']
-      : undefined,
   });
 
   const handleOnSubmit = () => {
@@ -84,10 +81,7 @@ export const SelectMultipleAccountDrawer: FC<
       <Drawer.Body>
         <FormLayout className="mb-4">
           <FormLayout.Column span={12}>
-            <SearchInput
-              defaultValue={searchValue}
-              onChange={(e) => debouncedSetSearch(e.target.value)}
-            />
+            <SearchInput defaultValue={searchValue} onChange={(e) => debouncedSetSearch(e.target.value)} />
           </FormLayout.Column>
         </FormLayout>
 
@@ -104,11 +98,7 @@ export const SelectMultipleAccountDrawer: FC<
                   <SelectableMultipleInput
                     label={
                       <div className="flex flex-col w-auto">
-                        <Text
-                          className="mb-2"
-                          fontSize="base"
-                          fontWeight="semibold"
-                        >
+                        <Text className="mb-2" fontSize="base" fontWeight="semibold">
                           {account.name}
                         </Text>
                         <BadgeGroup>
@@ -122,14 +112,9 @@ export const SelectMultipleAccountDrawer: FC<
                     value={account.id.toString()}
                     onChange={(e) => {
                       if (e.target.checked) {
-                        setSelectedAccountIds([
-                          ...selectedAccountIds,
-                          account.id,
-                        ]);
+                        setSelectedAccountIds([...selectedAccountIds, account.id]);
                       } else {
-                        setSelectedAccountIds(
-                          selectedAccountIds.filter((id) => id !== account.id),
-                        );
+                        setSelectedAccountIds(selectedAccountIds.filter((id) => id !== account.id));
                       }
                     }}
                   />

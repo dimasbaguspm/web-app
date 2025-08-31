@@ -1,21 +1,13 @@
 import { FC, ReactNode } from 'react';
 
 export interface IfProps {
-  condition:
-    | number
-    | string
-    | boolean
-    | (number | boolean | string)[]
-    | object
-    | null
-    | undefined;
+  condition: number | string | boolean | (number | boolean | string)[] | object | null | undefined;
   children: ReactNode | (() => ReactNode);
 }
 
 export const If: FC<IfProps> = ({ condition, children }) => {
   const isArray = Array.isArray(condition);
-  const isObject =
-    typeof condition === 'object' && condition !== null && !isArray;
+  const isObject = typeof condition === 'object' && condition !== null && !isArray;
   const isPrimitive = !isArray && !isObject;
 
   if (isArray) {

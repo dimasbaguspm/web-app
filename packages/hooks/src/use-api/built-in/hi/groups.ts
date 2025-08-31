@@ -14,9 +14,7 @@ import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiHiGroupsPaginatedQuery = (
   params: SearchGroupsModel,
-  options?: Partial<
-    UseApiQueryOptions<GroupPageModel, SearchGroupsModel, unknown>
-  >,
+  options?: Partial<UseApiQueryOptions<GroupPageModel, SearchGroupsModel, unknown>>,
 ) => {
   return useApiQuery<GroupPageModel, SearchGroupsModel>({
     ...options,
@@ -27,10 +25,7 @@ export const useApiHiGroupsPaginatedQuery = (
   });
 };
 
-export const useApiHiGroupQuery = (
-  id: number,
-  options?: Partial<UseApiQueryOptions<GroupModel, unknown, unknown>>,
-) => {
+export const useApiHiGroupQuery = (id: number, options?: Partial<UseApiQueryOptions<GroupModel, unknown, unknown>>) => {
   return useApiQuery<GroupModel, unknown>({
     ...options,
     base: 'HI',

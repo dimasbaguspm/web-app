@@ -14,12 +14,7 @@ import {
 } from '@dimasbaguspm/versaur';
 import { TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
-import {
-  Controller,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 export const NewAccountDrawer: FC = () => {
   const { closeDrawer } = useDrawerRoute();
@@ -27,15 +22,13 @@ export const NewAccountDrawer: FC = () => {
   const { isDesktop } = useWindowResize();
 
   const [createAccount, , { isPending }] = useApiSpenicleCreateAccount();
-  const { register, handleSubmit, control, formState, getFieldState } = useForm(
-    {
-      defaultValues: {
-        name: '',
-        type: 'income',
-        notes: '',
-      },
+  const { register, handleSubmit, control, formState, getFieldState } = useForm({
+    defaultValues: {
+      name: '',
+      type: 'income',
+      notes: '',
     },
-  );
+  });
 
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
     await createAccount({
@@ -55,10 +48,7 @@ export const NewAccountDrawer: FC = () => {
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Body>
-        <form
-          id="new-account-form"
-          onSubmit={handleSubmit(handleOnValidSubmit)}
-        >
+        <form id="new-account-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
           <FormLayout>
             <FormLayout.Column span={12}>
               <TextInput
@@ -76,11 +66,7 @@ export const NewAccountDrawer: FC = () => {
                 control={control}
                 rules={{ required: 'Type is required' }}
                 render={({ field, fieldState }) => (
-                  <ChipSingleInput
-                    {...field}
-                    label="Type"
-                    error={fieldState.error?.message}
-                  >
+                  <ChipSingleInput {...field} label="Type" error={fieldState.error?.message}>
                     <ChipSingleInput.Option value="income">
                       <Icon as={TrendingUpIcon} color="inherit" size="sm" />
                       Income
@@ -94,13 +80,7 @@ export const NewAccountDrawer: FC = () => {
               />
             </FormLayout.Column>
             <FormLayout.Column span={12}>
-              <TextAreaInput
-                label="Notes"
-                fieldSizing="content"
-                minRows={4}
-                rows={6}
-                {...register('notes')}
-              />
+              <TextAreaInput label="Notes" fieldSizing="content" minRows={4} rows={6} {...register('notes')} />
             </FormLayout.Column>
           </FormLayout>
         </form>
@@ -110,11 +90,7 @@ export const NewAccountDrawer: FC = () => {
           <Button variant="ghost" onClick={closeDrawer}>
             Cancel
           </Button>
-          <Button
-            type="submit"
-            form="new-account-form"
-            disabled={isPending || !formState.isValid}
-          >
+          <Button type="submit" form="new-account-form" disabled={isPending || !formState.isValid}>
             Create
           </Button>
         </ButtonGroup>

@@ -3,12 +3,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
 import { DrawerRouteContext } from './context';
 
-import type {
-  DrawerParams,
-  DrawerRouteModel,
-  DrawerState,
-  OpenDrawerOptions,
-} from './types';
+import type { DrawerParams, DrawerRouteModel, DrawerState, OpenDrawerOptions } from './types';
 
 /**
  * Encodes drawer params to a URL-safe string
@@ -76,10 +71,7 @@ interface DrawerRouteProviderProps extends PropsWithChildren {
   searchParamKey?: string;
 }
 
-export function DrawerRouteProvider({
-  children,
-  searchParamKey = 'drawer',
-}: DrawerRouteProviderProps) {
+export function DrawerRouteProvider({ children, searchParamKey = 'drawer' }: DrawerRouteProviderProps) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -93,11 +85,7 @@ export function DrawerRouteProvider({
   const state = location.state as DrawerState;
 
   const openDrawer = useCallback(
-    (
-      newDrawerId: string,
-      newParams?: DrawerParams,
-      opts?: OpenDrawerOptions,
-    ) => {
+    (newDrawerId: string, newParams?: DrawerParams, opts?: OpenDrawerOptions) => {
       const newSearchParams = new URLSearchParams(searchParams);
       const formattedValue = formatDrawerForUrl(newDrawerId, newParams);
       newSearchParams.set(searchParamKey, formattedValue);
@@ -130,9 +118,5 @@ export function DrawerRouteProvider({
     [isOpen, drawerId, params, state, openDrawer, closeDrawer],
   );
 
-  return (
-    <DrawerRouteContext.Provider value={contextValue}>
-      {children}
-    </DrawerRouteContext.Provider>
-  );
+  return <DrawerRouteContext.Provider value={contextValue}>{children}</DrawerRouteContext.Provider>;
 }

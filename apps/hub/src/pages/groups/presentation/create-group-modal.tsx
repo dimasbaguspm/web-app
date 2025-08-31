@@ -11,11 +11,8 @@ export interface CreateGroupModalProps {
  * Alternative implementation of CreateGroupModal that uses context directly.
  * This eliminates the need for multiple props and makes the component more self-contained.
  */
-export const CreateGroupModal: FC<CreateGroupModalProps> = ({
-  onCreateGroup,
-}) => {
-  const { isCreating, newGroupName, setNewGroupName, closeModal } =
-    useGroupsStateContext();
+export const CreateGroupModal: FC<CreateGroupModalProps> = ({ onCreateGroup }) => {
+  const { isCreating, newGroupName, setNewGroupName, closeModal } = useGroupsStateContext();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && newGroupName.trim()) {
@@ -50,11 +47,7 @@ export const CreateGroupModal: FC<CreateGroupModalProps> = ({
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          onClick={handleCreateGroup}
-          disabled={!newGroupName.trim()}
-          className="flex-1"
-        >
+        <Button onClick={handleCreateGroup} disabled={!newGroupName.trim()} className="flex-1">
           Create
         </Button>
       </Modal.Footer>

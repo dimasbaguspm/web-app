@@ -5,18 +5,13 @@ import { lowerCase } from 'lodash';
 import { FC } from 'react';
 
 import { useGeneralSummaryStats } from '../../../hooks/use-general-summary-stats';
-import {
-  SummaryFrequencyType,
-  useSummaryFilter,
-} from '../../summary/hooks/use-summary-filter';
+import { SummaryFrequencyType, useSummaryFilter } from '../../summary/hooks/use-summary-filter';
 
 interface AverageLoggedTransactionProps {
   data: SummaryTransactionsModel;
 }
 
-export const AverageLoggedTransaction: FC<AverageLoggedTransactionProps> = ({
-  data,
-}) => {
+export const AverageLoggedTransaction: FC<AverageLoggedTransactionProps> = ({ data }) => {
   const { frequency } = useSummaryFilter();
   const periodGranularity = (() => {
     switch (frequency) {

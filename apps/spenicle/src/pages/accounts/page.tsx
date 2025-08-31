@@ -54,11 +54,7 @@ const AccountsPage = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon
-              as={PlusIcon}
-              aria-label="New Account"
-              onClick={handleOpenDrawer}
-            />
+            <ButtonIcon as={PlusIcon} aria-label="New Account" onClick={handleOpenDrawer} />
           </ButtonGroup>
         }
       />

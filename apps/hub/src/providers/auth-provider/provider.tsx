@@ -12,40 +12,31 @@ import { AuthContext } from './context';
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [data, , { isFetching }] = useApiHiAuthMeQuery();
 
-  const [user, , { isFetching: isUserFetching }] = useApiHiUserQuery(
-    data?.user?.id ?? 0,
+  const [user, , { isFetching: isUserFetching }] = useApiHiUserQuery(data?.user?.id ?? 0, {
+    enabled: !!data?.user?.id,
+  });
+
+  const [userMembers, , { isFetching: isUserGroupFetching }] = useApiHiGroupMembersPaginatedQuery(
+    {
+      userId: [(data?.user?.id ?? 0).toString()],
+      pageSize: '100',
+    },
     {
       enabled: !!data?.user?.id,
     },
   );
 
-  const [userMembers, , { isFetching: isUserGroupFetching }] =
-    useApiHiGroupMembersPaginatedQuery(
-      {
-        userId: [(data?.user?.id ?? 0).toString()],
-        pageSize: '100',
-      },
-      {
-        enabled: !!data?.user?.id,
-      },
-    );
+  const [userAppProfiles, , { isFetching: isUserAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
+    {
+      userId: [data?.user?.id ?? 0],
+      pageSize: 100,
+    },
+    {
+      enabled: !!data?.user?.id,
+    },
+  );
 
-  const [userAppProfiles, , { isFetching: isUserAppProfilesFetching }] =
-    useApiHiAppProfilesPaginatedQuery(
-      {
-        userId: [data?.user?.id ?? 0],
-        pageSize: 100,
-      },
-      {
-        enabled: !!data?.user?.id,
-      },
-    );
-
-  const [
-    userGroupAppProfiles,
-    ,
-    { isFetching: isUserGroupAppProfilesFetching },
-  ] = useApiHiAppProfilesPaginatedQuery(
+  const [userGroupAppProfiles, , { isFetching: isUserGroupAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
     {
       groupId: (userMembers?.items ?? []).map((member) => member.groupId),
       pageSize: 100,
@@ -56,17 +47,10 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   const isDataFetching =
-    isFetching ||
-    isUserFetching ||
-    isUserGroupFetching ||
-    isUserAppProfilesFetching ||
-    isUserGroupAppProfilesFetching;
+    isFetching || isUserFetching || isUserGroupFetching || isUserAppProfilesFetching || isUserGroupAppProfilesFetching;
 
   const groupMembers = userMembers?.items ?? [];
-  const appProfiles = [
-    ...(userAppProfiles?.items ?? []),
-    ...(userGroupAppProfiles?.items ?? []),
-  ];
+  const appProfiles = [...(userAppProfiles?.items ?? []), ...(userGroupAppProfiles?.items ?? [])];
 
   if (isDataFetching || !data || !user) {
     return (
@@ -76,9 +60,5 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     );
   }
 
-  return (
-    <AuthContext.Provider value={{ user, groupMembers, appProfiles }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, groupMembers, appProfiles }}>{children}</AuthContext.Provider>;
 };

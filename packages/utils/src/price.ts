@@ -69,10 +69,8 @@ export function formatPrice(
 
   // Default fraction digits: IDR uses 0, others commonly use 2
   const defaultFraction = currency === Currency.IDR ? 0 : 2;
-  const minimumFractionDigits =
-    options.minimumFractionDigits ?? defaultFraction;
-  const maximumFractionDigits =
-    options.maximumFractionDigits ?? defaultFraction;
+  const minimumFractionDigits = options.minimumFractionDigits ?? defaultFraction;
+  const maximumFractionDigits = options.maximumFractionDigits ?? defaultFraction;
 
   const showCurrency = options.showCurrencySymbol ?? true;
   const useCompact = options.compact ?? false;

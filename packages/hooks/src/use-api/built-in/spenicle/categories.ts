@@ -11,18 +11,13 @@ import { uniqBy } from 'lodash';
 import { BASE_QUERY_KEYS } from '../../constants';
 import { QUERY_KEYS } from '../../query-keys';
 import { SPENICLE_URL } from '../../url';
-import {
-  useApiInfiniteQuery,
-  UseApiInfiniteQueryOptions,
-} from '../../use-api-infinite-query';
+import { useApiInfiniteQuery, UseApiInfiniteQueryOptions } from '../../use-api-infinite-query';
 import { useApiMutate } from '../../use-api-mutate';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiSpenicleCategoriesInfiniteQuery = (
   params: SearchCategoriesModel,
-  options?: Partial<
-    UseApiInfiniteQueryOptions<CategoryModel, SearchCategoriesModel, unknown>
-  >,
+  options?: Partial<UseApiInfiniteQueryOptions<CategoryModel, SearchCategoriesModel, unknown>>,
 ) => {
   return useApiInfiniteQuery({
     ...options,
@@ -35,9 +30,7 @@ export const useApiSpenicleCategoriesInfiniteQuery = (
 
 export const useApiSpenicleCategoriesPaginatedQuery = (
   params: SearchCategoriesModel,
-  options?: Partial<
-    UseApiQueryOptions<CategoriesPageModel, SearchCategoriesModel, unknown>
-  >,
+  options?: Partial<UseApiQueryOptions<CategoriesPageModel, SearchCategoriesModel, unknown>>,
 ) => {
   return useApiQuery<CategoriesPageModel, SearchCategoriesModel>({
     ...options,
@@ -75,10 +68,7 @@ export const useApiSpenicleCreateCategory = () => {
         queryKey: QUERY_KEYS.SPENICLE_CATEGORY_INFINITE().slice(0, 3),
         exact: false,
       });
-      queryClient.setQueryData(
-        QUERY_KEYS.SPENICLE_CATEGORY_BY_ID(data.id),
-        data,
-      );
+      queryClient.setQueryData(QUERY_KEYS.SPENICLE_CATEGORY_BY_ID(data.id), data);
     },
   });
 };
@@ -98,10 +88,7 @@ export const useApiSpenicleUpdateCategory = () => {
         queryKey: QUERY_KEYS.SPENICLE_CATEGORY_INFINITE().slice(0, 3),
         exact: false,
       });
-      queryClient.setQueryData(
-        QUERY_KEYS.SPENICLE_CATEGORY_BY_ID(data.id),
-        data,
-      );
+      queryClient.setQueryData(QUERY_KEYS.SPENICLE_CATEGORY_BY_ID(data.id), data);
     },
   });
 };

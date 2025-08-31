@@ -1358,23 +1358,11 @@ export interface operations {
         from: string;
         to: string;
         search?: string;
-        frequency?:
-          | 'hourly'
-          | 'daily'
-          | 'weekly'
-          | 'monthly'
-          | 'quarterly'
-          | 'yearly';
+        frequency?: 'hourly' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly';
         categoryId?: number[];
         accountId?: number[];
         type?: ('income' | 'expense' | 'transfer')[];
-        sortBy?:
-          | 'date'
-          | 'net'
-          | 'income'
-          | 'expense'
-          | 'transfer'
-          | 'totalTransactions';
+        sortBy?: 'date' | 'net' | 'income' | 'expense' | 'transfer' | 'totalTransactions';
         sortOrder?: 'asc' | 'desc';
       };
       header?: never;
@@ -1426,12 +1414,7 @@ export interface operations {
         to: string;
         id?: number[];
         type?: 'income' | 'expense';
-        sortBy?:
-          | 'accountName'
-          | 'net'
-          | 'income'
-          | 'expense'
-          | 'totalTransactions';
+        sortBy?: 'accountName' | 'net' | 'income' | 'expense' | 'totalTransactions';
         sortOrder?: 'asc' | 'desc';
       };
       header?: never;
@@ -1480,12 +1463,7 @@ export interface operations {
         to: string;
         id?: number[];
         type?: ('income' | 'expense' | 'transfer')[];
-        sortBy?:
-          | 'categoryName'
-          | 'net'
-          | 'income'
-          | 'expense'
-          | 'totalTransactions';
+        sortBy?: 'categoryName' | 'net' | 'income' | 'expense' | 'totalTransactions';
         sortOrder?: 'asc' | 'desc';
       };
       header?: never;

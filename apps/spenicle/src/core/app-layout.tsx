@@ -2,15 +2,7 @@ import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
-import {
-  Avatar,
-  BottomBar,
-  Brand,
-  Icon,
-  LoadingIndicator,
-  PageLayout,
-  TopBar,
-} from '@dimasbaguspm/versaur';
+import { Avatar, BottomBar, Brand, Icon, LoadingIndicator, PageLayout, TopBar } from '@dimasbaguspm/versaur';
 import { FC, PropsWithChildren, Suspense } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -34,12 +26,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
     return location.pathname.startsWith(path);
   };
 
-  const LINKS = [
-    DEEP_LINKS.TRANSACTIONS_ALT,
-    DEEP_LINKS.ACCOUNTS,
-    DEEP_LINKS.CATEGORIES,
-    DEEP_LINKS.SUMMARY,
-  ];
+  const LINKS = [DEEP_LINKS.TRANSACTIONS_ALT, DEEP_LINKS.ACCOUNTS, DEEP_LINKS.CATEGORIES, DEEP_LINKS.SUMMARY];
 
   return (
     <div className="flex flex-col h-dvh">
@@ -59,18 +46,12 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
 
                 const isTransactionPageActive =
                   DEEP_LINKS.TRANSACTIONS.path === location.pathname ||
-                  location.pathname.startsWith(
-                    DEEP_LINKS.TRANSACTIONS_ALT.path,
-                  );
+                  location.pathname.startsWith(DEEP_LINKS.TRANSACTIONS_ALT.path);
 
                 return (
                   <TopBar.NavItem
                     key={link.path}
-                    active={
-                      link.path === DEEP_LINKS.TRANSACTIONS_ALT.path
-                        ? isTransactionPageActive
-                        : isActiveLink
-                    }
+                    active={link.path === DEEP_LINKS.TRANSACTIONS_ALT.path ? isTransactionPageActive : isActiveLink}
                     onClick={handleNavigation(link.path)}
                   >
                     {link.title}
@@ -88,12 +69,8 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
       )}
 
       <main className="flex-grow-1 relative overflow-y-scroll">
-        <PageLayout
-          type={isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}
-        >
-          <Suspense fallback={<LoadingIndicator type="bar" size="sm" />}>
-            {children}
-          </Suspense>
+        <PageLayout type={isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}>
+          <Suspense fallback={<LoadingIndicator type="bar" size="sm" />}>{children}</Suspense>
         </PageLayout>
       </main>
 
@@ -108,13 +85,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             return (
               <BottomBar.Item
                 key={link.path}
-                icon={
-                  <Icon
-                    as={link.icon}
-                    size="md"
-                    color={isActiveLink ? 'primary' : 'inherit'}
-                  />
-                }
+                icon={<Icon as={link.icon} size="md" color={isActiveLink ? 'primary' : 'inherit'} />}
                 label={link.title}
                 onClick={handleNavigation(link.path)}
                 active={isActiveLink}

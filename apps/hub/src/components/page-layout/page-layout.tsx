@@ -1,8 +1,5 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import {
-  LoadingIndicator,
-  PageLayout as VersaurPageLayout,
-} from '@dimasbaguspm/versaur';
+import { LoadingIndicator, PageLayout as VersaurPageLayout } from '@dimasbaguspm/versaur';
 import { Suspense } from 'react';
 import { Outlet } from 'react-router';
 
@@ -16,9 +13,7 @@ export const PageLayout = () => {
       <Header />
 
       <main className="flex-grow-1 relative overflow-y-scroll">
-        <VersaurPageLayout
-          type={isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}
-        >
+        <VersaurPageLayout type={isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}>
           <Suspense fallback={<LoadingIndicator type="bar" size="sm" />}>
             <Outlet />
           </Suspense>

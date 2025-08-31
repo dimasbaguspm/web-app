@@ -5,10 +5,7 @@ import { Text, Tile } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { useGeneralSummaryStats } from '../../../hooks/use-general-summary-stats';
-import {
-  SummaryFrequencyType,
-  useSummaryFilter,
-} from '../../summary/hooks/use-summary-filter';
+import { SummaryFrequencyType, useSummaryFilter } from '../../summary/hooks/use-summary-filter';
 
 interface HighestSpendProps {
   data: SummaryTransactionsModel;
@@ -31,12 +28,9 @@ export const HighestSpend: FC<HighestSpendProps> = ({ data }) => {
     }
   })();
 
-  const { maxExpenseDateInPeriod, maxExpenseInPeriod } = useGeneralSummaryStats(
-    data,
-    {
-      periodGranularity,
-    },
-  );
+  const { maxExpenseDateInPeriod, maxExpenseInPeriod } = useGeneralSummaryStats(data, {
+    periodGranularity,
+  });
 
   return (
     <Tile className="flex flex-col gap-1">

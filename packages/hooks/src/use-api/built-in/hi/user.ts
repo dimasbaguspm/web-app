@@ -1,9 +1,4 @@
-import {
-  SearchUsersModel,
-  UpdateUserModel,
-  UserModel,
-  UsersPageModel,
-} from '@dimasbaguspm/interfaces';
+import { SearchUsersModel, UpdateUserModel, UserModel, UsersPageModel } from '@dimasbaguspm/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '../../query-keys';
@@ -20,10 +15,7 @@ export const useApiHiUsersPaginatedQuery = (params: SearchUsersModel) => {
   });
 };
 
-export const useApiHiUserQuery = (
-  id: number,
-  options?: Partial<UseApiQueryOptions<UserModel, unknown, unknown>>,
-) => {
+export const useApiHiUserQuery = (id: number, options?: Partial<UseApiQueryOptions<UserModel, unknown, unknown>>) => {
   return useApiQuery<UserModel, unknown>({
     ...options,
     base: 'HI',

@@ -3,11 +3,7 @@ import {
   useApiHiAppsPaginatedQuery,
   useApiHiGroupsPaginatedQuery,
 } from '@dimasbaguspm/hooks/use-api';
-import {
-  AppModel,
-  AppProfileModel,
-  GroupModel,
-} from '@dimasbaguspm/interfaces';
+import { AppModel, AppProfileModel, GroupModel } from '@dimasbaguspm/interfaces';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -22,14 +18,11 @@ export const useMarketplaceData = (): MarketplaceContextType => {
 
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const [appsData, , { isLoading: appsLoading }] = useApiHiAppsPaginatedQuery(
-    {},
-  );
+  const [appsData, , { isLoading: appsLoading }] = useApiHiAppsPaginatedQuery({});
 
-  const [appProfilesData, , { isLoading: appProfilesLoading }] =
-    useApiHiAppProfilesPaginatedQuery({
-      id: appProfiles.map((profile) => profile.id),
-    });
+  const [appProfilesData, , { isLoading: appProfilesLoading }] = useApiHiAppProfilesPaginatedQuery({
+    id: appProfiles.map((profile) => profile.id),
+  });
 
   // Get unique group IDs from group members to fetch group data
   const groupIds = useMemo(() => {
@@ -44,9 +37,7 @@ export const useMarketplaceData = (): MarketplaceContextType => {
   const data: MarketplaceData = useMemo(() => {
     // First filter apps by search term
     const filteredApps = appsData?.items
-      ? appsData.items.filter(({ name }) =>
-          name.toLowerCase().includes(searchTerm.toLowerCase()),
-        )
+      ? appsData.items.filter(({ name }) => name.toLowerCase().includes(searchTerm.toLowerCase()))
       : [];
 
     // Create maps for quick lookup
@@ -68,15 +59,9 @@ export const useMarketplaceData = (): MarketplaceContextType => {
     let installedAppIds = new Set<number>();
 
     if (appProfilesData?.items) {
-      userAppProfiles = appProfilesData.items.filter(
-        (profile: AppProfileModel) => profile.userId,
-      );
-      groupAppProfiles = appProfilesData.items.filter(
-        (profile: AppProfileModel) => profile.groupId,
-      );
-      installedAppIds = new Set(
-        appProfilesData.items.map((profile: AppProfileModel) => profile.appId),
-      );
+      userAppProfiles = appProfilesData.items.filter((profile: AppProfileModel) => profile.userId);
+      groupAppProfiles = appProfilesData.items.filter((profile: AppProfileModel) => profile.groupId);
+      installedAppIds = new Set(appProfilesData.items.map((profile: AppProfileModel) => profile.appId));
     }
 
     // Get available apps (not yet installed) from filtered apps

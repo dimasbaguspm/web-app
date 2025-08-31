@@ -26,9 +26,7 @@ const router = createBrowserRouter([
       {
         path: ROUTES.MARKETPLACE_DETAIL,
         lazy: async () => {
-          const { default: MarketplaceDetailPage } = await import(
-            '../pages/marketplace-detail/page'
-          );
+          const { default: MarketplaceDetailPage } = await import('../pages/marketplace-detail/page');
 
           return { Component: MarketplaceDetailPage };
         },

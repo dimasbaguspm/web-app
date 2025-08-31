@@ -12,12 +12,7 @@ export const ProfilesGrid: FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {profiles.map((profile: ProfileWithApp) => (
-        <ProfileCard
-          key={profile.id}
-          profile={profile}
-          onDelete={onDeleteProfile}
-          onPlay={onPlayProfile}
-        />
+        <ProfileCard key={profile.id} profile={profile} onDelete={onDeleteProfile} onPlay={onPlayProfile} />
       ))}
     </div>
   );

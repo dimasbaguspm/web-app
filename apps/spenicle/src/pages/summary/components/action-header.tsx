@@ -1,17 +1,7 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import {
-  Button,
-  ButtonGroup,
-  ChipSingleInput,
-  Icon,
-} from '@dimasbaguspm/versaur';
-import {
-  ChartBarBigIcon,
-  ChartNoAxesCombinedIcon,
-  FilterIcon,
-  TargetIcon,
-} from 'lucide-react';
+import { Button, ButtonGroup, ChipSingleInput, Icon } from '@dimasbaguspm/versaur';
+import { ChartBarBigIcon, ChartNoAxesCombinedIcon, FilterIcon, TargetIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -61,9 +51,7 @@ export const ActionHeader: FC = () => {
         size="md"
         name="1"
         className="w-auto"
-        onChange={(data) =>
-          handleOnNavigate(data as 'overview' | 'trends' | 'timeline')
-        }
+        onChange={(data) => handleOnNavigate(data as 'overview' | 'trends' | 'timeline')}
       >
         <ChipSingleInput.Option value="overview">
           <Icon as={TargetIcon} color="inherit" size="sm" />

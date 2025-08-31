@@ -1,9 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  Icon,
-  NoResults as VersaurNoResults,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Icon, NoResults as VersaurNoResults } from '@dimasbaguspm/versaur';
 import { PlusIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 

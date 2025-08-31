@@ -62,8 +62,7 @@ function generateBrowserFingerprint(): string {
 function getWebGLFingerprint(): string {
   try {
     const canvas = document.createElement('canvas');
-    const gl =
-      canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
     if (!gl) return '';
 
@@ -78,10 +77,7 @@ function getWebGLFingerprint(): string {
       );
     }
 
-    return (
-      webglContext.getParameter(webglContext.VENDOR) +
-      webglContext.getParameter(webglContext.RENDERER)
-    );
+    return webglContext.getParameter(webglContext.VENDOR) + webglContext.getParameter(webglContext.RENDERER);
   } catch {
     return '';
   }
@@ -254,9 +250,7 @@ export function isValidClientId(clientId: string, prefix?: string): boolean {
   }
 
   const expectedPrefix = prefix || DEFAULT_OPTIONS.idPrefix;
-  return (
-    clientId.startsWith(`${expectedPrefix}_`) && clientId.split('_').length >= 4
-  );
+  return clientId.startsWith(`${expectedPrefix}_`) && clientId.split('_').length >= 4;
 }
 
 /**

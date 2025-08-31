@@ -13,8 +13,7 @@ export const useCategoryFilter = () => {
 
   const appliedFilters = {
     q: searchParams.get('q') ?? undefined,
-    type: (searchParams.getAll('type') ??
-      []) as NonNullable<SearchCategoriesModel>['type'],
+    type: (searchParams.getAll('type') ?? []) as NonNullable<SearchCategoriesModel>['type'],
   } satisfies CategoryFilterModel;
 
   const humanizedFilters = FILTERS.reduce(

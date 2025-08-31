@@ -3,10 +3,7 @@ import { SearchSummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
 import { LoadingIndicator } from '@dimasbaguspm/versaur';
 
-import {
-  SummaryFrequencyType,
-  useSummaryFilter,
-} from '../summary/hooks/use-summary-filter';
+import { SummaryFrequencyType, useSummaryFilter } from '../summary/hooks/use-summary-filter';
 
 import { AverageAmount } from './components/average-amount';
 import { AverageLoggedTransaction } from './components/average-logged-transaction';
@@ -37,15 +34,14 @@ const SummaryTrendsPage = () => {
     }
   })();
 
-  const [transactions, , { isLoading }] =
-    useApiSpenicleSummaryTransactionsQuery({
-      from: dateFilters.from,
-      to: dateFilters.to,
-      categoryId: appliedFilters.categoryIds,
-      accountId: appliedFilters.accountIds,
-      frequency: frequencyFilter,
-      sortBy: 'date',
-    });
+  const [transactions, , { isLoading }] = useApiSpenicleSummaryTransactionsQuery({
+    from: dateFilters.from,
+    to: dateFilters.to,
+    categoryId: appliedFilters.categoryIds,
+    accountId: appliedFilters.accountIds,
+    frequency: frequencyFilter,
+    sortBy: 'date',
+  });
 
   return (
     <>

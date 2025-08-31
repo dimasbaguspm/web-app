@@ -7,21 +7,14 @@ import {
 } from '@dimasbaguspm/hooks/use-api';
 import { AccountModel } from '@dimasbaguspm/interfaces';
 
-export const useAccountDetailHistoryData = (
-  account: AccountModel,
-  query: string,
-) => {
-  const [
-    transactions,
-    ,
-    { hasNextPage, isFetching, isFetchingNextPage },
-    { fetchNextPage },
-  ] = useApiSpenicleTransactionsInfiniteQuery({
-    search: query,
-    accountId: [account.id],
-    pageSize: 15,
-    sortBy: 'date',
-  });
+export const useAccountDetailHistoryData = (account: AccountModel, query: string) => {
+  const [transactions, , { hasNextPage, isFetching, isFetchingNextPage }, { fetchNextPage }] =
+    useApiSpenicleTransactionsInfiniteQuery({
+      search: query,
+      accountId: [account.id],
+      pageSize: 15,
+      sortBy: 'date',
+    });
 
   const cachedAccounts = useApiSpenicleCachedAccounts();
   const needToFetchAccounts = transactions
@@ -54,9 +47,7 @@ export const useAccountDetailHistoryData = (
 
   const data = (transactions || []).map((transaction) => {
     const account = cachedAccounts.find((a) => a.id === transaction.accountId)!;
-    const category = cachedCategories.find(
-      (c) => c.id === transaction.categoryId,
-    )!;
+    const category = cachedCategories.find((c) => c.id === transaction.categoryId)!;
     return {
       transaction,
       account,

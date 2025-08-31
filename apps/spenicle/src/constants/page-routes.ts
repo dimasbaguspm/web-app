@@ -1,11 +1,4 @@
-import {
-  FileText,
-  CreditCard,
-  Tag,
-  PieChart,
-  ChartBarBigIcon,
-  ChartNoAxesCombinedIcon,
-} from 'lucide-react';
+import { FileText, CreditCard, Tag, PieChart, ChartBarBigIcon, ChartNoAxesCombinedIcon } from 'lucide-react';
 
 export const ROUTES = {
   TRANSACTIONS: '/',
@@ -30,8 +23,7 @@ export const DEEP_LINKS = {
     icon: FileText,
   },
   TRANSACTIONS_DATE: {
-    path: (year: number, month: number, day: number) =>
-      `/transactions/${year}/${month}/${day}`,
+    path: (year: number, month: number, day: number) => `/transactions/${year}/${month}/${day}`,
     title: 'Transactions by Date',
     icon: FileText,
   },

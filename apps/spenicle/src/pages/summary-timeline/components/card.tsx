@@ -1,12 +1,5 @@
-import {
-  AccountModel,
-  CategoryModel,
-  TransactionModel,
-} from '@dimasbaguspm/interfaces';
-import {
-  formatSpenicleCategory,
-  formatSpenicleTransaction,
-} from '@dimasbaguspm/utils/data';
+import { AccountModel, CategoryModel, TransactionModel } from '@dimasbaguspm/interfaces';
+import { formatSpenicleCategory, formatSpenicleTransaction } from '@dimasbaguspm/utils/data';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { formatPrice } from '@dimasbaguspm/utils/price';
@@ -20,23 +13,15 @@ interface SummaryTimelineCardProps {
   onClick: (transaction: TransactionModel) => void;
 }
 
-export const SummaryTimelineCard: FC<SummaryTimelineCardProps> = ({
-  transaction,
-  category,
-  account,
-  onClick,
-}) => {
-  const { trimmedNotes, variant, capitalizedType } =
-    formatSpenicleTransaction(transaction);
+export const SummaryTimelineCard: FC<SummaryTimelineCardProps> = ({ transaction, category, account, onClick }) => {
+  const { trimmedNotes, variant, capitalizedType } = formatSpenicleTransaction(transaction);
   const { capitalizedName } = formatSpenicleCategory(category);
 
   return (
     <Card
       title={formatPrice(transaction.amount)}
       onClick={() => onClick(transaction)}
-      avatar={
-        <Avatar shape="rounded">{nameToInitials(account?.name ?? '')}</Avatar>
-      }
+      avatar={<Avatar shape="rounded">{nameToInitials(account?.name ?? '')}</Avatar>}
       subtitle={trimmedNotes}
       supplementaryInfo={
         <Text color="gray" fontSize="sm">

@@ -4,8 +4,7 @@ import { FC } from 'react';
 import { useSummaryFilter } from '../hooks/use-summary-filter';
 
 export const FilterControl: FC = () => {
-  const { humanizedFilters, removeFilter, removeAllFilters } =
-    useSummaryFilter();
+  const { humanizedFilters, removeFilter, removeAllFilters } = useSummaryFilter();
 
   return (
     <FilterChipGroup className="mb-4">

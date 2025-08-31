@@ -27,9 +27,12 @@ interface SelectMultipleCategoryDrawerProps {
   payload: Record<string, unknown>;
 }
 
-export const SelectMultipleCategoryDrawer: FC<
-  SelectMultipleCategoryDrawerProps
-> = ({ returnToDrawer, returnToDrawerId = null, payloadId, payload }) => {
+export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps> = ({
+  returnToDrawer,
+  returnToDrawerId = null,
+  payloadId,
+  payload,
+}) => {
   const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>(
@@ -42,18 +45,13 @@ export const SelectMultipleCategoryDrawer: FC<
 
   const [searchValue, setSearchValue] = useState('');
 
-  const debouncedSetSearch = useMemo(
-    () => debounce((value: string) => setSearchValue(value), 1000),
-    [],
-  );
-  const [categories, , { isFetching }] = useApiSpenicleCategoriesPaginatedQuery(
-    {
-      search: searchValue,
-      type: ['expense', 'income', 'transfer'].includes(payload.type as string)
-        ? [payload.type as 'expense' | 'income' | 'transfer']
-        : undefined,
-    },
-  );
+  const debouncedSetSearch = useMemo(() => debounce((value: string) => setSearchValue(value), 1000), []);
+  const [categories, , { isFetching }] = useApiSpenicleCategoriesPaginatedQuery({
+    search: searchValue,
+    type: ['expense', 'income', 'transfer'].includes(payload.type as string)
+      ? [payload.type as 'expense' | 'income' | 'transfer']
+      : undefined,
+  });
 
   const handleOnSubmit = () => {
     openDrawer(returnToDrawer, returnToDrawerId, {
@@ -85,10 +83,7 @@ export const SelectMultipleCategoryDrawer: FC<
       <Drawer.Body>
         <FormLayout className="mb-4">
           <FormLayout.Column span={12}>
-            <SearchInput
-              defaultValue={searchValue}
-              onChange={(e) => debouncedSetSearch(e.target.value)}
-            />
+            <SearchInput defaultValue={searchValue} onChange={(e) => debouncedSetSearch(e.target.value)} />
           </FormLayout.Column>
         </FormLayout>
 
@@ -105,11 +100,7 @@ export const SelectMultipleCategoryDrawer: FC<
                   <SelectableMultipleInput
                     label={
                       <div className="flex flex-col w-auto">
-                        <Text
-                          className="mb-2"
-                          fontSize="base"
-                          fontWeight="semibold"
-                        >
+                        <Text className="mb-2" fontSize="base" fontWeight="semibold">
                           {category.name}
                         </Text>
                         <BadgeGroup>
@@ -123,16 +114,9 @@ export const SelectMultipleCategoryDrawer: FC<
                     checked={selectedCategoryIds.includes(category.id)}
                     onChange={(e) => {
                       if (e.target.checked) {
-                        setSelectedCategoryIds([
-                          ...selectedCategoryIds,
-                          category.id,
-                        ]);
+                        setSelectedCategoryIds([...selectedCategoryIds, category.id]);
                       } else {
-                        setSelectedCategoryIds(
-                          selectedCategoryIds.filter(
-                            (id) => id !== category.id,
-                          ),
-                        );
+                        setSelectedCategoryIds(selectedCategoryIds.filter((id) => id !== category.id));
                       }
                     }}
                   />

@@ -1,8 +1,4 @@
-import {
-  AppModel,
-  AppProfileModel,
-  GroupModel,
-} from '@dimasbaguspm/interfaces';
+import { AppModel, AppProfileModel, GroupModel } from '@dimasbaguspm/interfaces';
 
 export interface MarketplaceData {
   appsMap: Map<number, AppModel>;

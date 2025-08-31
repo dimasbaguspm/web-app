@@ -19,12 +19,7 @@ export interface GroupsListProps {
  * Alternative implementation of GroupsList that uses context for search-related props.
  * This eliminates the need for prop drilling of search state and actions.
  */
-export const GroupsList: FC<GroupsListProps> = ({
-  groups,
-  isLoading,
-  getMemberCount,
-  isOwner,
-}) => {
+export const GroupsList: FC<GroupsListProps> = ({ groups, isLoading, getMemberCount, isOwner }) => {
   const { searchQuery, setIsCreating, clearSearch } = useGroupsStateContext();
 
   if (isLoading) {
@@ -44,12 +39,7 @@ export const GroupsList: FC<GroupsListProps> = ({
   return (
     <div className="space-y-4">
       {groups.map((group) => (
-        <GroupTile
-          key={group.id}
-          group={group}
-          memberCount={getMemberCount(group.id)}
-          isOwner={isOwner(group.id)}
-        />
+        <GroupTile key={group.id} group={group} memberCount={getMemberCount(group.id)} isOwner={isOwner(group.id)} />
       ))}
     </div>
   );

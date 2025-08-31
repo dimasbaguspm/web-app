@@ -63,20 +63,10 @@ export const OverviewChart: FC<Props> = ({ data }) => {
 
           {/* Center Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <Text
-              fontSize="xs"
-              color="gray"
-              align="center"
-              className="text-center mb-1"
-            >
+            <Text fontSize="xs" color="gray" align="center" className="text-center mb-1">
               Net Balance
             </Text>
-            <Text
-              fontSize="lg"
-              fontWeight="semibold"
-              align="center"
-              color={isSurplus ? 'secondary' : 'primary'}
-            >
+            <Text fontSize="lg" fontWeight="semibold" align="center" color={isSurplus ? 'secondary' : 'primary'}>
               {formatPrice(data.income - data.expense)}
             </Text>
             <Text fontSize="xs" color="gray" className="text-center mt-1">
@@ -88,9 +78,7 @@ export const OverviewChart: FC<Props> = ({ data }) => {
         <div className="flex justify-center gap-6">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-primary rounded-full" />
-            <Text fontSize="sm">
-              Expense: {formatPrice(Math.abs(data?.expense || 0))}
-            </Text>
+            <Text fontSize="sm">Expense: {formatPrice(Math.abs(data?.expense || 0))}</Text>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-secondary rounded-full" />
