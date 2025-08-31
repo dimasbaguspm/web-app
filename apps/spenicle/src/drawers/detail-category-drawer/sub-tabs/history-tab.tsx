@@ -2,7 +2,15 @@ import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { CategoryModel, TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, FormLayout, Icon, LoadingIndicator, NoResults, SearchInput } from '@dimasbaguspm/versaur';
+import {
+  Button,
+  ButtonGroup,
+  ButtonMenuIcon,
+  FormLayout,
+  LoadingIndicator,
+  NoResults,
+  SearchInput,
+} from '@dimasbaguspm/versaur';
 import { FilterIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -41,9 +49,17 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
           <SearchInput onChange={(ev) => setSearchValue(ev.target.value)} placeholder="Search name or notes" />
         </FormLayout.Column>
         <FormLayout.Column span={2} className="flex items-end justify-end">
-          <Button variant="outline" aria-label="Filter history">
-            <Icon as={FilterIcon} color="inherit" size="sm" />
-          </Button>
+          <ButtonMenuIcon
+            as={FilterIcon}
+            variant="outline"
+            aria-label="Filter"
+            content={
+              <>
+                <ButtonMenuIcon.Item>Sort by date</ButtonMenuIcon.Item>
+                <ButtonMenuIcon.Item>Sort by amount</ButtonMenuIcon.Item>
+              </>
+            }
+          />
         </FormLayout.Column>
       </FormLayout>
 

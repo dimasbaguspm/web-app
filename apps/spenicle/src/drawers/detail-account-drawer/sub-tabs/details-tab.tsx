@@ -37,9 +37,8 @@ export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
         <ButtonIcon
           as={TrashIcon}
           onClick={handleDeleteClick}
-          size="sm"
           className="ml-auto"
-          variant="outline"
+          variant="danger-outline"
           aria-label="Delete category"
         />
       </ButtonGroup>

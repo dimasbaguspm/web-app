@@ -51,7 +51,9 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({ payload })
         <Drawer.CloseButton />
       </Drawer.Header>
 
-      <NewTransactionForm defaultValues={formatDefaultValues(payload)} onSubmit={handleOnValidSubmit} />
+      <Drawer.Body>
+        <NewTransactionForm defaultValues={formatDefaultValues(payload)} onSubmit={handleOnValidSubmit} />
+      </Drawer.Body>
 
       <Drawer.Footer>
         <ButtonGroup alignment="end" fluid={!isDesktop}>
