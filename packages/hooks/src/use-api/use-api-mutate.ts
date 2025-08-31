@@ -2,6 +2,7 @@ import { useGlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
+import querystring from 'query-string';
 
 import { BASE_URL, BaseUrl } from './constants';
 
@@ -88,6 +89,12 @@ export const useApiMutate = <
             response = await axios.get<TData>(templatedPath, {
               ...axiosConfig,
               params: variables,
+              paramsSerializer: (params) => {
+                return querystring.stringify(params, {
+                  arrayFormat: 'none',
+                  skipEmptyString: true,
+                });
+              },
             });
             break;
           case 'POST':

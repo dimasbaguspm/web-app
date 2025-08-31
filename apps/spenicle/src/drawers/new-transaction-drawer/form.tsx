@@ -1,10 +1,8 @@
-import {
-  useApiSpenicleAccountQuery,
-  useApiSpenicleCategoryQuery,
-} from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
+  Anchor,
+  Button,
   ChipSingleInput,
   DateSinglePickerInput,
   Drawer,
@@ -12,6 +10,7 @@ import {
   Icon,
   LoadingIndicator,
   PriceInput,
+  Text,
   TextAreaInput,
   TextInput,
   TimePickerInput,
@@ -20,12 +19,15 @@ import {
   TrendingDownIcon,
   TrendingUpDownIcon,
   TrendingUpIcon,
+  Wand2Icon,
 } from 'lucide-react';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
+import { useNewTransactionData } from './hooks/use-new-transaction-data';
+import { useNewTransactionSuggestion } from './hooks/use-new-transaction-suggestion';
 import { NewTransactionFormSchema } from './types';
 
 interface NewTransactionFormProps {
@@ -39,65 +41,34 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
 }) => {
   const { openDrawer } = useDrawerRoute();
 
-  const { register, handleSubmit, control, getValues, watch } =
+  const { handleSubmit, control, getValues, watch } =
     useForm<NewTransactionFormSchema>({
       defaultValues: defaultValues,
     });
 
-  const [accountId, categoryId, destinationAccountId] = watch([
-    'accountId',
-    'categoryId',
-    'destinationAccountId',
-  ]);
+  const payload = watch();
 
-  const [accountData, , { isFetching: isAccountFetching }] =
-    useApiSpenicleAccountQuery(+accountId, {
-      enabled: !!accountId,
-    });
-  const [
-    destinationAccountData,
-    ,
-    { isFetching: isDestinationAccountFetching },
-  ] = useApiSpenicleAccountQuery(+destinationAccountId!, {
-    enabled: !!destinationAccountId,
-  });
+  const { accountData, destinationAccountData, categoryData, isLoading } =
+    useNewTransactionData(payload);
+  const [suggestions, isVisible, fetchSuggestions, resetSuggestions] =
+    useNewTransactionSuggestion(payload);
 
-  const [categoryData, , { isFetching: isCategoryFetching }] =
-    useApiSpenicleCategoryQuery(+categoryId, {
-      enabled: !!categoryId,
-    });
-
-  const handleOnAccountSelect = (name: string) => () => {
-    openDrawer(
-      DRAWER_ROUTES.SELECT_ACCOUNT,
-      {
-        payloadId: name,
-      },
-      {
-        replace: true,
-        state: {
-          payload: getValues(),
-          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
+  const handleOnOpenSelectDrawer =
+    (drawerId: string, fieldId: string) => () => {
+      openDrawer(
+        drawerId,
+        {
+          payloadId: fieldId,
         },
-      },
-    );
-  };
-
-  const handleOnCategorySelect = (name: string) => () => {
-    openDrawer(
-      DRAWER_ROUTES.SELECT_CATEGORY,
-      {
-        payloadId: name,
-      },
-      {
-        replace: true,
-        state: {
-          payload: getValues(),
-          returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
+        {
+          replace: true,
+          state: {
+            payload: getValues(),
+            returnToDrawer: DRAWER_ROUTES.NEW_TRANSACTION,
+          },
         },
-      },
-    );
-  };
+      );
+    };
 
   const handleOnValidSubmit: SubmitHandler<NewTransactionFormSchema> = async (
     data,
@@ -107,23 +78,11 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
 
   return (
     <>
-      <If
-        condition={[
-          isAccountFetching,
-          isCategoryFetching,
-          isDestinationAccountFetching,
-        ]}
-      >
+      <If condition={[isLoading]}>
         <LoadingIndicator size="sm" type="bar" />
       </If>
 
-      <If
-        condition={[
-          !isAccountFetching,
-          !isCategoryFetching,
-          !isDestinationAccountFetching,
-        ]}
-      >
+      <If condition={[!isLoading]}>
         <Drawer.Body>
           <form
             id="new-transaction-form"
@@ -235,7 +194,10 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                       <>
                         <TextInput
                           readOnly
-                          onClick={handleOnAccountSelect('accountId')}
+                          onClick={handleOnOpenSelectDrawer(
+                            DRAWER_ROUTES.SELECT_ACCOUNT,
+                            'accountId',
+                          )}
                           label="Source"
                           placeholder="Select account"
                           value={accountData?.name ?? ''}
@@ -271,7 +233,10 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                       <>
                         <TextInput
                           readOnly
-                          onClick={handleOnAccountSelect('accountId')}
+                          onClick={handleOnOpenSelectDrawer(
+                            DRAWER_ROUTES.SELECT_ACCOUNT,
+                            'accountId',
+                          )}
                           label="Source"
                           placeholder="Select account"
                           value={accountData?.name ?? ''}
@@ -303,7 +268,8 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                       <>
                         <TextInput
                           readOnly
-                          onClick={handleOnAccountSelect(
+                          onClick={handleOnOpenSelectDrawer(
+                            DRAWER_ROUTES.SELECT_ACCOUNT,
                             'destinationAccountId',
                           )}
                           label="Destination"
@@ -330,7 +296,10 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                       <TextInput
                         readOnly
                         label="Category"
-                        onClick={handleOnCategorySelect('categoryId')}
+                        onClick={handleOnOpenSelectDrawer(
+                          DRAWER_ROUTES.SELECT_CATEGORY,
+                          'categoryId',
+                        )}
                         placeholder="Select category"
                         value={categoryData?.name ?? ''}
                         error={fieldState.error?.message}
@@ -341,12 +310,74 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({
                 />
               </FormLayout.Column>
               <FormLayout.Column span={12}>
-                <TextAreaInput
-                  label="Notes"
-                  fieldSizing="content"
-                  minRows={4}
-                  rows={6}
-                  {...register('notes')}
+                <Controller
+                  name="notes"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <TextAreaInput
+                      label="Notes"
+                      fieldSizing="content"
+                      minRows={4}
+                      rows={6}
+                      error={fieldState.error?.message}
+                      helperText={
+                        <>
+                          <div className="flex flex-row items-center gap-2 mb-2">
+                            <If condition={isVisible}>
+                              <Icon as={Wand2Icon} color="ghost" size="sm" />
+                              <Text fontSize="sm" color="gray">
+                                Suggestions:
+                              </Text>
+                            </If>
+                            <If condition={!isVisible}>
+                              <Icon as={Wand2Icon} color="primary" size="sm" />
+                              <Anchor
+                                fontSize="sm"
+                                onClick={() => fetchSuggestions()}
+                              >
+                                Generate Suggestions
+                              </Anchor>
+                            </If>
+                          </div>
+
+                          <If condition={isVisible}>
+                            <div className="flex flex-col gap-2">
+                              <If condition={!!suggestions.length}>
+                                <ul className="max-h-60 overflow-auto flex flex-row gap-2 ">
+                                  {suggestions.map((suggestion) => (
+                                    <li key={suggestion}>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          field.onChange(suggestion);
+                                          resetSuggestions();
+                                        }}
+                                      >
+                                        {suggestion}
+                                      </Button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </If>
+                              <If condition={!suggestions.length}>
+                                <Text fontSize="sm" color="gray">
+                                  No suggestions available
+                                </Text>
+                              </If>
+                              <Anchor
+                                onClick={() => fetchSuggestions()}
+                                fontSize="sm"
+                              >
+                                Regenerate
+                              </Anchor>
+                            </div>
+                          </If>
+                        </>
+                      }
+                      {...field}
+                    />
+                  )}
                 />
               </FormLayout.Column>
             </FormLayout>
