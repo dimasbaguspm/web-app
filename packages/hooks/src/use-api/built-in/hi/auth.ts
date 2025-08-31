@@ -48,9 +48,15 @@ export const useApiHiAuthTokenRefresher = () => {
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : typeof err === 'string' ? err : String(err);
 
-        window.confirm(message);
-        const currentUrl = new URL(window.location.href);
-        console.log(BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl.toString() + '&clientId=' + clientId);
+        const test = window.confirm(message);
+
+        if (test) {
+          const currentUrl = new URL(window.location.href);
+
+          window.location.href =
+            BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl.toString() + '&clientId=' + clientId;
+        }
+
         return false;
       }
       return false;
