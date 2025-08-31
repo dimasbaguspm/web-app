@@ -10,6 +10,7 @@ import {
 export const ROUTES = {
   TRANSACTIONS: '/',
   TRANSACTIONS_ALT: '/transactions',
+  TRANSACTIONS_DATE: ':year/:month/:day',
   ACCOUNTS: '/accounts',
   CATEGORIES: '/categories',
   SUMMARY: '/summary',
@@ -26,6 +27,12 @@ export const DEEP_LINKS = {
   TRANSACTIONS_ALT: {
     path: '/transactions',
     title: 'Transactions',
+    icon: FileText,
+  },
+  TRANSACTIONS_DATE: {
+    path: (year: number, month: number, day: number) =>
+      `/transactions/${year}/${month}/${day}`,
+    title: 'Transactions by Date',
     icon: FileText,
   },
   ACCOUNTS: {

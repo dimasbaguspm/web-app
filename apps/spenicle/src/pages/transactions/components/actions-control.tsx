@@ -2,7 +2,7 @@ import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { Button, ButtonGroup, Icon } from '@dimasbaguspm/versaur';
 import dayjs, { Dayjs } from 'dayjs';
 import { CalendarCogIcon, FilterIcon } from 'lucide-react';
-import { FC, useRef } from 'react';
+import { ChangeEvent, FC, useRef } from 'react';
 
 interface ActionsControlProps {
   date: Dayjs;
@@ -28,6 +28,15 @@ export const ActionsControl: FC<ActionsControlProps> = ({
     }
   };
 
+  const handleOnDateChange = (ev: ChangeEvent<HTMLInputElement>) => {
+    const value = ev.target.value;
+    if (value) {
+      onDateChange(dayjs(value));
+    } else {
+      onDateChange(dayjs());
+    }
+  };
+
   return (
     <>
       <ButtonGroup alignment="between" className="mb-4">
@@ -47,7 +56,7 @@ export const ActionsControl: FC<ActionsControlProps> = ({
             className="sr-only absolute -bottom-2.5 right-50 translate-x-1/2"
             ref={inputRef}
             value={formatDate(date, DateFormat.ISO_DATE)}
-            onChange={(e) => onDateChange(dayjs(e.target.value))}
+            onChange={handleOnDateChange}
           />
         </Button>
       </ButtonGroup>
