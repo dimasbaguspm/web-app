@@ -13,9 +13,10 @@ import {
 } from '@dimasbaguspm/versaur';
 import dayjs, { Dayjs } from 'dayjs';
 import { PlusIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+import { DEEP_LINKS } from '../../constants/page-routes';
 
 import { ActionsControl } from './components/actions-control';
 import { FiltersControl } from './components/filters-control';
@@ -26,8 +27,20 @@ import { useTransactionData } from './hooks/use-transactions-data';
 import { useTransactionsFilter } from './hooks/use-transactions-filter';
 
 const TransactionsPage = () => {
-  const [initialDate, setInitialDate] = useState<Dayjs>(dayjs().startOf('day'));
-  const [selectedDate, setSelectedDate] = useState<Dayjs>(initialDate);
+  const { year, month, day } = useParams<{
+    year: string;
+    month: string;
+    day: string;
+  }>();
+  const navigate = useNavigate();
+
+  const hasParams = year && month && day;
+  const startDate = hasParams
+    ? dayjs()
+        .set('y', parseInt(year))
+        .set('M', parseInt(month))
+        .set('D', parseInt(day))
+    : dayjs().startOf('day');
 
   const { openDrawer } = useDrawerRoute();
 
@@ -40,14 +53,23 @@ const TransactionsPage = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useTransactionData({ date: selectedDate });
+  } = useTransactionData({ date: startDate });
 
   const handleOnDateChange = (date: Dayjs) => {
-    setSelectedDate(date);
+    navigate(
+      DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()),
+    );
   };
 
   const handleOnNewTransactionClick = () => {
-    openDrawer(DRAWER_ROUTES.NEW_TRANSACTION);
+    openDrawer(DRAWER_ROUTES.NEW_TRANSACTION, undefined, {
+      state: {
+        payload: {
+          date: formatDate(startDate, DateFormat.ISO_DATE),
+          time: formatDate(startDate, DateFormat.TIME_24H),
+        },
+      },
+    });
   };
 
   const handleOnTransactionClick = (transaction: TransactionModel) => {
@@ -61,15 +83,16 @@ const TransactionsPage = () => {
   };
 
   const handleOnCalendarDateChange = (date: Dayjs) => {
-    setSelectedDate(date);
-    setInitialDate(date);
+    navigate(
+      DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()),
+    );
   };
 
   return (
     <>
       <PageHeader
         title="Transactions"
-        subtitle={formatDate(selectedDate, DateFormat.MONTH_YEAR)}
+        subtitle={formatDate(startDate, DateFormat.MONTH_YEAR)}
         actions={
           <ButtonGroup>
             <Button onClick={handleOnNewTransactionClick}>
@@ -87,18 +110,12 @@ const TransactionsPage = () => {
             />
           </ButtonGroup>
         }
-        tabs={
-          <TabsDate
-            activeDate={initialDate}
-            selectedDate={selectedDate}
-            onDateChange={handleOnDateChange}
-          />
-        }
+        tabs={<TabsDate date={startDate} onDateChange={handleOnDateChange} />}
       />
 
       <PageContent>
         <ActionsControl
-          date={selectedDate}
+          date={startDate}
           onFilterClick={handleOnFilterClick}
           onDateChange={handleOnCalendarDateChange}
         />

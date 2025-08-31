@@ -25,7 +25,16 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.TRANSACTIONS_ALT,
-        Component: lazyLoad(() => import('../pages/transactions/page')),
+        children: [
+          {
+            index: true,
+            Component: lazyLoad(() => import('../pages/transactions/page')),
+          },
+          {
+            path: ROUTES.TRANSACTIONS_DATE,
+            Component: lazyLoad(() => import('../pages/transactions/page')),
+          },
+        ],
       },
       {
         path: ROUTES.ACCOUNTS,

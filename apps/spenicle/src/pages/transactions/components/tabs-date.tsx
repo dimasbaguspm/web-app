@@ -7,36 +7,35 @@ import { FC, useMemo } from 'react';
 import { getDateRange } from '../helpers';
 
 interface TabsDateProps {
-  activeDate: Dayjs;
-  selectedDate: Dayjs;
+  date: Dayjs;
   onDateChange: (date: Dayjs) => void;
 }
 
-export const TabsDate: FC<TabsDateProps> = ({
-  activeDate,
-  selectedDate,
-  onDateChange,
-}) => {
+export const TabsDate: FC<TabsDateProps> = ({ date, onDateChange }) => {
   const { isDesktop } = useWindowResize();
 
   const dates = useMemo(
-    () => getDateRange(selectedDate, isDesktop ? 'twoWeeks' : 'week'),
-    [activeDate, isDesktop],
+    () => getDateRange(date, isDesktop ? 'twoWeeks' : 'week'),
+    [date, isDesktop],
   );
+
+  const handleTabChange = (date: string) => {
+    onDateChange(dayjs(date));
+  };
 
   return (
     <Tabs
-      value={formatDate(selectedDate.toDate(), DateFormat.ISO_DATE)}
-      onValueChange={(date) => onDateChange(dayjs(date))}
+      value={formatDate(date.toDate(), DateFormat.ISO_DATE)}
+      onValueChange={handleTabChange}
       className="justify-between"
     >
-      {dates.map((date) => {
-        const isActive = date.isSame(selectedDate, 'day');
+      {dates.map((mappedDate) => {
+        const isActive = date.isSame(mappedDate, 'day');
 
         return (
           <Tabs.Trigger
-            key={date.toString()}
-            value={formatDate(date.toISOString(), DateFormat.ISO_DATE)}
+            key={mappedDate.toString()}
+            value={formatDate(mappedDate.toISOString(), DateFormat.ISO_DATE)}
             className="flex flex-col hover:text-primary"
           >
             <Text
@@ -44,9 +43,9 @@ export const TabsDate: FC<TabsDateProps> = ({
               align="center"
               color={isActive ? 'primary' : 'inherit'}
             >
-              {formatDate(date.toISOString(), DateFormat.SHORT_DAY)}
+              {formatDate(mappedDate.toISOString(), DateFormat.SHORT_DAY)}
             </Text>
-            {formatDate(date.toISOString(), DateFormat.NUMERIC_DAY)}
+            {formatDate(mappedDate.toISOString(), DateFormat.NUMERIC_DAY)}
           </Tabs.Trigger>
         );
       })}
