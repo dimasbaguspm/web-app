@@ -1,5 +1,6 @@
 import { AuthMeModel, SetActiveProfileModel } from '@dimasbaguspm/interfaces';
 import { useGlobalProvider } from '@dimasbaguspm/providers/global-provider';
+import { getCookieValue } from '@dimasbaguspm/utils/cookie';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -24,11 +25,11 @@ export const useApiHiAuthTokenRefresher = () => {
     enabled: !!clientId,
     queryFn: async () => {
       try {
-        const { value: accessToken } = (await cookieStore.get('accessToken')) ?? {};
+        const accessToken = await getCookieValue('accessToken');
 
         if (!accessToken) throw new Error('No access token found');
 
-        const [, payload] = accessToken?.split('.') ?? [];
+        const [, payload] = accessToken.split('.');
 
         const expiredTime = new Date(JSON.parse(atob(payload)).exp * 1000);
 
