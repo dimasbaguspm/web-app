@@ -62,6 +62,14 @@ export const useApiSpenicleTransactionQuery = (
   });
 };
 
+export const useApiSpenicleGetPaginatedTransactions = () => {
+  return useApiMutate<TransactionsPageModel, SearchTransactionsModel>({
+    path: '/transaction',
+    method: 'GET',
+    base: 'SPENICLE',
+  });
+};
+
 export const useApiSpenicleCreateTransaction = () => {
   const queryClient = useQueryClient();
   return useApiMutate<TransactionModel, CreateTransactionModel>({

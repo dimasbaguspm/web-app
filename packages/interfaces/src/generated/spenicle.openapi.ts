@@ -950,6 +950,7 @@ export interface operations {
         groupId?: number[];
         accountId?: number[];
         categoryId?: number[];
+        amount?: [number, number];
         type?: ('income' | 'expense' | 'transfer')[];
         dateFrom?: string;
         dateTo?: string;

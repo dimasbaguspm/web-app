@@ -437,11 +437,11 @@ export interface operations {
   getApps: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -516,7 +516,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -567,12 +567,12 @@ export interface operations {
   'getApp-profiles': {
     parameters: {
       query?: {
-        id?: number[];
-        appId?: number[];
-        userId?: number[];
-        groupId?: number[];
-        pageNumber?: number;
-        pageSize?: number;
+        id?: (number | string)[];
+        appId?: (number | string)[];
+        userId?: (number | string)[];
+        groupId?: (number | string)[];
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'app_id';
         sortOrder?: 'asc' | 'desc';
       };
@@ -1265,12 +1265,12 @@ export interface operations {
   getGroups: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string[];
-        creatorId?: number[];
+        creatorId?: (number | string)[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -2118,7 +2118,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
