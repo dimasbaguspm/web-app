@@ -27,15 +27,15 @@ export const useApiHiAuthTokenRefresher = () => {
       try {
         const accessToken = await getCookieValue('accessToken');
 
-        if (!accessToken) throw new Error('No access token found');
+        if (accessToken) {
+          const [, payload] = accessToken.split('.');
 
-        const [, payload] = accessToken.split('.');
+          const expiredTime = new Date(JSON.parse(atob(payload)).exp * 1000);
 
-        const expiredTime = new Date(JSON.parse(atob(payload)).exp * 1000);
+          const isExpired = expiredTime < new Date();
 
-        const isExpired = expiredTime < new Date();
-
-        if (!isExpired) return true;
+          if (!isExpired) return true;
+        }
 
         await axios.post(BASE_URL.HI + HI_URL.AUTH.REFRESH, null, {
           withCredentials: true,
