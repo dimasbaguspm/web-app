@@ -1,15 +1,10 @@
-import {
-  useApiSpenicleAccountQuery,
-  useApiSpenicleCategoryQuery,
-  useApiSpenicleTransactionQuery,
-} from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
+import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import {
   formatSpenicleAccount,
   formatSpenicleCategory,
   formatSpenicleTransaction,
 } from '@dimasbaguspm/utils/data';
-import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   AttributeList,
@@ -23,11 +18,14 @@ import {
   LoadingIndicator,
   Text,
 } from '@dimasbaguspm/versaur';
-import dayjs from 'dayjs';
 import { CopyIcon, Edit2Icon, TrashIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+import { MODAL_ROUTES } from '../../constants/modal-routes';
+
+import { generatePayloadCopyTransaction } from './helpers';
+import { useDetailTransactionData } from './hooks/use-detail-transaction-data';
 
 interface DetailTransactionDrawerProps {
   transactionId: number;
@@ -37,24 +35,15 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({
   transactionId,
 }) => {
   const { openDrawer } = useDrawerRoute();
+  const { openModal } = useModalRoute();
 
-  const [transactionData, , { isFetching }] =
-    useApiSpenicleTransactionQuery(transactionId);
-  const [accountData, , { isFetching: isFetchingAccount }] =
-    useApiSpenicleAccountQuery(transactionData?.accountId || 0, {
-      enabled: !!transactionData?.accountId,
-    });
-  const [
+  const {
+    transactionData,
+    accountData,
     destinationAccountData,
-    ,
-    { isFetching: isFetchingDestinationAccount },
-  ] = useApiSpenicleAccountQuery(transactionData?.destinationAccountId || 0, {
-    enabled: !!transactionData?.destinationAccountId,
-  });
-  const [categoryData, , { isFetching: isFetchingCategory }] =
-    useApiSpenicleCategoryQuery(transactionData?.categoryId || 0, {
-      enabled: !!transactionData?.categoryId,
-    });
+    categoryData,
+    isInitialLoading,
+  } = useDetailTransactionData({ transactionId });
 
   const { note, variant, capitalizedType, time, date, amount } =
     formatSpenicleTransaction(transactionData);
@@ -74,37 +63,16 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({
   const handleOnCopyClick = () => {
     openDrawer(DRAWER_ROUTES.NEW_TRANSACTION, undefined, {
       state: {
-        payload: {
-          type: transactionData?.type,
-          date: formatDate(dayjs(), DateFormat.ISO_DATE),
-          time: formatDate(dayjs(), DateFormat.TIME_24H),
-          accountId:
-            typeof transactionData?.accountId === 'number'
-              ? transactionData?.accountId
-              : undefined,
-          destinationAccountId:
-            typeof transactionData?.destinationAccountId === 'number'
-              ? transactionData?.destinationAccountId
-              : undefined,
-          categoryId:
-            typeof transactionData?.categoryId === 'number'
-              ? transactionData?.categoryId
-              : undefined,
-          amount:
-            typeof transactionData?.amount === 'number'
-              ? transactionData?.amount
-              : undefined,
-          notes: transactionData?.note,
-        },
+        payload: generatePayloadCopyTransaction(transactionData!),
       },
     });
   };
 
-  const isLoading =
-    isFetching ||
-    isFetchingAccount ||
-    isFetchingDestinationAccount ||
-    isFetchingCategory;
+  const handleDeleteClick = () => {
+    openModal(MODAL_ROUTES.DELETE_TRANSACTION, {
+      transactionId,
+    });
+  };
 
   return (
     <>
@@ -112,11 +80,11 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({
         <Drawer.Title>Transaction Details</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
-      <If condition={[isLoading, !transactionData]}>
+      <If condition={[isInitialLoading, !transactionData]}>
         <LoadingIndicator size="sm" type="bar" />
       </If>
 
-      <If condition={[!isLoading, transactionData]}>
+      <If condition={[!isInitialLoading, transactionData]}>
         <Drawer.Body>
           <ButtonGroup className="mb-4">
             <Button variant="outline" onClick={handleOnEditClick}>
@@ -131,6 +99,7 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({
 
             <ButtonIcon
               as={TrashIcon}
+              onClick={handleDeleteClick}
               size="sm"
               className="ml-auto"
               variant="outline"

@@ -121,3 +121,25 @@ export const useApiSpenicleUpdateTransaction = () => {
     },
   });
 };
+
+export const useApiSpenicleDeleteTransaction = () => {
+  const queryClient = useQueryClient();
+  return useApiMutate<unknown, { id: number }>({
+    path: '/transaction/:id',
+    method: 'DELETE',
+    base: 'SPENICLE',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_TRANSACTION_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_SUMMARY_TRANSACTIONS().slice(0, 2),
+      });
+    },
+  });
+};
