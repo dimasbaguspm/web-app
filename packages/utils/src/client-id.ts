@@ -233,7 +233,7 @@ export function clearClientId(options: ClientIdOptions = {}): void {
  * React hook for managing client ID
  */
 export function useClientId(options: ClientIdOptions = {}) {
-  const [clientId, setClientId] = useState<string | null>(getClientId(options));
+  const [clientId, setClientId] = useState<string>(getClientId(options));
 
   const refreshClientId = () => {
     setClientId(generateClientId(options));
