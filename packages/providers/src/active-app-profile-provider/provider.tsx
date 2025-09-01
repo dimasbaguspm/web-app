@@ -1,4 +1,5 @@
 import { AppId } from '@dimasbaguspm/constants';
+import { useApiHiAppProfileQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { FC, ReactNode, useState } from 'react';
 
@@ -20,13 +21,17 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
 
   const { activeProfile } = useAuthProvider();
 
+  const [activeProfileData] = useApiHiAppProfileQuery(activeProfile?.id ? +activeProfile.id : -1, {
+    enabled: !!activeProfile,
+  });
+
   const handleSwitchProfile = () => {
     setSwitchProfile(true);
   };
 
   const isSwitchingProfile = Boolean(switchProfile && activeProfile);
 
-  if (!activeProfile || switchProfile) {
+  if (!activeProfile || !activeProfileData || switchProfile) {
     return (
       <ProfileSelector
         appId={appId}
@@ -40,7 +45,7 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
   return (
     <ActiveAppProfileContext.Provider
       value={{
-        ...activeProfile,
+        profile: activeProfileData,
         toggleSwitchProfile: handleSwitchProfile,
         isSwitchingProfile,
       }}

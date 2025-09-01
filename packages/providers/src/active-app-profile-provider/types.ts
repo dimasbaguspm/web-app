@@ -1,6 +1,7 @@
-import { AuthMeModel } from '@dimasbaguspm/interfaces';
+import { AppProfileModel } from '@dimasbaguspm/interfaces';
 
-export type ActiveAppProfileModel = AuthMeModel['tokenPayload']['activeProfile'] & {
+export type ActiveAppProfileModel = {
+  profile: AppProfileModel;
   toggleSwitchProfile: () => void;
   isSwitchingProfile: boolean;
 };

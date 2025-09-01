@@ -9,12 +9,20 @@ import {
   BottomBar,
   Brand,
   ButtonMenuIcon,
+  Hr,
   Icon,
   LoadingIndicator,
   PageLayout,
   TopBar,
 } from '@dimasbaguspm/versaur';
-import { EllipsisIcon } from 'lucide-react';
+import {
+  BoltIcon,
+  ChevronsLeftRightEllipsisIcon,
+  EllipsisIcon,
+  LogOutIcon,
+  MoreHorizontalIcon,
+  NotebookPenIcon,
+} from 'lucide-react';
 import { FC, PropsWithChildren, Suspense } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -79,9 +87,21 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
           <TopBar.Trailing>
             <Avatar size="md">{nameToInitials(user.name)}</Avatar>
             <ButtonMenuIcon variant="ghost" aria-label="Profile Menu" as={EllipsisIcon}>
-              <ButtonMenuIcon.Item onClick={toggleSwitchProfile}>Switch Profile</ButtonMenuIcon.Item>
-              <ButtonMenuIcon.Item onClick={handleNavigation(DEEP_LINKS.SETTINGS.path)}>Settings</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={toggleSwitchProfile}>
+                <Icon as={ChevronsLeftRightEllipsisIcon} size="sm" color="inherit" />
+                Switch Profile
+              </ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleNavigation(DEEP_LINKS.SETTINGS.path)}>
+                <Icon as={BoltIcon} size="sm" color="inherit" />
+                Settings
+              </ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item>
+                <Icon as={NotebookPenIcon} size="sm" color="inherit" />
+                Feedback
+              </ButtonMenuIcon.Item>
+              <Hr />
               <ButtonMenuIcon.Item onClick={() => openModal(MODAL_ROUTES.LOGOUT_CONFIRMATION)}>
+                <Icon as={LogOutIcon} size="sm" color="danger" />
                 Logout
               </ButtonMenuIcon.Item>
             </ButtonMenuIcon>
@@ -113,8 +133,12 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               />
             );
           })}
-          <BottomBar.Item onClick={() => openBottomSheet(BOTTOM_SHEET_ROUTES.PROFILE)}>
-            <Avatar size="sm">{nameToInitials(user.name)}</Avatar>
+          <BottomBar.Item onClick={() => openBottomSheet(BOTTOM_SHEET_ROUTES.MENU)}>
+            <Icon
+              as={MoreHorizontalIcon}
+              size="md"
+              color={isActive(DEEP_LINKS.SETTINGS.path) ? 'primary' : 'inherit'}
+            />
           </BottomBar.Item>
         </BottomBar>
       )}
