@@ -8,7 +8,16 @@ import { FC, StrictMode } from 'react';
 
 import { PageRouter } from './page-routes';
 
-const qc = new QueryClient();
+const qc = new QueryClient({
+  defaultOptions: {
+    queries: {
+      networkMode: 'online',
+    },
+    mutations: {
+      networkMode: 'online',
+    },
+  },
+});
 
 export const App: FC = () => {
   return (

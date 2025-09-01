@@ -55,10 +55,8 @@ export const ProfileSwitcherBottomSheet: FC = () => {
   return (
     <>
       <BottomSheet.Header>
-        <div className="flex flex-row justify-between items-center">
-          <BottomSheet.Title>Select Profile</BottomSheet.Title>
-          <ButtonIcon variant="ghost" as={PlusIcon} aria-label="Create New Profile" onClick={handleNavigateToHub} />
-        </div>
+        <BottomSheet.Title>Select Profile</BottomSheet.Title>
+        <ButtonIcon variant="ghost" as={PlusIcon} aria-label="Create New Profile" onClick={handleNavigateToHub} />
       </BottomSheet.Header>
 
       <BottomSheet.Body className="max-h-[56dvh] overflow-y-auto">

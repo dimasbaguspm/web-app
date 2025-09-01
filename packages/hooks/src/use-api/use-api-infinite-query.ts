@@ -80,7 +80,7 @@ export const useApiInfiniteQuery = <TData, TQuery, TError = { message: string }>
   } = options ?? {};
 
   const { clientId } = useGlobalProvider();
-  const isEnable = enabled && !!clientId;
+  const isEnable = enabled && !!clientId && window.navigator.onLine;
 
   const query = useInfiniteQuery<TData | null, TError>({
     queryKey: queryKey.filter(Boolean),
