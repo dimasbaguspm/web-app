@@ -4,7 +4,6 @@ import { AuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { GlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { SnackbarsProvider } from '@dimasbaguspm/versaur';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { FC, StrictMode } from 'react';
 
 import { PageRouter } from './page-routes';
@@ -22,7 +21,6 @@ export const App: FC = () => {
                 <PageRouter />
               </ActiveAppProfileProvider>
             </AuthProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </SnackbarsProvider>
       </GlobalProvider>

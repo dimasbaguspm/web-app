@@ -1,4 +1,4 @@
-import { FileText, CreditCard, Tag, PieChart, ChartBarBigIcon, ChartNoAxesCombinedIcon } from 'lucide-react';
+import { FileText, CreditCard, Tag, PieChart, ChartBarBigIcon, ChartNoAxesCombinedIcon, CogIcon } from 'lucide-react';
 
 export const ROUTES = {
   TRANSACTIONS: '/',
@@ -9,6 +9,7 @@ export const ROUTES = {
   SUMMARY: '/summary',
   SUMMARY_TIMELINE: 'timeline',
   SUMMARY_TRENDS: 'trends',
+  SETTINGS: '/settings',
 } as const;
 
 export const DEEP_LINKS = {
@@ -51,6 +52,11 @@ export const DEEP_LINKS = {
     path: '/summary/timeline',
     title: 'Timeline',
     icon: ChartBarBigIcon,
+  },
+  SETTINGS: {
+    path: '/settings',
+    title: 'Settings',
+    icon: CogIcon,
   },
 } as const;
 

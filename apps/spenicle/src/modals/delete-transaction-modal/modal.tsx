@@ -1,4 +1,5 @@
 import { useApiSpenicleDeleteTransaction } from '@dimasbaguspm/hooks/use-api';
+import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { Button, ButtonGroup, Modal } from '@dimasbaguspm/versaur';
@@ -11,6 +12,7 @@ interface DeleteTransactionModalProps {
 export const DeleteTransactionModal: FC<DeleteTransactionModalProps> = ({ transactionId }) => {
   const { closeModal } = useModalRoute();
   const { closeDrawer, isOpen: isDrawerOpen } = useDrawerRoute();
+  const { closeBottomSheet, isOpen: isBottomSheetOpen } = useBottomSheetRoute();
 
   const [deleteTransaction, , { isPending }] = useApiSpenicleDeleteTransaction();
 
@@ -21,6 +23,7 @@ export const DeleteTransactionModal: FC<DeleteTransactionModalProps> = ({ transa
     closeModal();
 
     if (isDrawerOpen) closeDrawer();
+    if (isBottomSheetOpen) closeBottomSheet();
   };
 
   return (

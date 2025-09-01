@@ -6,6 +6,7 @@ import { MODAL_ROUTES } from '../constants/modal-routes';
 import { DeleteAccountModal } from '../modals/delete-account-modal/modal';
 import { DeleteCategoryModal } from '../modals/delete-category-modal/modal';
 import { DeleteTransactionModal } from '../modals/delete-transaction-modal/modal';
+import { LogoutConfirmationModal } from '../modals/logout-confirmation-modal/modal';
 
 interface ModalParams {
   appId?: string;
@@ -38,6 +39,7 @@ export const ModalRoutes: FC = () => {
       {is(MODAL_ROUTES.DELETE_CATEGORY) && hasParam('categoryId') && (
         <DeleteCategoryModal categoryId={params.categoryId!} />
       )}
+      {is(MODAL_ROUTES.LOGOUT_CONFIRMATION) && <LogoutConfirmationModal />}
     </Modal>
   );
 };

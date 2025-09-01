@@ -73,6 +73,8 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
 
   const { clientId } = useGlobalProvider();
 
+  const isEnable = enabled && !!clientId;
+
   const query = useQuery<TData | null, TError>({
     queryKey: queryKey.filter(Boolean),
 
@@ -107,7 +109,7 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
         return err;
       }
     },
-    enabled,
+    enabled: isEnable,
     retry,
     gcTime,
     initialData,

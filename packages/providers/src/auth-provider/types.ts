@@ -6,4 +6,5 @@ export interface AuthProviderModel {
   appProfiles: AppProfileModel[];
   activeProfile: AuthMeModel['tokenPayload']['activeProfile'];
   refetch: () => Promise<void>;
+  logout: () => Promise<void>;
 }

@@ -3,6 +3,7 @@ export const HI_URL = {
     ME: '/auth/me',
     SET_ACTIVE_PROFILE: '/auth/set-active-profile',
     REFRESH: '/auth/refresh',
+    LOGOUT: '/auth/logout',
   },
   USER: {
     PAGINATED: '/user',

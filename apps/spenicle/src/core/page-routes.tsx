@@ -1,3 +1,4 @@
+import { BottomSheetRouteProvider } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { DrawerRouteProvider } from '@dimasbaguspm/providers/drawer-route-provider';
 import { ModalRouteProvider } from '@dimasbaguspm/providers/modal-route-provider';
 import { lazyLoad } from '@dimasbaguspm/utils/lazy-load';
@@ -7,6 +8,7 @@ import { ROUTES } from '../constants/page-routes';
 import SummaryLayout from '../pages/summary/page';
 
 import { AppLayout } from './app-layout';
+import { BottomSheetRoutes } from './bottom-sheet-routes';
 import { DrawerRoutes } from './drawer-routes';
 import { ModalRoutes } from './modal-routes';
 
@@ -15,11 +17,14 @@ const router = createBrowserRouter([
     element: (
       <DrawerRouteProvider>
         <ModalRouteProvider>
-          <AppLayout>
-            <Outlet />
-          </AppLayout>
-          <DrawerRoutes />
-          <ModalRoutes />
+          <BottomSheetRouteProvider>
+            <AppLayout>
+              <Outlet />
+            </AppLayout>
+            <DrawerRoutes />
+            <ModalRoutes />
+            <BottomSheetRoutes />
+          </BottomSheetRouteProvider>
         </ModalRouteProvider>
       </DrawerRouteProvider>
     ),
@@ -66,6 +71,10 @@ const router = createBrowserRouter([
             Component: lazyLoad(() => import('../pages/summary-timeline/page')),
           },
         ],
+      },
+      {
+        path: ROUTES.SETTINGS,
+        Component: lazyLoad(() => import('../pages/settings/page')),
       },
     ],
   },

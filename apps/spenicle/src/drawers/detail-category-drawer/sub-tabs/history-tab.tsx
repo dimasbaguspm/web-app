@@ -49,7 +49,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
           <SearchInput onChange={(ev) => setSearchValue(ev.target.value)} placeholder="Search name or notes" />
         </FormLayout.Column>
         <FormLayout.Column span={2} className="flex items-end justify-end">
-          <ButtonMenuIcon as={FilterIcon} variant="outline" aria-label="Filter" placement="bottom-end">
+          <ButtonMenuIcon as={FilterIcon} variant="outline" aria-label="Filter">
             <ButtonMenuIcon.Item>Sort by date</ButtonMenuIcon.Item>
             <ButtonMenuIcon.Item>Sort by amount</ButtonMenuIcon.Item>
           </ButtonMenuIcon>

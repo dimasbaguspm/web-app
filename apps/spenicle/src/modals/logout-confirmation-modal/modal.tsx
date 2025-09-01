@@ -1,25 +1,19 @@
-import { useApiSpenicleDeleteCategory } from '@dimasbaguspm/hooks/use-api';
+import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { Button, ButtonGroup, Modal } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-interface DeleteCategoryModalProps {
-  categoryId: number;
-}
-
-export const DeleteCategoryModal: FC<DeleteCategoryModalProps> = ({ categoryId }) => {
+export const LogoutConfirmationModal: FC = () => {
   const { closeModal } = useModalRoute();
   const { closeDrawer, isOpen: isDrawerOpen } = useDrawerRoute();
   const { closeBottomSheet, isOpen: isBottomSheetOpen } = useBottomSheetRoute();
 
-  const [deleteCategory, , { isPending }] = useApiSpenicleDeleteCategory();
+  const { logout } = useAuthProvider();
 
-  const handleDelete = async () => {
-    await deleteCategory({
-      id: categoryId,
-    });
+  const handleLogout = async () => {
+    await logout();
     closeModal();
 
     if (isDrawerOpen) closeDrawer();
@@ -28,15 +22,15 @@ export const DeleteCategoryModal: FC<DeleteCategoryModalProps> = ({ categoryId }
 
   return (
     <>
-      <Modal.Header>Delete Category</Modal.Header>
-      <Modal.Body>Are you sure you want to delete this category?</Modal.Body>
+      <Modal.Header>Logout Confirmation</Modal.Header>
+      <Modal.Body>Are you sure you want to logout?</Modal.Body>
       <Modal.Footer>
         <ButtonGroup>
-          <Button variant="ghost" onClick={closeModal} disabled={isPending}>
+          <Button variant="ghost" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleDelete} disabled={isPending}>
-            Delete
+          <Button variant="danger" onClick={handleLogout}>
+            Logout
           </Button>
         </ButtonGroup>
       </Modal.Footer>

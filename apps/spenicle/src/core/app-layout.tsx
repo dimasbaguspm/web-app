@@ -1,17 +1,33 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
+import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
+import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
-import { Avatar, BottomBar, Brand, Icon, LoadingIndicator, PageLayout, TopBar } from '@dimasbaguspm/versaur';
+import {
+  Avatar,
+  BottomBar,
+  Brand,
+  ButtonMenuIcon,
+  Icon,
+  LoadingIndicator,
+  PageLayout,
+  TopBar,
+} from '@dimasbaguspm/versaur';
+import { EllipsisIcon } from 'lucide-react';
 import { FC, PropsWithChildren, Suspense } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
+import { BOTTOM_SHEET_ROUTES } from '../constants/bottom-sheet-routes';
+import { MODAL_ROUTES } from '../constants/modal-routes';
 import { DEEP_LINKS } from '../constants/page-routes';
 
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   const { isMobile, isTablet, isDesktop } = useWindowResize();
 
   const { user } = useAuthProvider();
+  const { openModal } = useModalRoute();
+  const { openBottomSheet } = useBottomSheetRoute();
 
   const { toggleSwitchProfile } = useActiveAppProfile();
 
@@ -61,9 +77,14 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             </TopBar.Nav>
           </TopBar.Leading>
           <TopBar.Trailing>
-            <Avatar size="sm" onClick={toggleSwitchProfile}>
-              {nameToInitials(user.name)}
-            </Avatar>
+            <Avatar size="md">{nameToInitials(user.name)}</Avatar>
+            <ButtonMenuIcon variant="ghost" aria-label="Profile Menu" as={EllipsisIcon}>
+              <ButtonMenuIcon.Item onClick={toggleSwitchProfile}>Switch Profile</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleNavigation(DEEP_LINKS.SETTINGS.path)}>Settings</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={() => openModal(MODAL_ROUTES.LOGOUT_CONFIRMATION)}>
+                Logout
+              </ButtonMenuIcon.Item>
+            </ButtonMenuIcon>
           </TopBar.Trailing>
         </TopBar>
       )}
@@ -85,13 +106,16 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             return (
               <BottomBar.Item
                 key={link.path}
+                className="h-16"
                 icon={<Icon as={link.icon} size="md" color={isActiveLink ? 'primary' : 'inherit'} />}
-                label={link.title}
                 onClick={handleNavigation(link.path)}
                 active={isActiveLink}
               />
             );
           })}
+          <BottomBar.Item onClick={() => openBottomSheet(BOTTOM_SHEET_ROUTES.PROFILE)}>
+            <Avatar size="sm">{nameToInitials(user.name)}</Avatar>
+          </BottomBar.Item>
         </BottomBar>
       )}
     </div>

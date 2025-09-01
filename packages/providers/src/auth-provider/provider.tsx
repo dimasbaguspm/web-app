@@ -1,5 +1,6 @@
 import {
   useApiHiAppProfilesPaginatedQuery,
+  useApiHiAuthLogout,
   useApiHiAuthMeQuery,
   useApiHiAuthTokenRefresher,
   useApiHiGroupMembersPaginatedQuery,
@@ -12,6 +13,8 @@ import { AuthContext } from './context';
 
 const Provider: FC<PropsWithChildren> = ({ children }) => {
   const [data, , { isFetching }, refetchAuth] = useApiHiAuthMeQuery();
+
+  const [logout] = useApiHiAuthLogout();
 
   const [user, , { isFetching: isUserFetching }, refetchUser] = useApiHiUserQuery(data?.user?.id ?? 0, {
     enabled: !!data?.user?.id,
@@ -53,6 +56,9 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
   const groupMembers = userMembers?.items ?? [];
   const appProfiles = [...(userAppProfiles?.items ?? []), ...(userGroupAppProfiles?.items ?? [])];
 
+  const handleLogout = async () => {
+    await logout({});
+  };
   const refetch = async () => {
     await refetchAuth();
     await refetchUser();
@@ -74,6 +80,7 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
         appProfiles,
         activeProfile: data.tokenPayload.activeProfile,
         refetch,
+        logout: handleLogout,
       }}
     >
       {children}

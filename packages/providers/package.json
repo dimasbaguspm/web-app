@@ -5,6 +5,7 @@
     "./auth-provider": "./src/auth-provider/index.ts",
     "./drawer-route-provider": "./src/drawer-route-provider/index.ts",
     "./modal-route-provider": "./src/modal-route-provider/index.ts",
+    "./bottom-sheet-route-provider": "./src/bottom-sheet-route-provider/index.ts",
     "./active-app-profile-provider": "./src/active-app-profile-provider/index.ts",
     "./global-provider": "./src/global-provider/index.ts"
   },

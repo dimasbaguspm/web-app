@@ -80,6 +80,7 @@ export const useApiInfiniteQuery = <TData, TQuery, TError = { message: string }>
   } = options ?? {};
 
   const { clientId } = useGlobalProvider();
+  const isEnable = enabled && !!clientId;
 
   const query = useInfiniteQuery<TData | null, TError>({
     queryKey: queryKey.filter(Boolean),
@@ -136,7 +137,7 @@ export const useApiInfiniteQuery = <TData, TQuery, TError = { message: string }>
       return undefined;
     },
     initialPageParam: undefined,
-    enabled,
+    enabled: isEnable,
     retry,
     gcTime,
     // intentionally not passing initialData into useInfiniteQuery to avoid shape mismatch; returned value below preserves compatibility

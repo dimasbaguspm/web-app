@@ -18,10 +18,27 @@ export const useApiHiAuthMeQuery = () => {
   });
 };
 
+export const useApiHiAuthLogout = () => {
+  const queryClient = useQueryClient();
+
+  return useApiMutate({
+    base: 'HI',
+    path: HI_URL.AUTH.LOGOUT,
+    method: 'POST',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_AUTH_ME,
+        exact: false,
+      });
+    },
+  });
+};
+
 export const useApiHiAuthTokenRefresher = () => {
   const { clientId } = useGlobalProvider();
   return useQuery<boolean, unknown>({
     queryKey: QUERY_KEYS.HI_AUTH_TOKEN,
+    refetchOnWindowFocus: true,
     enabled: !!clientId,
     queryFn: async () => {
       try {
