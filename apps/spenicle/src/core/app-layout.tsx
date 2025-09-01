@@ -89,7 +89,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         </TopBar>
       )}
 
-      <main className="flex-grow-1 relative overflow-y-scroll">
+      <main className="flex-grow-1 relative overflow-y-scroll overscroll-container">
         <PageLayout type={isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}>
           <Suspense fallback={<LoadingIndicator type="bar" size="sm" />}>{children}</Suspense>
         </PageLayout>
