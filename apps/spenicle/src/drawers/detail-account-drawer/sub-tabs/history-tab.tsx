@@ -50,7 +50,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
         </FormLayout.Column>
         <FormLayout.Column span={2} className="flex items-end justify-end">
           <FormLayout.Column span={2} className="flex items-end justify-end">
-            <ButtonMenuIcon as={FilterIcon} variant="outline" aria-label="Filter">
+            <ButtonMenuIcon as={FilterIcon} variant="outline" aria-label="Filter" placement="bottom-end">
               <ButtonMenuIcon.Item>Sort by date</ButtonMenuIcon.Item>
               <ButtonMenuIcon.Item>Sort by amount</ButtonMenuIcon.Item>
             </ButtonMenuIcon>
