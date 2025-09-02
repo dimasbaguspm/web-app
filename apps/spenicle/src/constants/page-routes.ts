@@ -10,6 +10,7 @@ export const ROUTES = {
   SUMMARY_TIMELINE: 'timeline',
   SUMMARY_TRENDS: 'trends',
   SETTINGS: '/settings',
+  SETTINGS_SCHEDULED_PAYMENTS: '/settings/scheduled-payments',
 } as const;
 
 export const DEEP_LINKS = {
@@ -56,6 +57,11 @@ export const DEEP_LINKS = {
   SETTINGS: {
     path: '/settings',
     title: 'Settings',
+    icon: CogIcon,
+  },
+  SETTINGS_SCHEDULED_PAYMENTS: {
+    path: '/settings/scheduled-payments',
+    title: 'Scheduled Payments',
     icon: CogIcon,
   },
 } as const;
