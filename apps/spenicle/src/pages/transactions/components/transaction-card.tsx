@@ -3,7 +3,7 @@ import { formatSpenicleCategory, formatSpenicleTransaction } from '@dimasbaguspm
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { Avatar, Badge, BadgeGroup, Card, Text } from '@dimasbaguspm/versaur';
+import { Avatar, Badge, BadgeGroup, Card } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 interface TransactionCardProps {
@@ -22,16 +22,16 @@ export const TransactionCard: FC<TransactionCardProps> = ({ transaction, categor
       title={formatPrice(transaction.amount)}
       onClick={() => onClick(transaction)}
       avatar={<Avatar shape="rounded">{nameToInitials(account?.name ?? '')}</Avatar>}
-      subtitle={trimmedNotes}
-      supplementaryInfo={
-        <Text color="gray" fontSize="sm">
-          {formatDate(transaction.date, DateFormat.TIME_24H)}
-        </Text>
+      subtitle={
+        <Card.List>
+          <Card.ListItem>{capitalizedName}</Card.ListItem>
+          <Card.ListItem>{trimmedNotes}</Card.ListItem>
+        </Card.List>
       }
+      supplementaryInfo={formatDate(transaction.date, DateFormat.TIME_24H)}
       badge={
         <BadgeGroup>
           <Badge color={variant}>{capitalizedType}</Badge>
-          <Badge color="ghost">{capitalizedName}</Badge>
         </BadgeGroup>
       }
     />
