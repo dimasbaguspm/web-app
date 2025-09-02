@@ -24,7 +24,7 @@ export const TabsDate: FC<TabsDateProps> = ({ date, onDateChange }) => {
     <Tabs
       value={formatDate(date.toDate(), DateFormat.ISO_DATE)}
       onValueChange={handleTabChange}
-      className="justify-between"
+      className="justify-between overflow-x-hidden"
     >
       {dates.map((mappedDate) => {
         const isActive = date.isSame(mappedDate, 'day');
