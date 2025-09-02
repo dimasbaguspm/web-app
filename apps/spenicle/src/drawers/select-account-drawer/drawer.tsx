@@ -20,6 +20,8 @@ import { debounce } from 'lodash';
 import { SearchXIcon } from 'lucide-react';
 import { FC, useMemo, useState } from 'react';
 
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+
 interface SelectAccountDrawerProps {
   returnToDrawer: string;
   returnToDrawerId?: Record<string, string> | null;
@@ -117,7 +119,14 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
           <NoResults
             icon={SearchXIcon}
             title="No accounts found"
-            subtitle="Try adjusting your search criteria, or create a new account."
+            subtitle="Try adjusting your search criteria, or create a new account"
+            action={
+              <ButtonGroup>
+                <Button variant="outline" onClick={() => openDrawer(DRAWER_ROUTES.NEW_ACCOUNT)}>
+                  Create Account
+                </Button>
+              </ButtonGroup>
+            }
           />
         </If>
       </Drawer.Body>

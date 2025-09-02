@@ -108,7 +108,12 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                   control={control}
                   name="date"
                   rules={{
-                    required: 'Date is required',
+                    validate: (value) => {
+                      if (!value) {
+                        return 'Date is required';
+                      }
+                      return true;
+                    },
                   }}
                   render={({ field, fieldState }) => (
                     <DateSinglePickerInput label="Date" {...field} error={fieldState.error?.message} />
@@ -281,7 +286,12 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                   control={control}
                   name="categoryId"
                   rules={{
-                    required: 'Category is required',
+                    validate: (value) => {
+                      if (!value) {
+                        return 'Category is required';
+                      }
+                      return true;
+                    },
                   }}
                   render={({ field, fieldState }) => (
                     <>
@@ -299,7 +309,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                 />
               </FormLayout.Column>
               <FormLayout.Column span={12}>
-                <TextAreaInput label="Notes" fieldSizing="content" minRows={4} rows={6} {...register('notes')} />
+                <TextAreaInput label="Notes" fieldSizing="fixed" minRows={4} maxRows={4} {...register('notes')} />
               </FormLayout.Column>
             </FormLayout>
           </form>

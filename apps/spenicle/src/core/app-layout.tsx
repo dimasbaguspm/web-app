@@ -12,6 +12,7 @@ import {
   Icon,
   LoadingIndicator,
   PageLayout,
+  Text,
   TopBar,
 } from '@dimasbaguspm/versaur';
 import {
@@ -101,6 +102,10 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
                 <Icon as={LogOutIcon} size="sm" color="danger" />
                 Logout
               </ButtonMenuIcon.Item>
+              <Hr />
+              <Text className="text-xs" color="gray" align="center">
+                {__APP_VERSION__}
+              </Text>
             </ButtonMenuIcon>
           </TopBar.Trailing>
         </TopBar>

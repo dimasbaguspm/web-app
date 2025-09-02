@@ -131,12 +131,11 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                   <PriceInput
                     label="Amount"
                     {...field}
-                    // PriceInput likely expects a string value — provide a string representation
                     value={field.value == null ? '' : String(field.value)}
                     // normalize any incoming/formatted value to a number before updating the form state
                     onChange={(val) => {
                       // remove any non-numeric characters (except dot and minus) then parse
-                      const cleaned = String(val).replace(/[^0-9.-]+/g, '');
+                      const cleaned = String(val).replace(/[^0-9-]+/g, '');
                       const parsed = cleaned === '' ? 0 : parseFloat(cleaned);
                       field.onChange(Number.isNaN(parsed) ? 0 : parsed);
                     }}
@@ -249,7 +248,12 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                 control={control}
                 name="categoryId"
                 rules={{
-                  required: 'Category is required',
+                  validate: (value) => {
+                    if (!value) {
+                      return 'Category is required';
+                    }
+                    return true;
+                  },
                 }}
                 render={({ field, fieldState }) => (
                   <>
@@ -273,9 +277,9 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                 render={({ field, fieldState }) => (
                   <TextAreaInput
                     label="Notes"
-                    fieldSizing="content"
+                    fieldSizing="fixed"
                     minRows={4}
-                    rows={6}
+                    maxRows={4}
                     error={fieldState.error?.message}
                     helperText={
                       <>

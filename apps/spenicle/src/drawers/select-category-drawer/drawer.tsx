@@ -20,6 +20,8 @@ import { debounce } from 'lodash';
 import { SearchXIcon } from 'lucide-react';
 import { FC, useMemo, useState } from 'react';
 
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+
 interface SelectCategoryDrawerProps {
   returnToDrawer: string;
   returnToDrawerId?: Record<string, string> | null;
@@ -121,6 +123,13 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
             icon={SearchXIcon}
             title="No categories found"
             subtitle="Try adjusting your search criteria, or create a new category."
+            action={
+              <ButtonGroup>
+                <Button variant="outline" onClick={() => openDrawer(DRAWER_ROUTES.NEW_CATEGORY)}>
+                  Create Category
+                </Button>
+              </ButtonGroup>
+            }
           />
         </If>
       </Drawer.Body>

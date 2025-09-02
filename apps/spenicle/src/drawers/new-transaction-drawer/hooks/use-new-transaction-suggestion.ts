@@ -23,9 +23,12 @@ export const useNewTransactionSuggestion = (payload: NewTransactionFormSchema) =
   };
 
   const fetchSuggestions = async () => {
+    const minAmount = payload?.amount ? payload?.amount - 10000 : 0;
+    const maxAmount = payload?.amount ? payload?.amount + 10000 : 0;
+
     const response = await mutateAsync({
       type: [payload?.type],
-      amount: payload?.amount ? [payload?.amount - 10000, payload?.amount + 10000] : undefined,
+      amount: payload?.amount ? [minAmount > 0 ? minAmount : 0, maxAmount] : undefined,
       search: payload?.notes ? payload?.notes : undefined,
       categoryId: payload?.categoryId ? [payload?.categoryId] : undefined,
       accountId:
