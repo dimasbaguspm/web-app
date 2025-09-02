@@ -4,7 +4,7 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { Avatar, Card, NoResults, Text } from '@dimasbaguspm/versaur';
+import { Accordion, Avatar, Card, Hr, NoResults } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -46,30 +46,25 @@ export const TopTenExpenseAccounts: FC<TopTenExpenseAccountsProps> = ({ data }) 
   };
 
   return (
-    <div className="flex flex-col gap-1">
-      <Text fontWeight="semibold" fontSize="lg" className="mb-4">
-        Top Expense Accounts
-      </Text>
+    <Accordion title={<Accordion.Title>Top Expense Accounts ({organizedData.length})</Accordion.Title>}>
       <If condition={organizedData.length}>
         <ul className="flex flex-col ml-6 list-decimal">
-          {organizedData.map((item) => {
+          {organizedData.map((item, index) => {
             const { initialName, name } = formatSpenicleAccount(item.account);
+            const isLastItem = index === organizedData.length - 1;
             return (
-              <li key={item.accountId} className="border-b border-border">
+              <li key={item.accountId}>
                 <Card
                   onClick={() => handleOnAccountClick(item.account?.id ?? 0)}
                   title={name}
                   subtitle={
-                    <Text fontWeight="normal" color="gray" fontSize="sm" className="flex-grow" align="right">
-                      {formatPrice(item.expense)}
-                    </Text>
+                    <Card.List>
+                      <Card.ListItem>{formatPrice(item.expense)}</Card.ListItem>
+                    </Card.List>
                   }
-                  avatar={
-                    <Avatar shape="rounded" size="lg">
-                      {initialName}
-                    </Avatar>
-                  }
+                  avatar={<Avatar shape="rounded">{initialName}</Avatar>}
                 />
+                {!isLastItem && <Hr />}
               </li>
             );
           })}
@@ -78,6 +73,6 @@ export const TopTenExpenseAccounts: FC<TopTenExpenseAccountsProps> = ({ data }) 
       <If condition={organizedData.length === 0}>
         <NoResults icon={SearchXIcon} title="No accounts found" />
       </If>
-    </div>
+    </Accordion>
   );
 };

@@ -92,10 +92,10 @@ const SummaryPage = () => {
           summaryIncomeAccounts,
         ]}
       >
-        <div className="space-y-16">
+        <div className="space-y-6">
           <OverviewChart data={summaryTotal!} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-16">
+          <div>
             <TopTenExpenseCategories data={summaryExpenseCategories!} />
             <TopTenIncomeCategories data={summaryIncomeCategories!} />
             <TopTenExpenseAccounts data={summaryExpenseAccounts!} />

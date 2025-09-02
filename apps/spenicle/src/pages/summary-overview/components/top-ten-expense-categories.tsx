@@ -4,7 +4,7 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { Avatar, Card, NoResults, Text } from '@dimasbaguspm/versaur';
+import { Accordion, Avatar, Card, Hr, NoResults } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -47,37 +47,34 @@ export const TopTenExpenseCategories: FC<TopTenExpenseCategoriesProps> = ({ data
 
   return (
     <div className="flex flex-col gap-1">
-      <Text fontWeight="semibold" fontSize="lg" className="mb-4">
-        Top Expense Categories
-      </Text>
-      <If condition={organizedData.length}>
-        <ul className="flex flex-col ml-6 list-decimal">
-          {organizedData.map((item) => {
-            const { initialName, name } = formatSpenicleCategory(item.category);
-            return (
-              <li key={item.categoryId} className="border-b border-border">
-                <Card
-                  onClick={() => handleOnCategoryClick(item.category?.id ?? 0)}
-                  title={name}
-                  subtitle={
-                    <Text fontWeight="normal" color="gray" fontSize="sm" className="flex-grow" align="right">
-                      {formatPrice(item.expense)}
-                    </Text>
-                  }
-                  avatar={
-                    <Avatar shape="rounded" size="lg">
-                      {initialName}
-                    </Avatar>
-                  }
-                />
-              </li>
-            );
-          })}
-        </ul>
-      </If>
-      <If condition={organizedData.length === 0}>
-        <NoResults icon={SearchXIcon} title="No categories found" />
-      </If>
+      <Accordion title={<Accordion.Title>Top Expense Categories ({organizedData.length})</Accordion.Title>}>
+        <If condition={organizedData.length}>
+          <ul className="flex flex-col ml-5 list-decimal">
+            {organizedData.map((item, index) => {
+              const { initialName, name } = formatSpenicleCategory(item.category);
+              const isLastItem = index === organizedData.length - 1;
+              return (
+                <li key={item.categoryId}>
+                  <Card
+                    onClick={() => handleOnCategoryClick(item.category?.id ?? 0)}
+                    title={name}
+                    subtitle={
+                      <Card.List>
+                        <Card.ListItem>{formatPrice(item.expense)}</Card.ListItem>
+                      </Card.List>
+                    }
+                    avatar={<Avatar shape="rounded">{initialName}</Avatar>}
+                  />
+                  {!isLastItem && <Hr />}
+                </li>
+              );
+            })}
+          </ul>
+        </If>
+        <If condition={organizedData.length === 0}>
+          <NoResults icon={SearchXIcon} title="No categories found" />
+        </If>
+      </Accordion>
     </div>
   );
 };
