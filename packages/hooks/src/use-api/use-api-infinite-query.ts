@@ -46,7 +46,9 @@ type InfiniteQueryState = Pick<
   | 'hasNextPage'
   | 'isFetchingNextPage'
   | 'isFetchNextPageError'
->;
+> & {
+  isInitialFetching: boolean;
+};
 
 type InfiniteQueryFuncs<TData, TError> = Pick<
   InfiniteQueryObserverBaseResult<TData, TError>,
@@ -167,6 +169,7 @@ export const useApiInfiniteQuery = <TData, TQuery, TError = { message: string }>
     hasNextPage: query.hasNextPage,
     isFetchingNextPage: query.isFetchingNextPage,
     isFetchNextPageError: query.isFetchNextPageError,
+    isInitialFetching: !query.isFetchingNextPage && query.isFetching,
   };
 
   const funcs: InfiniteQueryFuncs<InfiniteData<TData | null>, TError> = {

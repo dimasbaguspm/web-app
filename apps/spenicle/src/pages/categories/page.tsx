@@ -1,4 +1,4 @@
-import { useApiSpenicleCategoriesPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleCategoriesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { CategoryModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
@@ -12,7 +12,7 @@ import {
   PageContent,
   PageHeader,
 } from '@dimasbaguspm/versaur';
-import { PlusIcon } from 'lucide-react';
+import { PlusIcon, SearchXIcon } from 'lucide-react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
@@ -26,11 +26,12 @@ const CategoriesPage = () => {
 
   const { appliedFilters } = useCategoryFilter();
 
-  const [categories, , { isLoading }] = useApiSpenicleCategoriesPaginatedQuery({
-    pageSize: 15,
-    search: appliedFilters.q,
-    type: appliedFilters.type,
-  });
+  const [categories, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
+    useApiSpenicleCategoriesInfiniteQuery({
+      pageSize: 15,
+      search: appliedFilters.q,
+      type: appliedFilters.type,
+    });
 
   const handleOpenDrawer = () => {
     openDrawer(DRAWER_ROUTES.NEW_CATEGORY);
@@ -60,34 +61,40 @@ const CategoriesPage = () => {
         }
       />
       <PageContent>
-        <If condition={isLoading}>
+        <If condition={isInitialFetching}>
           <LoadingIndicator type="bar" size="sm" />
         </If>
 
-        <If condition={[categories, categories?.items]}>
+        <If condition={[categories]}>
           <ActionsControl />
-
           <FilterControl />
 
           <div className="space-y-4">
-            <ul className="grid grid-cols-1">
-              {categories?.items.map((category) => (
+            <ul className="grid grid-cols-1 mb-4">
+              {categories?.map((category) => (
                 <li key={category.id} className="border-b border-border">
                   <CategoryCard category={category} onClick={handleCategoryClick} />
                 </li>
               ))}
             </ul>
+            <If condition={hasNextPage}>
+              <ButtonGroup alignment="center">
+                <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                  Load More
+                </Button>
+              </ButtonGroup>
+            </If>
           </div>
         </If>
 
-        <If condition={[!isLoading, categories?.items.length === 0]}>
+        <If condition={[!isInitialFetching, categories.length === 0]}>
           <NoResults
-            icon={PlusIcon}
+            icon={SearchXIcon}
             title="No categories yet"
             subtitle="Create your first category to start organizing your content"
             action={
               <ButtonGroup>
-                <Button onClick={handleOpenDrawer}>
+                <Button onClick={handleOpenDrawer} variant="outline">
                   <Icon as={PlusIcon} color="inherit" />
                   Create Category
                 </Button>
