@@ -76,7 +76,6 @@ export const useApiHiAuthTokenRefresher = () => {
 
         return false;
       }
-      return false;
     },
   });
 };
@@ -88,6 +87,13 @@ export const useApiHiAuthSetActiveProfile = () => {
     path: HI_URL.AUTH.SET_ACTIVE_PROFILE,
     method: 'POST',
     onSuccess: () => {
+      // remove the things after switch profile except auth
+      queryClient.removeQueries({
+        predicate: (query) => {
+          return query.queryKey[1] !== 'auth';
+        },
+      });
+
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.HI_AUTH_ME,
         exact: false,

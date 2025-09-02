@@ -7,6 +7,7 @@ import { DeleteAccountModal } from '../modals/delete-account-modal/modal';
 import { DeleteCategoryModal } from '../modals/delete-category-modal/modal';
 import { DeleteTransactionModal } from '../modals/delete-transaction-modal/modal';
 import { LogoutConfirmationModal } from '../modals/logout-confirmation-modal/modal';
+import { ProfileSwitcherModal } from '../modals/profile-switcher-modal/modal';
 
 interface ModalParams {
   appId?: string;
@@ -32,6 +33,7 @@ export const ModalRoutes: FC = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={closeModal} size={'lg'}>
+      {is(MODAL_ROUTES.PROFILE_SWITCHER) && <ProfileSwitcherModal />}
       {is(MODAL_ROUTES.DELETE_TRANSACTION) && hasParam('transactionId') && (
         <DeleteTransactionModal transactionId={params.transactionId!} />
       )}

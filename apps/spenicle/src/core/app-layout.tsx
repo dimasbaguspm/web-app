@@ -1,5 +1,4 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
@@ -36,8 +35,6 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   const { user } = useAuthProvider();
   const { openModal } = useModalRoute();
   const { openBottomSheet } = useBottomSheetRoute();
-
-  const { toggleSwitchProfile } = useActiveAppProfile();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -87,7 +84,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
           <TopBar.Trailing>
             <Avatar size="md">{nameToInitials(user.name)}</Avatar>
             <ButtonMenuIcon variant="ghost" aria-label="Profile Menu" as={EllipsisIcon}>
-              <ButtonMenuIcon.Item onClick={toggleSwitchProfile}>
+              <ButtonMenuIcon.Item onClick={() => openModal(MODAL_ROUTES.PROFILE_SWITCHER)}>
                 <Icon as={ChevronsLeftRightEllipsisIcon} size="sm" color="inherit" />
                 Switch Profile
               </ButtonMenuIcon.Item>
