@@ -21,7 +21,7 @@ export const CategoryGroupCard: FC<CategoryGroupCardProps> = ({ categoryGroup, c
   };
 
   const handleManageMembers = () => {
-    openDrawer(DRAWER_ROUTES.MANAGE_CATEGORY_GROUP_MEMBERS, { categoryGroupId: categoryGroup.id });
+    //
   };
 
   const handleDelete = () => {
