@@ -7,12 +7,29 @@ export type UpdateAccountModel = operations['patchAccountById']['requestBody']['
   operations['patchAccountById']['parameters']['path'];
 export type AccountModel = operations['getAccountById']['responses']['200']['content']['application/json'];
 
+export type SearchAccountGroupsModel = operations['getAccount-group']['parameters']['query'];
+export type AccountGroupsPageModel = operations['getAccount-group']['responses']['200']['content']['application/json'];
+export type CreateAccountGroupModel = operations['postAccount-group']['requestBody']['content']['application/json'];
+export type UpdateAccountGroupModel =
+  operations['patchAccount-groupById']['requestBody']['content']['application/json'] &
+    operations['patchAccount-groupById']['parameters']['path'];
+export type AccountGroupModel = operations['getAccount-groupById']['responses']['200']['content']['application/json'];
+
 export type SearchCategoriesModel = operations['getCategory']['parameters']['query'];
 export type CategoriesPageModel = operations['getCategory']['responses']['200']['content']['application/json'];
 export type CreateCategoryModel = operations['postCategory']['requestBody']['content']['application/json'];
 export type UpdateCategoryModel = operations['patchCategoryById']['requestBody']['content']['application/json'] &
   operations['patchCategoryById']['parameters']['path'];
 export type CategoryModel = operations['getCategoryById']['responses']['200']['content']['application/json'];
+
+export type SearchCategoryGroupsModel = operations['getCategory-group']['parameters']['query'];
+export type CategoryGroupsPageModel =
+  operations['getCategory-group']['responses']['200']['content']['application/json'];
+export type CreateCategoryGroupModel = operations['postCategory-group']['requestBody']['content']['application/json'];
+export type UpdateCategoryGroupModel =
+  operations['patchCategory-groupById']['requestBody']['content']['application/json'] &
+    operations['patchCategory-groupById']['parameters']['path'];
+export type CategoryGroupModel = operations['getCategory-groupById']['responses']['200']['content']['application/json'];
 
 export type SearchTransactionsModel = operations['getTransaction']['parameters']['query'];
 export type TransactionsPageModel = operations['getTransaction']['responses']['200']['content']['application/json'];

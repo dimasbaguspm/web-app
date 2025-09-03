@@ -66,6 +66,22 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  SPENICLE_ACCOUNT_GROUPS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_ACCOUNT_GROUPS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_ACCOUNT_GROUPS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_ACCOUNT_GROUPS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_ACCOUNT_GROUPS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_ACCOUNT_GROUPS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
   SPENICLE_CATEGORY_INFINITE: (params: object = {}) => [
     ...BASE_QUERY_KEYS.SPENICLE_CATEGORIES,
     'infinite',
@@ -78,6 +94,22 @@ export const QUERY_KEYS = {
   ],
   SPENICLE_CATEGORY_BY_ID: (id: number, params: object = {}) => [
     ...BASE_QUERY_KEYS.SPENICLE_CATEGORIES,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_CATEGORY_GROUPS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_CATEGORY_GROUPS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_CATEGORY_GROUPS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_CATEGORY_GROUPS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_CATEGORY_GROUPS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_CATEGORY_GROUPS,
     'by-id',
     id,
     JSON.stringify(params ?? {}),

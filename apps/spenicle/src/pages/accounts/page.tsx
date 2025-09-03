@@ -23,13 +23,14 @@ import { useAccountFilter } from './hooks/use-account-filter';
 
 const AccountsPage = () => {
   const { openDrawer } = useDrawerRoute();
-  const { appliedFilters } = useAccountFilter();
+  const { appliedFilters, getParsedSorterFilters } = useAccountFilter();
 
   const [accounts, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
     useApiSpenicleAccountsInfiniteQuery({
       pageSize: 15,
       search: appliedFilters.q,
       type: appliedFilters.type,
+      ...getParsedSorterFilters(),
     });
 
   const handleOpenDrawer = () => {

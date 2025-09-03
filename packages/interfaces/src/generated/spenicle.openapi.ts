@@ -68,6 +68,38 @@ export interface paths {
     patch: operations['patchAccountById'];
     trace?: never;
   };
+  '/account-group/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getAccount-group'];
+    put?: never;
+    post: operations['postAccount-group'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/account-group/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getAccount-groupById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteAccount-groupById'];
+    options?: never;
+    head?: never;
+    patch: operations['patchAccount-groupById'];
+    trace?: never;
+  };
   '/category/': {
     parameters: {
       query?: never;
@@ -98,6 +130,38 @@ export interface paths {
     options?: never;
     head?: never;
     patch: operations['patchCategoryById'];
+    trace?: never;
+  };
+  '/category-group/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getCategory-group'];
+    put?: never;
+    post: operations['postCategory-group'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/category-group/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getCategory-groupById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteCategory-groupById'];
+    options?: never;
+    head?: never;
+    patch: operations['patchCategory-groupById'];
     trace?: never;
   };
   '/transaction/': {
@@ -266,9 +330,10 @@ export interface operations {
         search?: string;
         userId?: number[];
         groupId?: number[];
+        accountGroupId?: number[];
         pageNumber?: number;
         pageSize?: number;
-        sortBy?: 'created_at' | 'updated_at';
+        sortBy?: 'created_at' | 'updated_at' | 'amount' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
       header?: never;
@@ -288,6 +353,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
+              accountGroupId: number | null;
               name: string;
               type: 'expense' | 'income';
               note: string | null;
@@ -309,6 +375,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
+              accountGroupId: number | null;
               name: string;
               type: 'expense' | 'income';
               note: string | null;
@@ -330,6 +397,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
+              accountGroupId: number | null;
               name: string;
               type: 'expense' | 'income';
               note: string | null;
@@ -363,6 +431,7 @@ export interface operations {
           type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
+          accountGroupId?: number | null;
           metadata?: unknown;
         };
         'multipart/form-data': {
@@ -370,6 +439,7 @@ export interface operations {
           type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
+          accountGroupId?: number | null;
           metadata?: unknown;
         };
         'text/plain': {
@@ -377,6 +447,7 @@ export interface operations {
           type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
+          accountGroupId?: number | null;
           metadata?: unknown;
         };
       };
@@ -392,6 +463,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -407,6 +479,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -422,6 +495,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -457,6 +531,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -472,6 +547,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -487,6 +563,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -535,21 +612,24 @@ export interface operations {
           name?: string;
           type?: 'expense' | 'income';
           note?: string | null;
-          amount: string | number;
+          amount?: string | number;
+          accountGroupId?: number | null;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name?: string;
           type?: 'expense' | 'income';
           note?: string | null;
-          amount: string | number;
+          amount?: string | number;
+          accountGroupId?: number | null;
           metadata?: unknown;
         };
         'text/plain': {
           name?: string;
           type?: 'expense' | 'income';
           note?: string | null;
-          amount: string | number;
+          amount?: string | number;
+          accountGroupId?: number | null;
           metadata?: unknown;
         };
       };
@@ -565,6 +645,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -580,6 +661,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -595,11 +677,264 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            accountGroupId: number | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
             amount: string | number;
             metadata?: unknown;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getAccount-group': {
+    parameters: {
+      query?: {
+        id?: number[];
+        search?: string;
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'name';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postAccount-group': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name: string;
+        };
+        'multipart/form-data': {
+          name: string;
+        };
+        'text/plain': {
+          name: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getAccount-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteAccount-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'patchAccount-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name?: string;
+        };
+        'multipart/form-data': {
+          name?: string;
+        };
+        'text/plain': {
+          name?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -619,7 +954,8 @@ export interface operations {
         pageSize?: number;
         userId?: number[];
         groupId?: number[];
-        sortBy?: 'created_at' | 'updated_at';
+        categoryGroupId?: number[];
+        sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
       header?: never;
@@ -642,6 +978,7 @@ export interface operations {
               note: string | null;
               userId: number;
               groupId: number | null;
+              categoryGroupId: number | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -662,6 +999,7 @@ export interface operations {
               note: string | null;
               userId: number;
               groupId: number | null;
+              categoryGroupId: number | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -682,6 +1020,7 @@ export interface operations {
               note: string | null;
               userId: number;
               groupId: number | null;
+              categoryGroupId: number | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -710,18 +1049,21 @@ export interface operations {
           name: string;
           type: 'expense' | 'income' | 'transfer';
           note: string | null;
+          categoryGroupId?: number | null;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name: string;
           type: 'expense' | 'income' | 'transfer';
           note: string | null;
+          categoryGroupId?: number | null;
           metadata?: unknown;
         };
         'text/plain': {
           name: string;
           type: 'expense' | 'income' | 'transfer';
           note: string | null;
+          categoryGroupId?: number | null;
           metadata?: unknown;
         };
       };
@@ -740,6 +1082,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -754,6 +1097,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -768,6 +1112,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -802,6 +1147,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -816,6 +1162,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -830,6 +1177,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -874,18 +1222,21 @@ export interface operations {
           name?: string;
           type?: 'expense' | 'income' | 'transfer';
           note?: string | null;
+          categoryGroupId?: number | null;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name?: string;
           type?: 'expense' | 'income' | 'transfer';
           note?: string | null;
+          categoryGroupId?: number | null;
           metadata?: unknown;
         };
         'text/plain': {
           name?: string;
           type?: 'expense' | 'income' | 'transfer';
           note?: string | null;
+          categoryGroupId?: number | null;
           metadata?: unknown;
         };
       };
@@ -904,6 +1255,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -918,6 +1270,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -932,7 +1285,260 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
+            categoryGroupId: number | null;
             metadata?: unknown;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getCategory-group': {
+    parameters: {
+      query?: {
+        id?: number[];
+        search?: string;
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'name';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postCategory-group': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name: string;
+        };
+        'multipart/form-data': {
+          name: string;
+        };
+        'text/plain': {
+          name: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getCategory-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteCategory-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'patchCategory-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name?: string;
+        };
+        'multipart/form-data': {
+          name?: string;
+        };
+        'text/plain': {
+          name?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -957,7 +1563,7 @@ export interface operations {
         search?: string;
         pageNumber?: number;
         pageSize?: number;
-        sortBy?: 'created_at' | 'updated_at' | 'date';
+        sortBy?: 'created_at' | 'updated_at' | 'date' | 'amount';
         sortOrder?: 'asc' | 'desc';
       };
       header?: never;

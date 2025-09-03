@@ -90,10 +90,39 @@ export const useAccountFilter = () => {
     setSearchParams(searchParams, { replace: true });
   };
 
+  const getParsedSorterFilters = (): Partial<NonNullable<SearchAccountsModel>> => {
+    const sortBy = searchParams.get('sortBy');
+    if (!sortBy) return {};
+
+    let parsedSortBy: NonNullable<SearchAccountsModel>['sortBy'] | undefined;
+    let parsedSortOrder: NonNullable<SearchAccountsModel>['sortOrder'] | undefined;
+
+    switch (sortBy) {
+      case 'name-asc':
+        parsedSortBy = 'name';
+        parsedSortOrder = 'asc';
+        break;
+      case 'amount-asc':
+        parsedSortBy = 'amount';
+        parsedSortOrder = 'asc';
+        break;
+      case 'amount-desc':
+        parsedSortBy = 'amount';
+        parsedSortOrder = 'desc';
+        break;
+    }
+
+    return {
+      sortBy: parsedSortBy,
+      sortOrder: parsedSortOrder,
+    };
+  };
+
   return {
     appliedFilters,
     humanizedFilters,
     getFilterValue,
+    getParsedSorterFilters,
     addFilter,
     setFilters,
     removeFilter,
