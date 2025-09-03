@@ -5,18 +5,24 @@ import { Drawer } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
+import { AddAccountGroupMemberDrawer } from '../drawers/add-account-group-member-drawer/drawer';
 import { DetailAccountDrawer } from '../drawers/detail-account-drawer/drawer';
+import { DetailAccountGroupDrawer } from '../drawers/detail-account-group-drawer/drawer';
 import { DetailCategoryDrawer } from '../drawers/detail-category-drawer/drawer';
 import { DetailTransactionDrawer } from '../drawers/detail-transaction-drawer/drawer';
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
+import { EditAccountGroupDrawer } from '../drawers/edit-account-group-drawer/drawer';
 import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
+import { EditCategoryGroupDrawer } from '../drawers/edit-category-group-drawer/drawer';
 import { EditTransactionDrawer } from '../drawers/edit-transaction-drawer/drawer';
 import { FilterAccountDrawer } from '../drawers/filter-account-drawer/drawer';
 import { FilterCategoryDrawer } from '../drawers/filter-category-drawer/drawer';
 import { FilterSummaryDrawer } from '../drawers/filter-summary-drawer/drawer';
 import { FilterTransactionDrawer } from '../drawers/filter-transaction-drawer/drawer';
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
+import { NewAccountGroupDrawer } from '../drawers/new-account-group-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
+import { NewCategoryGroupDrawer } from '../drawers/new-category-group-drawer/drawer';
 import { NewTransactionDrawer } from '../drawers/new-transaction-drawer/drawer';
 import { SelectAccountDrawer } from '../drawers/select-account-drawer/drawer';
 import { SelectCategoryDrawer } from '../drawers/select-category-drawer/drawer';
@@ -28,6 +34,8 @@ interface DrawerParams {
   accountId?: number;
   categoryId?: number;
   transactionId?: number;
+  accountGroupId?: number;
+  categoryGroupId?: number;
   payloadId?: string;
   tabId?: string;
 }
@@ -126,6 +134,21 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.FILTER_SUMMARY) && <FilterSummaryDrawer payload={state?.payload} />}
       {is(DRAWER_ROUTES.FILTER_CATEGORY) && <FilterCategoryDrawer />}
       {is(DRAWER_ROUTES.FILTER_ACCOUNT) && <FilterAccountDrawer />}
+      {is(DRAWER_ROUTES.NEW_ACCOUNT_GROUP) && <NewAccountGroupDrawer />}
+      {is(DRAWER_ROUTES.DETAIL_ACCOUNT_GROUP) && hasParam('accountGroupId') && (
+        <DetailAccountGroupDrawer accountGroupId={params.accountGroupId!} />
+      )}
+      {is(DRAWER_ROUTES.EDIT_ACCOUNT_GROUP) && hasParam('accountGroupId') && (
+        <EditAccountGroupDrawer accountGroupId={params.accountGroupId!} />
+      )}
+      {is(DRAWER_ROUTES.ADD_ACCOUNT_GROUP_MEMBERS) && hasParam('accountGroupId') && (
+        <AddAccountGroupMemberDrawer accountGroupId={params.accountGroupId!} />
+      )}
+
+      {is(DRAWER_ROUTES.NEW_CATEGORY_GROUP) && <NewCategoryGroupDrawer />}
+      {is(DRAWER_ROUTES.EDIT_CATEGORY_GROUP) && hasParam('categoryGroupId') && (
+        <EditCategoryGroupDrawer categoryGroupId={params.categoryGroupId!} />
+      )}
     </Drawer>
   );
 };

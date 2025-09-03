@@ -3,6 +3,7 @@ import { Modal } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { MODAL_ROUTES } from '../constants/modal-routes';
+import { DeleteAccountGroupModal } from '../modals/delete-account-group-modal/modal';
 import { DeleteAccountModal } from '../modals/delete-account-modal/modal';
 import { DeleteCategoryModal } from '../modals/delete-category-modal/modal';
 import { DeleteTransactionModal } from '../modals/delete-transaction-modal/modal';
@@ -12,7 +13,9 @@ import { ProfileSwitcherModal } from '../modals/profile-switcher-modal/modal';
 interface ModalParams {
   appId?: string;
   accountId?: number;
+  accountGroupId?: number;
   categoryId?: number;
+  categoryGroupId?: number;
   transactionId?: number;
   payloadId?: string;
   tabId?: string;
@@ -35,6 +38,7 @@ export const ModalRoutes: FC = () => {
   return (
     <Modal isOpen={isOpen} onClose={closeModal} size={'lg'}>
       {is(MODAL_ROUTES.PROFILE_SWITCHER) && <ProfileSwitcherModal />}
+      {is(MODAL_ROUTES.LOGOUT_CONFIRMATION) && <LogoutConfirmationModal />}
       {is(MODAL_ROUTES.DELETE_TRANSACTION) && hasParam('transactionId') && (
         <DeleteTransactionModal transactionId={params.transactionId!} />
       )}
@@ -42,7 +46,9 @@ export const ModalRoutes: FC = () => {
       {is(MODAL_ROUTES.DELETE_CATEGORY) && hasParam('categoryId') && (
         <DeleteCategoryModal categoryId={params.categoryId!} />
       )}
-      {is(MODAL_ROUTES.LOGOUT_CONFIRMATION) && <LogoutConfirmationModal />}
+      {is(MODAL_ROUTES.DELETE_ACCOUNT_GROUP) && hasParam('accountGroupId') && (
+        <DeleteAccountGroupModal accountGroupId={params.accountGroupId!} />
+      )}
     </Modal>
   );
 };

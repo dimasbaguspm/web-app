@@ -1,4 +1,13 @@
-import { FileText, CreditCard, Tag, PieChart, ChartBarBigIcon, ChartNoAxesCombinedIcon, CogIcon } from 'lucide-react';
+import {
+  FileText,
+  PieChart,
+  ChartBarBigIcon,
+  ChartNoAxesCombinedIcon,
+  CogIcon,
+  RefreshCwIcon,
+  TagsIcon,
+  CreditCardIcon,
+} from 'lucide-react';
 
 export const ROUTES = {
   TRANSACTIONS: '/',
@@ -10,6 +19,8 @@ export const ROUTES = {
   SUMMARY_TIMELINE: 'timeline',
   SUMMARY_TRENDS: 'trends',
   SETTINGS: '/settings',
+  SETTINGS_ACCOUNT_GROUPS: '/settings/account-groups',
+  SETTINGS_CATEGORY_GROUPS: '/settings/category-groups',
   SETTINGS_SCHEDULED_PAYMENTS: '/settings/scheduled-payments',
 } as const;
 
@@ -32,12 +43,12 @@ export const DEEP_LINKS = {
   ACCOUNTS: {
     path: '/accounts',
     title: 'Accounts',
-    icon: CreditCard,
+    icon: CreditCardIcon,
   },
   CATEGORIES: {
     path: '/categories',
     title: 'Categories',
-    icon: Tag,
+    icon: TagsIcon,
   },
   SUMMARY: {
     path: '/summary',
@@ -59,10 +70,20 @@ export const DEEP_LINKS = {
     title: 'Settings',
     icon: CogIcon,
   },
+  SETTINGS_ACCOUNT_GROUPS: {
+    path: '/settings/account-groups',
+    title: 'Account Groups',
+    icon: CreditCardIcon,
+  },
+  SETTINGS_CATEGORY_GROUPS: {
+    path: '/settings/category-groups',
+    title: 'Category Groups',
+    icon: TagsIcon,
+  },
   SETTINGS_SCHEDULED_PAYMENTS: {
     path: '/settings/scheduled-payments',
     title: 'Scheduled Payments',
-    icon: CogIcon,
+    icon: RefreshCwIcon,
   },
 } as const;
 

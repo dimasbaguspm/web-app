@@ -78,17 +78,19 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.SETTINGS,
-        Component: lazyLoad(() => import('../pages/settings/page')),
-        children: [
-          {
-            index: true,
-            Component: lazyLoad(() => import('../pages/settings-preferences/page')),
-          },
-          {
-            path: ROUTES.SETTINGS_SCHEDULED_PAYMENTS,
-            Component: lazyLoad(() => import('../pages/settings-scheduled-payments/page')),
-          },
-        ],
+        Component: lazyLoad(() => import('../pages/settings-preferences/page')),
+      },
+      {
+        path: ROUTES.SETTINGS_ACCOUNT_GROUPS,
+        Component: lazyLoad(() => import('../pages/settings-account-groups/page')),
+      },
+      {
+        path: ROUTES.SETTINGS_CATEGORY_GROUPS,
+        Component: lazyLoad(() => import('../pages/settings-category-groups/page')),
+      },
+      {
+        path: ROUTES.SETTINGS_SCHEDULED_PAYMENTS,
+        Component: lazyLoad(() => import('../pages/settings-scheduled-payments/page')),
       },
     ],
   },

@@ -330,7 +330,7 @@ export interface operations {
         search?: string;
         userId?: number[];
         groupId?: number[];
-        accountGroupId?: number[];
+        accountGroupId?: 'null' | number | number[];
         pageNumber?: number;
         pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'amount' | 'name';
@@ -954,7 +954,7 @@ export interface operations {
         pageSize?: number;
         userId?: number[];
         groupId?: number[];
-        categoryGroupId?: number[];
+        categoryGroupId?: 'null' | number | number[];
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
