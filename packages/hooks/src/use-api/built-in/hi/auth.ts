@@ -62,20 +62,14 @@ export const useApiHiAuthTokenRefresher = () => {
         });
 
         return true;
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : typeof err === 'string' ? err : String(err);
+      } catch {
+        const currentUrl = new URL(window.location.href);
 
-        const test = window.confirm(message);
-
-        if (test) {
-          const currentUrl = new URL(window.location.href);
-
-          window.location.href =
-            BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl.toString() + '&clientId=' + clientId;
-        }
-
-        return false;
+        window.location.href =
+          BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl.toString() + '&clientId=' + clientId;
       }
+
+      return false;
     },
   });
 };

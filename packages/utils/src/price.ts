@@ -127,5 +127,25 @@ export function formatPrice(
 
   const formatter = new Intl.NumberFormat(locale, formatOptions);
 
-  return formatter.format(value);
+  let formattedValue = formatter.format(value);
+
+  // Fix negative sign placement for currency format
+  // Indonesian locale places negative sign before currency symbol (-Rp)
+  // We want it after currency symbol (Rp -)
+  if (showCurrency && value < 0) {
+    // Remove the negative sign from the beginning and place it after currency symbol
+    if (formattedValue.startsWith('-')) {
+      // Remove the leading negative sign
+      formattedValue = formattedValue.substring(1);
+      // Find the currency symbol and add negative sign after it
+      const currencySymbolMatch = formattedValue.match(/^(\S+\s*)/);
+      if (currencySymbolMatch) {
+        const currencyPart = currencySymbolMatch[1];
+        const numberPart = formattedValue.substring(currencyPart.length);
+        formattedValue = currencyPart + '-' + numberPart;
+      }
+    }
+  }
+
+  return formattedValue;
 }

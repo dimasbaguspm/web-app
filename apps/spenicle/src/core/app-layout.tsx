@@ -22,6 +22,7 @@ import {
   LogOutIcon,
   MoreHorizontalIcon,
   NotebookPenIcon,
+  RefreshCwIcon,
 } from 'lucide-react';
 import { FC, PropsWithChildren, Suspense } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -91,7 +92,11 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               </ButtonMenuIcon.Item>
               <ButtonMenuIcon.Item onClick={handleNavigation(DEEP_LINKS.SETTINGS.path)}>
                 <Icon as={BoltIcon} size="sm" color="inherit" />
-                Settings
+                Preferences
+              </ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleNavigation(DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path)}>
+                <Icon as={RefreshCwIcon} size="sm" color="inherit" />
+                Scheduled
               </ButtonMenuIcon.Item>
               <ButtonMenuIcon.Item>
                 <Icon as={NotebookPenIcon} size="sm" color="inherit" />
@@ -99,7 +104,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               </ButtonMenuIcon.Item>
               <Hr />
               <ButtonMenuIcon.Item onClick={() => openModal(MODAL_ROUTES.LOGOUT_CONFIRMATION)}>
-                <Icon as={LogOutIcon} size="sm" color="danger" />
+                <Icon as={LogOutIcon} size="sm" color="inherit" />
                 Logout
               </ButtonMenuIcon.Item>
               <Hr />

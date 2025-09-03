@@ -1,7 +1,7 @@
 import { AppProfileModel } from '@dimasbaguspm/interfaces';
 
 export type ActiveAppProfileModel = {
+  hasProfile: boolean;
   profile: AppProfileModel;
-  toggleSwitchProfile: () => void;
-  isSwitchingProfile: boolean;
+  refetchProfile: () => Promise<void>;
 };

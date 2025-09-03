@@ -22,7 +22,11 @@ import { FC, useState } from 'react';
 
 import { useAppProfileSwitcherData } from './use-app-profile-switcher-data';
 
-export const ProfileSwitcherModal: FC = () => {
+interface ProfileSwitcherModalProps {
+  isSessionCheck?: boolean;
+}
+
+export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionCheck }) => {
   const { activeProfile } = useAuthProvider();
 
   const { closeModal } = useModalRoute();
@@ -39,6 +43,9 @@ export const ProfileSwitcherModal: FC = () => {
     await setActiveProfile({
       profileId: selectedId!,
     });
+
+    // NOTE: if this is a session check, we don't want to close the modal
+    if (isSessionCheck) return;
 
     closeModal();
 

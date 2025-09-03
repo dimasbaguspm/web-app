@@ -16,6 +16,7 @@ interface ModalParams {
   transactionId?: number;
   payloadId?: string;
   tabId?: string;
+  sessionCheck?: number;
 }
 
 interface ModalState {

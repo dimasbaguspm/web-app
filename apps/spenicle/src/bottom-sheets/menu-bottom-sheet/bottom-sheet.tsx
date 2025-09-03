@@ -3,7 +3,7 @@ import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, BottomSheet, Button, ButtonIcon, Hr, Icon, Text } from '@dimasbaguspm/versaur';
-import { BoltIcon, ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon, PyramidIcon } from 'lucide-react';
+import { BoltIcon, ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon, RefreshCwIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -35,12 +35,12 @@ export const MenuBottomSheet: FC = () => {
       <BottomSheet.Body>
         <div className="flex justify-start items-center mb-4">
           <Avatar shape="rounded" size="lg">
-            {nameToInitials(profile.name)}
+            {nameToInitials(profile?.name)}
           </Avatar>
           <div className="ml-4 flex flex-col">
-            <Text fontWeight="medium">{profile.name}</Text>
+            <Text fontWeight="medium">{profile?.name}</Text>
             <Text fontSize="sm" color="gray">
-              {formatDate(profile.createdAt, DateFormat.FULL_DATE)}
+              {formatDate(profile?.createdAt, DateFormat.FULL_DATE)}
             </Text>
           </div>
           <div className="flex-grow flex justify-end items-center">
@@ -72,7 +72,7 @@ export const MenuBottomSheet: FC = () => {
               className="w-full justify-start"
               onClick={curriedNavigate(DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path)}
             >
-              <Icon as={PyramidIcon} size="sm" color="inherit" />
+              <Icon as={RefreshCwIcon} size="sm" color="inherit" />
               Scheduled Payments
             </Button>
             <Hr />
