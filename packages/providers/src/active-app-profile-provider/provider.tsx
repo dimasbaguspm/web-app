@@ -1,27 +1,24 @@
 import { AppId } from '@dimasbaguspm/constants';
 import { useApiHiAppProfileQuery } from '@dimasbaguspm/hooks/use-api';
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { FC, ReactNode, useState } from 'react';
 
 import { useAuthProvider } from '../auth-provider';
 
 import { ActiveAppProfileContext } from './context';
-import { ProfileSelector } from './profile-selector';
 
 interface Props {
   appId: AppId;
   children: ReactNode;
+  profileSwitcher: ReactNode;
 }
 
 export const ActiveAppProfileProvider: FC<Props> = (props) => {
-  const { appId, children } = props;
+  const { children, profileSwitcher } = props;
   const [switchProfile, setSwitchProfile] = useState(false);
-
-  const { isDesktop } = useWindowResize();
 
   const { activeProfile } = useAuthProvider();
 
-  const [activeProfileData] = useApiHiAppProfileQuery(activeProfile?.id ? +activeProfile.id : -1, {
+  const [activeProfileData, , { isFetching }] = useApiHiAppProfileQuery(activeProfile?.id ? +activeProfile.id : -1, {
     enabled: !!activeProfile,
   });
 
@@ -31,15 +28,10 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
 
   const isSwitchingProfile = Boolean(switchProfile && activeProfile);
 
+  if (isFetching) return null;
+
   if (!activeProfile || !activeProfileData || switchProfile) {
-    return (
-      <ProfileSelector
-        appId={appId}
-        variant={isDesktop ? 'modal' : 'sheet'}
-        isSwitchingProfile={isSwitchingProfile}
-        onSuccess={() => setSwitchProfile(false)}
-      />
-    );
+    return profileSwitcher;
   }
 
   return (

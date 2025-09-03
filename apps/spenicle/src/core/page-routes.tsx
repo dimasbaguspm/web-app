@@ -1,10 +1,16 @@
+/* eslint-disable import/max-dependencies */
+import { AppId } from '@dimasbaguspm/constants';
+import { ActiveAppProfileProvider } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { BottomSheetRouteProvider } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { DrawerRouteProvider } from '@dimasbaguspm/providers/drawer-route-provider';
 import { ModalRouteProvider } from '@dimasbaguspm/providers/modal-route-provider';
 import { lazyLoad } from '@dimasbaguspm/utils/lazy-load';
+import { Modal } from '@dimasbaguspm/versaur';
+import { noop } from 'lodash';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router';
 
 import { ROUTES } from '../constants/page-routes';
+import { ProfileSwitcherModal } from '../modals/profile-switcher-modal/modal';
 import SummaryLayout from '../pages/summary/page';
 
 import { AppLayout } from './app-layout';
@@ -19,7 +25,16 @@ const router = createBrowserRouter([
         <ModalRouteProvider>
           <BottomSheetRouteProvider>
             <AppLayout>
-              <Outlet />
+              <ActiveAppProfileProvider
+                appId={AppId.Spenicle}
+                profileSwitcher={
+                  <Modal isOpen onClose={noop}>
+                    <ProfileSwitcherModal />
+                  </Modal>
+                }
+              >
+                <Outlet />
+              </ActiveAppProfileProvider>
             </AppLayout>
             <DrawerRoutes />
             <ModalRoutes />
