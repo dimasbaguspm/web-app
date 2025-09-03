@@ -82,6 +82,7 @@ export const MenuBottomSheet: FC = () => {
               <Icon as={NotebookPenIcon} size="sm" color="inherit" />
               Feedback
             </Button>
+            <Hr />
           </li>
           <li>
             <Button variant="ghost" className="w-full justify-start" onClick={handleOnLogoutClick}>
