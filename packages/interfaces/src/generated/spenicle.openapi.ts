@@ -428,6 +428,17 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embed: {
+                accountGroups: {
+                  id: number;
+                  profileId: number;
+                  name: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -450,6 +461,17 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embed: {
+                accountGroups: {
+                  id: number;
+                  profileId: number;
+                  name: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -472,6 +494,17 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embed: {
+                accountGroups: {
+                  id: number;
+                  profileId: number;
+                  name: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -535,6 +568,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
@@ -551,6 +595,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
@@ -567,6 +622,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
         };
       };
@@ -603,6 +669,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
@@ -619,6 +696,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
@@ -635,6 +723,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
         };
       };
@@ -714,6 +813,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
@@ -730,6 +840,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
@@ -746,6 +867,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              accountGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
         };
       };
@@ -1267,6 +1399,17 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embed: {
+                categoryGroups: {
+                  id: number;
+                  profileId: number;
+                  name: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -1288,6 +1431,17 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embed: {
+                categoryGroups: {
+                  id: number;
+                  profileId: number;
+                  name: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -1309,6 +1463,17 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embed: {
+                categoryGroups: {
+                  id: number;
+                  profileId: number;
+                  name: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -1371,6 +1536,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
@@ -1386,6 +1562,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
@@ -1401,6 +1588,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
         };
       };
@@ -1436,6 +1634,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
@@ -1451,6 +1660,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
@@ -1466,6 +1686,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
         };
       };
@@ -1544,6 +1775,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
@@ -1559,6 +1801,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
@@ -1574,6 +1827,17 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embed: {
+              categoryGroups: {
+                id: number;
+                profileId: number;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
         };
       };

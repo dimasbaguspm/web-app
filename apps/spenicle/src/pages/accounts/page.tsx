@@ -12,9 +12,11 @@ import {
   PageContent,
   PageHeader,
 } from '@dimasbaguspm/versaur';
-import { PlusIcon, SearchXIcon } from 'lucide-react';
+import { BoltIcon, PlusIcon, SearchXIcon } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+import { DEEP_LINKS } from '../../constants/page-routes';
 
 import { AccountCard } from './components';
 import { ActionsControl } from './components/actions-control';
@@ -22,6 +24,7 @@ import { FilterControl } from './components/filter-control';
 import { useAccountFilter } from './hooks/use-account-filter';
 
 const AccountsPage = () => {
+  const navigate = useNavigate();
   const { openDrawer } = useDrawerRoute();
   const { appliedFilters, getParsedSorterFilters } = useAccountFilter();
 
@@ -41,6 +44,10 @@ const AccountsPage = () => {
     openDrawer(DRAWER_ROUTES.ACCOUNT_DETAIL, { accountId: account.id });
   };
 
+  const handleManageGroupClick = () => {
+    navigate(DEEP_LINKS.SETTINGS_ACCOUNT_GROUPS.path);
+  };
+
   return (
     <>
       <PageHeader
@@ -48,6 +55,10 @@ const AccountsPage = () => {
         subtitle="Manage your accounts"
         actions={
           <ButtonGroup>
+            <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
+              <Icon as={BoltIcon} color="inherit" size="sm" />
+              Manage Group
+            </Button>
             <Button onClick={handleOpenDrawer}>
               <Icon as={PlusIcon} color="inherit" />
               New Account
@@ -56,6 +67,7 @@ const AccountsPage = () => {
         }
         mobileActions={
           <ButtonGroup>
+            <ButtonIcon as={BoltIcon} variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick} />
             <ButtonIcon as={PlusIcon} aria-label="New Account" onClick={handleOpenDrawer} />
           </ButtonGroup>
         }
@@ -65,7 +77,7 @@ const AccountsPage = () => {
           <LoadingIndicator type="bar" size="sm" />
         </If>
 
-        <If condition={[accounts]}>
+        <If condition={[!isInitialFetching, accounts]}>
           <ActionsControl />
           <FilterControl />
           <div className="space-y-4">

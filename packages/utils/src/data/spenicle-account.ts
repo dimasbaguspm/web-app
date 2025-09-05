@@ -6,11 +6,16 @@ import { nameToInitials } from '../initial';
 import { formatPrice } from '../price';
 
 export const formatSpenicleAccount = (account: AccountModel | null | undefined) => {
+  const { accountGroups } = account?.embed || {};
+
   const isExpense = account?.type === 'expense';
   const variant = isExpense ? 'primary' : 'secondary';
 
   const trimmedNotes = account?.note ? account.note.slice(0, 100) + (account.note.length > 100 ? '...' : '') : '';
   const note = account?.note;
+
+  const groups = accountGroups || [];
+  const hasGroup = !!groups?.length;
 
   return {
     name: account?.name,
@@ -24,5 +29,7 @@ export const formatSpenicleAccount = (account: AccountModel | null | undefined) 
     variant,
     notes: note,
     trimmedNotes,
+    hasGroup,
+    groups,
   } as const;
 };

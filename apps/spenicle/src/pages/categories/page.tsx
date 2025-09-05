@@ -12,9 +12,11 @@ import {
   PageContent,
   PageHeader,
 } from '@dimasbaguspm/versaur';
-import { PlusIcon, SearchXIcon } from 'lucide-react';
+import { BoltIcon, PlusIcon, SearchXIcon } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+import { DEEP_LINKS } from '../../constants/page-routes';
 
 import { CategoryCard } from './components';
 import { ActionsControl } from './components/actions-control';
@@ -23,6 +25,7 @@ import { useCategoryFilter } from './hooks/use-category-filter';
 
 const CategoriesPage = () => {
   const { openDrawer } = useDrawerRoute();
+  const navigate = useNavigate();
 
   const { appliedFilters } = useCategoryFilter();
 
@@ -41,6 +44,9 @@ const CategoriesPage = () => {
     openDrawer(DRAWER_ROUTES.DETAIL_CATEGORY, { categoryId: category.id });
   };
 
+  const handleManageGroupClick = () => {
+    navigate(DEEP_LINKS.SETTINGS_CATEGORY_GROUPS.path);
+  };
   return (
     <>
       <PageHeader
@@ -48,6 +54,10 @@ const CategoriesPage = () => {
         subtitle="Manage your categories"
         actions={
           <ButtonGroup>
+            <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
+              <Icon as={BoltIcon} color="inherit" size="sm" />
+              Manage Group
+            </Button>
             <Button onClick={handleOpenDrawer}>
               <Icon as={PlusIcon} color="inherit" />
               New Category
@@ -56,6 +66,7 @@ const CategoriesPage = () => {
         }
         mobileActions={
           <ButtonGroup>
+            <ButtonIcon as={BoltIcon} variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick} />
             <ButtonIcon as={PlusIcon} aria-label="New Category" onClick={handleOpenDrawer} />
           </ButtonGroup>
         }
@@ -65,7 +76,7 @@ const CategoriesPage = () => {
           <LoadingIndicator type="bar" size="sm" />
         </If>
 
-        <If condition={[categories]}>
+        <If condition={[!isInitialFetching, categories]}>
           <ActionsControl />
           <FilterControl />
 

@@ -17,7 +17,7 @@ interface DetailsTabProps {
 export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
-  const { type, isExpense, formattedAmount, notes } = formatSpenicleAccount(data);
+  const { type, isExpense, formattedAmount, notes, hasGroup, groups } = formatSpenicleAccount(data);
 
   const handleEditClick = () => {
     openDrawer(DRAWER_ROUTES.EDIT_ACCOUNT, { accountId: data.id });
@@ -51,6 +51,9 @@ export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
 
       <AttributeList columns={1}>
         <AttributeList.Item title="Amount">{formattedAmount}</AttributeList.Item>
+        <If condition={hasGroup}>
+          <AttributeList.Item title="Groups">{groups.map(({ name }) => name).join(', ')}</AttributeList.Item>
+        </If>
         <If condition={notes}>
           <AttributeList.Item title="Notes">{notes}</AttributeList.Item>
         </If>

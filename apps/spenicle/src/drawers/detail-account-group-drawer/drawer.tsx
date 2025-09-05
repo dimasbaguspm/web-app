@@ -102,7 +102,7 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
               action={
                 <ButtonGroup>
                   <Button variant="outline" onClick={handleAddMembersClick}>
-                    Create Group
+                    Add Members
                   </Button>
                 </ButtonGroup>
               }

@@ -17,7 +17,7 @@ interface DetailsTabProps {
 export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
-  const { variant, type, note } = formatSpenicleCategory(data);
+  const { variant, type, note, hasGroup, groups } = formatSpenicleCategory(data);
 
   const handleEditClick = () => {
     openDrawer(DRAWER_ROUTES.EDIT_CATEGORY, { categoryId: data.id });
@@ -48,6 +48,9 @@ export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
       </BadgeGroup>
 
       <AttributeList>
+        <If condition={hasGroup}>
+          <AttributeList.Item title="Groups">{groups.map(({ name }) => name).join(', ')}</AttributeList.Item>
+        </If>
         <If condition={note}>
           <AttributeList.Item title="Notes" span={12}>
             {note}

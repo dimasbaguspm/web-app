@@ -101,7 +101,7 @@ export const DetailCategoryGroupDrawer: FC<DetailCategoryGroupDrawerProps> = ({ 
               action={
                 <ButtonGroup>
                   <Button variant="outline" onClick={handleAddMembersClick}>
-                    Create Group
+                    Add Members
                   </Button>
                 </ButtonGroup>
               }

@@ -5,6 +5,8 @@ import { DateFormat, formatDate } from '../date';
 import { nameToInitials } from '../initial';
 
 export const formatSpenicleCategory = (category: CategoryModel | null | undefined) => {
+  const { categoryGroups } = category?.embed || {};
+
   const isIncome = category?.type === 'income';
   const isExpense = category?.type === 'expense';
   const isTransfer = category?.type === 'transfer';
@@ -13,6 +15,9 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
 
   const trimmedNotes = category?.note ? category.note.slice(0, 100) + (category.note.length > 100 ? +'...' : '') : '';
   const note = category?.note;
+
+  const groups = categoryGroups || [];
+  const hasGroup = !!groups?.length;
 
   return {
     initialName: nameToInitials(category?.name ?? ''),
@@ -26,6 +31,8 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
     isExpense,
     isTransfer,
     trimmedNotes,
+    hasGroup,
+    groups,
     note,
   } as const;
 };
