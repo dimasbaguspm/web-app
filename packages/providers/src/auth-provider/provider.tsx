@@ -65,7 +65,7 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   if (isDataFetching || !data || !user) {
-    return <PageLoader />;
+    return <PageLoader fullscreen />;
   }
 
   return (
@@ -88,7 +88,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const { data, isLoading, isError } = useApiHiAuthTokenRefresher();
 
   if (isLoading) {
-    return <PageLoader size="sm" type="bar" />;
+    return <PageLoader fullscreen />;
   }
 
   if (!data) {

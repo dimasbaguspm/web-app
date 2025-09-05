@@ -26,7 +26,7 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
   };
 
   if (activeProfile && !activeProfileData) {
-    return <PageLoader />;
+    return <PageLoader fullscreen />;
   }
 
   return (

@@ -2,7 +2,7 @@ import { AccountModel } from '@dimasbaguspm/interfaces';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
-import { Avatar, Badge, BadgeGroup, Card, CardProps, Text } from '@dimasbaguspm/versaur';
+import { Avatar, Badge, BadgeGroup, Card, CardProps } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 interface AccountCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered'> {
@@ -36,11 +36,7 @@ export const AccountCard: FC<AccountCardProps> = (props) => {
           </If>
         </BadgeGroup>
       }
-      supplementaryInfo={
-        <Text fontSize="sm" color="gray">
-          {formattedAmount}
-        </Text>
-      }
+      supplementaryInfo={formattedAmount}
     />
   );
 };
