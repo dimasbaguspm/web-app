@@ -1,7 +1,7 @@
 import { useApiSpenicleSummaryTransactionsQuery } from '@dimasbaguspm/hooks/use-api';
 import { SearchSummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
-import { LoadingIndicator } from '@dimasbaguspm/versaur';
+import { PageLoader } from '@dimasbaguspm/versaur';
 
 import { SummaryFrequencyType, useSummaryFilter } from '../summary/hooks/use-summary-filter';
 
@@ -46,7 +46,7 @@ const SummaryTrendsPage = () => {
   return (
     <>
       <If condition={[isLoading, !transactions?.length]}>
-        <LoadingIndicator type="bar" size="sm" />
+        <PageLoader />
       </If>
       <If condition={[!isLoading, transactions?.length]}>
         <DateTransactionsAreaChart data={transactions!} />

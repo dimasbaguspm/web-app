@@ -7,7 +7,7 @@ import {
   DateSinglePickerInput,
   FormLayout,
   Icon,
-  LoadingIndicator,
+  PageLoader,
   PriceInput,
   Text,
   TextAreaInput,
@@ -64,7 +64,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
   return (
     <>
       <If condition={[isLoading]}>
-        <LoadingIndicator size="sm" type="bar" />
+        <PageLoader />
       </If>
 
       <If condition={[!isLoading]}>

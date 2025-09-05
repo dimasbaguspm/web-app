@@ -6,21 +6,21 @@ import {
   useApiHiGroupMembersPaginatedQuery,
   useApiHiUserQuery,
 } from '@dimasbaguspm/hooks/use-api';
-import { LoadingIndicator } from '@dimasbaguspm/versaur';
+import { PageLoader } from '@dimasbaguspm/versaur';
 import { FC, PropsWithChildren } from 'react';
 
 import { AuthContext } from './context';
 
 const Provider: FC<PropsWithChildren> = ({ children }) => {
-  const [data, , { isFetching }, refetchAuth] = useApiHiAuthMeQuery();
+  const [data, , { isLoading }, refetchAuth] = useApiHiAuthMeQuery();
 
   const [logout] = useApiHiAuthLogout();
 
-  const [user, , { isFetching: isUserFetching }, refetchUser] = useApiHiUserQuery(data?.user?.id ?? 0, {
+  const [user, , { isLoading: isUserFetching }, refetchUser] = useApiHiUserQuery(data?.user?.id ?? 0, {
     enabled: !!data?.user?.id,
   });
 
-  const [userMembers, , { isFetching: isUserGroupFetching }] = useApiHiGroupMembersPaginatedQuery(
+  const [userMembers, , { isLoading: isUserGroupFetching }] = useApiHiGroupMembersPaginatedQuery(
     {
       userId: [(data?.user?.id ?? 0).toString()],
       pageSize: '100',
@@ -30,7 +30,7 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
     },
   );
 
-  const [userAppProfiles, , { isFetching: isUserAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
+  const [userAppProfiles, , { isLoading: isUserAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
     {
       userId: [data?.user?.id ?? 0],
       pageSize: 100,
@@ -40,7 +40,7 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
     },
   );
 
-  const [userGroupAppProfiles, , { isFetching: isUserGroupAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
+  const [userGroupAppProfiles, , { isLoading: isUserGroupAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
     {
       groupId: (userMembers?.items ?? []).map((member) => member.groupId),
       pageSize: 100,
@@ -51,7 +51,7 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   const isDataFetching =
-    isFetching || isUserFetching || isUserGroupFetching || isUserAppProfilesFetching || isUserGroupAppProfilesFetching;
+    isLoading || isUserFetching || isUserGroupFetching || isUserAppProfilesFetching || isUserGroupAppProfilesFetching;
 
   const groupMembers = userMembers?.items ?? [];
   const appProfiles = [...(userAppProfiles?.items ?? []), ...(userGroupAppProfiles?.items ?? [])];
@@ -65,11 +65,7 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   if (isDataFetching || !data || !user) {
-    return (
-      <div>
-        <LoadingIndicator size="sm" type="bar" />
-      </div>
-    );
+    return <PageLoader />;
   }
 
   return (
@@ -89,14 +85,10 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
 };
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { data, isFetching, isError } = useApiHiAuthTokenRefresher();
+  const { data, isLoading, isError } = useApiHiAuthTokenRefresher();
 
-  if (isFetching) {
-    return (
-      <div>
-        <LoadingIndicator size="sm" type="bar" />
-      </div>
-    );
+  if (isLoading) {
+    return <PageLoader size="sm" type="bar" />;
   }
 
   if (!data) {

@@ -1,20 +1,18 @@
 import { useApiSpenicleCategoriesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
-import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
-  Badge,
-  BadgeGroup,
   Button,
   ButtonGroup,
-  LoadingIndicator,
   NoResults,
+  PageLoader,
   SearchInput,
   SelectableMultipleInput,
-  Text,
 } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
+
+import { CategoryCard } from '../../components/category-card';
 
 interface FormProps {
   handleCreateNewCategory: () => void;
@@ -40,7 +38,7 @@ export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategoryS
       </div>
 
       <If condition={isInitialFetching}>
-        <LoadingIndicator size="sm" type="bar" />
+        <PageLoader />
       </If>
       <If condition={[!isInitialFetching, !categories.length]}>
         <NoResults
@@ -60,29 +58,17 @@ export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategoryS
       <If condition={!!categories.length}>
         <ul className="mb-4">
           {categories.map((category) => {
-            const { name, type, variant } = formatSpenicleCategory(category);
             return (
               <li key={category.id}>
                 <SelectableMultipleInput
-                  label={
-                    <div className="flex flex-col w-auto">
-                      <Text className="mb-2" fontSize="base" fontWeight="semibold">
-                        {name}
-                      </Text>
-                      <BadgeGroup>
-                        <Badge color={variant} size="sm">
-                          {type}
-                        </Badge>
-                      </BadgeGroup>
-                    </div>
-                  }
+                  label={<CategoryCard category={category} as="div" size="none" />}
                   checked={categoryIds.includes(category.id)}
                   value={category.id.toString()}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      handleOnCategorySelect([...categoryIds, category.id]);
-                    } else {
+                  onChange={() => {
+                    if (categoryIds.includes(category.id)) {
                       handleOnCategorySelect(categoryIds.filter((id) => id !== category.id));
+                    } else {
+                      handleOnCategorySelect([...categoryIds, category.id]);
                     }
                   }}
                 />

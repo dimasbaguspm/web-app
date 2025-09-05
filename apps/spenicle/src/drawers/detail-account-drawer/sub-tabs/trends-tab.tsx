@@ -1,7 +1,7 @@
 import { useApiSpenicleSummaryTransactionsQuery } from '@dimasbaguspm/hooks/use-api';
 import { AccountModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
-import { LoadingIndicator } from '@dimasbaguspm/versaur';
+import { PageLoader } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
@@ -13,7 +13,7 @@ interface TrendsTabProps {
 }
 
 export const TrendsTab: FC<TrendsTabProps> = ({ data }) => {
-  const [transactions, , { isFetching }] = useApiSpenicleSummaryTransactionsQuery({
+  const [transactions, , { isLoading }] = useApiSpenicleSummaryTransactionsQuery({
     from: dayjs().startOf('year').add(1, 'day').toISOString(),
     to: dayjs().endOf('month').toISOString(),
     accountId: [data.id],
@@ -23,11 +23,11 @@ export const TrendsTab: FC<TrendsTabProps> = ({ data }) => {
 
   return (
     <>
-      <If condition={[isFetching]}>
-        <LoadingIndicator type="bar" size="sm" />
+      <If condition={[isLoading]}>
+        <PageLoader />
       </If>
 
-      <If condition={[!isFetching, !!transactions]}>
+      <If condition={[!isLoading, !!transactions]}>
         <TrendsChart data={data} transactions={transactions!} />
         <TrendsStats data={data} transactions={transactions!} />
       </If>

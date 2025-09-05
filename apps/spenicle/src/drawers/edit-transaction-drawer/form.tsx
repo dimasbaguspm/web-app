@@ -8,7 +8,7 @@ import {
   Drawer,
   FormLayout,
   Icon,
-  LoadingIndicator,
+  PageLoader,
   PriceInput,
   TextAreaInput,
   TextInput,
@@ -96,7 +96,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
   return (
     <>
       <If condition={[isAccountLoading, isCategoryLoading, isDestinationAccountLoading]}>
-        <LoadingIndicator size="sm" type="bar" />
+        <PageLoader />
       </If>
 
       <If condition={[!isAccountLoading, !isCategoryLoading, !isDestinationAccountLoading]}>

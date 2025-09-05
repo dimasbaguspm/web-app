@@ -8,7 +8,7 @@ import {
 import { AccountModel } from '@dimasbaguspm/interfaces';
 
 export const useAccountDetailHistoryData = (account: AccountModel, query: string) => {
-  const [transactions, , { hasNextPage, isFetching, isFetchingNextPage }, { fetchNextPage }] =
+  const [transactions, , { hasNextPage, isLoading, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleTransactionsInfiniteQuery({
       search: query,
       accountId: [account.id],
@@ -55,7 +55,7 @@ export const useAccountDetailHistoryData = (account: AccountModel, query: string
     };
   });
 
-  const isInitialLoading = isFetching && !isFetchingNextPage;
+  const isInitialLoading = isLoading && !isFetchingNextPage;
 
   return {
     data,

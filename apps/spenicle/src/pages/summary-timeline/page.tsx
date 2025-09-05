@@ -1,12 +1,12 @@
 import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, LoadingIndicator, NoResults } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, NoResults, PageLoader } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 
+import { TransactionCard } from '../../components/transaction-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
-import { SummaryTimelineCard } from './components/card';
 import { useSummaryTimelineData } from './hooks/use-summary-timeline-data';
 
 const SummaryTimeline = () => {
@@ -22,7 +22,7 @@ const SummaryTimeline = () => {
   return (
     <>
       <If condition={isInitialLoading}>
-        <LoadingIndicator type="bar" size="sm" />
+        <PageLoader />
       </If>
 
       <If condition={[!isInitialLoading, data.length]}>
@@ -30,11 +30,12 @@ const SummaryTimeline = () => {
           {data.map(({ transaction, account, category }) => {
             return (
               <li key={transaction.id} className="border-b border-border">
-                <SummaryTimelineCard
+                <TransactionCard
                   transaction={transaction}
                   category={category}
                   account={account}
                   onClick={handleOnTransactionClick}
+                  useDateTime
                 />
               </li>
             );

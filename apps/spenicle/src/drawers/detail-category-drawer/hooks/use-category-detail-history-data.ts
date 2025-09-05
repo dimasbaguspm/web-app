@@ -8,7 +8,7 @@ import {
 import { CategoryModel } from '@dimasbaguspm/interfaces';
 
 export const useCategoryDetailHistoryData = (category: CategoryModel, query: string) => {
-  const [transactions, , { hasNextPage, isFetching, isFetchingNextPage }, { fetchNextPage }] =
+  const [transactions, , { hasNextPage, isLoading, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleTransactionsInfiniteQuery({
       search: query,
       categoryId: [category.id],
@@ -55,7 +55,7 @@ export const useCategoryDetailHistoryData = (category: CategoryModel, query: str
     };
   });
 
-  const isInitialLoading = isFetching && !isFetchingNextPage;
+  const isInitialLoading = isLoading && !isFetchingNextPage;
 
   return {
     data,

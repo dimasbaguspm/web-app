@@ -5,25 +5,24 @@ import {
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
-  Badge,
-  BadgeGroup,
   Button,
   ButtonGroup,
+  ButtonIcon,
   ButtonMenu,
-  Card,
   Drawer,
   FormLayout,
   Icon,
-  LoadingIndicator,
   NoResults,
+  PageLoader,
   SearchInput,
   SelectableMultipleInput,
 } from '@dimasbaguspm/versaur';
-import { SearchXIcon, SlidersHorizontalIcon } from 'lucide-react';
+import { SearchXIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react';
 import { FC, useState } from 'react';
+
+import { AccountCard } from '../../components/account-card';
 
 interface SelectMultipleAccountDrawerProps {
   returnToDrawer: string;
@@ -87,6 +86,7 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
     <>
       <Drawer.Header>
         <Drawer.Title>Select Account</Drawer.Title>
+        <ButtonIcon as={XIcon} size="sm" variant="ghost" aria-label="Close" onClick={handleOnCancel} />
       </Drawer.Header>
 
       <Drawer.Body>
@@ -129,39 +129,16 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
         </FormLayout>
 
         <If condition={[isInitialFetching]}>
-          <LoadingIndicator size="sm" type="bar" />
+          <PageLoader />
         </If>
 
         <If condition={[accounts.length, !isInitialFetching]}>
           <ul>
             {accounts?.map((account) => {
-              const { type, variant, hasGroup, groups, formattedAmount } = formatSpenicleAccount(account);
               return (
                 <li key={account.id}>
                   <SelectableMultipleInput
-                    label={
-                      <Card
-                        as="div"
-                        size="xs"
-                        title={account.name}
-                        className="p-0"
-                        badge={
-                          <BadgeGroup>
-                            <Badge color={variant} size="sm">
-                              {type}
-                            </Badge>
-                            <If condition={hasGroup}>
-                              {groups.map(({ name }) => (
-                                <Badge key={name} color="accent_1" size="sm">
-                                  {name}
-                                </Badge>
-                              ))}
-                            </If>
-                          </BadgeGroup>
-                        }
-                        supplementaryInfo={formattedAmount}
-                      />
-                    }
+                    label={<AccountCard as="div" size="none" account={account} />}
                     checked={selectedAccountIds.includes(account.id)}
                     value={account.id.toString()}
                     onChange={(e) => {
@@ -200,7 +177,7 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
             Cancel
           </Button>
           <Button form="select-account-form" onClick={handleOnSubmit}>
-            Save
+            Select
           </Button>
         </ButtonGroup>
       </Drawer.Footer>

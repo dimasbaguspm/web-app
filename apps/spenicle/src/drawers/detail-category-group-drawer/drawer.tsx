@@ -1,25 +1,12 @@
 import { useApiSpenicleCategoriesInfiniteQuery, useApiSpenicleCategoryGroupQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
-import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Avatar,
-  Badge,
-  BadgeGroup,
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Card,
-  Drawer,
-  Heading,
-  Icon,
-  LoadingIndicator,
-  NoResults,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ButtonIcon, Drawer, Heading, Icon, NoResults, PageLoader } from '@dimasbaguspm/versaur';
 import { Edit3Icon, TrashIcon, UsersRoundIcon, UserX2Icon } from 'lucide-react';
 import { FC } from 'react';
 
+import { CategoryCard } from '../../components/category-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { MODAL_ROUTES } from '../../constants/modal-routes';
 
@@ -35,7 +22,7 @@ export const DetailCategoryGroupDrawer: FC<DetailCategoryGroupDrawerProps> = ({ 
     enabled: Boolean(categoryGroupId),
   });
 
-  const [categories, , { isFetching: isFetchingCategories }] = useApiSpenicleCategoriesInfiniteQuery(
+  const [categories, , { isLoading: isFetchingCategories }] = useApiSpenicleCategoriesInfiniteQuery(
     {
       id: categoryGroup?.memberIds || [],
     },
@@ -91,7 +78,7 @@ export const DetailCategoryGroupDrawer: FC<DetailCategoryGroupDrawerProps> = ({ 
             Members
           </Heading>
           <If condition={isFetchingCategories}>
-            <LoadingIndicator size="sm" type="bar" />
+            <PageLoader />
           </If>
           <If condition={[!isFetchingCategories, !categories.length]}>
             <NoResults
@@ -110,19 +97,9 @@ export const DetailCategoryGroupDrawer: FC<DetailCategoryGroupDrawerProps> = ({ 
           <If condition={[!isFetchingCategories, categories.length]}>
             <ul>
               {categories?.map((category) => {
-                const { type, variant, initialName } = formatSpenicleCategory(category);
                 return (
                   <li key={category.id}>
-                    <Card
-                      onClick={() => handleCategoryClick(category.id)}
-                      avatar={<Avatar shape="rounded">{initialName}</Avatar>}
-                      title={category.name}
-                      badge={
-                        <BadgeGroup>
-                          <Badge color={variant}>{type}</Badge>
-                        </BadgeGroup>
-                      }
-                    />
+                    <CategoryCard category={category} onClick={() => handleCategoryClick(category.id)} />
                   </li>
                 );
               })}

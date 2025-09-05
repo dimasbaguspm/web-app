@@ -5,7 +5,7 @@ import {
   useApiSpenicleSummaryTransactionsQuery,
 } from '@dimasbaguspm/hooks/use-api';
 import { If } from '@dimasbaguspm/utils/if';
-import { LoadingIndicator } from '@dimasbaguspm/versaur';
+import { PageLoader } from '@dimasbaguspm/versaur';
 
 import { useSummaryFilter } from '../summary/hooks/use-summary-filter';
 
@@ -23,49 +23,45 @@ const SummaryPage = () => {
     to: appliedFilters.range.endDate.toISOString(),
   };
 
-  const [summaryTotal, , { isFetching: isFetchingSummaryTotal }] = useApiSpenicleSummaryTotalQuery({
+  const [summaryTotal, , { isLoading: isFetchingSummaryTotal }] = useApiSpenicleSummaryTotalQuery({
     ...dateFilters,
     categoryId: appliedFilters.categoryIds,
     accountId: appliedFilters.accountIds,
   });
 
-  const [summaryTransactions, , { isFetching: isFetchingSummaryTransactions }] = useApiSpenicleSummaryTransactionsQuery(
-    {
-      ...dateFilters,
-      frequency: 'daily',
-      categoryId: appliedFilters.categoryIds,
-      accountId: appliedFilters.accountIds,
-    },
-  );
+  const [summaryTransactions, , { isLoading: isFetchingSummaryTransactions }] = useApiSpenicleSummaryTransactionsQuery({
+    ...dateFilters,
+    frequency: 'daily',
+    categoryId: appliedFilters.categoryIds,
+    accountId: appliedFilters.accountIds,
+  });
 
-  const [summaryExpenseCategories, , { isFetching: isFetchingSummaryExpenseCategories }] =
+  const [summaryExpenseCategories, , { isLoading: isFetchingSummaryExpenseCategories }] =
     useApiSpenicleSummaryCategoriesQuery({
       ...dateFilters,
       id: appliedFilters.categoryIds,
       type: ['expense'],
     });
 
-  const [summaryIncomeCategories, , { isFetching: isFetchingSummaryIncomeCategories }] =
+  const [summaryIncomeCategories, , { isLoading: isFetchingSummaryIncomeCategories }] =
     useApiSpenicleSummaryCategoriesQuery({
       ...dateFilters,
       id: appliedFilters.categoryIds,
       type: ['income'],
     });
 
-  const [summaryExpenseAccounts, , { isFetching: isFetchingSummaryExpenseAccounts }] =
+  const [summaryExpenseAccounts, , { isLoading: isFetchingSummaryExpenseAccounts }] =
     useApiSpenicleSummaryAccountsQuery({
       ...dateFilters,
       id: appliedFilters.accountIds,
       type: 'expense',
     });
 
-  const [summaryIncomeAccounts, , { isFetching: isFetchingSummaryIncomeAccounts }] = useApiSpenicleSummaryAccountsQuery(
-    {
-      ...dateFilters,
-      id: appliedFilters.accountIds,
-      type: 'income',
-    },
-  );
+  const [summaryIncomeAccounts, , { isLoading: isFetchingSummaryIncomeAccounts }] = useApiSpenicleSummaryAccountsQuery({
+    ...dateFilters,
+    id: appliedFilters.accountIds,
+    type: 'income',
+  });
 
   const isLoading =
     isFetchingSummaryTotal ||
@@ -78,7 +74,7 @@ const SummaryPage = () => {
   return (
     <>
       <If condition={isLoading}>
-        <LoadingIndicator type="bar" size="sm" />
+        <PageLoader />
       </If>
 
       <If

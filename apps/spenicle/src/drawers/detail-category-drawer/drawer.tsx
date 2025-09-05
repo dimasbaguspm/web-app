@@ -2,7 +2,7 @@ import { useApiSpenicleCategoryQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { Drawer, LoadingIndicator, NoResults, Tabs } from '@dimasbaguspm/versaur';
+import { Drawer, NoResults, PageLoader, Tabs } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -20,7 +20,7 @@ interface DetailCategoryDrawerProps {
 export const DetailCategoryDrawer: FC<DetailCategoryDrawerProps> = ({ categoryId, tabId }) => {
   const { openDrawer } = useDrawerRoute();
   const activeTab = tabId || 'details';
-  const [category, , { isFetching }] = useApiSpenicleCategoryQuery(categoryId);
+  const [category, , { isLoading }] = useApiSpenicleCategoryQuery(categoryId);
 
   const { name } = formatSpenicleCategory(category);
 
@@ -37,7 +37,7 @@ export const DetailCategoryDrawer: FC<DetailCategoryDrawerProps> = ({ categoryId
   return (
     <>
       <Drawer.Header hasTab>
-        <Drawer.Title>{isFetching ? 'Loading...' : name}</Drawer.Title>
+        <Drawer.Title>{isLoading ? 'Loading...' : name}</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Tab>
@@ -48,15 +48,15 @@ export const DetailCategoryDrawer: FC<DetailCategoryDrawerProps> = ({ categoryId
         </Tabs>
       </Drawer.Tab>
 
-      <If condition={isFetching}>
-        <LoadingIndicator type="bar" size="sm" />
+      <If condition={isLoading}>
+        <PageLoader />
       </If>
 
-      <If condition={[!isFetching, !category]}>
+      <If condition={[!isLoading, !category]}>
         <NoResults title="No Category Found" icon={SearchXIcon} />
       </If>
 
-      <If condition={[!isFetching, category]}>
+      <If condition={[!isLoading, category]}>
         <Drawer.Body>
           {activeTab === 'details' && <DetailsTab data={category!} />}
           {activeTab === 'trends' && <TrendsTab data={category!} />}

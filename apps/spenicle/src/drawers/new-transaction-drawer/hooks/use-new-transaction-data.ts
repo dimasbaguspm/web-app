@@ -5,17 +5,17 @@ import { NewTransactionFormSchema } from '../types';
 export const useNewTransactionData = (payload: NewTransactionFormSchema) => {
   const { accountId, categoryId, destinationAccountId } = payload;
 
-  const [accountData, , { isFetching: isAccountFetching }] = useApiSpenicleAccountQuery(+accountId, {
+  const [accountData, , { isLoading: isAccountFetching }] = useApiSpenicleAccountQuery(+accountId, {
     enabled: !!accountId,
   });
-  const [destinationAccountData, , { isFetching: isDestinationAccountFetching }] = useApiSpenicleAccountQuery(
+  const [destinationAccountData, , { isLoading: isDestinationAccountFetching }] = useApiSpenicleAccountQuery(
     +destinationAccountId!,
     {
       enabled: !!destinationAccountId,
     },
   );
 
-  const [categoryData, , { isFetching: isCategoryFetching }] = useApiSpenicleCategoryQuery(+categoryId, {
+  const [categoryData, , { isLoading: isCategoryFetching }] = useApiSpenicleCategoryQuery(+categoryId, {
     enabled: !!categoryId,
   });
 

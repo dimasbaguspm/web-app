@@ -5,26 +5,24 @@ import {
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
-  Badge,
-  BadgeGroup,
   Button,
   ButtonGroup,
+  ButtonIcon,
   ButtonMenu,
-  Card,
   Drawer,
   FormLayout,
   Icon,
-  LoadingIndicator,
   NoResults,
+  PageLoader,
   SearchInput,
   SelectableSingleInput,
 } from '@dimasbaguspm/versaur';
-import { SearchXIcon, SlidersHorizontalIcon } from 'lucide-react';
+import { SearchXIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react';
 import { FC, useState } from 'react';
 
+import { AccountCard } from '../../components/account-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 interface SelectAccountDrawerProps {
@@ -84,6 +82,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
     <>
       <Drawer.Header>
         <Drawer.Title>Select Account</Drawer.Title>
+        <ButtonIcon as={XIcon} size="sm" variant="ghost" aria-label="Close" onClick={handleOnCancel} />
       </Drawer.Header>
 
       <Drawer.Body>
@@ -126,38 +125,16 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
         </FormLayout>
 
         <If condition={[isInitialFetching]}>
-          <LoadingIndicator size="sm" type="bar" />
+          <PageLoader />
         </If>
 
         <If condition={[accounts?.length, !isInitialFetching]}>
           <ul>
             {accounts?.map((account) => {
-              const { type, variant, hasGroup, groups, formattedAmount } = formatSpenicleAccount(account);
               return (
                 <li key={account.id}>
                   <SelectableSingleInput
-                    label={
-                      <Card
-                        as="div"
-                        size="xs"
-                        title={account.name}
-                        badge={
-                          <BadgeGroup>
-                            <Badge color={variant} size="sm">
-                              {type}
-                            </Badge>
-                            <If condition={hasGroup}>
-                              {groups.map(({ name }) => (
-                                <Badge key={name} color="accent_1" size="sm">
-                                  {name}
-                                </Badge>
-                              ))}
-                            </If>
-                          </BadgeGroup>
-                        }
-                        supplementaryInfo={formattedAmount}
-                      />
-                    }
+                    label={<AccountCard as="div" account={account} size="none" />}
                     value={account.id.toString()}
                     checked={account.id === selectedAccountId}
                     onChange={() => setSelectedAccountId(account.id)}
@@ -197,7 +174,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
             Cancel
           </Button>
           <Button form="select-account-form" onClick={handleOnSubmit} disabled={!selectedAccountId}>
-            Save
+            Select
           </Button>
         </ButtonGroup>
       </Drawer.Footer>

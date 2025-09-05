@@ -5,26 +5,24 @@ import {
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
-  Badge,
-  BadgeGroup,
   Button,
   ButtonGroup,
+  ButtonIcon,
   ButtonMenu,
-  Card,
   Drawer,
   FormLayout,
   Icon,
-  LoadingIndicator,
   NoResults,
+  PageLoader,
   SearchInput,
   SelectableSingleInput,
 } from '@dimasbaguspm/versaur';
-import { SearchXIcon, SlidersHorizontalIcon } from 'lucide-react';
+import { SearchXIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react';
 import { FC, useState } from 'react';
 
+import { CategoryCard } from '../../components/category-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 interface SelectCategoryDrawerProps {
@@ -88,6 +86,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
     <>
       <Drawer.Header>
         <Drawer.Title>Select Category</Drawer.Title>
+        <ButtonIcon as={XIcon} size="sm" variant="ghost" aria-label="Close" onClick={handleOnCancel} />
       </Drawer.Header>
 
       <Drawer.Body>
@@ -130,37 +129,16 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
         </FormLayout>
 
         <If condition={[isInitialFetching]}>
-          <LoadingIndicator size="sm" type="bar" />
+          <PageLoader />
         </If>
 
         <If condition={[!isInitialFetching, categories.length]}>
           <ul>
             {categories.map((category) => {
-              const { variant, type, hasGroup, groups } = formatSpenicleCategory(category);
               return (
                 <li key={category.id}>
                   <SelectableSingleInput
-                    label={
-                      <Card
-                        as="div"
-                        size="xs"
-                        title={category.name}
-                        badge={
-                          <BadgeGroup>
-                            <Badge color={variant} size="sm">
-                              {type}
-                            </Badge>
-                            <If condition={hasGroup}>
-                              {groups.map(({ name }) => (
-                                <Badge key={name} color="accent_1" size="sm">
-                                  {name}
-                                </Badge>
-                              ))}
-                            </If>
-                          </BadgeGroup>
-                        }
-                      />
-                    }
+                    label={<CategoryCard as="div" size="none" category={category} />}
                     value={category.id.toString()}
                     checked={category.id === selectedCategoryId}
                     onChange={() => setSelectedCategoryId(category.id)}
@@ -200,7 +178,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
             Cancel
           </Button>
           <Button form="select-category-form" onClick={handleOnSubmit} disabled={!selectedCategoryId}>
-            Save
+            Select
           </Button>
         </ButtonGroup>
       </Drawer.Footer>

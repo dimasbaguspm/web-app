@@ -12,7 +12,7 @@ import {
   Drawer,
   FormLayout,
   Icon,
-  LoadingIndicator,
+  PageLoader,
   TextInput,
 } from '@dimasbaguspm/versaur';
 import { noop } from 'lodash';
@@ -42,7 +42,7 @@ export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payl
 
   const [accountId, categoryId] = watch(['accountId', 'categoryId']);
 
-  const [accounts, , { isFetching: isAccountsFetching }] = useApiSpenicleAccountsPaginatedQuery(
+  const [accounts, , { isLoading: isAccountsFetching }] = useApiSpenicleAccountsPaginatedQuery(
     {
       id: accountId,
       pageSize: 100,
@@ -52,7 +52,7 @@ export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payl
     },
   );
 
-  const [categories, , { isFetching: isCategoriesFetching }] = useApiSpenicleCategoriesPaginatedQuery(
+  const [categories, , { isLoading: isCategoriesFetching }] = useApiSpenicleCategoriesPaginatedQuery(
     {
       id: categoryId,
       pageSize: 100,
@@ -111,7 +111,7 @@ export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payl
         <Drawer.CloseButton />
       </Drawer.Header>
       <If condition={[isLoading]}>
-        <LoadingIndicator type="bar" size="sm" />
+        <PageLoader />
       </If>
       <If condition={[!isLoading]}>
         <Drawer.Body>

@@ -30,4 +30,6 @@ export const DRAWER_ROUTES = {
 
   FILTER_SUMMARY: 'filter-summary',
   FILTER_SUMMARY_COMPARE: 'filter-summary-compare',
+
+  DETAIL_SCHEDULED_PAYMENTS: 'detail-scheduled-payments',
 } as const;

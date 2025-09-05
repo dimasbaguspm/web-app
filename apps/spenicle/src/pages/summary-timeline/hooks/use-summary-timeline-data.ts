@@ -18,7 +18,7 @@ export const useSummaryTimelineData = () => {
     accountIds: appliedFilters.accountIds,
   };
 
-  const [transactions, , { hasNextPage, isFetching, isFetchingNextPage }, { fetchNextPage }] =
+  const [transactions, , { hasNextPage, isLoading, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleTransactionsInfiniteQuery({
       dateFrom: dateFilters.from,
       dateTo: dateFilters.to,
@@ -67,7 +67,7 @@ export const useSummaryTimelineData = () => {
     };
   });
 
-  const isInitialLoading = isFetching && !isFetchingNextPage;
+  const isInitialLoading = isLoading && !isFetchingNextPage;
 
   return {
     data,

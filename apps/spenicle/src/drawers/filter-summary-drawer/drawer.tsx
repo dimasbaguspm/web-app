@@ -12,7 +12,7 @@ import {
   DateSinglePickerInput,
   Drawer,
   FormLayout,
-  LoadingIndicator,
+  PageLoader,
   SelectInput,
   SwitchInput,
   TextAreaInput,
@@ -46,7 +46,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
     },
   });
 
-  const [categories, , { isFetching: isCategoriesFetching }] = useApiSpenicleCategoriesPaginatedQuery(
+  const [categories, , { isLoading: isCategoriesFetching }] = useApiSpenicleCategoriesPaginatedQuery(
     {
       id: getValues().categoryIds,
     },
@@ -55,7 +55,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
     },
   );
 
-  const [accounts, , { isFetching: isAccountsFetching }] = useApiSpenicleAccountsPaginatedQuery(
+  const [accounts, , { isLoading: isAccountsFetching }] = useApiSpenicleAccountsPaginatedQuery(
     {
       id: getValues().accountIds,
     },
@@ -131,7 +131,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
       </Drawer.Header>
 
       <If condition={[isAccountsFetching, isCategoriesFetching]}>
-        <LoadingIndicator type="bar" size="sm" />
+        <PageLoader />
       </If>
 
       <If condition={[!isAccountsFetching, !isCategoriesFetching]}>

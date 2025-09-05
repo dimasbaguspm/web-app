@@ -2,19 +2,12 @@ import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Icon,
-  LoadingIndicator,
-  PageContent,
-  PageHeader,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader, PageLoader } from '@dimasbaguspm/versaur';
 import dayjs, { Dayjs } from 'dayjs';
-import { PlusIcon } from 'lucide-react';
+import { PlusIcon, RefreshCwIcon } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
 
+import { TransactionCard } from '../../components/transaction-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
 
@@ -22,7 +15,6 @@ import { ActionsControl } from './components/actions-control';
 import { FiltersControl } from './components/filters-control';
 import { NoResults } from './components/no-results';
 import { TabsDate } from './components/tabs-date';
-import { TransactionCard } from './components/transaction-card';
 import { useTransactionData } from './hooks/use-transactions-data';
 import { useTransactionsFilter } from './hooks/use-transactions-filter';
 
@@ -42,7 +34,7 @@ const TransactionsPage = () => {
   const { openDrawer } = useDrawerRoute();
 
   const { humanizedFilters } = useTransactionsFilter();
-  const { isFetching, transactions, accounts, categories, hasNextPage, fetchNextPage, isFetchingNextPage } =
+  const { isLoading, transactions, accounts, categories, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useTransactionData({ date: startDate });
 
   const handleOnDateChange = (date: Dayjs) => {
@@ -74,6 +66,10 @@ const TransactionsPage = () => {
     navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()));
   };
 
+  const handleOnScheduledPaymentsClick = () => {
+    openDrawer(DRAWER_ROUTES.DETAIL_SCHEDULED_PAYMENTS);
+  };
+
   return (
     <>
       <PageHeader
@@ -81,6 +77,10 @@ const TransactionsPage = () => {
         subtitle={formatDate(startDate, DateFormat.MONTH_YEAR)}
         actions={
           <ButtonGroup>
+            <Button variant="outline" onClick={handleOnScheduledPaymentsClick}>
+              <Icon as={RefreshCwIcon} color="inherit" />
+              Scheduled Payments
+            </Button>
             <Button onClick={handleOnNewTransactionClick}>
               <Icon as={PlusIcon} color="inherit" />
               New Transaction
@@ -89,6 +89,12 @@ const TransactionsPage = () => {
         }
         mobileActions={
           <ButtonGroup>
+            <ButtonIcon
+              as={RefreshCwIcon}
+              aria-label="Refresh"
+              variant="outline"
+              onClick={handleOnScheduledPaymentsClick}
+            />
             <ButtonIcon as={PlusIcon} aria-label="New Transaction" onClick={handleOnNewTransactionClick} />
           </ButtonGroup>
         }
@@ -106,11 +112,11 @@ const TransactionsPage = () => {
           <FiltersControl />
         </If>
 
-        <If condition={[isFetching]}>
-          <LoadingIndicator size="sm" type="bar" />
+        <If condition={[isLoading]}>
+          <PageLoader />
         </If>
 
-        <If condition={[!isFetching, transactions.length !== 0]}>
+        <If condition={[!isLoading, transactions.length !== 0]}>
           <ul className="flex flex-col mb-4">
             {transactions.map((transaction) => {
               const account = accounts?.items.find((acc) => acc.id === transaction.accountId);
@@ -137,7 +143,7 @@ const TransactionsPage = () => {
           </If>
         </If>
 
-        <If condition={[!isFetching, transactions.length === 0]}>
+        <If condition={[!isLoading, transactions.length === 0]}>
           <NoResults onNewTransactionClick={handleOnNewTransactionClick} />
         </If>
       </PageContent>

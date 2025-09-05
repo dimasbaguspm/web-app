@@ -1,4 +1,5 @@
 import { useApiSpenicleCategoryGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { CategoryGroupModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -7,18 +8,17 @@ import {
   ButtonIcon,
   Hr,
   Icon,
-  LoadingIndicator,
   NoResults,
   PageContent,
   PageHeader,
+  PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
 import { PlusIcon, SearchXIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { CategoryGroupCard } from '../../components/category-group-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-
-import { CategoryGroupCard } from './components/category-group-card';
 
 const SettingsCategoryGroupsPage = () => {
   const { openDrawer } = useDrawerRoute();
@@ -33,6 +33,10 @@ const SettingsCategoryGroupsPage = () => {
 
   const handleNewCategoryGroup = () => {
     openDrawer(DRAWER_ROUTES.NEW_CATEGORY_GROUP);
+  };
+
+  const handleCategoryGroupClick = (categoryGroup: CategoryGroupModel) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_CATEGORY_GROUP, { categoryGroupId: categoryGroup.id });
   };
 
   return (
@@ -65,7 +69,7 @@ const SettingsCategoryGroupsPage = () => {
 
         <div className="space-y-4">
           <If condition={isInitialFetching}>
-            <LoadingIndicator size="sm" type="bar" />
+            <PageLoader />
           </If>
           <If condition={[!isInitialFetching, categoryGroups.length === 0]}>
             <NoResults
@@ -91,7 +95,7 @@ const SettingsCategoryGroupsPage = () => {
                 const isLastItem = index === categoryGroups.length - 1;
                 return (
                   <li key={categoryGroup.id}>
-                    <CategoryGroupCard categoryGroup={categoryGroup} />
+                    <CategoryGroupCard categoryGroup={categoryGroup} onClick={handleCategoryGroupClick} />
                     {!isLastItem && <Hr />}
                   </li>
                 );

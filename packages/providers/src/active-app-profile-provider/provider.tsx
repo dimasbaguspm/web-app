@@ -1,6 +1,6 @@
 import { AppId } from '@dimasbaguspm/constants';
 import { useApiHiAppProfileQuery } from '@dimasbaguspm/hooks/use-api';
-import { LoadingIndicator } from '@dimasbaguspm/versaur';
+import { PageLoader } from '@dimasbaguspm/versaur';
 import { FC, ReactNode } from 'react';
 
 import { useAuthProvider } from '../auth-provider';
@@ -26,7 +26,7 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
   };
 
   if (activeProfile && !activeProfileData) {
-    return <LoadingIndicator type="bar" size="sm" />;
+    return <PageLoader />;
   }
 
   return (

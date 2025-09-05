@@ -1,28 +1,20 @@
 import { CategoryGroupModel } from '@dimasbaguspm/interfaces';
-import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
-import { Avatar, Card, Icon, Text } from '@dimasbaguspm/versaur';
+import { Avatar, Card, CardProps, Icon, Text } from '@dimasbaguspm/versaur';
 import { UsersIcon } from 'lucide-react';
 import { FC } from 'react';
 
-import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
-
-interface CategoryGroupCardProps {
+interface CategoryGroupCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'actions'> {
   categoryGroup: CategoryGroupModel;
+  onClick?: (categoryGroup: CategoryGroupModel) => void;
 }
 
-export const CategoryGroupCard: FC<CategoryGroupCardProps> = ({ categoryGroup }) => {
-  const { openDrawer } = useDrawerRoute();
-
-  const handleOnCardClick = () => {
-    openDrawer(DRAWER_ROUTES.DETAIL_CATEGORY_GROUP, { categoryGroupId: categoryGroup.id });
-  };
-
+export const CategoryGroupCard: FC<CategoryGroupCardProps> = ({ categoryGroup, onClick }) => {
   const categoryCount = categoryGroup.memberIds.length;
 
   return (
     <Card
-      onClick={handleOnCardClick}
+      onClick={() => onClick?.(categoryGroup)}
       avatar={
         <Avatar shape="rounded" size="lg">
           {nameToInitials(categoryGroup.name)}

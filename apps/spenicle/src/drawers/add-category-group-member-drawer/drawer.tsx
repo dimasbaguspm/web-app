@@ -6,7 +6,7 @@ import {
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, LoadingIndicator } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, PageLoader } from '@dimasbaguspm/versaur';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -23,7 +23,7 @@ export const AddCategoryGroupMemberDrawer: FC<AddCategoryGroupMemberDrawerProps>
   const { openDrawer, closeDrawer } = useDrawerRoute();
   const { isDesktop } = useWindowResize();
 
-  const [categoryGroup, , { isFetching: isFetchingCategoryGroup }] = useApiSpenicleCategoryGroupQuery(categoryGroupId);
+  const [categoryGroup, , { isLoading: isFetchingCategoryGroup }] = useApiSpenicleCategoryGroupQuery(categoryGroupId);
   const [addToGroupMembers, , { isPending: isPendingSubmit }] = useApiSpenicleCreateCategoryGroupMembers();
   const [removeFromGroupMembers, , { isPending: isPendingRemove }] = useApiSpenicleDeleteCategoryGroupMembers();
 
@@ -78,7 +78,7 @@ export const AddCategoryGroupMemberDrawer: FC<AddCategoryGroupMemberDrawerProps>
       </Drawer.Header>
       <Drawer.Body>
         <If condition={isFetchingCategoryGroup}>
-          <LoadingIndicator size="sm" type="bar" />
+          <PageLoader />
         </If>
         <If condition={!isFetchingCategoryGroup}>
           <Form

@@ -6,7 +6,7 @@ import {
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, LoadingIndicator } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, PageLoader } from '@dimasbaguspm/versaur';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -23,7 +23,7 @@ export const AddAccountGroupMemberDrawer: FC<AddAccountGroupMemberDrawerProps> =
   const { openDrawer, closeDrawer } = useDrawerRoute();
   const { isDesktop } = useWindowResize();
 
-  const [accountGroup, , { isFetching: isFetchingAccountGroup }] = useApiSpenicleAccountGroupQuery(accountGroupId);
+  const [accountGroup, , { isLoading: isFetchingAccountGroup }] = useApiSpenicleAccountGroupQuery(accountGroupId);
   const [addToGroupMembers, , { isPending: isPendingSubmit }] = useApiSpenicleCreateAccountGroupMembers();
   const [removeFromGroupMembers, , { isPending: isPendingRemove }] = useApiSpenicleDeleteAccountGroupMembers();
 
@@ -79,7 +79,7 @@ export const AddAccountGroupMemberDrawer: FC<AddAccountGroupMemberDrawerProps> =
       </Drawer.Header>
       <Drawer.Body>
         <If condition={isFetchingAccountGroup}>
-          <LoadingIndicator size="sm" type="bar" />
+          <PageLoader />
         </If>
         <If condition={!isFetchingAccountGroup}>
           <Form

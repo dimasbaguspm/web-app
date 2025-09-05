@@ -11,7 +11,7 @@ import {
   ButtonIcon,
   Drawer,
   Icon,
-  LoadingIndicator,
+  PageLoader,
   Text,
 } from '@dimasbaguspm/versaur';
 import { CopyIcon, Edit2Icon, TrashIcon } from 'lucide-react';
@@ -34,7 +34,7 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({ tran
   const { transactionData, accountData, destinationAccountData, categoryData, isInitialLoading } =
     useDetailTransactionData({ transactionId });
 
-  const { note, variant, capitalizedType, time, date, amount } = formatSpenicleTransaction(transactionData);
+  const { note, variant, capitalizedType, date, time, amount } = formatSpenicleTransaction(transactionData);
 
   const { name: accountName } = formatSpenicleAccount(accountData);
   const { name: destinationAccountName } = formatSpenicleAccount(destinationAccountData);
@@ -67,7 +67,7 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({ tran
         <Drawer.CloseButton />
       </Drawer.Header>
       <If condition={[isInitialLoading, !transactionData]}>
-        <LoadingIndicator size="sm" type="bar" />
+        <PageLoader />
       </If>
 
       <If condition={[!isInitialLoading, transactionData]}>

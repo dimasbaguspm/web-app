@@ -1,4 +1,5 @@
 import { useApiSpenicleAccountGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { AccountGroupModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -7,18 +8,17 @@ import {
   ButtonIcon,
   Hr,
   Icon,
-  LoadingIndicator,
   NoResults,
   PageContent,
   PageHeader,
+  PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
 import { PlusIcon, SearchXIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { AccountGroupCard } from '../../components/account-group-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-
-import { AccountGroupCard } from './components';
 
 const SettingsAccountGroupsPage = () => {
   const { openDrawer } = useDrawerRoute();
@@ -33,6 +33,10 @@ const SettingsAccountGroupsPage = () => {
 
   const handleNewAccountGroup = () => {
     openDrawer(DRAWER_ROUTES.NEW_ACCOUNT_GROUP);
+  };
+
+  const handleAccountGroupClick = (accountGroup: AccountGroupModel) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_ACCOUNT_GROUP, { accountGroupId: accountGroup.id });
   };
 
   return (
@@ -65,7 +69,7 @@ const SettingsAccountGroupsPage = () => {
 
         <div className="space-y-4">
           <If condition={isInitialFetching}>
-            <LoadingIndicator size="sm" type="bar" />
+            <PageLoader />
           </If>
           <If condition={[!isInitialFetching, accountGroups.length === 0]}>
             <NoResults
@@ -91,7 +95,7 @@ const SettingsAccountGroupsPage = () => {
                 const isLastItem = index === accountGroups.length - 1;
                 return (
                   <li key={accountGroup.id}>
-                    <AccountGroupCard accountGroup={accountGroup} />
+                    <AccountGroupCard accountGroup={accountGroup} onClick={handleAccountGroupClick} />
                     {!isLastItem && <Hr />}
                   </li>
                 );

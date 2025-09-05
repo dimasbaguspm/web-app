@@ -11,6 +11,7 @@ import { DetailAccountDrawer } from '../drawers/detail-account-drawer/drawer';
 import { DetailAccountGroupDrawer } from '../drawers/detail-account-group-drawer/drawer';
 import { DetailCategoryDrawer } from '../drawers/detail-category-drawer/drawer';
 import { DetailCategoryGroupDrawer } from '../drawers/detail-category-group-drawer/drawer';
+import { DetailScheduledPaymentsDrawer } from '../drawers/detail-scheduled-payments-drawer';
 import { DetailTransactionDrawer } from '../drawers/detail-transaction-drawer/drawer';
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditAccountGroupDrawer } from '../drawers/edit-account-group-drawer/drawer';
@@ -56,9 +57,14 @@ export const DrawerRoutes: FC = () => {
   const hasParam = (param: keyof typeof params) => param in params;
   const hasState = (stateKey: keyof typeof state) => stateKey in state;
 
-  const disableInteractive = ([DRAWER_ROUTES.SELECT_ACCOUNT, DRAWER_ROUTES.SELECT_CATEGORY] as string[]).includes(
-    drawerId ?? '',
-  );
+  const disableInteractive = (
+    [
+      DRAWER_ROUTES.SELECT_ACCOUNT,
+      DRAWER_ROUTES.SELECT_CATEGORY,
+      DRAWER_ROUTES.SELECT_MULTIPLE_ACCOUNT,
+      DRAWER_ROUTES.SELECT_MULTIPLE_CATEGORY,
+    ] as string[]
+  ).includes(drawerId ?? '');
 
   return (
     <Drawer
@@ -157,6 +163,8 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.ADD_CATEGORY_GROUP_MEMBERS) && hasParam('categoryGroupId') && (
         <AddCategoryGroupMemberDrawer categoryGroupId={params.categoryGroupId!} />
       )}
+
+      {is(DRAWER_ROUTES.DETAIL_SCHEDULED_PAYMENTS) && <DetailScheduledPaymentsDrawer />}
     </Drawer>
   );
 };

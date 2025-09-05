@@ -1,26 +1,12 @@
 import { useApiSpenicleAccountGroupQuery, useApiSpenicleAccountsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
-import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Avatar,
-  Badge,
-  BadgeGroup,
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Card,
-  Drawer,
-  Heading,
-  Icon,
-  LoadingIndicator,
-  NoResults,
-  Text,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ButtonIcon, Drawer, Heading, Icon, NoResults, PageLoader } from '@dimasbaguspm/versaur';
 import { Edit3Icon, TrashIcon, UsersRoundIcon, UserX2Icon } from 'lucide-react';
 import { FC } from 'react';
 
+import { AccountCard } from '../../components/account-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { MODAL_ROUTES } from '../../constants/modal-routes';
 
@@ -36,7 +22,7 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
     enabled: Boolean(accountGroupId),
   });
 
-  const [accounts, , { isFetching: isFetchingAccounts }] = useApiSpenicleAccountsInfiniteQuery(
+  const [accounts, , { isLoading: isFetchingAccounts }] = useApiSpenicleAccountsInfiniteQuery(
     {
       id: accountGroup?.memberIds || [],
     },
@@ -92,7 +78,7 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
             Members
           </Heading>
           <If condition={isFetchingAccounts}>
-            <LoadingIndicator size="sm" type="bar" />
+            <PageLoader />
           </If>
           <If condition={[!isFetchingAccounts, !accounts.length]}>
             <NoResults
@@ -111,24 +97,9 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
           <If condition={[!isFetchingAccounts, accounts.length]}>
             <ul>
               {accounts?.map((account) => {
-                const { type, variant, initialName, formattedAmount } = formatSpenicleAccount(account);
                 return (
                   <li key={account.id}>
-                    <Card
-                      onClick={() => handleAccountClick(account.id)}
-                      avatar={<Avatar shape="rounded">{initialName}</Avatar>}
-                      title={account.name}
-                      badge={
-                        <BadgeGroup>
-                          <Badge color={variant}>{type}</Badge>
-                        </BadgeGroup>
-                      }
-                      supplementaryInfo={
-                        <Text fontSize="sm" color="gray">
-                          {formattedAmount}
-                        </Text>
-                      }
-                    />
+                    <AccountCard account={account} onClick={() => handleAccountClick(account.id)} />
                   </li>
                 );
               })}

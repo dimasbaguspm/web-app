@@ -169,7 +169,7 @@ export const useApiInfiniteQuery = <TData, TQuery, TError = { message: string }>
     hasNextPage: query.hasNextPage,
     isFetchingNextPage: query.isFetchingNextPage,
     isFetchNextPageError: query.isFetchNextPageError,
-    isInitialFetching: !query.isFetchingNextPage && query.isFetching,
+    isInitialFetching: !query.isFetchingNextPage && query.isLoading,
   };
 
   const funcs: InfiniteQueryFuncs<InfiniteData<TData | null>, TError> = {

@@ -12,10 +12,10 @@ import {
   Modal,
   Button,
   ButtonGroup,
-  LoadingIndicator,
   NoResults,
   SelectableSingleInput,
   Text,
+  PageLoader,
 } from '@dimasbaguspm/versaur';
 import { UserSearchIcon } from 'lucide-react';
 import { FC, useState } from 'react';
@@ -35,7 +35,7 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
 
   const [selectedId, setSelectedId] = useState<number | null>(activeProfile ? +activeProfile.id : null);
 
-  const { profiles, isFetching } = useAppProfileSwitcherData();
+  const { profiles, isLoading } = useAppProfileSwitcherData();
 
   const [setActiveProfile, , { isPending: isSettingActiveProfile }] = useApiHiAuthSetActiveProfile();
 
@@ -58,10 +58,10 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
       <Modal.Header>Select Profile</Modal.Header>
 
       <Modal.Body className="max-h-[56dvh] overflow-y-auto">
-        <If condition={isFetching}>
-          <LoadingIndicator size="sm" type="bar" />
+        <If condition={isLoading}>
+          <PageLoader minimal />
         </If>
-        <If condition={[!isFetching, profiles.length]}>
+        <If condition={[!isLoading, profiles.length]}>
           <ul>
             {profiles.map((profile) => {
               const { name, initial, isGroupRelated } = formatAppProfile(profile);
@@ -97,7 +97,7 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
             })}
           </ul>
         </If>
-        <If condition={[!isFetching, !profiles.length]}>
+        <If condition={[!isLoading, !profiles.length]}>
           <NoResults icon={UserSearchIcon} title="No profiles found" subtitle="Register a new profile to get started" />
         </If>
       </Modal.Body>

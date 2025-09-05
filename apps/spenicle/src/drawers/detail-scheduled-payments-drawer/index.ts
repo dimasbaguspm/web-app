@@ -1,0 +1,1 @@
+export { DetailScheduledPaymentsDrawer } from './drawer';

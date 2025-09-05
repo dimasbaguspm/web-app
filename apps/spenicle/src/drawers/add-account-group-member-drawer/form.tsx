@@ -1,20 +1,18 @@
 import { useApiSpenicleAccountsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
-import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
-  Badge,
-  BadgeGroup,
   Button,
   ButtonGroup,
-  LoadingIndicator,
   NoResults,
+  PageLoader,
   SearchInput,
   SelectableMultipleInput,
-  Text,
 } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
+
+import { AccountCard } from '../../components/account-card';
 
 interface FormProps {
   handleCreateNewAccount: () => void;
@@ -40,7 +38,7 @@ export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSel
       </div>
 
       <If condition={isInitialFetching}>
-        <LoadingIndicator size="sm" type="bar" />
+        <PageLoader />
       </If>
       <If condition={[!isInitialFetching, !accounts.length]}>
         <NoResults
@@ -60,22 +58,10 @@ export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSel
       <If condition={!!accounts.length}>
         <ul className="mb-4">
           {accounts.map((account) => {
-            const { type, variant } = formatSpenicleAccount(account);
             return (
               <li key={account.id}>
                 <SelectableMultipleInput
-                  label={
-                    <div className="flex flex-col w-auto">
-                      <Text className="mb-2" fontSize="base" fontWeight="semibold">
-                        {account.name}
-                      </Text>
-                      <BadgeGroup>
-                        <Badge color={variant} size="sm">
-                          {type}
-                        </Badge>
-                      </BadgeGroup>
-                    </div>
-                  }
+                  label={<AccountCard account={account} as="div" size="none" />}
                   checked={accountIds.includes(account.id)}
                   value={account.id.toString()}
                   onChange={(e) => {

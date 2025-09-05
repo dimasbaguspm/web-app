@@ -5,7 +5,7 @@ import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 
 export const useAppProfileSwitcherData = () => {
   const { user, groupMembers } = useAuthProvider();
-  const [userAppProfiles, , { isFetching: isUserFetching }] = useApiHiAppProfilesPaginatedQuery(
+  const [userAppProfiles, , { isLoading: isUserFetching }] = useApiHiAppProfilesPaginatedQuery(
     {
       appId: [AppId.Spenicle],
       userId: [user.id],
@@ -18,7 +18,7 @@ export const useAppProfileSwitcherData = () => {
 
   type GroupMember = { groupId: number };
 
-  const [groupAppProfiles, , { isFetching: isGroupFetching }] = useApiHiAppProfilesPaginatedQuery(
+  const [groupAppProfiles, , { isLoading: isGroupFetching }] = useApiHiAppProfilesPaginatedQuery(
     {
       appId: [AppId.Spenicle],
       groupId: groupMembers.map((member: GroupMember) => member.groupId),
@@ -33,6 +33,6 @@ export const useAppProfileSwitcherData = () => {
 
   return {
     profiles,
-    isFetching: isUserFetching || isGroupFetching,
+    isLoading: isUserFetching || isGroupFetching,
   };
 };

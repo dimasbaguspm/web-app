@@ -52,7 +52,7 @@ export const useTransactionData = (props: UseTransactionDataProps) => {
   );
 
   return {
-    isFetching: isLoadingTransactions,
+    isLoading: isLoadingTransactions,
     transactions,
     accounts,
     categories,

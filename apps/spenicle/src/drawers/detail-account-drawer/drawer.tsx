@@ -2,7 +2,7 @@ import { useApiSpenicleAccountQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { Drawer, LoadingIndicator, Tabs } from '@dimasbaguspm/versaur';
+import { Drawer, PageLoader, Tabs } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -20,7 +20,7 @@ export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({ accountId, t
   const { openDrawer } = useDrawerRoute();
   const activeTab = tabId || 'details';
 
-  const [account, , { isFetching }] = useApiSpenicleAccountQuery(accountId);
+  const [account, , { isLoading }] = useApiSpenicleAccountQuery(accountId);
 
   const { name } = formatSpenicleAccount(account);
 
@@ -37,7 +37,7 @@ export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({ accountId, t
   return (
     <>
       <Drawer.Header hasTab>
-        <Drawer.Title>{isFetching ? 'Loading...' : name}</Drawer.Title>
+        <Drawer.Title>{isLoading ? 'Loading...' : name}</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Tab>
@@ -48,11 +48,11 @@ export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({ accountId, t
         </Tabs>
       </Drawer.Tab>
 
-      <If condition={isFetching}>
-        <LoadingIndicator type="bar" size="sm" />
+      <If condition={isLoading}>
+        <PageLoader />
       </If>
 
-      <If condition={[!isFetching, account]}>
+      <If condition={[!isLoading, account]}>
         <Drawer.Body>
           {activeTab === 'details' && <DetailsTab data={account!} />}
           {activeTab === 'trends' && <TrendsTab data={account!} />}

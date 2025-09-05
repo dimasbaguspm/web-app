@@ -2,7 +2,7 @@ import { useApiSpenicleTransactionQuery, useApiSpenicleUpdateTransaction } from 
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, LoadingIndicator, useSnackbars } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, PageLoader, useSnackbars } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 import { SubmitHandler } from 'react-hook-form';
@@ -57,7 +57,9 @@ export const EditTransactionDrawer: FC<EditTransactionDrawerProps> = ({ transact
           <Drawer.Title>Edit Transaction</Drawer.Title>
           <Drawer.CloseButton />
         </Drawer.Header>
-        <LoadingIndicator type="bar" size="sm" />
+        <Drawer.Body>
+          <PageLoader />
+        </Drawer.Body>
       </If>
 
       <If condition={[!isLoading, transactionData]}>

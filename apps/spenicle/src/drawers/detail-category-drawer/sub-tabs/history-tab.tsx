@@ -7,15 +7,15 @@ import {
   ButtonGroup,
   ButtonMenuIcon,
   FormLayout,
-  LoadingIndicator,
   NoResults,
+  PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
 import { FilterIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
+import { TransactionCard } from '../../../components/transaction-card';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
-import { HistoryTransactionCard } from '../components/history-transaction-card';
 import { useCategoryDetailHistoryData } from '../hooks/use-category-detail-history-data';
 
 interface HistoryTabProps {
@@ -48,16 +48,14 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
         <FormLayout.Column span={10}>
           <SearchInput onChange={(ev) => setSearchValue(ev.target.value)} placeholder="Search name or notes" />
         </FormLayout.Column>
-        <FormLayout.Column span={2} className="flex items-end justify-end">
-          <ButtonMenuIcon as={FilterIcon} variant="outline" aria-label="Filter">
-            <ButtonMenuIcon.Item>Sort by date</ButtonMenuIcon.Item>
-            <ButtonMenuIcon.Item>Sort by amount</ButtonMenuIcon.Item>
-          </ButtonMenuIcon>
-        </FormLayout.Column>
+        <ButtonMenuIcon as={FilterIcon} variant="outline" aria-label="Filter">
+          <ButtonMenuIcon.Item>Sort by date</ButtonMenuIcon.Item>
+          <ButtonMenuIcon.Item>Sort by amount</ButtonMenuIcon.Item>
+        </ButtonMenuIcon>
       </FormLayout>
 
       <If condition={[isInitialLoading]}>
-        <LoadingIndicator type="bar" size="sm" />
+        <PageLoader />
       </If>
 
       <If condition={[!isInitialLoading]}>
@@ -68,11 +66,12 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
           <ul>
             {transactions.map(({ transaction, account, category }) => (
               <li key={transaction.id} className="border-b border-border">
-                <HistoryTransactionCard
+                <TransactionCard
                   transaction={transaction}
                   account={account}
                   category={category}
                   onClick={handleOnTransactionClick}
+                  useDateTime
                 />
               </li>
             ))}

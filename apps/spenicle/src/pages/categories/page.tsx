@@ -7,18 +7,18 @@ import {
   ButtonGroup,
   ButtonIcon,
   Icon,
-  LoadingIndicator,
   NoResults,
   PageContent,
   PageHeader,
+  PageLoader,
 } from '@dimasbaguspm/versaur';
 import { BoltIcon, PlusIcon, SearchXIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
+import { CategoryCard } from '../../components/category-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
 
-import { CategoryCard } from './components';
 import { ActionsControl } from './components/actions-control';
 import { FilterControl } from './components/filter-control';
 import { useCategoryFilter } from './hooks/use-category-filter';
@@ -73,7 +73,7 @@ const CategoriesPage = () => {
       />
       <PageContent>
         <If condition={isInitialFetching}>
-          <LoadingIndicator type="bar" size="sm" />
+          <PageLoader />
         </If>
 
         <If condition={[!isInitialFetching, categories]}>

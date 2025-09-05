@@ -10,8 +10,8 @@ import {
   ButtonMenuIcon,
   Hr,
   Icon,
-  LoadingIndicator,
   PageLayout,
+  PageLoader,
   Text,
   TopBar,
 } from '@dimasbaguspm/versaur';
@@ -118,7 +118,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
 
       <main className="flex-grow-1 relative overflow-y-scroll overscroll-container">
         <PageLayout type={isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}>
-          <Suspense fallback={<LoadingIndicator type="bar" size="sm" />}>{children}</Suspense>
+          <Suspense fallback={<PageLoader />}>{children}</Suspense>
         </PageLayout>
       </main>
 

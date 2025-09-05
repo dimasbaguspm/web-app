@@ -9,21 +9,21 @@ interface useDetailTransactionDataProps {
 }
 
 export const useDetailTransactionData = ({ transactionId }: useDetailTransactionDataProps) => {
-  const [transactionData, , { isFetching: isFetchingTransaction }] = useApiSpenicleTransactionQuery(transactionId);
+  const [transactionData, , { isLoading: isFetchingTransaction }] = useApiSpenicleTransactionQuery(transactionId);
 
-  const [accountData, , { isFetching: isFetchingAccount }] = useApiSpenicleAccountQuery(
+  const [accountData, , { isLoading: isFetchingAccount }] = useApiSpenicleAccountQuery(
     transactionData?.accountId || 0,
     {
       enabled: !!transactionData?.accountId,
     },
   );
-  const [destinationAccountData, , { isFetching: isFetchingDestinationAccount }] = useApiSpenicleAccountQuery(
+  const [destinationAccountData, , { isLoading: isFetchingDestinationAccount }] = useApiSpenicleAccountQuery(
     transactionData?.destinationAccountId || 0,
     {
       enabled: !!transactionData?.destinationAccountId,
     },
   );
-  const [categoryData, , { isFetching: isFetchingCategory }] = useApiSpenicleCategoryQuery(
+  const [categoryData, , { isLoading: isFetchingCategory }] = useApiSpenicleCategoryQuery(
     transactionData?.categoryId || 0,
     {
       enabled: !!transactionData?.categoryId,
