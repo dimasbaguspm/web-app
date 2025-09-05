@@ -1,20 +1,17 @@
 import { debounce } from 'lodash';
 import { useMemo, useState } from 'react';
 
-export interface UseDebouncedStateOptions {
+export interface UseDebouncedStateOptions<T> {
   debounceTime?: number;
-  defaultValue?: string;
+  defaultValue?: T;
 }
 
-export const useDebouncedState = (options: UseDebouncedStateOptions = {}) => {
+export const useDebouncedState = <T>(options: UseDebouncedStateOptions<T> = {}) => {
   const { debounceTime = 1000, defaultValue = '' } = options;
 
-  const [searchValue, setSearchValue] = useState<string>(defaultValue);
+  const [searchValue, setSearchValue] = useState<T>(defaultValue as T);
 
-  const debouncedSetSearch = useMemo(
-    () => debounce((value: string) => setSearchValue(value), debounceTime),
-    [debounceTime],
-  );
+  const debouncedSetSearch = useMemo(() => debounce((value: T) => setSearchValue(value), debounceTime), [debounceTime]);
 
   return [searchValue, debouncedSetSearch] as const;
 };

@@ -1,4 +1,8 @@
-import { useApiSpenicleCategoriesPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
+import {
+  useApiSpenicleCategoriesInfiniteQuery,
+  useApiSpenicleCategoryGroupsInfiniteQuery,
+} from '@dimasbaguspm/hooks/use-api';
+import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
@@ -8,17 +12,18 @@ import {
   BadgeGroup,
   Button,
   ButtonGroup,
+  ButtonMenu,
+  Card,
   Drawer,
   FormLayout,
+  Icon,
   LoadingIndicator,
   NoResults,
   SearchInput,
   SelectableSingleInput,
-  Text,
 } from '@dimasbaguspm/versaur';
-import { debounce } from 'lodash';
-import { SearchXIcon } from 'lucide-react';
-import { FC, useMemo, useState } from 'react';
+import { SearchXIcon, SlidersHorizontalIcon } from 'lucide-react';
+import { FC, useState } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
@@ -41,14 +46,21 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
     typeof payload?.[payloadId] === 'number' ? payload[payloadId] : null,
   );
 
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useDebouncedState({ defaultValue: '' });
+  const [selectGroupId, setSelectGroupId] = useDebouncedState<number[]>({ defaultValue: [], debounceTime: 100 });
 
-  const debouncedSetSearch = useMemo(() => debounce((value: string) => setSearchValue(value), 1000), []);
-  const [categories, , { isFetching }] = useApiSpenicleCategoriesPaginatedQuery({
-    search: searchValue,
-    type: ['expense', 'income', 'transfer'].includes(payload.type as string)
-      ? [payload.type as 'expense' | 'income' | 'transfer']
-      : undefined,
+  const [categories, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiSpenicleCategoriesInfiniteQuery({
+      search: searchValue,
+      categoryGroupIds: selectGroupId ? selectGroupId : undefined,
+      type: ['expense', 'income', 'transfer'].includes(payload.type as string)
+        ? [payload.type as 'expense' | 'income' | 'transfer']
+        : undefined,
+      sortBy: 'name',
+      sortOrder: 'asc',
+    });
+  const [categoryGroups] = useApiSpenicleCategoryGroupsInfiniteQuery({
+    pageSize: 15,
   });
 
   const handleOnSubmit = () => {
@@ -81,32 +93,72 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
       <Drawer.Body>
         <FormLayout className="mb-4">
           <FormLayout.Column span={12}>
-            <SearchInput defaultValue={searchValue} onChange={(e) => debouncedSetSearch(e.target.value)} />
+            <SearchInput defaultValue={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+          </FormLayout.Column>
+          <FormLayout.Column span={12}>
+            <ButtonGroup>
+              <If condition={categoryGroups?.length}>
+                <ButtonMenu
+                  variant="outline"
+                  preserve
+                  label={
+                    <>
+                      <Icon as={SlidersHorizontalIcon} color="inherit" size="sm" />
+                      Group
+                    </>
+                  }
+                >
+                  {categoryGroups?.map((group) => (
+                    <ButtonMenu.Item
+                      key={group.id}
+                      active={selectGroupId?.includes(group.id)}
+                      onClick={() => {
+                        if (selectGroupId?.includes(group.id)) {
+                          setSelectGroupId(selectGroupId.filter((id) => id !== group.id));
+                        } else {
+                          setSelectGroupId([...selectGroupId, group.id]);
+                        }
+                      }}
+                    >
+                      {group.name}
+                    </ButtonMenu.Item>
+                  ))}
+                </ButtonMenu>
+              </If>
+            </ButtonGroup>
           </FormLayout.Column>
         </FormLayout>
 
-        <If condition={[isFetching]}>
+        <If condition={[isInitialFetching]}>
           <LoadingIndicator size="sm" type="bar" />
         </If>
 
-        <If condition={[categories?.items.length, !isFetching]}>
+        <If condition={[!isInitialFetching, categories.length]}>
           <ul>
-            {categories?.items.map((category) => {
-              const { variant, type } = formatSpenicleCategory(category);
+            {categories.map((category) => {
+              const { variant, type, hasGroup, groups } = formatSpenicleCategory(category);
               return (
                 <li key={category.id}>
                   <SelectableSingleInput
                     label={
-                      <div className="flex flex-col w-auto">
-                        <Text className="mb-2" fontSize="base" fontWeight="semibold">
-                          {category.name}
-                        </Text>
-                        <BadgeGroup>
-                          <Badge color={variant} size="sm">
-                            {type}
-                          </Badge>
-                        </BadgeGroup>
-                      </div>
+                      <Card
+                        title={category.name}
+                        className="p-0"
+                        badge={
+                          <BadgeGroup>
+                            <Badge color={variant} size="sm">
+                              {type}
+                            </Badge>
+                            <If condition={hasGroup}>
+                              {groups.map(({ name }) => (
+                                <Badge key={name} color="info" size="sm">
+                                  {name}
+                                </Badge>
+                              ))}
+                            </If>
+                          </BadgeGroup>
+                        }
+                      />
                     }
                     value={category.id.toString()}
                     checked={category.id === selectedCategoryId}
@@ -116,9 +168,16 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
               );
             })}
           </ul>
+          <If condition={hasNextPage}>
+            <ButtonGroup alignment="center">
+              <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                Load More
+              </Button>
+            </ButtonGroup>
+          </If>
         </If>
 
-        <If condition={[!categories?.items.length, !isFetching]}>
+        <If condition={[!categories?.length, !isInitialFetching]}>
           <NoResults
             icon={SearchXIcon}
             title="No categories found"

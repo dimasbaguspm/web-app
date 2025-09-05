@@ -1,4 +1,8 @@
-import { useApiSpenicleAccountsPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
+import {
+  useApiSpenicleAccountGroupsInfiniteQuery,
+  useApiSpenicleAccountsInfiniteQuery,
+} from '@dimasbaguspm/hooks/use-api';
+import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
@@ -8,17 +12,18 @@ import {
   BadgeGroup,
   Button,
   ButtonGroup,
+  ButtonMenu,
+  Card,
   Drawer,
   FormLayout,
+  Icon,
   LoadingIndicator,
   NoResults,
   SearchInput,
   SelectableMultipleInput,
-  Text,
 } from '@dimasbaguspm/versaur';
-import { debounce } from 'lodash';
-import { SearchXIcon } from 'lucide-react';
-import { FC, useMemo, useState } from 'react';
+import { SearchXIcon, SlidersHorizontalIcon } from 'lucide-react';
+import { FC, useState } from 'react';
 
 interface SelectMultipleAccountDrawerProps {
   returnToDrawer: string;
@@ -43,12 +48,18 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
         ? payload[payloadId]
         : [],
   );
-  const [searchValue, setSearchValue] = useState('');
 
-  const debouncedSetSearch = useMemo(() => debounce((value: string) => setSearchValue(value), 1000), []);
+  const [searchValue, setSearchValue] = useDebouncedState({ defaultValue: '' });
+  const [selectGroupId, setSelectGroupId] = useDebouncedState<number[]>({ defaultValue: [], debounceTime: 100 });
 
-  const [accounts, , { isFetching }] = useApiSpenicleAccountsPaginatedQuery({
-    search: searchValue,
+  const [accounts, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiSpenicleAccountsInfiniteQuery({
+      search: searchValue,
+      accountGroupIds: selectGroupId ? selectGroupId : undefined,
+    });
+
+  const [accountGroups] = useApiSpenicleAccountGroupsInfiniteQuery({
+    pageSize: 100,
   });
 
   const handleOnSubmit = () => {
@@ -81,32 +92,73 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
       <Drawer.Body>
         <FormLayout className="mb-4">
           <FormLayout.Column span={12}>
-            <SearchInput defaultValue={searchValue} onChange={(e) => debouncedSetSearch(e.target.value)} />
+            <SearchInput defaultValue={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+          </FormLayout.Column>
+          <FormLayout.Column span={12}>
+            <ButtonGroup>
+              <If condition={accountGroups?.length}>
+                <ButtonMenu
+                  variant="outline"
+                  preserve
+                  label={
+                    <>
+                      <Icon as={SlidersHorizontalIcon} color="inherit" size="sm" />
+                      Group
+                    </>
+                  }
+                >
+                  {accountGroups?.map((group) => (
+                    <ButtonMenu.Item
+                      key={group.id}
+                      active={selectGroupId?.includes(group.id)}
+                      onClick={() => {
+                        if (selectGroupId?.includes(group.id)) {
+                          setSelectGroupId(selectGroupId.filter((id) => id !== group.id));
+                        } else {
+                          setSelectGroupId([...selectGroupId, group.id]);
+                        }
+                      }}
+                    >
+                      {group.name}
+                    </ButtonMenu.Item>
+                  ))}
+                </ButtonMenu>
+              </If>
+            </ButtonGroup>
           </FormLayout.Column>
         </FormLayout>
 
-        <If condition={[isFetching]}>
+        <If condition={[isInitialFetching]}>
           <LoadingIndicator size="sm" type="bar" />
         </If>
 
-        <If condition={[accounts?.items.length, !isFetching]}>
+        <If condition={[accounts.length, !isInitialFetching]}>
           <ul>
-            {accounts?.items.map((account) => {
-              const { type, variant } = formatSpenicleAccount(account);
+            {accounts?.map((account) => {
+              const { type, variant, hasGroup, groups, formattedAmount } = formatSpenicleAccount(account);
               return (
                 <li key={account.id}>
                   <SelectableMultipleInput
                     label={
-                      <div className="flex flex-col w-auto">
-                        <Text className="mb-2" fontSize="base" fontWeight="semibold">
-                          {account.name}
-                        </Text>
-                        <BadgeGroup>
-                          <Badge color={variant} size="sm">
-                            {type}
-                          </Badge>
-                        </BadgeGroup>
-                      </div>
+                      <Card
+                        title={account.name}
+                        className="p-0"
+                        badge={
+                          <BadgeGroup>
+                            <Badge color={variant} size="sm">
+                              {type}
+                            </Badge>
+                            <If condition={hasGroup}>
+                              {groups.map(({ name }) => (
+                                <Badge key={name} color="info" size="sm">
+                                  {name}
+                                </Badge>
+                              ))}
+                            </If>
+                          </BadgeGroup>
+                        }
+                        supplementaryInfo={formattedAmount}
+                      />
                     }
                     checked={selectedAccountIds.includes(account.id)}
                     value={account.id.toString()}
@@ -122,9 +174,16 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
               );
             })}
           </ul>
+          <If condition={hasNextPage}>
+            <ButtonGroup alignment="center">
+              <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                Load More
+              </Button>
+            </ButtonGroup>
+          </If>
         </If>
 
-        <If condition={[!accounts?.items.length, !isFetching]}>
+        <If condition={[!accounts?.length, !isInitialFetching]}>
           <NoResults
             icon={SearchXIcon}
             title="No accounts found"
