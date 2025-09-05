@@ -56,6 +56,10 @@ export const SPENICLE_URL = {
     PAGINATED: '/transaction',
     BY_ID: (id: number) => `/transaction/${id}`,
   },
+  SCHEDULED_TRANSACTION: {
+    PAGINATED: '/scheduled-transaction',
+    BY_ID: (id: number) => `/scheduled-transaction/${id}`,
+  },
   SUMMARY: {
     TRANSACTIONS: '/summary/transactions',
     ACCOUNTS: '/summary/account',

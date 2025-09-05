@@ -437,11 +437,11 @@ export interface operations {
   getApps: {
     parameters: {
       query?: {
-        id?: (number | string)[];
+        id?: number[];
         name?: string[];
         search?: string;
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -516,7 +516,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -719,7 +719,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -1265,12 +1265,12 @@ export interface operations {
   getGroups: {
     parameters: {
       query?: {
-        id?: (number | string)[];
+        id?: number[];
         name?: string[];
-        creatorId?: (number | string)[];
+        creatorId?: number[];
         search?: string;
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };

@@ -228,6 +228,78 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/scheduled-transaction/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get paginated scheduled transactions
+     * @description Retrieve a paginated list of scheduled transactions
+     */
+    get: operations['getScheduled-transaction'];
+    put?: never;
+    /**
+     * Create scheduled transaction
+     * @description Create a new scheduled transaction
+     */
+    post: operations['postScheduled-transaction'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/scheduled-transaction/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get single scheduled transaction
+     * @description Retrieve a specific scheduled transaction by ID
+     */
+    get: operations['getScheduled-transactionById'];
+    put?: never;
+    post?: never;
+    /**
+     * Delete scheduled transaction
+     * @description Delete a scheduled transaction by ID
+     */
+    delete: operations['deleteScheduled-transactionById'];
+    options?: never;
+    head?: never;
+    /**
+     * Update scheduled transaction
+     * @description Update an existing scheduled transaction
+     */
+    patch: operations['patchScheduled-transactionById'];
+    trace?: never;
+  };
+  '/scheduled-transaction/{id}/queue': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get scheduled transaction queue
+     * @description Retrieve paginated queue entries for a scheduled transaction
+     */
+    get: operations['getScheduled-transactionByIdQueue'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/transaction/': {
     parameters: {
       query?: never;
@@ -2256,6 +2328,587 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  'getScheduled-transaction': {
+    parameters: {
+      query?: {
+        id?: number[];
+        userId?: number[];
+        groupId?: number[];
+        profileId?: number[];
+        name?: string;
+        accountId?: number[];
+        categoryId?: number[];
+        type?: 'income' | 'expense';
+        note?: string;
+        amountMin?: number;
+        amountMax?: number;
+        interval?: ('daily' | 'weekly' | 'monthly' | 'yearly')[];
+        status?: 'active' | 'paused' | 'completed';
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?:
+          | 'id'
+          | 'name'
+          | 'interval'
+          | 'frequency'
+          | 'until'
+          | 'status'
+          | 'last_run_at'
+          | 'created_at'
+          | 'updated_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              name: string;
+              accountId: number;
+              categoryId: number;
+              amount: number;
+              type: 'income' | 'expense';
+              note: string | null;
+              interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              frequency: number;
+              until: string | null;
+              status: 'active' | 'paused' | 'completed';
+              lastRunAt: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              name: string;
+              accountId: number;
+              categoryId: number;
+              amount: number;
+              type: 'income' | 'expense';
+              note: string | null;
+              interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              frequency: number;
+              until: string | null;
+              status: 'active' | 'paused' | 'completed';
+              lastRunAt: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              name: string;
+              accountId: number;
+              categoryId: number;
+              amount: number;
+              type: 'income' | 'expense';
+              note: string | null;
+              interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              frequency: number;
+              until: string | null;
+              status: 'active' | 'paused' | 'completed';
+              lastRunAt: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postScheduled-transaction': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @default false */
+          immediate?: boolean;
+          name: string;
+          accountId: number;
+          categoryId: number;
+          amount: number;
+          type: 'income' | 'expense';
+          note?: string | null;
+          interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          frequency: number;
+          until?: string | null;
+          status?: 'active' | 'paused' | 'completed';
+          nextRunAt?: string | null;
+        };
+        'multipart/form-data': {
+          /** @default false */
+          immediate?: boolean;
+          name: string;
+          accountId: number;
+          categoryId: number;
+          amount: number;
+          type: 'income' | 'expense';
+          note?: string | null;
+          interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          frequency: number;
+          until?: string | null;
+          status?: 'active' | 'paused' | 'completed';
+          nextRunAt?: string | null;
+        };
+        'text/plain': {
+          /** @default false */
+          immediate?: boolean;
+          name: string;
+          accountId: number;
+          categoryId: number;
+          amount: number;
+          type: 'income' | 'expense';
+          note?: string | null;
+          interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          frequency: number;
+          until?: string | null;
+          status?: 'active' | 'paused' | 'completed';
+          nextRunAt?: string | null;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getScheduled-transactionById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteScheduled-transactionById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            message: string;
+          };
+          'multipart/form-data': {
+            message: string;
+          };
+          'text/plain': {
+            message: string;
+          };
+        };
+      };
+    };
+  };
+  'patchScheduled-transactionById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name?: string;
+          accountId?: number;
+          categoryId?: number;
+          amount?: number;
+          type?: 'income' | 'expense';
+          note?: string | null;
+          interval?: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          frequency?: number;
+          until?: string | null;
+          status?: 'active' | 'paused' | 'completed';
+          nextRunAt?: string | null;
+          lastRunAt?: string | null;
+        };
+        'multipart/form-data': {
+          name?: string;
+          accountId?: number;
+          categoryId?: number;
+          amount?: number;
+          type?: 'income' | 'expense';
+          note?: string | null;
+          interval?: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          frequency?: number;
+          until?: string | null;
+          status?: 'active' | 'paused' | 'completed';
+          nextRunAt?: string | null;
+          lastRunAt?: string | null;
+        };
+        'text/plain': {
+          name?: string;
+          accountId?: number;
+          categoryId?: number;
+          amount?: number;
+          type?: 'income' | 'expense';
+          note?: string | null;
+          interval?: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          frequency?: number;
+          until?: string | null;
+          status?: 'active' | 'paused' | 'completed';
+          nextRunAt?: string | null;
+          lastRunAt?: string | null;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            name: string;
+            accountId: number;
+            categoryId: number;
+            amount: number;
+            type: 'income' | 'expense';
+            note: string | null;
+            interval: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            frequency: number;
+            until: string | null;
+            status: 'active' | 'paused' | 'completed';
+            lastRunAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getScheduled-transactionByIdQueue': {
+    parameters: {
+      query?: {
+        id?: number[];
+        transactionId?: number[];
+        scheduledTransactionId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?:
+          | 'id'
+          | 'transaction_id'
+          | 'scheduled_transaction_id'
+          | 'run_at'
+          | 'attempt'
+          | 'created_at'
+          | 'updated_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path: {
+        id: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              transactionId: number;
+              scheduledTransactionId: number;
+              runAt: string | null;
+              attempt: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              transactionId: number;
+              scheduledTransactionId: number;
+              runAt: string | null;
+              attempt: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              transactionId: number;
+              scheduledTransactionId: number;
+              runAt: string | null;
+              attempt: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
       };
     };
   };

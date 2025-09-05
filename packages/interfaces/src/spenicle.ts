@@ -59,6 +59,27 @@ export type UpdateTransactionModel = operations['patchTransactionById']['request
   operations['patchTransactionById']['parameters']['path'];
 export type TransactionModel = operations['getTransactionById']['responses']['200']['content']['application/json'];
 
+export type SearchScheduledTransactionsModel = NonNullable<
+  operations['getScheduled-transaction']['parameters']['query']
+>;
+export type ScheduledTransactionsPageModel =
+  operations['getScheduled-transaction']['responses']['200']['content']['application/json'];
+export type CreateScheduledTransactionModel =
+  operations['postScheduled-transaction']['requestBody']['content']['application/json'];
+export type UpdateScheduledTransactionModel =
+  operations['patchScheduled-transactionById']['requestBody']['content']['application/json'] &
+    operations['patchScheduled-transactionById']['parameters']['path'];
+export type ScheduledTransactionModel =
+  operations['getScheduled-transactionById']['responses']['200']['content']['application/json'];
+
+export type ScheduledTransactionQueuePageModel = NonNullable<
+  operations['getScheduled-transactionByIdQueue']['responses']['200']['content']['application/json']
+>;
+export type ScheduledTransactionQueueModel = ScheduledTransactionQueuePageModel['items'][number];
+export type SearchScheduledTransactionQueueModel = NonNullable<
+  operations['getScheduled-transactionByIdQueue']['parameters']['query']
+>;
+
 export type SearchSummaryTransactionsModel = NonNullable<operations['getSummaryTransactions']['parameters']['query']>;
 export type SummaryTransactionsModel =
   operations['getSummaryTransactions']['responses']['200']['content']['application/json'];

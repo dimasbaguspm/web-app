@@ -162,6 +162,22 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  SPENICLE_SCHEDULED_TRANSACTION_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_SCHEDULED_TRANSACTIONS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_SCHEDULED_TRANSACTION_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_SCHEDULED_TRANSACTIONS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_SCHEDULED_TRANSACTION_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_SCHEDULED_TRANSACTIONS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
   SPENICLE_SUMMARY_TRANSACTIONS: (params: object = {}) => [
     ...BASE_QUERY_KEYS.SPENICLE_SUMMARY,
     'transactions',
