@@ -26,7 +26,7 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick }) => {
           <Badge color={variant}>{type}</Badge>
           <If condition={hasGroup}>
             {groups.map(({ name }) => (
-              <Badge key={name} color="info">
+              <Badge key={name} color="accent_1">
                 {name}
               </Badge>
             ))}

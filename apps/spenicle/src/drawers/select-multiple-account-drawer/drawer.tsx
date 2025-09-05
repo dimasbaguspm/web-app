@@ -141,6 +141,8 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
                   <SelectableMultipleInput
                     label={
                       <Card
+                        as="div"
+                        size="xs"
                         title={account.name}
                         className="p-0"
                         badge={
@@ -150,7 +152,7 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
                             </Badge>
                             <If condition={hasGroup}>
                               {groups.map(({ name }) => (
-                                <Badge key={name} color="info" size="sm">
+                                <Badge key={name} color="accent_1" size="sm">
                                   {name}
                                 </Badge>
                               ))}

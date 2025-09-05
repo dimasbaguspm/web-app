@@ -142,8 +142,9 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
                   <SelectableSingleInput
                     label={
                       <Card
+                        as="div"
+                        size="xs"
                         title={category.name}
-                        className="p-0"
                         badge={
                           <BadgeGroup>
                             <Badge color={variant} size="sm">
@@ -151,7 +152,7 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
                             </Badge>
                             <If condition={hasGroup}>
                               {groups.map(({ name }) => (
-                                <Badge key={name} color="info" size="sm">
+                                <Badge key={name} color="accent_1" size="sm">
                                   {name}
                                 </Badge>
                               ))}

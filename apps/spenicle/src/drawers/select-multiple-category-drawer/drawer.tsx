@@ -145,7 +145,8 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
                   <SelectableMultipleInput
                     label={
                       <Card
-                        className="p-0"
+                        as="div"
+                        size="xs"
                         title={category.name}
                         badge={
                           <BadgeGroup>
@@ -154,7 +155,7 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
                             </Badge>
                             <If condition={hasGroup}>
                               {groups.map(({ name }) => (
-                                <Badge key={name} color="info" size="sm">
+                                <Badge key={name} color="accent_1" size="sm">
                                   {name}
                                 </Badge>
                               ))}

@@ -32,7 +32,7 @@ export const TransactionCard: FC<TransactionCardProps> = ({ transaction, categor
       badge={
         <BadgeGroup>
           <Badge color={variant}>{capitalizedType}</Badge>
-          <Badge color="info">{accountName}</Badge>
+          <Badge color="accent_1">{accountName}</Badge>
         </BadgeGroup>
       }
     />
