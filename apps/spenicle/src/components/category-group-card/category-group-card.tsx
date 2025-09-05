@@ -4,16 +4,17 @@ import { Avatar, Card, CardProps, Icon, Text } from '@dimasbaguspm/versaur';
 import { UsersIcon } from 'lucide-react';
 import { FC } from 'react';
 
-interface CategoryGroupCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'actions'> {
+interface CategoryGroupCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered'> {
   categoryGroup: CategoryGroupModel;
   onClick?: (categoryGroup: CategoryGroupModel) => void;
 }
 
-export const CategoryGroupCard: FC<CategoryGroupCardProps> = ({ categoryGroup, onClick }) => {
+export const CategoryGroupCard: FC<CategoryGroupCardProps> = ({ categoryGroup, onClick, ...props }) => {
   const categoryCount = categoryGroup.memberIds.length;
 
   return (
     <Card
+      {...props}
       onClick={() => onClick?.(categoryGroup)}
       avatar={
         <Avatar shape="rounded" size="lg">

@@ -5,7 +5,7 @@ import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, Badge, BadgeGroup, Card, CardProps, Text } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-interface AccountCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'actions'> {
+interface AccountCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered'> {
   account: AccountModel;
   onClick?: (account: AccountModel) => void;
 }

@@ -5,7 +5,7 @@ import { formatPrice } from '@dimasbaguspm/utils/price';
 import { Avatar, Badge, BadgeGroup, Card, CardProps } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-interface TransactionCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'actions'> {
+interface TransactionCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered'> {
   transaction: TransactionModel;
   category: CategoryModel | undefined;
   account: AccountModel | undefined;
@@ -13,7 +13,14 @@ interface TransactionCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' |
   useDateTime?: boolean;
 }
 
-export const TransactionCard: FC<TransactionCardProps> = ({ transaction, category, account, onClick, useDateTime }) => {
+export const TransactionCard: FC<TransactionCardProps> = ({
+  transaction,
+  category,
+  account,
+  onClick,
+  useDateTime,
+  ...props
+}) => {
   const { trimmedNotes, variant, capitalizedType, dateTime, time } = formatSpenicleTransaction(transaction);
   const { name: categoryName, groups: categoryGroups, hasGroup: hasCategoryGroup } = formatSpenicleCategory(category);
   const {
@@ -25,6 +32,7 @@ export const TransactionCard: FC<TransactionCardProps> = ({ transaction, categor
 
   return (
     <Card
+      {...props}
       title={formatPrice(transaction.amount)}
       onClick={() => onClick(transaction)}
       avatar={<Avatar shape="rounded">{accountInitialName}</Avatar>}
