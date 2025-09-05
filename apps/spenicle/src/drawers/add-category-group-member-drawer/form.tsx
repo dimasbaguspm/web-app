@@ -22,7 +22,7 @@ interface FormProps {
   categoryIds: number[];
 }
 export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategorySelect, categoryIds }) => {
-  const [searchTerm, setSearchTerm] = useDebouncedState();
+  const [searchTerm, setSearchTerm] = useDebouncedState<string>();
 
   const [categories, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleCategoriesInfiniteQuery({

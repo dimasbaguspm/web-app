@@ -22,7 +22,7 @@ interface FormProps {
   accountIds: number[];
 }
 export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSelect, accountIds }) => {
-  const [searchTerm, setSearchTerm] = useDebouncedState();
+  const [searchTerm, setSearchTerm] = useDebouncedState<string>();
 
   const [accounts, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleAccountsInfiniteQuery({

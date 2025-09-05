@@ -24,7 +24,7 @@ interface HistoryTabProps {
 
 export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
   const { openDrawer } = useDrawerRoute();
-  const [searchValue, setSearchValue] = useDebouncedState({
+  const [searchValue, setSearchValue] = useDebouncedState<string>({
     debounceTime: 1000,
   });
 
