@@ -1380,10 +1380,10 @@ __metadata:
     "@dimasbaguspm/providers": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.42"
+    "@dimasbaguspm/versaur": "npm:0.0.43"
     "@tailwindcss/vite": "npm:4.1.13"
-    "@tanstack/react-query": "npm:5.86.0"
-    "@tanstack/react-query-devtools": "npm:5.86.0"
+    "@tanstack/react-query": "npm:5.87.0"
+    "@tanstack/react-query-devtools": "npm:5.87.0"
     "@testing-library/dom": "npm:10.4.1"
     "@testing-library/react": "npm:16.3.0"
     "@types/lodash": "npm:^4.17.20"
@@ -1453,10 +1453,10 @@ __metadata:
     "@dimasbaguspm/providers": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.42"
+    "@dimasbaguspm/versaur": "npm:0.0.43"
     "@tailwindcss/vite": "npm:4.1.13"
-    "@tanstack/react-query": "npm:5.86.0"
-    "@tanstack/react-query-devtools": "npm:5.86.0"
+    "@tanstack/react-query": "npm:5.87.0"
+    "@tanstack/react-query-devtools": "npm:5.87.0"
     "@testing-library/dom": "npm:10.4.1"
     "@testing-library/react": "npm:16.3.0"
     "@types/lodash": "npm:^4.17.20"
@@ -1514,14 +1514,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dimasbaguspm/versaur@npm:0.0.42":
-  version: 0.0.42
-  resolution: "@dimasbaguspm/versaur@npm:0.0.42"
+"@dimasbaguspm/versaur@npm:0.0.43":
+  version: 0.0.43
+  resolution: "@dimasbaguspm/versaur@npm:0.0.43"
   peerDependencies:
     lucide-react: ">=0.525.0"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10/c4d461822f13707c21f1e3d98ddd39d45bb01860cde4e7df03d36229f03a6cc77317f738f05ef60ae0a5662dab3c65d37cd55a1718ea7b75346320b0cd55a918
+  checksum: 10/2e74ebd5ef52d1c9d9942a6681ffc695a335c8598125068881044f503338ec29117061173f1b23cd7e828c865319e71413299b920f3b3372b8aeacce08b7bc49
   languageName: node
   linkType: hard
 
@@ -2484,10 +2484,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.86.0":
-  version: 5.86.0
-  resolution: "@tanstack/query-core@npm:5.86.0"
-  checksum: 10/66c6811dc39e56d59d8c3a996743b067ca45add7eab193f788e6041713b730bf7859b693f31cbda0eda92fef4dd3ff969f1ac0bbd553f554c497da322ff45871
+"@tanstack/query-core@npm:5.87.0":
+  version: 5.87.0
+  resolution: "@tanstack/query-core@npm:5.87.0"
+  checksum: 10/ec96b677701e066870aa4944a0aa74877f61372efe1d81ac91418e027160fdbb701e082ef829b9bb85870e7213673a5fc26d8d143f8f1966c83ee5baf2b1b751
   languageName: node
   linkType: hard
 
@@ -2498,26 +2498,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-devtools@npm:5.86.0":
-  version: 5.86.0
-  resolution: "@tanstack/react-query-devtools@npm:5.86.0"
+"@tanstack/react-query-devtools@npm:5.87.0":
+  version: 5.87.0
+  resolution: "@tanstack/react-query-devtools@npm:5.87.0"
   dependencies:
     "@tanstack/query-devtools": "npm:5.86.0"
   peerDependencies:
-    "@tanstack/react-query": ^5.86.0
+    "@tanstack/react-query": ^5.87.0
     react: ^18 || ^19
-  checksum: 10/3143d309907f72beaba37877a95a5888838973720d86a80c319da05e0edf09472d1c56646746ce5e6e92e1504f1be6866b8fb95b5e6079d2f1150a6330565156
+  checksum: 10/6ee9a10d4ffba71b0cc2a8819a08293c0f3491d3bab2cdff2141bdbb407c7f4ab3127f4a65538c2e73ed72e14b67360cbe45b0bec855d702b5521a09ade9258c
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:5.86.0":
-  version: 5.86.0
-  resolution: "@tanstack/react-query@npm:5.86.0"
+"@tanstack/react-query@npm:5.87.0":
+  version: 5.87.0
+  resolution: "@tanstack/react-query@npm:5.87.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.86.0"
+    "@tanstack/query-core": "npm:5.87.0"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10/1d78a52c917f14bb5add0e644218a3399b636c9935356d6d68148668371f4a098489bba0ce35a854b0ff0a3935ee2c493ad020a178afc28fc1f08e78e8a26443
+  checksum: 10/51cd0b04f2c5b4ce659cd7a67e944c51287db45e30ff5d4bafb1b13f8dd9dab18bbdb4ae6b7d8d24c6e4986d791696cc613907b758e8f1f8d7893f5475df5bd9
   languageName: node
   linkType: hard
 
