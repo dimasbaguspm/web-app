@@ -40,7 +40,9 @@ export const TransactionCard: FC<TransactionCardProps> = ({
         <Card.List>
           <Card.ListItem>{accountName}</Card.ListItem>
           <Card.ListItem>{categoryName}</Card.ListItem>
-          <Card.ListItem>{trimmedNotes}</Card.ListItem>
+          <If condition={trimmedNotes.length}>
+            <Card.ListItem>{trimmedNotes}</Card.ListItem>
+          </If>
         </Card.List>
       }
       supplementaryInfo={useDateTime ? dateTime : time}
