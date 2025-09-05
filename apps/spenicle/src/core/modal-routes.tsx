@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { MODAL_ROUTES } from '../constants/modal-routes';
 import { DeleteAccountGroupModal } from '../modals/delete-account-group-modal/modal';
 import { DeleteAccountModal } from '../modals/delete-account-modal/modal';
+import { DeleteCategoryGroupModal } from '../modals/delete-category-group-modal/modal';
 import { DeleteCategoryModal } from '../modals/delete-category-modal/modal';
 import { DeleteTransactionModal } from '../modals/delete-transaction-modal/modal';
 import { LogoutConfirmationModal } from '../modals/logout-confirmation-modal/modal';
@@ -48,6 +49,9 @@ export const ModalRoutes: FC = () => {
       )}
       {is(MODAL_ROUTES.DELETE_ACCOUNT_GROUP) && hasParam('accountGroupId') && (
         <DeleteAccountGroupModal accountGroupId={params.accountGroupId!} />
+      )}
+      {is(MODAL_ROUTES.DELETE_CATEGORY_GROUP) && hasParam('categoryGroupId') && (
+        <DeleteCategoryGroupModal categoryGroupId={params.categoryGroupId!} />
       )}
     </Modal>
   );

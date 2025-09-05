@@ -1,127 +1,114 @@
-import {
-  useApiSpenicleCategoryGroupsInfiniteQuery,
-  useApiSpenicleDeleteCategoryGroup,
-  useApiSpenicleCategoriesInfiniteQuery,
-} from '@dimasbaguspm/hooks/use-api';
-import { CategoryGroupModel } from '@dimasbaguspm/interfaces';
+import { useApiSpenicleCategoryGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { Button, Heading, Icon, LoadingIndicator, SearchInput, Text, useSnackbars } from '@dimasbaguspm/versaur';
-import { PlusIcon, SettingsIcon } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { If } from '@dimasbaguspm/utils/if';
+import {
+  Button,
+  ButtonGroup,
+  ButtonIcon,
+  Hr,
+  Icon,
+  LoadingIndicator,
+  NoResults,
+  PageContent,
+  PageHeader,
+  SearchInput,
+} from '@dimasbaguspm/versaur';
+import { PlusIcon, SearchXIcon } from 'lucide-react';
+import { useState } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
-import { CategoryGroupCard } from './components';
+import { CategoryGroupCard } from './components/category-group-card';
 
-const SettingsCategoryGroupPage = () => {
+const SettingsCategoryGroupsPage = () => {
   const { openDrawer } = useDrawerRoute();
-  const { showSnack } = useSnackbars();
 
   const [categoryGroupSearch, setCategoryGroupSearch] = useState('');
 
-  const [categoryGroups, , { isPending: isLoadingCategoryGroups }] = useApiSpenicleCategoryGroupsInfiniteQuery({
-    search: categoryGroupSearch,
-    pageSize: 20,
-  });
-  const [categories] = useApiSpenicleCategoriesInfiniteQuery({ pageSize: 200 });
-
-  const [deleteCategoryGroup] = useApiSpenicleDeleteCategoryGroup();
-
-  const categoryGroupMemberCounts = useMemo(() => {
-    const counts: Record<number, number> = {};
-    categories.forEach((category) => {
-      if (category.categoryGroupId) {
-        counts[category.categoryGroupId] = (counts[category.categoryGroupId] || 0) + 1;
-      }
+  const [categoryGroups, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiSpenicleCategoryGroupsInfiniteQuery({
+      search: categoryGroupSearch,
+      pageSize: 15,
     });
-    return counts;
-  }, [categories]);
 
   const handleNewCategoryGroup = () => {
     openDrawer(DRAWER_ROUTES.NEW_CATEGORY_GROUP);
   };
 
-  const handleDeleteCategoryGroup = async (categoryGroup: CategoryGroupModel) => {
-    if (categoryGroupMemberCounts[categoryGroup.id] > 0) {
-      showSnack('warning', 'Cannot delete group with existing members. Remove all categories first.');
-      return;
-    }
-
-    if (confirm(`Are you sure you want to delete "${categoryGroup.name}"?`)) {
-      try {
-        await deleteCategoryGroup({ id: categoryGroup.id });
-        showSnack('success', 'Category group deleted successfully');
-      } catch {
-        showSnack('danger', 'Failed to delete category group');
-      }
-    }
-  };
-
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Icon as={SettingsIcon} size="lg" color="secondary" />
-          <div>
-            <Heading level={2} className="text-xl font-semibold">
-              Category Groups
-            </Heading>
-            <Text color="gray" fontSize="sm">
-              Organize your categories into logical groups
-            </Text>
-          </div>
-        </div>
-        <Text fontSize="sm" color="gray" className="bg-gray-100 px-3 py-1 rounded-full">
-          {categoryGroups.length} {categoryGroups.length === 1 ? 'group' : 'groups'}
-        </Text>
-      </div>
-
-      <SearchInput
-        placeholder="Search category groups..."
-        value={categoryGroupSearch}
-        onChange={(e) => setCategoryGroupSearch(e.target.value)}
+    <>
+      <PageHeader
+        title="Category Groups"
+        subtitle="Manage your category groups to organize your categories"
+        actions={
+          <ButtonGroup>
+            <Button onClick={handleNewCategoryGroup}>
+              <Icon as={PlusIcon} color="inherit" size="sm" />
+              New Group
+            </Button>
+          </ButtonGroup>
+        }
+        mobileActions={
+          <ButtonGroup>
+            <ButtonIcon as={PlusIcon} aria-label="Create category group" onClick={handleNewCategoryGroup} />
+          </ButtonGroup>
+        }
       />
 
-      <div className="space-y-4">
-        {isLoadingCategoryGroups ? (
-          <div className="flex justify-center py-12">
-            <LoadingIndicator size="lg" />
-          </div>
-        ) : categoryGroups.length === 0 ? (
-          <div className="text-center py-12 space-y-4">
-            <Icon as={SettingsIcon} size="xl" color="gray" className="mx-auto" />
-            <div>
-              <Text fontSize="lg" fontWeight="medium" color="gray">
-                No category groups found
-              </Text>
-              <Text fontSize="sm" color="gray">
-                {categoryGroupSearch
+      <PageContent>
+        <SearchInput
+          placeholder="Search category groups..."
+          value={categoryGroupSearch}
+          onChange={(e) => setCategoryGroupSearch(e.target.value)}
+          className="mb-4"
+        />
+
+        <div className="space-y-4">
+          <If condition={isInitialFetching}>
+            <LoadingIndicator size="sm" type="bar" />
+          </If>
+          <If condition={[!isInitialFetching, categoryGroups.length === 0]}>
+            <NoResults
+              icon={SearchXIcon}
+              title="No category groups found"
+              subtitle={
+                categoryGroupSearch
                   ? 'Try adjusting your search terms'
-                  : 'Create your first category group to organize your categories'}
-              </Text>
-            </div>
-            {!categoryGroupSearch && (
-              <Button onClick={handleNewCategoryGroup}>
-                <Icon as={PlusIcon} size="sm" color="inherit" />
-                Create Category Group
-              </Button>
-            )}
-          </div>
-        ) : (
-          <div className="grid gap-4">
-            {categoryGroups.map((categoryGroup) => (
-              <CategoryGroupCard
-                key={categoryGroup.id}
-                categoryGroup={categoryGroup}
-                categoryCount={categoryGroupMemberCounts[categoryGroup.id] || 0}
-                onDelete={handleDeleteCategoryGroup}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+                  : 'Create your first category group to organize your categories'
+              }
+              action={
+                <ButtonGroup>
+                  <Button variant="outline" onClick={handleNewCategoryGroup}>
+                    Create
+                  </Button>
+                </ButtonGroup>
+              }
+            />
+          </If>
+          <If condition={[!isInitialFetching, categoryGroups.length > 0]}>
+            <ul>
+              {categoryGroups.map((categoryGroup, index) => {
+                const isLastItem = index === categoryGroups.length - 1;
+                return (
+                  <li key={categoryGroup.id}>
+                    <CategoryGroupCard categoryGroup={categoryGroup} />
+                    {!isLastItem && <Hr />}
+                  </li>
+                );
+              })}
+            </ul>
+            <If condition={hasNextPage}>
+              <ButtonGroup>
+                <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                  Load More
+                </Button>
+              </ButtonGroup>
+            </If>
+          </If>
+        </div>
+      </PageContent>
+    </>
   );
 };
 
-export default SettingsCategoryGroupPage;
+export default SettingsCategoryGroupsPage;

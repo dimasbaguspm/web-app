@@ -6,9 +6,11 @@ import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
 import { AddAccountGroupMemberDrawer } from '../drawers/add-account-group-member-drawer/drawer';
+import { AddCategoryGroupMemberDrawer } from '../drawers/add-category-group-member-drawer/drawer';
 import { DetailAccountDrawer } from '../drawers/detail-account-drawer/drawer';
 import { DetailAccountGroupDrawer } from '../drawers/detail-account-group-drawer/drawer';
 import { DetailCategoryDrawer } from '../drawers/detail-category-drawer/drawer';
+import { DetailCategoryGroupDrawer } from '../drawers/detail-category-group-drawer/drawer';
 import { DetailTransactionDrawer } from '../drawers/detail-transaction-drawer/drawer';
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditAccountGroupDrawer } from '../drawers/edit-account-group-drawer/drawer';
@@ -146,8 +148,14 @@ export const DrawerRoutes: FC = () => {
       )}
 
       {is(DRAWER_ROUTES.NEW_CATEGORY_GROUP) && <NewCategoryGroupDrawer />}
+      {is(DRAWER_ROUTES.DETAIL_CATEGORY_GROUP) && hasParam('categoryGroupId') && (
+        <DetailCategoryGroupDrawer categoryGroupId={params.categoryGroupId!} />
+      )}
       {is(DRAWER_ROUTES.EDIT_CATEGORY_GROUP) && hasParam('categoryGroupId') && (
         <EditCategoryGroupDrawer categoryGroupId={params.categoryGroupId!} />
+      )}
+      {is(DRAWER_ROUTES.ADD_CATEGORY_GROUP_MEMBERS) && hasParam('categoryGroupId') && (
+        <AddCategoryGroupMemberDrawer categoryGroupId={params.categoryGroupId!} />
       )}
     </Drawer>
   );

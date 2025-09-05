@@ -14,6 +14,7 @@ import {
   Drawer,
   Heading,
   Icon,
+  LoadingIndicator,
   NoResults,
   Text,
 } from '@dimasbaguspm/versaur';
@@ -35,26 +36,25 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
     enabled: Boolean(accountGroupId),
   });
 
-  const [accounts] = useApiSpenicleAccountsInfiniteQuery(
+  const [accounts, , { isFetching: isFetchingAccounts }] = useApiSpenicleAccountsInfiniteQuery(
     {
-      accountGroupId: accountGroup?.id,
-      pageSize: 15,
+      id: accountGroup?.memberIds || [],
     },
     {
-      enabled: Boolean(accountGroup),
+      enabled: Boolean(accountGroup?.memberIds.length),
     },
   );
 
   const handleAddMembersClick = () => {
-    openDrawer(DRAWER_ROUTES.ADD_ACCOUNT_GROUP_MEMBERS, { accountGroupId: accountGroupId });
+    openDrawer(DRAWER_ROUTES.ADD_ACCOUNT_GROUP_MEMBERS, { accountGroupId });
   };
 
   const handleEditClick = () => {
-    openDrawer(DRAWER_ROUTES.EDIT_ACCOUNT_GROUP, { accountGroupId: accountGroupId });
+    openDrawer(DRAWER_ROUTES.EDIT_ACCOUNT_GROUP, { accountGroupId });
   };
 
   const handleDeleteClick = () => {
-    openModal(MODAL_ROUTES.DELETE_ACCOUNT_GROUP, { accountGroupId: accountGroupId });
+    openModal(MODAL_ROUTES.DELETE_ACCOUNT_GROUP, { accountGroupId });
   };
 
   const handleAccountClick = (accountId: number) => {
@@ -91,7 +91,10 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
           <Heading level={3} hasMargin>
             Members
           </Heading>
-          <If condition={!accounts.length}>
+          <If condition={isFetchingAccounts}>
+            <LoadingIndicator size="sm" type="bar" />
+          </If>
+          <If condition={[!isFetchingAccounts, !accounts.length]}>
             <NoResults
               icon={UserX2Icon}
               title="No members found"
@@ -99,15 +102,15 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
               action={
                 <ButtonGroup>
                   <Button variant="outline" onClick={handleAddMembersClick}>
-                    Add
+                    Create Group
                   </Button>
                 </ButtonGroup>
               }
             />
           </If>
-          <If condition={accounts.length}>
+          <If condition={[!isFetchingAccounts, accounts.length]}>
             <ul>
-              {accounts.map((account) => {
+              {accounts?.map((account) => {
                 const { type, variant, initialName, formattedAmount } = formatSpenicleAccount(account);
                 return (
                   <li key={account.id}>

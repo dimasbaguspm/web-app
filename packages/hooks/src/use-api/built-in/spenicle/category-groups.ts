@@ -77,6 +77,14 @@ export const useApiSpenicleCreateCategoryGroup = () => {
         queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUPS_INFINITE().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUP_MEMBERS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUP_MEMBERS_INFINITE().slice(0, 3),
+        exact: false,
+      });
       queryClient.setQueryData(QUERY_KEYS.SPENICLE_CATEGORY_GROUPS_BY_ID(data.id), data);
     },
   });
@@ -97,6 +105,14 @@ export const useApiSpenicleUpdateCategoryGroup = () => {
         queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUPS_INFINITE().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUP_MEMBERS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUP_MEMBERS_INFINITE().slice(0, 3),
+        exact: false,
+      });
       queryClient.setQueryData(QUERY_KEYS.SPENICLE_CATEGORY_GROUPS_BY_ID(data.id), data);
     },
   });
@@ -115,6 +131,14 @@ export const useApiSpenicleDeleteCategoryGroup = () => {
       });
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUPS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUP_MEMBERS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_CATEGORY_GROUP_MEMBERS_INFINITE().slice(0, 3),
         exact: false,
       });
     },

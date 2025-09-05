@@ -9,15 +9,16 @@ import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 
 interface AccountGroupCardProps {
   accountGroup: AccountGroupModel;
-  accountCount?: number;
 }
 
-export const AccountGroupCard: FC<AccountGroupCardProps> = ({ accountGroup, accountCount = 0 }) => {
+export const AccountGroupCard: FC<AccountGroupCardProps> = ({ accountGroup }) => {
   const { openDrawer } = useDrawerRoute();
 
   const handleOnCardClick = () => {
     openDrawer(DRAWER_ROUTES.DETAIL_ACCOUNT_GROUP, { accountGroupId: accountGroup.id });
   };
+
+  const accountCount = accountGroup.memberIds.length;
 
   return (
     <Card

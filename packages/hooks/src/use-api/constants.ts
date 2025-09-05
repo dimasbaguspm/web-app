@@ -14,8 +14,10 @@ export const BASE_QUERY_KEYS = {
   HI_GROUP_MEMBERS: ['hi', 'group-members'],
   SPENICLE_ACCOUNTS: ['spenicle', 'accounts'],
   SPENICLE_ACCOUNT_GROUPS: ['spenicle', 'account-groups'],
+  SPENICLE_ACCOUNT_GROUP_MEMBERS: ['spenicle', 'account-group-members'],
   SPENICLE_CATEGORIES: ['spenicle', 'categories'],
   SPENICLE_CATEGORY_GROUPS: ['spenicle', 'category-groups'],
+  SPENICLE_CATEGORY_GROUP_MEMBERS: ['spenicle', 'category-group-members'],
   SPENICLE_TRANSACTIONS: ['spenicle', 'transactions'],
   SPENICLE_SUMMARY: ['spenicle', 'summary'],
 };

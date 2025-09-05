@@ -100,6 +100,38 @@ export interface paths {
     patch: operations['patchAccount-groupById'];
     trace?: never;
   };
+  '/account-group-members/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getAccount-group-members'];
+    put?: never;
+    post: operations['postAccount-group-members'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/account-group-members/{accountGroupId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getAccount-group-membersByAccountGroupId'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteAccount-group-membersByAccountGroupId'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/category/': {
     parameters: {
       query?: never;
@@ -162,6 +194,38 @@ export interface paths {
     options?: never;
     head?: never;
     patch: operations['patchCategory-groupById'];
+    trace?: never;
+  };
+  '/category-group-members/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getCategory-group-members'];
+    put?: never;
+    post: operations['postCategory-group-members'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/category-group-members/{categoryGroupId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getCategory-group-membersByCategoryGroupId'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteCategory-group-membersByCategoryGroupId'];
+    options?: never;
+    head?: never;
+    patch?: never;
     trace?: never;
   };
   '/transaction/': {
@@ -330,7 +394,8 @@ export interface operations {
         search?: string;
         userId?: number[];
         groupId?: number[];
-        accountGroupId?: 'null' | number | number[];
+        onlyNonGrouped?: boolean;
+        accountGroupIds?: number[];
         pageNumber?: number;
         pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'amount' | 'name';
@@ -353,7 +418,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
-              accountGroupId: number | null;
+              accountGroupIds: number[] | null;
               name: string;
               type: 'expense' | 'income';
               note: string | null;
@@ -375,7 +440,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
-              accountGroupId: number | null;
+              accountGroupIds: number[] | null;
               name: string;
               type: 'expense' | 'income';
               note: string | null;
@@ -397,7 +462,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
-              accountGroupId: number | null;
+              accountGroupIds: number[] | null;
               name: string;
               type: 'expense' | 'income';
               note: string | null;
@@ -431,7 +496,6 @@ export interface operations {
           type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
-          accountGroupId?: number | null;
           metadata?: unknown;
         };
         'multipart/form-data': {
@@ -439,7 +503,6 @@ export interface operations {
           type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
-          accountGroupId?: number | null;
           metadata?: unknown;
         };
         'text/plain': {
@@ -447,7 +510,6 @@ export interface operations {
           type: 'expense' | 'income';
           note: string | null;
           amount: string | number;
-          accountGroupId?: number | null;
           metadata?: unknown;
         };
       };
@@ -463,7 +525,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -479,7 +541,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -495,7 +557,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -531,7 +593,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -547,7 +609,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -563,7 +625,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -613,7 +675,6 @@ export interface operations {
           type?: 'expense' | 'income';
           note?: string | null;
           amount?: string | number;
-          accountGroupId?: number | null;
           metadata?: unknown;
         };
         'multipart/form-data': {
@@ -621,7 +682,6 @@ export interface operations {
           type?: 'expense' | 'income';
           note?: string | null;
           amount?: string | number;
-          accountGroupId?: number | null;
           metadata?: unknown;
         };
         'text/plain': {
@@ -629,7 +689,6 @@ export interface operations {
           type?: 'expense' | 'income';
           note?: string | null;
           amount?: string | number;
-          accountGroupId?: number | null;
           metadata?: unknown;
         };
       };
@@ -645,7 +704,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -661,7 +720,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -677,7 +736,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
-            accountGroupId: number | null;
+            accountGroupIds: number[] | null;
             name: string;
             type: 'expense' | 'income';
             note: string | null;
@@ -717,6 +776,7 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              memberIds: number[];
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -732,6 +792,7 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              memberIds: number[];
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -747,6 +808,7 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              memberIds: number[];
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -791,6 +853,7 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -800,6 +863,7 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -809,6 +873,7 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -838,6 +903,7 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -847,6 +913,7 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -856,6 +923,7 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -916,6 +984,7 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -925,6 +994,7 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -934,6 +1004,7 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            memberIds: number[];
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -941,6 +1012,217 @@ export interface operations {
             updatedAt: string;
           };
         };
+      };
+    };
+  };
+  'getAccount-group-members': {
+    parameters: {
+      query?: {
+        accountId?: number[];
+        accountGroupId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              accountId: number;
+              accountGroupId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              accountId: number;
+              accountGroupId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              accountId: number;
+              accountGroupId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postAccount-group-members': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          accountId: number | number[];
+          accountGroupId: number;
+        };
+        'multipart/form-data': {
+          accountId: number | number[];
+          accountGroupId: number;
+        };
+        'text/plain': {
+          accountId: number | number[];
+          accountGroupId: number;
+        };
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            accountId: number;
+            accountGroupId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            accountId: number;
+            accountGroupId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            accountId: number;
+            accountGroupId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getAccount-group-membersByAccountGroupId': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        accountGroupId: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            accountId: number;
+            accountGroupId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+          'multipart/form-data': {
+            accountId: number;
+            accountGroupId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+          'text/plain': {
+            accountId: number;
+            accountGroupId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+        };
+      };
+    };
+  };
+  'deleteAccount-group-membersByAccountGroupId': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        accountGroupId: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          accountId: number | number[];
+          accountGroupId: number;
+        };
+        'multipart/form-data': {
+          accountId: number | number[];
+          accountGroupId: number;
+        };
+        'text/plain': {
+          accountId: number | number[];
+          accountGroupId: number;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
@@ -954,7 +1236,8 @@ export interface operations {
         pageSize?: number;
         userId?: number[];
         groupId?: number[];
-        categoryGroupId?: 'null' | number | number[];
+        onlyNonGrouped?: boolean;
+        categoryGroupIds?: number[];
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -978,7 +1261,7 @@ export interface operations {
               note: string | null;
               userId: number;
               groupId: number | null;
-              categoryGroupId: number | null;
+              categoryGroupIds: number[] | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -999,7 +1282,7 @@ export interface operations {
               note: string | null;
               userId: number;
               groupId: number | null;
-              categoryGroupId: number | null;
+              categoryGroupIds: number[] | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -1020,7 +1303,7 @@ export interface operations {
               note: string | null;
               userId: number;
               groupId: number | null;
-              categoryGroupId: number | null;
+              categoryGroupIds: number[] | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -1082,7 +1365,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1097,7 +1380,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1112,7 +1395,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1147,7 +1430,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1162,7 +1445,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1177,7 +1460,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1255,7 +1538,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1270,7 +1553,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1285,7 +1568,7 @@ export interface operations {
             note: string | null;
             userId: number;
             groupId: number | null;
-            categoryGroupId: number | null;
+            categoryGroupIds: number[] | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -1322,6 +1605,7 @@ export interface operations {
               id: number;
               profileId: number;
               name: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1337,6 +1621,7 @@ export interface operations {
               id: number;
               profileId: number;
               name: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1352,6 +1637,7 @@ export interface operations {
               id: number;
               profileId: number;
               name: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1396,6 +1682,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1405,6 +1692,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1414,6 +1702,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1443,6 +1732,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1452,6 +1742,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1461,6 +1752,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1521,6 +1813,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1530,6 +1823,7 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1539,12 +1833,165 @@ export interface operations {
             id: number;
             profileId: number;
             name: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
           };
         };
+      };
+    };
+  };
+  'getCategory-group-members': {
+    parameters: {
+      query?: {
+        categoryId?: number[];
+        categoryGroupId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              categoryId: number;
+              categoryGroupId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              categoryId: number;
+              categoryGroupId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              categoryId: number;
+              categoryGroupId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postCategory-group-members': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          categoryId: number | number[];
+          categoryGroupId: number;
+        };
+        'multipart/form-data': {
+          categoryId: number | number[];
+          categoryGroupId: number;
+        };
+        'text/plain': {
+          categoryId: number | number[];
+          categoryGroupId: number;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'getCategory-group-membersByCategoryGroupId': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        categoryGroupId: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'deleteCategory-group-membersByCategoryGroupId': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        categoryGroupId: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          categoryId: number | number[];
+        };
+        'multipart/form-data': {
+          categoryId: number | number[];
+        };
+        'text/plain': {
+          categoryId: number | number[];
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

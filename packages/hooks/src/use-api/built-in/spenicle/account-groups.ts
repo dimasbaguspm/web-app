@@ -77,6 +77,14 @@ export const useApiSpenicleCreateAccountGroup = () => {
         queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUPS_INFINITE().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUP_MEMBERS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUP_MEMBERS_INFINITE().slice(0, 3),
+        exact: false,
+      });
       queryClient.setQueryData(QUERY_KEYS.SPENICLE_ACCOUNT_GROUPS_BY_ID(data.id), data);
     },
   });
@@ -97,6 +105,14 @@ export const useApiSpenicleUpdateAccountGroup = () => {
         queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUPS_INFINITE().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUP_MEMBERS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUP_MEMBERS_INFINITE().slice(0, 3),
+        exact: false,
+      });
       queryClient.setQueryData(QUERY_KEYS.SPENICLE_ACCOUNT_GROUPS_BY_ID(data.id), data);
     },
   });
@@ -115,6 +131,14 @@ export const useApiSpenicleDeleteAccountGroup = () => {
       });
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUPS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUP_MEMBERS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_ACCOUNT_GROUP_MEMBERS_INFINITE().slice(0, 3),
         exact: false,
       });
     },

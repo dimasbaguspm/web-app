@@ -1,7 +1,4 @@
-import {
-  useApiSpenicleAccountGroupsInfiniteQuery,
-  useApiSpenicleAccountsInfiniteQuery,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleAccountGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -17,7 +14,7 @@ import {
   SearchInput,
 } from '@dimasbaguspm/versaur';
 import { PlusIcon, SearchXIcon } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
@@ -28,24 +25,11 @@ const SettingsAccountGroupsPage = () => {
 
   const [accountGroupSearch, setAccountGroupSearch] = useState('');
 
-  const [accountGroups, , { isPending: isLoadingAccountGroups }] = useApiSpenicleAccountGroupsInfiniteQuery({
-    search: accountGroupSearch,
-    pageSize: 15,
-  });
-  const [accounts] = useApiSpenicleAccountsInfiniteQuery({
-    accountGroupId: accountGroups.map((group) => group.id),
-    pageSize: 15,
-  });
-
-  const accountGroupMemberCounts = useMemo(() => {
-    const counts: Record<number, number> = {};
-    accounts.forEach((account) => {
-      if (account.accountGroupId) {
-        counts[account.accountGroupId] = (counts[account.accountGroupId] || 0) + 1;
-      }
+  const [accountGroups, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiSpenicleAccountGroupsInfiniteQuery({
+      search: accountGroupSearch,
+      pageSize: 15,
     });
-    return counts;
-  }, [accounts]);
 
   const handleNewAccountGroup = () => {
     openDrawer(DRAWER_ROUTES.NEW_ACCOUNT_GROUP);
@@ -58,9 +42,9 @@ const SettingsAccountGroupsPage = () => {
         subtitle="Manage your account groups to organize your accounts"
         actions={
           <ButtonGroup>
-            <Button variant="outline" onClick={handleNewAccountGroup}>
+            <Button onClick={handleNewAccountGroup}>
               <Icon as={PlusIcon} color="inherit" size="sm" />
-              Create
+              New Group
             </Button>
           </ButtonGroup>
         }
@@ -80,10 +64,10 @@ const SettingsAccountGroupsPage = () => {
         />
 
         <div className="space-y-4">
-          <If condition={isLoadingAccountGroups}>
+          <If condition={isInitialFetching}>
             <LoadingIndicator size="sm" type="bar" />
           </If>
-          <If condition={[!isLoadingAccountGroups, accountGroups.length === 0]}>
+          <If condition={[!isInitialFetching, accountGroups.length === 0]}>
             <NoResults
               icon={SearchXIcon}
               title="No account groups found"
@@ -101,22 +85,25 @@ const SettingsAccountGroupsPage = () => {
               }
             />
           </If>
-          <If condition={[!isLoadingAccountGroups, accountGroups.length > 0]}>
+          <If condition={[!isInitialFetching, accountGroups.length > 0]}>
             <ul>
               {accountGroups.map((accountGroup, index) => {
                 const isLastItem = index === accountGroups.length - 1;
                 return (
-                  <li>
-                    <AccountGroupCard
-                      key={accountGroup.id}
-                      accountGroup={accountGroup}
-                      accountCount={accountGroupMemberCounts[accountGroup.id] || 0}
-                    />
+                  <li key={accountGroup.id}>
+                    <AccountGroupCard accountGroup={accountGroup} />
                     {!isLastItem && <Hr />}
                   </li>
                 );
               })}
             </ul>
+            <If condition={hasNextPage}>
+              <ButtonGroup>
+                <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                  Load More
+                </Button>
+              </ButtonGroup>
+            </If>
           </If>
         </div>
       </PageContent>
