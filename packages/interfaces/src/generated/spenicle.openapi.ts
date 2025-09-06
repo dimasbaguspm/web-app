@@ -2348,6 +2348,10 @@ export interface operations {
         startFrom?: string;
         startTo?: string;
         isRecurring?: boolean;
+        lastRunAtFrom?: string;
+        lastRunAtTo?: string;
+        nextRunAtFrom?: string;
+        nextRunAtTo?: string;
         interval?: ('daily' | 'weekly' | 'monthly' | 'yearly')[];
         status?: 'active' | 'paused' | 'completed';
         pageNumber?: number;
@@ -2361,6 +2365,7 @@ export interface operations {
           | 'status'
           | 'start_date'
           | 'last_run_at'
+          | 'next_run_at'
           | 'created_at'
           | 'updated_at';
         sortOrder?: 'asc' | 'desc';
@@ -2395,6 +2400,7 @@ export interface operations {
               /** Format: date-time */
               startDate: string;
               lastRunAt: string | null;
+              nextRunAt: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2424,6 +2430,7 @@ export interface operations {
               /** Format: date-time */
               startDate: string;
               lastRunAt: string | null;
+              nextRunAt: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2453,6 +2460,7 @@ export interface operations {
               /** Format: date-time */
               startDate: string;
               lastRunAt: string | null;
+              nextRunAt: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2550,6 +2558,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2573,6 +2582,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2596,6 +2606,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2639,6 +2650,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2662,6 +2674,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2685,6 +2698,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2802,6 +2816,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2825,6 +2840,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2848,6 +2864,7 @@ export interface operations {
             /** Format: date-time */
             startDate: string;
             lastRunAt: string | null;
+            nextRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */

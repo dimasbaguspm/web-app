@@ -48,6 +48,10 @@ export const DateFormat = {
   /** Example: "01/15/2024 2:30 PM" */
   SHORT_DATETIME: 'shortDateTime',
 
+  MEDIUM_DATETIME: 'mediumDateTime',
+
+  LONG_DATETIME: 'longDateTime',
+
   // Time only
   /** Example: "2:30 PM" */
   TIME_12H: 'time12h',
@@ -167,6 +171,12 @@ export function formatDate(date: Dayjs | Date | string, format: DateFormatType):
 
     case DateFormat.SHORT_DATETIME:
       return dayjsDate.format('MM/DD/YYYY h:mm A'); // "01/15/2024 2:30 PM"
+
+    case DateFormat.MEDIUM_DATETIME:
+      return dayjsDate.format('MMM D, YYYY h:mm A'); // "Jan 15, 2024 2:30 PM"
+
+    case DateFormat.LONG_DATETIME:
+      return dayjsDate.format('MMMM D, YYYY h:mm A'); // "January 15, 2024 2:30 PM"
 
     // Time only
     case DateFormat.TIME_12H:
