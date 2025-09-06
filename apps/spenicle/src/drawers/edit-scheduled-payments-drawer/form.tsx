@@ -187,7 +187,18 @@ export const EditScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit }
             control={control}
             name="startDate"
             rules={{
-              required: 'First date is required',
+              validate: (value) => {
+                if (!value) {
+                  return 'First date is required';
+                }
+                const selectedDate = new Date(value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                if (selectedDate < today) {
+                  return 'First date cannot be in the past';
+                }
+                return true;
+              },
             }}
             render={({ field, fieldState }) => (
               <DateSinglePickerInput
