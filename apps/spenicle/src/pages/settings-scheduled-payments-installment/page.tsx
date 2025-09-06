@@ -16,11 +16,11 @@ const SettingsScheduledPaymentInstallmentPage = () => {
       <If condition={[!isInitialFetching, !scheduledTransactions.length]}>
         <NoResults
           icon={SearchXIcon}
-          title="No Scheduled Payments"
-          subtitle="You have no scheduled payments at the moment. Click the button below to create your first scheduled payment"
+          title="No Installments"
+          subtitle="You have no installment at the moment. Click the button below to create your first installment"
           action={
             <ButtonGroup alignment="center">
-              <Button variant="outline">Set Up Scheduled Payment</Button>
+              <Button variant="outline">Set Up Installment</Button>
             </ButtonGroup>
           }
         />

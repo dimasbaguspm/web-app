@@ -129,7 +129,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
         </If>
 
         <If condition={[accounts?.length, !isInitialFetching]}>
-          <ul>
+          <ul className="mb-4">
             {accounts?.map((account) => {
               return (
                 <li key={account.id}>

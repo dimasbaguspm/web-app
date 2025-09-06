@@ -80,22 +80,20 @@ const AccountsPage = () => {
         <If condition={[!isInitialFetching, accounts]}>
           <ActionsControl />
           <FilterControl />
-          <div className="space-y-4">
-            <ul className="grid grid-cols-1 mb-4">
-              {accounts?.map((account) => (
-                <li key={account.id} className="border-b border-border">
-                  <AccountCard account={account} onClick={handleAccountClick} />
-                </li>
-              ))}
-            </ul>
-            <If condition={hasNextPage}>
-              <ButtonGroup alignment="center">
-                <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
-                  Load More
-                </Button>
-              </ButtonGroup>
-            </If>
-          </div>
+          <ul className="mb-4">
+            {accounts?.map((account) => (
+              <li key={account.id} className="border-b border-border">
+                <AccountCard account={account} onClick={handleAccountClick} />
+              </li>
+            ))}
+          </ul>
+          <If condition={hasNextPage}>
+            <ButtonGroup alignment="center">
+              <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                Load More
+              </Button>
+            </ButtonGroup>
+          </If>
         </If>
 
         <If condition={[!isInitialFetching, accounts?.length === 0]}>

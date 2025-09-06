@@ -80,22 +80,20 @@ const CategoriesPage = () => {
           <ActionsControl />
           <FilterControl />
 
-          <div className="space-y-4">
-            <ul className="grid grid-cols-1 mb-4">
-              {categories?.map((category) => (
-                <li key={category.id} className="border-b border-border">
-                  <CategoryCard category={category} onClick={handleCategoryClick} />
-                </li>
-              ))}
-            </ul>
-            <If condition={hasNextPage}>
-              <ButtonGroup alignment="center">
-                <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
-                  Load More
-                </Button>
-              </ButtonGroup>
-            </If>
-          </div>
+          <ul className="mb-4">
+            {categories?.map((category) => (
+              <li key={category.id} className="border-b border-border">
+                <CategoryCard category={category} onClick={handleCategoryClick} />
+              </li>
+            ))}
+          </ul>
+          <If condition={hasNextPage}>
+            <ButtonGroup alignment="center">
+              <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                Load More
+              </Button>
+            </ButtonGroup>
+          </If>
         </If>
 
         <If condition={[!isInitialFetching, categories.length === 0]}>

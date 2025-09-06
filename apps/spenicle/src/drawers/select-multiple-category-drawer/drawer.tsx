@@ -137,7 +137,7 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
         </If>
 
         <If condition={[categories?.length, !isInitialFetching]}>
-          <ul>
+          <ul className="mb-4">
             {categories?.map((category) => {
               return (
                 <li key={category.id}>
