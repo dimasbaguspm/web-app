@@ -14,7 +14,7 @@ const SummaryLayout = () => {
         actions={
           <ButtonGroup>
             <Button>
-              <Icon as={HardDriveDownloadIcon} color="inherit" />
+              <Icon as={HardDriveDownloadIcon} color="inherit" size="sm" />
               Report
             </Button>
           </ButtonGroup>

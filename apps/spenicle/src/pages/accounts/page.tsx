@@ -60,7 +60,7 @@ const AccountsPage = () => {
               Manage Group
             </Button>
             <Button onClick={handleOpenDrawer}>
-              <Icon as={PlusIcon} color="inherit" />
+              <Icon as={PlusIcon} color="inherit" size="sm" />
               New Account
             </Button>
           </ButtonGroup>

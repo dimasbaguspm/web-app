@@ -38,7 +38,7 @@ const SettingsScheduledPaymentPage = () => {
         actions={
           <ButtonGroup>
             <Button onClick={handleOnNewScheduleClick}>
-              <Icon as={PlusIcon} color="inherit" />
+              <Icon as={PlusIcon} color="inherit" size="sm" />
               New Schedule
             </Button>
           </ButtonGroup>

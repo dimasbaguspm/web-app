@@ -73,11 +73,11 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
         actions={
           <ButtonGroup>
             <Button variant="outline" onClick={handleOnScheduledPaymentsClick}>
-              <Icon as={RefreshCwIcon} color="inherit" />
+              <Icon as={RefreshCwIcon} color="inherit" size="sm" />
               Scheduled Payments
             </Button>
             <Button onClick={handleOnNewTransactionClick}>
-              <Icon as={PlusIcon} color="inherit" />
+              <Icon as={PlusIcon} color="inherit" size="sm" />
               New Transaction
             </Button>
           </ButtonGroup>
