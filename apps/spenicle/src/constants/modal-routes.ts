@@ -7,5 +7,7 @@ export const MODAL_ROUTES = {
   DELETE_ACCOUNT_GROUP: 'delete-account-group',
   DELETE_CATEGORY_GROUP: 'delete-category-group',
 
+  DELETE_SCHEDULED_PAYMENT: 'delete-scheduled-payment',
+
   LOGOUT_CONFIRMATION: 'logout-confirmation',
 } as const;

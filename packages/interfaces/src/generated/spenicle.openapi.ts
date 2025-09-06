@@ -2345,6 +2345,9 @@ export interface operations {
         note?: string;
         amountMin?: number;
         amountMax?: number;
+        startFrom?: string;
+        startTo?: string;
+        isRecurring?: boolean;
         interval?: ('daily' | 'weekly' | 'monthly' | 'yearly')[];
         status?: 'active' | 'paused' | 'completed';
         pageNumber?: number;
@@ -2356,6 +2359,7 @@ export interface operations {
           | 'frequency'
           | 'until'
           | 'status'
+          | 'start_date'
           | 'last_run_at'
           | 'created_at'
           | 'updated_at';
@@ -2388,6 +2392,8 @@ export interface operations {
               frequency: number;
               until: string | null;
               status: 'active' | 'paused' | 'completed';
+              /** Format: date-time */
+              startDate: string;
               lastRunAt: string | null;
               /** Format: date-time */
               createdAt: string;
@@ -2415,6 +2421,8 @@ export interface operations {
               frequency: number;
               until: string | null;
               status: 'active' | 'paused' | 'completed';
+              /** Format: date-time */
+              startDate: string;
               lastRunAt: string | null;
               /** Format: date-time */
               createdAt: string;
@@ -2442,6 +2450,8 @@ export interface operations {
               frequency: number;
               until: string | null;
               status: 'active' | 'paused' | 'completed';
+              /** Format: date-time */
+              startDate: string;
               lastRunAt: string | null;
               /** Format: date-time */
               createdAt: string;
@@ -2479,7 +2489,8 @@ export interface operations {
           frequency: number;
           until?: string | null;
           status?: 'active' | 'paused' | 'completed';
-          nextRunAt?: string | null;
+          /** Format: date-time */
+          startDate: string;
         };
         'multipart/form-data': {
           /** @default false */
@@ -2494,7 +2505,8 @@ export interface operations {
           frequency: number;
           until?: string | null;
           status?: 'active' | 'paused' | 'completed';
-          nextRunAt?: string | null;
+          /** Format: date-time */
+          startDate: string;
         };
         'text/plain': {
           /** @default false */
@@ -2509,7 +2521,8 @@ export interface operations {
           frequency: number;
           until?: string | null;
           status?: 'active' | 'paused' | 'completed';
-          nextRunAt?: string | null;
+          /** Format: date-time */
+          startDate: string;
         };
       };
     };
@@ -2534,6 +2547,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2555,6 +2570,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2576,6 +2593,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2617,6 +2636,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2638,6 +2659,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2659,6 +2682,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2720,8 +2745,8 @@ export interface operations {
           frequency?: number;
           until?: string | null;
           status?: 'active' | 'paused' | 'completed';
-          nextRunAt?: string | null;
-          lastRunAt?: string | null;
+          /** Format: date-time */
+          startDate?: string;
         };
         'multipart/form-data': {
           name?: string;
@@ -2734,8 +2759,8 @@ export interface operations {
           frequency?: number;
           until?: string | null;
           status?: 'active' | 'paused' | 'completed';
-          nextRunAt?: string | null;
-          lastRunAt?: string | null;
+          /** Format: date-time */
+          startDate?: string;
         };
         'text/plain': {
           name?: string;
@@ -2748,8 +2773,8 @@ export interface operations {
           frequency?: number;
           until?: string | null;
           status?: 'active' | 'paused' | 'completed';
-          nextRunAt?: string | null;
-          lastRunAt?: string | null;
+          /** Format: date-time */
+          startDate?: string;
         };
       };
     };
@@ -2774,6 +2799,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2795,6 +2822,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2816,6 +2845,8 @@ export interface operations {
             frequency: number;
             until: string | null;
             status: 'active' | 'paused' | 'completed';
+            /** Format: date-time */
+            startDate: string;
             lastRunAt: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -2868,6 +2899,26 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embedded: {
+                transaction: {
+                  id: number;
+                  profileId: number;
+                  userId: number;
+                  groupId: number | null;
+                  accountId: number;
+                  destinationAccountId: number | null;
+                  categoryId: number;
+                  amount: string | number;
+                  type: 'income' | 'expense' | 'transfer';
+                  /** Format: date-time */
+                  date: string;
+                  note: string | null;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                };
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -2885,6 +2936,26 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embedded: {
+                transaction: {
+                  id: number;
+                  profileId: number;
+                  userId: number;
+                  groupId: number | null;
+                  accountId: number;
+                  destinationAccountId: number | null;
+                  categoryId: number;
+                  amount: string | number;
+                  type: 'income' | 'expense' | 'transfer';
+                  /** Format: date-time */
+                  date: string;
+                  note: string | null;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                };
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -2902,6 +2973,26 @@ export interface operations {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embedded: {
+                transaction: {
+                  id: number;
+                  profileId: number;
+                  userId: number;
+                  groupId: number | null;
+                  accountId: number;
+                  destinationAccountId: number | null;
+                  categoryId: number;
+                  amount: string | number;
+                  type: 'income' | 'expense' | 'transfer';
+                  /** Format: date-time */
+                  date: string;
+                  note: string | null;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                };
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;

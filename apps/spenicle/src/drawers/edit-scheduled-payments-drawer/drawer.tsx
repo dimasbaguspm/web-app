@@ -1,25 +1,33 @@
-import { useApiSpenicleCreateScheduledTransaction } from '@dimasbaguspm/hooks/use-api';
+import {
+  useApiSpenicleScheduledTransactionQuery,
+  useApiSpenicleUpdateScheduledTransaction,
+} from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { Button, ButtonGroup, Drawer } from '@dimasbaguspm/versaur';
+import { If } from '@dimasbaguspm/utils/if';
+import { Button, ButtonGroup, Drawer, PageLoader } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
-import { NewScheduledPaymentsForm } from './form';
+import { EditScheduledPaymentsForm } from './form';
 import { formatDefaultValues } from './helpers';
-import { NewScheduledPaymentsFormSchema } from './types';
+import { EditScheduledPaymentsFormSchema } from './types';
 
 interface Props {
+  scheduledTransactionId: number;
   payload?: Record<string, string>;
 }
 
-export const NewScheduledPaymentsDrawer: FC<Props> = ({ payload }) => {
+export const EditScheduledPaymentsDrawer: FC<Props> = ({ scheduledTransactionId, payload }) => {
   const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
-  const [createScheduledTransaction, , { isPending }] = useApiSpenicleCreateScheduledTransaction();
 
-  const handleOnSubmit = async (data: NewScheduledPaymentsFormSchema) => {
-    await createScheduledTransaction({
+  const [scheduledTransaction, , { isLoading }] = useApiSpenicleScheduledTransactionQuery(scheduledTransactionId);
+  const [editScheduledTransaction, , { isPending }] = useApiSpenicleUpdateScheduledTransaction();
+
+  const handleOnSubmit = async (data: EditScheduledPaymentsFormSchema) => {
+    await editScheduledTransaction({
+      id: scheduledTransactionId,
       name: data.name,
       type: data.type,
       startDate: dayjs(data.startDate).set('h', dayjs().hour()).set('m', dayjs().minute()).toISOString(),
@@ -30,7 +38,6 @@ export const NewScheduledPaymentsDrawer: FC<Props> = ({ payload }) => {
       accountId: +data.accountId,
       categoryId: +data.categoryId,
       note: data.notes,
-      immediate: data.immediate || false,
     });
     closeDrawer();
   };
@@ -38,11 +45,19 @@ export const NewScheduledPaymentsDrawer: FC<Props> = ({ payload }) => {
   return (
     <>
       <Drawer.Header>
-        <Drawer.Title>New Scheduled Payment</Drawer.Title>
+        <Drawer.Title>Edit Scheduled Payment</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Body>
-        <NewScheduledPaymentsForm onSubmit={handleOnSubmit} defaultValues={formatDefaultValues(payload)} />
+        <If condition={isLoading}>
+          <PageLoader />
+        </If>
+        <If condition={!isLoading}>
+          <EditScheduledPaymentsForm
+            onSubmit={handleOnSubmit}
+            defaultValues={formatDefaultValues(scheduledTransaction, payload)}
+          />
+        </If>
       </Drawer.Body>
       <Drawer.Footer>
         <ButtonGroup alignment="end" fluid={!isDesktop}>
@@ -50,7 +65,7 @@ export const NewScheduledPaymentsDrawer: FC<Props> = ({ payload }) => {
             Cancel
           </Button>
           <Button form="edit-scheduled-payments-form" type="submit" disabled={isPending}>
-            Save
+            Update
           </Button>
         </ButtonGroup>
       </Drawer.Footer>

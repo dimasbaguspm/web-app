@@ -17,6 +17,7 @@ import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditAccountGroupDrawer } from '../drawers/edit-account-group-drawer/drawer';
 import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
 import { EditCategoryGroupDrawer } from '../drawers/edit-category-group-drawer/drawer';
+import { EditScheduledPaymentsDrawer } from '../drawers/edit-scheduled-payments-drawer/drawer';
 import { EditTransactionDrawer } from '../drawers/edit-transaction-drawer/drawer';
 import { FilterAccountDrawer } from '../drawers/filter-account-drawer/drawer';
 import { FilterCategoryDrawer } from '../drawers/filter-category-drawer/drawer';
@@ -40,6 +41,7 @@ interface DrawerParams {
   transactionId?: number;
   accountGroupId?: number;
   categoryGroupId?: number;
+  scheduledTransactionId?: number;
   payloadId?: string;
   tabId?: string;
 }
@@ -165,8 +167,13 @@ export const DrawerRoutes: FC = () => {
         <AddCategoryGroupMemberDrawer categoryGroupId={params.categoryGroupId!} />
       )}
 
-      {is(DRAWER_ROUTES.DETAIL_SCHEDULED_PAYMENTS) && <DetailScheduledPaymentsDrawer />}
-      {is(DRAWER_ROUTES.NEW_SCHEDULED_PAYMENTS) && <NewScheduledPaymentsDrawer />}
+      {is(DRAWER_ROUTES.DETAIL_SCHEDULED_PAYMENTS) && hasParam('scheduledTransactionId') && (
+        <DetailScheduledPaymentsDrawer scheduledTransactionId={params.scheduledTransactionId!} />
+      )}
+      {is(DRAWER_ROUTES.NEW_SCHEDULED_PAYMENTS) && <NewScheduledPaymentsDrawer payload={state?.payload} />}
+      {is(DRAWER_ROUTES.EDIT_SCHEDULED_PAYMENTS) && hasParam('scheduledTransactionId') && (
+        <EditScheduledPaymentsDrawer scheduledTransactionId={params.scheduledTransactionId!} payload={state?.payload} />
+      )}
     </Drawer>
   );
 };

@@ -1,12 +1,26 @@
 import { useApiSpenicleScheduledTransactionsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
-import { formatSpenicleScheduledTransaction } from '@dimasbaguspm/utils/data';
+import { ScheduledTransactionModel } from '@dimasbaguspm/interfaces';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Badge, BadgeGroup, Button, ButtonGroup, Card, Icon, NoResults, PageLoader } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Hr, NoResults, PageLoader } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 
+import { ScheduledTransactionCard } from '../../components/scheduled-transaction-card';
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+
 const SettingsScheduledPaymentRecurringPage = () => {
+  const { openDrawer } = useDrawerRoute();
   const [scheduledTransactions, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
-    useApiSpenicleScheduledTransactionsInfiniteQuery({});
+    useApiSpenicleScheduledTransactionsInfiniteQuery({
+      isRecurring: true,
+      sortBy: 'last_run_at',
+    });
+
+  const handleOnCardClick = (scheduledTransaction: ScheduledTransactionModel) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_SCHEDULED_PAYMENTS, {
+      scheduledTransactionId: scheduledTransaction.id,
+    });
+  };
 
   return (
     <>
@@ -27,38 +41,12 @@ const SettingsScheduledPaymentRecurringPage = () => {
       </If>
       <If condition={[!isInitialFetching, scheduledTransactions.length]}>
         <ul>
-          {scheduledTransactions.map((scheduledTransaction) => {
-            const {
-              trimmedNotes,
-              variant,
-              capitalizedType,
-              capitalizedStatus,
-              amount,
-              intervalName,
-              IntervalIcon,
-              nextRunDateTime,
-            } = formatSpenicleScheduledTransaction(scheduledTransaction);
+          {scheduledTransactions.map((scheduledTransaction, index) => {
+            const isLastItem = index === scheduledTransactions.length - 1;
             return (
               <li key={scheduledTransaction.id}>
-                <Card
-                  title={amount}
-                  subtitle={
-                    <Card.List>
-                      <Card.ListItem>
-                        <Icon as={IntervalIcon} className="mr-2" color="inherit" />
-                        {intervalName}
-                      </Card.ListItem>
-                      <Card.ListItem>{trimmedNotes}</Card.ListItem>
-                    </Card.List>
-                  }
-                  badge={
-                    <BadgeGroup>
-                      <Badge color={variant}>{capitalizedType}</Badge>
-                      <Badge color="accent_3">{capitalizedStatus}</Badge>
-                    </BadgeGroup>
-                  }
-                  supplementaryInfo={`Next run: ${nextRunDateTime}`}
-                />
+                <ScheduledTransactionCard scheduledTransaction={scheduledTransaction} onClick={handleOnCardClick} />
+                {!isLastItem && <Hr />}
               </li>
             );
           })}

@@ -7,6 +7,7 @@ import { DeleteAccountGroupModal } from '../modals/delete-account-group-modal/mo
 import { DeleteAccountModal } from '../modals/delete-account-modal/modal';
 import { DeleteCategoryGroupModal } from '../modals/delete-category-group-modal/modal';
 import { DeleteCategoryModal } from '../modals/delete-category-modal/modal';
+import { DeleteScheduledPaymentModal } from '../modals/delete-scheduled-payment-modal/modal';
 import { DeleteTransactionModal } from '../modals/delete-transaction-modal/modal';
 import { LogoutConfirmationModal } from '../modals/logout-confirmation-modal/modal';
 import { ProfileSwitcherModal } from '../modals/profile-switcher-modal/modal';
@@ -18,6 +19,7 @@ interface ModalParams {
   categoryId?: number;
   categoryGroupId?: number;
   transactionId?: number;
+  scheduledPaymentId?: number;
   payloadId?: string;
   tabId?: string;
   sessionCheck?: number;
@@ -52,6 +54,9 @@ export const ModalRoutes: FC = () => {
       )}
       {is(MODAL_ROUTES.DELETE_CATEGORY_GROUP) && hasParam('categoryGroupId') && (
         <DeleteCategoryGroupModal categoryGroupId={params.categoryGroupId!} />
+      )}
+      {is(MODAL_ROUTES.DELETE_SCHEDULED_PAYMENT) && hasParam('scheduledPaymentId') && (
+        <DeleteScheduledPaymentModal scheduledPaymentId={params.scheduledPaymentId!} />
       )}
     </Modal>
   );

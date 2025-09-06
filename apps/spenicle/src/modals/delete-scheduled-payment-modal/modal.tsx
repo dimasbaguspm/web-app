@@ -1,24 +1,24 @@
-import { useApiSpenicleDeleteCategory } from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleDeleteScheduledTransaction } from '@dimasbaguspm/hooks/use-api';
 import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { Button, ButtonGroup, Modal } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-interface DeleteCategoryModalProps {
-  categoryId: number;
+interface DeleteScheduledPaymentModalProps {
+  scheduledPaymentId: number;
 }
 
-export const DeleteCategoryModal: FC<DeleteCategoryModalProps> = ({ categoryId }) => {
+export const DeleteScheduledPaymentModal: FC<DeleteScheduledPaymentModalProps> = ({ scheduledPaymentId }) => {
   const { closeModal } = useModalRoute();
   const { closeDrawer, isOpen: isDrawerOpen } = useDrawerRoute();
   const { closeBottomSheet, isOpen: isBottomSheetOpen } = useBottomSheetRoute();
 
-  const [deleteCategory, , { isPending }] = useApiSpenicleDeleteCategory();
+  const [deleteScheduledPayment, , { isPending }] = useApiSpenicleDeleteScheduledTransaction();
 
   const handleDelete = async () => {
-    await deleteCategory({
-      id: categoryId,
+    await deleteScheduledPayment({
+      id: scheduledPaymentId,
     });
     closeModal();
 
@@ -29,7 +29,7 @@ export const DeleteCategoryModal: FC<DeleteCategoryModalProps> = ({ categoryId }
   return (
     <>
       <Modal.Header>Confirmation</Modal.Header>
-      <Modal.Body>Are you sure you want to delete this category?</Modal.Body>
+      <Modal.Body>Are you sure you want to delete this scheduled payment?</Modal.Body>
       <Modal.Footer>
         <ButtonGroup>
           <Button variant="ghost" onClick={closeModal} disabled={isPending}>

@@ -28,7 +28,7 @@ export const DeleteAccountModal: FC<DeleteAccountModalProps> = ({ accountId }) =
 
   return (
     <>
-      <Modal.Header>Delete Account</Modal.Header>
+      <Modal.Header>Confirmation</Modal.Header>
       <Modal.Body>Are you sure you want to delete this account?</Modal.Body>
       <Modal.Footer>
         <ButtonGroup>

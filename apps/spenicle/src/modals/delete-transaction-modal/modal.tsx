@@ -28,7 +28,7 @@ export const DeleteTransactionModal: FC<DeleteTransactionModalProps> = ({ transa
 
   return (
     <>
-      <Modal.Header>Delete Transaction</Modal.Header>
+      <Modal.Header>Confirmation</Modal.Header>
       <Modal.Body>Are you sure you want to delete this transaction?</Modal.Body>
       <Modal.Footer>
         <ButtonGroup>
