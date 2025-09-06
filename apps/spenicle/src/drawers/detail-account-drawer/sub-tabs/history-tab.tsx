@@ -5,8 +5,9 @@ import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
-  ButtonMenuIcon,
+  ButtonMenu,
   FormLayout,
+  Icon,
   NoResults,
   PageLoader,
   SearchInput,
@@ -45,15 +46,24 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
   return (
     <>
       <FormLayout className="mb-4">
-        <FormLayout.Column span={10}>
+        <FormLayout.Column span={12}>
           <SearchInput onChange={(ev) => setSearchValue(ev.target.value)} placeholder="Search name or notes" />
         </FormLayout.Column>
-        <FormLayout.Column span={12} className="flex items-end justify-end">
+        <FormLayout.Column span={12}>
           <ButtonGroup>
-            <ButtonMenuIcon as={FilterIcon} variant="outline" aria-label="Filter">
-              <ButtonMenuIcon.Item>Sort by date</ButtonMenuIcon.Item>
-              <ButtonMenuIcon.Item>Sort by amount</ButtonMenuIcon.Item>
-            </ButtonMenuIcon>
+            <ButtonMenu
+              label={
+                <>
+                  <Icon as={FilterIcon} size="sm" color="inherit" />
+                  Filter
+                </>
+              }
+              variant="outline"
+              aria-label="Filter"
+            >
+              <ButtonMenu.Item>Sort by date</ButtonMenu.Item>
+              <ButtonMenu.Item>Sort by amount</ButtonMenu.Item>
+            </ButtonMenu>
           </ButtonGroup>
         </FormLayout.Column>
       </FormLayout>

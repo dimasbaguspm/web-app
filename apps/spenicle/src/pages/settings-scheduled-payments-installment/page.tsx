@@ -22,6 +22,10 @@ const SettingsScheduledPaymentInstallmentPage = () => {
     });
   };
 
+  const handleOnSetupInstallmentClick = () => {
+    openDrawer(DRAWER_ROUTES.NEW_SCHEDULED_PAYMENTS);
+  };
+
   return (
     <>
       <If condition={isInitialFetching}>
@@ -34,7 +38,9 @@ const SettingsScheduledPaymentInstallmentPage = () => {
           subtitle="You have no installment at the moment. Click the button below to create your first installment"
           action={
             <ButtonGroup alignment="center">
-              <Button variant="outline">Set Up Installment</Button>
+              <Button variant="outline" onClick={handleOnSetupInstallmentClick}>
+                Set Up Installment
+              </Button>
             </ButtonGroup>
           }
         />

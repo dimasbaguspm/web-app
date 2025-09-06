@@ -22,6 +22,10 @@ const SettingsScheduledPaymentRecurringPage = () => {
     });
   };
 
+  const handleOnRecurringTransactionClick = () => {
+    openDrawer(DRAWER_ROUTES.NEW_SCHEDULED_PAYMENTS);
+  };
+
   return (
     <>
       <If condition={isInitialFetching}>
@@ -34,7 +38,9 @@ const SettingsScheduledPaymentRecurringPage = () => {
           subtitle="You have no recurring transactions at the moment. Click the button below to create your first recurring transaction"
           action={
             <ButtonGroup alignment="center">
-              <Button variant="outline">Set Up Recurring Transaction</Button>
+              <Button variant="outline" onClick={handleOnRecurringTransactionClick}>
+                Set Up Recurring Transaction
+              </Button>
             </ButtonGroup>
           }
         />

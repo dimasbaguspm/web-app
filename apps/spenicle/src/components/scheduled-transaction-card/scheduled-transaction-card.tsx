@@ -18,6 +18,7 @@ export const ScheduledTransactionCard: FC<ScheduledTransactionCardProps> = ({
   ...cardProps
 }) => {
   const {
+    name,
     isCompleted,
     isActive,
     humanizedFrequency,
@@ -41,6 +42,7 @@ export const ScheduledTransactionCard: FC<ScheduledTransactionCardProps> = ({
       title={amount}
       subtitle={
         <Card.List>
+          <Card.ListItem>{name}</Card.ListItem>
           <Card.ListItem>{humanizedFrequency}</Card.ListItem>
           <If condition={[isInstallment, installmentProgress]}>
             <Card.ListItem>{installmentProgress} Installments</Card.ListItem>

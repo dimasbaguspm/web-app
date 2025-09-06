@@ -3,9 +3,10 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
 import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader, PageLoader } from '@dimasbaguspm/versaur';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { PlusIcon, RefreshCwIcon } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router';
+import { FC } from 'react';
+import { useNavigate } from 'react-router';
 
 import { TransactionCard } from '../../components/transaction-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -15,23 +16,17 @@ import { ActionsControl } from './components/actions-control';
 import { FiltersControl } from './components/filters-control';
 import { NoResults } from './components/no-results';
 import { TabsDate } from './components/tabs-date';
+import { DateGuard } from './guards/date-guard';
 import { useTransactionData } from './hooks/use-transactions-data';
 import { useTransactionsFilter } from './hooks/use-transactions-filter';
 
-const TransactionsPage = () => {
-  const { year, month, day } = useParams<{
-    year: string;
-    month: string;
-    day: string;
-  }>();
-  const navigate = useNavigate();
+interface TransactionsPageProps {
+  startDate: Dayjs;
+}
 
-  const hasParams = year && month && day;
-  const startDate = hasParams
-    ? dayjs().set('y', parseInt(year)).set('M', parseInt(month)).set('D', parseInt(day))
-    : dayjs();
-
+const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
   const { openDrawer } = useDrawerRoute();
+  const navigate = useNavigate();
 
   const { humanizedFilters } = useTransactionsFilter();
   const { isLoading, transactions, accounts, categories, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -67,7 +62,7 @@ const TransactionsPage = () => {
   };
 
   const handleOnScheduledPaymentsClick = () => {
-    openDrawer(DRAWER_ROUTES.DETAIL_SCHEDULED_PAYMENTS);
+    navigate(DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path);
   };
 
   return (
@@ -151,4 +146,8 @@ const TransactionsPage = () => {
   );
 };
 
-export default TransactionsPage;
+const TransactionsPageWrapper: FC = () => {
+  return <DateGuard>{(date) => <TransactionsPage startDate={date} />}</DateGuard>;
+};
+
+export default TransactionsPageWrapper;

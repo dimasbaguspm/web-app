@@ -49,7 +49,7 @@ export const NewScheduledPaymentsDrawer: FC<Props> = ({ payload }) => {
           <Button variant="ghost" disabled={isPending} onClick={closeDrawer}>
             Cancel
           </Button>
-          <Button form="edit-scheduled-payments-form" type="submit" disabled={isPending}>
+          <Button form="new-scheduled-payments-form" type="submit" disabled={isPending}>
             Save
           </Button>
         </ButtonGroup>
