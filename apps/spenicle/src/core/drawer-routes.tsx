@@ -26,6 +26,7 @@ import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
 import { NewAccountGroupDrawer } from '../drawers/new-account-group-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
 import { NewCategoryGroupDrawer } from '../drawers/new-category-group-drawer/drawer';
+import { NewScheduledPaymentsDrawer } from '../drawers/new-scheduled-payments-drawer/drawer';
 import { NewTransactionDrawer } from '../drawers/new-transaction-drawer/drawer';
 import { SelectAccountDrawer } from '../drawers/select-account-drawer/drawer';
 import { SelectCategoryDrawer } from '../drawers/select-category-drawer/drawer';
@@ -165,6 +166,7 @@ export const DrawerRoutes: FC = () => {
       )}
 
       {is(DRAWER_ROUTES.DETAIL_SCHEDULED_PAYMENTS) && <DetailScheduledPaymentsDrawer />}
+      {is(DRAWER_ROUTES.NEW_SCHEDULED_PAYMENTS) && <NewScheduledPaymentsDrawer />}
     </Drawer>
   );
 };

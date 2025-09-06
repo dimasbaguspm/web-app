@@ -1,27 +1,25 @@
 import { CategoryModel } from '@dimasbaguspm/interfaces';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, Badge, BadgeGroup, Card, CardProps } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-interface CategoryCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered'> {
+interface CategoryCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
   category: CategoryModel;
   onClick?: (category: CategoryModel) => void;
 }
 
 export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, ...rest }) => {
-  const { variant, type, hasGroup, groups } = formatSpenicleCategory(category);
+  const { variant, name, initialName, type, hasGroup, groups } = formatSpenicleCategory(category);
   const handleClick = () => {
     onClick?.(category);
   };
 
   return (
     <Card
-      {...rest}
       onClick={handleClick}
-      avatar={<Avatar shape="rounded">{nameToInitials(category.name)}</Avatar>}
-      title={category.name}
+      avatar={<Avatar shape="rounded">{initialName}</Avatar>}
+      title={name}
       badge={
         <BadgeGroup>
           <Badge color={variant}>{type}</Badge>
@@ -34,6 +32,7 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, ...rest
           </If>
         </BadgeGroup>
       }
+      {...rest}
     />
   );
 };

@@ -1,18 +1,17 @@
 import { AccountModel } from '@dimasbaguspm/interfaces';
 import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, Badge, BadgeGroup, Card, CardProps } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-interface AccountCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered'> {
+interface AccountCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
   account: AccountModel;
   onClick?: (account: AccountModel) => void;
 }
 
 export const AccountCard: FC<AccountCardProps> = (props) => {
   const { account, onClick, ...rest } = props;
-  const { formattedAmount, type, variant, hasGroup, groups } = formatSpenicleAccount(account);
+  const { formattedAmount, name, initialName, type, variant, hasGroup, groups } = formatSpenicleAccount(account);
 
   const handleClick = () => {
     onClick?.(account);
@@ -20,10 +19,9 @@ export const AccountCard: FC<AccountCardProps> = (props) => {
 
   return (
     <Card
-      {...rest}
       onClick={handleClick}
-      avatar={<Avatar shape="rounded">{nameToInitials(account.name)}</Avatar>}
-      title={account.name}
+      avatar={<Avatar shape="rounded">{initialName}</Avatar>}
+      title={name}
       badge={
         <BadgeGroup>
           <Badge color={variant}>{type}</Badge>
@@ -37,6 +35,7 @@ export const AccountCard: FC<AccountCardProps> = (props) => {
         </BadgeGroup>
       }
       supplementaryInfo={formattedAmount}
+      {...rest}
     />
   );
 };

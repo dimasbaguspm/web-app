@@ -91,6 +91,16 @@ const router = createBrowserRouter([
       {
         path: ROUTES.SETTINGS_SCHEDULED_PAYMENTS,
         Component: lazyLoad(() => import('../pages/settings-scheduled-payments/page')),
+        children: [
+          {
+            index: true,
+            Component: lazyLoad(() => import('../pages/settings-scheduled-payments-installment/page')),
+          },
+          {
+            path: ROUTES.SETTINGS_SCHEDULED_PAYMENTS_RECURRING,
+            Component: lazyLoad(() => import('../pages/settings-scheduled-payments-recurring/page')),
+          },
+        ],
       },
     ],
   },

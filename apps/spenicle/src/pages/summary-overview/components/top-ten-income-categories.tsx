@@ -1,13 +1,13 @@
 import { useApiSpenicleCachedCategories, useApiSpenicleCategoriesPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
-import { SummaryCategoriesModel } from '@dimasbaguspm/interfaces';
+import { CategoryModel, SummaryCategoriesModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { Accordion, Avatar, Card, Hr, NoResults } from '@dimasbaguspm/versaur';
+import { Accordion, Hr, NoResults } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
+import { CategoryCard } from '../../../components/category-card';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 
 interface TopTenIncomeCategoriesProps {
@@ -41,8 +41,8 @@ export const TopTenIncomeCategories: FC<TopTenIncomeCategoriesProps> = ({ data }
     category: cachedCategories.find((cat) => cat.id === item.categoryId),
   }));
 
-  const handleOnCategoryClick = (categoryId: number) => {
-    openDrawer(DRAWER_ROUTES.DETAIL_CATEGORY, { categoryId });
+  const handleOnCategoryClick = (category: CategoryModel) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_CATEGORY, { categoryId: category.id });
   };
 
   return (
@@ -51,20 +51,15 @@ export const TopTenIncomeCategories: FC<TopTenIncomeCategoriesProps> = ({ data }
         <If condition={organizedData.length}>
           <ul className="flex flex-col ml-6 list-decimal">
             {organizedData.map((item, index) => {
-              const { initialName, name } = formatSpenicleCategory(item.category);
               const isLastItem = index === organizedData.length - 1;
               return (
                 <li key={item.categoryId}>
-                  <Card
-                    onClick={() => handleOnCategoryClick(item.category?.id ?? 0)}
-                    title={name}
-                    subtitle={
-                      <Card.List>
-                        <Card.ListItem>{formatPrice(item.income)}</Card.ListItem>
-                      </Card.List>
-                    }
-                    avatar={<Avatar shape="rounded">{initialName}</Avatar>}
+                  <CategoryCard
+                    category={item?.category as CategoryModel}
+                    onClick={handleOnCategoryClick}
+                    supplementaryInfo={formatPrice(item?.income)}
                   />
+
                   {!isLastItem && <Hr />}
                 </li>
               );

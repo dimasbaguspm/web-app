@@ -78,8 +78,8 @@ export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSel
         </ul>
         <If condition={hasNextPage}>
           <ButtonGroup alignment="center">
-            <Button variant="ghost" disabled={isFetchingNextPage} onClick={() => fetchNextPage()}>
-              Load more
+            <Button variant="outline" disabled={isFetchingNextPage} onClick={() => fetchNextPage()}>
+              Load More
             </Button>
           </ButtonGroup>
         </If>

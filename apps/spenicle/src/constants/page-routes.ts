@@ -22,6 +22,7 @@ export const ROUTES = {
   SETTINGS_ACCOUNT_GROUPS: '/settings/account-groups',
   SETTINGS_CATEGORY_GROUPS: '/settings/category-groups',
   SETTINGS_SCHEDULED_PAYMENTS: '/settings/scheduled-payments',
+  SETTINGS_SCHEDULED_PAYMENTS_RECURRING: '/settings/scheduled-payments/recurring',
 } as const;
 
 export const DEEP_LINKS = {
@@ -83,6 +84,11 @@ export const DEEP_LINKS = {
   SETTINGS_SCHEDULED_PAYMENTS: {
     path: '/settings/scheduled-payments',
     title: 'Scheduled Payments',
+    icon: RefreshCwIcon,
+  },
+  SETTINGS_SCHEDULED_PAYMENTS_RECURRING: {
+    path: '/settings/scheduled-payments/recurring',
+    title: 'Recurring Payments',
     icon: RefreshCwIcon,
   },
 } as const;
