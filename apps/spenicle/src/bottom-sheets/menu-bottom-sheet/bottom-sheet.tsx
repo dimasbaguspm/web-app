@@ -3,7 +3,7 @@ import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, BottomSheet, Button, ButtonIcon, Hr, Icon, Text } from '@dimasbaguspm/versaur';
-import { BoltIcon, ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon, RefreshCwIcon } from 'lucide-react';
+import { BoltIcon, ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -54,7 +54,7 @@ export const MenuBottomSheet: FC = () => {
           </div>
         </div>
 
-        <ul className="flex flex-col">
+        <ul className="flex flex-col gap-2">
           <li>
             <Button
               variant={isActive(DEEP_LINKS.SETTINGS.path) ? 'primary-ghost' : 'ghost'}
@@ -62,18 +62,7 @@ export const MenuBottomSheet: FC = () => {
               onClick={curriedNavigate(DEEP_LINKS.SETTINGS.path)}
             >
               <Icon as={BoltIcon} size="sm" color="inherit" />
-              Preferences
-            </Button>
-            <Hr />
-          </li>
-          <li>
-            <Button
-              variant={isActive(DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path) ? 'primary-ghost' : 'ghost'}
-              className="w-full justify-start"
-              onClick={curriedNavigate(DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path)}
-            >
-              <Icon as={RefreshCwIcon} size="sm" color="inherit" />
-              Scheduled Payments
+              Settings
             </Button>
             <Hr />
           </li>

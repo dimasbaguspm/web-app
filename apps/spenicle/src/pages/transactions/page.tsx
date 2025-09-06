@@ -146,7 +146,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
   );
 };
 
-const TransactionsPageWrapper: FC = () => {
+const TransactionsPageWrapper = () => {
   return <DateGuard>{(date) => <TransactionsPage startDate={date} />}</DateGuard>;
 };
 
