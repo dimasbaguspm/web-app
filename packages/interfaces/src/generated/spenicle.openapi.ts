@@ -2401,6 +2401,8 @@ export interface operations {
               startDate: string;
               lastRunAt: string | null;
               nextRunAt: string | null;
+              totalRuns: number;
+              totalOccurences: number | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2431,6 +2433,8 @@ export interface operations {
               startDate: string;
               lastRunAt: string | null;
               nextRunAt: string | null;
+              totalRuns: number;
+              totalOccurences: number | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2461,6 +2465,8 @@ export interface operations {
               startDate: string;
               lastRunAt: string | null;
               nextRunAt: string | null;
+              totalRuns: number;
+              totalOccurences: number | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2559,6 +2565,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2583,6 +2591,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2607,6 +2617,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2651,6 +2663,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2675,6 +2689,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2699,6 +2715,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2817,6 +2835,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2841,6 +2861,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2865,6 +2887,8 @@ export interface operations {
             startDate: string;
             lastRunAt: string | null;
             nextRunAt: string | null;
+            totalRuns: number;
+            totalOccurences: number | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
