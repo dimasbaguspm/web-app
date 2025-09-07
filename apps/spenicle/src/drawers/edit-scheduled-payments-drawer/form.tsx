@@ -182,35 +182,7 @@ export const EditScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit }
         <FormLayout.Column span={12}>
           <Hr />
         </FormLayout.Column>
-        <FormLayout.Column span={12}>
-          <Controller
-            control={control}
-            name="startDate"
-            rules={{
-              validate: (value) => {
-                if (!value) {
-                  return 'First date is required';
-                }
-                const selectedDate = new Date(value);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                if (selectedDate < today) {
-                  return 'First date cannot be in the past';
-                }
-                return true;
-              },
-            }}
-            render={({ field, fieldState }) => (
-              <DateSinglePickerInput
-                label="First Date"
-                placeholder="Select first date"
-                {...field}
-                formatter={(date) => formatDate(date, DateFormat.FULL_DATE)}
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-        </FormLayout.Column>
+
         <FormLayout.Column span={6}>
           <Controller
             control={control}
@@ -280,10 +252,10 @@ export const EditScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit }
             control={control}
             name="until"
             rules={{
-              deps: ['startDate', 'frequency', 'interval'],
-              validate: (value) => {
+              deps: ['frequency', 'interval'],
+              validate: (value, formValue) => {
                 if (value) {
-                  const startDate = new Date(getValues('startDate'));
+                  const startDate = new Date(formValue.startDate);
                   const untilDate = new Date(value);
                   if (untilDate < startDate) {
                     return 'Until date must be after start date';

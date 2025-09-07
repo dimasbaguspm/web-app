@@ -6,7 +6,6 @@ import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import { Button, ButtonGroup, Drawer, PageLoader } from '@dimasbaguspm/versaur';
-import dayjs from 'dayjs';
 import { FC } from 'react';
 
 import { EditScheduledPaymentsForm } from './form';
@@ -30,7 +29,6 @@ export const EditScheduledPaymentsDrawer: FC<Props> = ({ scheduledTransactionId,
       id: scheduledTransactionId,
       name: data.name,
       type: data.type,
-      startDate: dayjs(data.startDate).set('h', dayjs().hour()).set('m', dayjs().minute()).toISOString(),
       frequency: data.frequency,
       interval: data.interval,
       until: data.until,

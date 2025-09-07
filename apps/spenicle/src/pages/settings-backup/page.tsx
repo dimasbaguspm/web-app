@@ -97,7 +97,12 @@ const SettingsBackupPage = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon onClick={handleOnRestoreBackupClick} as={FolderInputIcon} aria-label="Restore Backup" />
+            <ButtonIcon
+              variant="outline"
+              onClick={handleOnRestoreBackupClick}
+              as={FolderInputIcon}
+              aria-label="Restore Backup"
+            />
             <ButtonIcon onClick={handleOnCreateBackupClick} as={FolderOutputIcon} aria-label="Create Backup" />
           </ButtonGroup>
         }
