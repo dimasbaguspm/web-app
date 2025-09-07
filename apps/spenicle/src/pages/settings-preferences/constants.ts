@@ -55,6 +55,7 @@ export const settingsGroups = [
         description: 'Create backups of your financial data to prevent loss',
         icon: DEEP_LINKS.SETTINGS_BACKUP.icon,
         path: DEEP_LINKS.SETTINGS_BACKUP.path,
+        badge: null,
       },
       {
         id: 'restore',
@@ -62,6 +63,7 @@ export const settingsGroups = [
         description: 'Restore your financial data from backups',
         icon: DEEP_LINKS.SETTINGS_BACKUP_RESTORE.icon,
         path: DEEP_LINKS.SETTINGS_BACKUP_RESTORE.path,
+        badge: null,
       },
     ],
   },
