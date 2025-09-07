@@ -98,6 +98,22 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  SPENICLE_BACKUP_REQUESTS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_BACKUP_REQUESTS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_BACKUP_REQUESTS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_BACKUP_REQUESTS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_BACKUP_REQUESTS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_BACKUP_REQUESTS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
   SPENICLE_CATEGORY_INFINITE: (params: object = {}) => [
     ...BASE_QUERY_KEYS.SPENICLE_CATEGORIES,
     'infinite',

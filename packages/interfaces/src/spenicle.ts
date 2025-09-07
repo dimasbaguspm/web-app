@@ -91,3 +91,11 @@ export type SummaryCategoriesModel =
 export type SearchSummaryTotalTransactionsModel = NonNullable<operations['getSummaryTotal']['parameters']['query']>;
 export type SummaryTotalTransactionsModel =
   operations['getSummaryTotal']['responses']['200']['content']['application/json'];
+
+export type BackupRequestModel =
+  operations['getBackup-requestsById']['responses']['200']['content']['application/json'];
+export type SearchBackupRequestsModel = NonNullable<operations['getBackup-requests']['parameters']['query']>;
+export type BackupRequestsPageModel =
+  operations['getBackup-requests']['responses']['200']['content']['application/json'];
+export type CreateBackupRequestModel = operations['postBackup-requests']['requestBody']['content']['application/json'];
+export type DownloadBackupRequestModel = operations['getBackup-requestsByIdDownload']['parameters']['path'];

@@ -132,6 +132,70 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/backup-requests/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get backup requests
+     * @description Retrieve paginated list of backup requests
+     */
+    get: operations['getBackup-requests'];
+    put?: never;
+    /**
+     * Create backup request
+     * @description Create a new backup request
+     */
+    post: operations['postBackup-requests'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/backup-requests/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get backup request by ID
+     * @description Retrieve a single backup request by its ID
+     */
+    get: operations['getBackup-requestsById'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/backup-requests/{id}/download': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Download backup file
+     * @description Redirect to the download URL of the backup file
+     */
+    get: operations['getBackup-requestsByIdDownload'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/category/': {
     parameters: {
       query?: never;
@@ -1421,6 +1485,318 @@ export interface operations {
         };
       };
     };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'getBackup-requests': {
+    parameters: {
+      query?: {
+        id?: number[];
+        status?: ('pending' | 'processing' | 'ready' | 'failed')[];
+        groupId?: number[];
+        userId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'id' | 'requestedAt' | 'startDate' | 'endDate' | 'status';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              /** Format: date-time */
+              requestedAt: string;
+              /** Format: date-time */
+              startDate: string;
+              /** Format: date-time */
+              endDate: string;
+              status: 'pending' | 'processing' | 'ready' | 'failed';
+              startedAt: string | null;
+              errorAt: string | null;
+              completedAt: string | null;
+              error: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              /** Format: date-time */
+              requestedAt: string;
+              /** Format: date-time */
+              startDate: string;
+              /** Format: date-time */
+              endDate: string;
+              status: 'pending' | 'processing' | 'ready' | 'failed';
+              startedAt: string | null;
+              errorAt: string | null;
+              completedAt: string | null;
+              error: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              /** Format: date-time */
+              requestedAt: string;
+              /** Format: date-time */
+              startDate: string;
+              /** Format: date-time */
+              endDate: string;
+              status: 'pending' | 'processing' | 'ready' | 'failed';
+              startedAt: string | null;
+              errorAt: string | null;
+              completedAt: string | null;
+              error: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postBackup-requests': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: date-time */
+          startDate: string;
+          /** Format: date-time */
+          endDate: string;
+        };
+        'multipart/form-data': {
+          /** Format: date-time */
+          startDate: string;
+          /** Format: date-time */
+          endDate: string;
+        };
+        'text/plain': {
+          /** Format: date-time */
+          startDate: string;
+          /** Format: date-time */
+          endDate: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: date-time */
+            startDate: string;
+            /** Format: date-time */
+            endDate: string;
+            status: 'pending' | 'processing' | 'ready' | 'failed';
+            startedAt: string | null;
+            errorAt: string | null;
+            completedAt: string | null;
+            error: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: date-time */
+            startDate: string;
+            /** Format: date-time */
+            endDate: string;
+            status: 'pending' | 'processing' | 'ready' | 'failed';
+            startedAt: string | null;
+            errorAt: string | null;
+            completedAt: string | null;
+            error: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: date-time */
+            startDate: string;
+            /** Format: date-time */
+            endDate: string;
+            status: 'pending' | 'processing' | 'ready' | 'failed';
+            startedAt: string | null;
+            errorAt: string | null;
+            completedAt: string | null;
+            error: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getBackup-requestsById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: date-time */
+            startDate: string;
+            /** Format: date-time */
+            endDate: string;
+            status: 'pending' | 'processing' | 'ready' | 'failed';
+            startedAt: string | null;
+            errorAt: string | null;
+            completedAt: string | null;
+            error: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: date-time */
+            startDate: string;
+            /** Format: date-time */
+            endDate: string;
+            status: 'pending' | 'processing' | 'ready' | 'failed';
+            startedAt: string | null;
+            errorAt: string | null;
+            completedAt: string | null;
+            error: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: date-time */
+            startDate: string;
+            /** Format: date-time */
+            endDate: string;
+            status: 'pending' | 'processing' | 'ready' | 'failed';
+            startedAt: string | null;
+            errorAt: string | null;
+            completedAt: string | null;
+            error: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getBackup-requestsByIdDownload': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
     responses: {
       200: {
         headers: {
@@ -2946,6 +3322,7 @@ export interface operations {
                   profileId: number;
                   userId: number;
                   groupId: number | null;
+                  isScheduledPayment: boolean;
                   accountId: number;
                   destinationAccountId: number | null;
                   categoryId: number;
@@ -2983,6 +3360,7 @@ export interface operations {
                   profileId: number;
                   userId: number;
                   groupId: number | null;
+                  isScheduledPayment: boolean;
                   accountId: number;
                   destinationAccountId: number | null;
                   categoryId: number;
@@ -3020,6 +3398,7 @@ export interface operations {
                   profileId: number;
                   userId: number;
                   groupId: number | null;
+                  isScheduledPayment: boolean;
                   accountId: number;
                   destinationAccountId: number | null;
                   categoryId: number;
@@ -3052,6 +3431,7 @@ export interface operations {
         groupId?: number[];
         accountId?: number[];
         categoryId?: number[];
+        isScheduledPayment?: boolean;
         amount?: [number, number];
         type?: ('income' | 'expense' | 'transfer')[];
         dateFrom?: string;
@@ -3079,6 +3459,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
+              isScheduledPayment: boolean;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -3103,6 +3484,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
+              isScheduledPayment: boolean;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -3127,6 +3509,7 @@ export interface operations {
               profileId: number;
               userId: number;
               groupId: number | null;
+              isScheduledPayment: boolean;
               accountId: number;
               destinationAccountId: number | null;
               categoryId: number;
@@ -3201,6 +3584,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -3219,6 +3603,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -3237,6 +3622,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -3275,6 +3661,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -3293,6 +3680,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -3311,6 +3699,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -3401,6 +3790,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -3419,6 +3809,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;
@@ -3437,6 +3828,7 @@ export interface operations {
             profileId: number;
             userId: number;
             groupId: number | null;
+            isScheduledPayment: boolean;
             accountId: number;
             destinationAccountId: number | null;
             categoryId: number;

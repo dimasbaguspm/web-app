@@ -40,6 +40,10 @@ export const SPENICLE_URL = {
     PAGINATED: '/account-group-members',
     BY_ID: (id: number) => `/account-group-members/${id}`,
   },
+  BACKUP_REQUESTS: {
+    PAGINATED: '/backup-requests',
+    BY_ID: (id: number) => `/backup-requests/${id}`,
+  },
   CATEGORY: {
     PAGINATED: '/category',
     BY_ID: (id: number) => `/category/${id}`,

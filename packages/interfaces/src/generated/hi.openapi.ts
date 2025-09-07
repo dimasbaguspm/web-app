@@ -516,7 +516,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
