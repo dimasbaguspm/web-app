@@ -28,11 +28,19 @@ export const settingsGroups = [
     description: 'Automate and manage recurring transactions',
     items: [
       {
-        id: 'scheduled-payments',
-        title: 'Manage Scheduled Payments',
-        description: 'Set up recurring payments and automate your regular financial transactions',
+        id: 'installments',
+        title: 'Installments',
+        description: 'Set up and track installment payments for your purchases',
         icon: DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.icon,
         path: DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path,
+        badge: 'New',
+      },
+      {
+        id: 'recurring-payments',
+        title: 'Recurring Payments',
+        description: 'Automate your regular payments to stay on top of your finances',
+        icon: DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS_RECURRING.icon,
+        path: DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS_RECURRING.path,
         badge: 'New',
       },
     ],

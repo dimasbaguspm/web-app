@@ -4,9 +4,10 @@ import {
   ChartBarBigIcon,
   ChartNoAxesCombinedIcon,
   CogIcon,
-  RefreshCwIcon,
   TagsIcon,
-  CreditCardIcon,
+  WalletCardsIcon,
+  CalendarSyncIcon,
+  CalendarRangeIcon,
 } from 'lucide-react';
 
 export const ROUTES = {
@@ -44,7 +45,7 @@ export const DEEP_LINKS = {
   ACCOUNTS: {
     path: '/accounts',
     title: 'Accounts',
-    icon: CreditCardIcon,
+    icon: WalletCardsIcon,
   },
   CATEGORIES: {
     path: '/categories',
@@ -74,7 +75,7 @@ export const DEEP_LINKS = {
   SETTINGS_ACCOUNT_GROUPS: {
     path: '/settings/account-groups',
     title: 'Account Groups',
-    icon: CreditCardIcon,
+    icon: WalletCardsIcon,
   },
   SETTINGS_CATEGORY_GROUPS: {
     path: '/settings/category-groups',
@@ -84,12 +85,12 @@ export const DEEP_LINKS = {
   SETTINGS_SCHEDULED_PAYMENTS: {
     path: '/settings/scheduled-payments',
     title: 'Scheduled Payments',
-    icon: RefreshCwIcon,
+    icon: CalendarRangeIcon,
   },
   SETTINGS_SCHEDULED_PAYMENTS_RECURRING: {
     path: '/settings/scheduled-payments/recurring',
     title: 'Recurring Payments',
-    icon: RefreshCwIcon,
+    icon: CalendarSyncIcon,
   },
 } as const;
 

@@ -1,0 +1,3 @@
+import { DEEP_LINKS } from '../../constants/page-routes';
+
+export const LINKS = [DEEP_LINKS.TRANSACTIONS_ALT, DEEP_LINKS.ACCOUNTS, DEEP_LINKS.CATEGORIES, DEEP_LINKS.SUMMARY];

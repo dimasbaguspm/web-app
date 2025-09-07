@@ -12,7 +12,7 @@ import {
   PageHeader,
   PageLoader,
 } from '@dimasbaguspm/versaur';
-import { BoltIcon, PlusIcon, SearchXIcon } from 'lucide-react';
+import { FoldersIcon, PlusIcon, SearchXIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { CategoryCard } from '../../components/category-card';
@@ -55,7 +55,7 @@ const CategoriesPage = () => {
         actions={
           <ButtonGroup>
             <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
-              <Icon as={BoltIcon} color="inherit" size="sm" />
+              <Icon as={FoldersIcon} color="inherit" size="sm" />
               Manage Group
             </Button>
             <Button onClick={handleOpenDrawer}>
@@ -66,7 +66,12 @@ const CategoriesPage = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon as={BoltIcon} variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick} />
+            <ButtonIcon
+              as={FoldersIcon}
+              variant="outline"
+              aria-label="Manage Groups"
+              onClick={handleManageGroupClick}
+            />
             <ButtonIcon as={PlusIcon} aria-label="New Category" onClick={handleOpenDrawer} />
           </ButtonGroup>
         }
