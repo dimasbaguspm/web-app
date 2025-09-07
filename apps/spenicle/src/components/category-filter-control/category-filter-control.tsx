@@ -71,7 +71,7 @@ export const CategoryFiltersControl = ({ config, hideGroupFilter, hideTypeFilter
           </ButtonMenu.Item>
         </ButtonMenu>
       </If>
-      <If condition={!hideGroupFilter}>
+      <If condition={[!hideGroupFilter, categoryGroups?.length]}>
         <ButtonMenu
           variant="outline"
           size="sm"

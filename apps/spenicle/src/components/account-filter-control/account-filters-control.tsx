@@ -61,7 +61,7 @@ export const AccountFiltersControl: FC<AccountFiltersControlProps> = ({ config, 
           </ButtonMenu.Item>
         </ButtonMenu>
       </If>
-      <If condition={!hideGroupFilter}>
+      <If condition={[!hideGroupFilter, accountGroups?.length]}>
         <ButtonMenu
           variant="outline"
           size="sm"
