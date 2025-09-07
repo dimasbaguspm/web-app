@@ -72,7 +72,7 @@ export const useApiSpenicleCreateBackupRequest = () => {
 };
 
 export const useApiSpenicleBackupRequestDownload = () => {
-  return useApiMutate<void, DownloadBackupRequestModel>({
+  return useApiMutate<string, DownloadBackupRequestModel>({
     path: '/backup-requests/:id/download',
     method: 'GET',
     base: 'SPENICLE',

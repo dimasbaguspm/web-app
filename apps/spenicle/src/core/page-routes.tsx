@@ -102,6 +102,14 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: ROUTES.SETTINGS_BACKUP,
+        Component: lazyLoad(() => import('../pages/settings-backup/page')),
+      },
+      {
+        path: ROUTES.SETTINGS_BACKUP_RESTORE,
+        Component: lazyLoad(() => import('../pages/settings-backup-restore/page')),
+      },
     ],
   },
 ]);

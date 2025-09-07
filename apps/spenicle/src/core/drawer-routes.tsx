@@ -25,6 +25,7 @@ import { FilterSummaryDrawer } from '../drawers/filter-summary-drawer/drawer';
 import { FilterTransactionDrawer } from '../drawers/filter-transaction-drawer/drawer';
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
 import { NewAccountGroupDrawer } from '../drawers/new-account-group-drawer/drawer';
+import { NewBackupRequestDrawer } from '../drawers/new-backup-request-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
 import { NewCategoryGroupDrawer } from '../drawers/new-category-group-drawer/drawer';
 import { NewScheduledPaymentsDrawer } from '../drawers/new-scheduled-payments-drawer/drawer';
@@ -174,6 +175,7 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.EDIT_SCHEDULED_PAYMENTS) && hasParam('scheduledTransactionId') && (
         <EditScheduledPaymentsDrawer scheduledTransactionId={params.scheduledTransactionId!} payload={state?.payload} />
       )}
+      {is(DRAWER_ROUTES.NEW_BACKUP_REQUEST) && <NewBackupRequestDrawer />}
     </Drawer>
   );
 };

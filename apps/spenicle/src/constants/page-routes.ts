@@ -26,6 +26,8 @@ export const ROUTES = {
   SETTINGS_CATEGORY_GROUPS: '/settings/category-groups',
   SETTINGS_SCHEDULED_PAYMENTS: '/settings/scheduled-payments',
   SETTINGS_SCHEDULED_PAYMENTS_RECURRING: '/settings/scheduled-payments/recurring',
+  SETTINGS_BACKUP: '/settings/backup',
+  SETTINGS_BACKUP_RESTORE: '/settings/backup/restore',
 } as const;
 
 export const DEEP_LINKS = {
