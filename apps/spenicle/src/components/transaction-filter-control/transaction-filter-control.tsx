@@ -24,7 +24,7 @@ export const TransactionFiltersControl = ({ config, handleOnFilterClick }: Trans
   const hasTypeFilter = !!filters.getAll('type')?.length;
 
   return (
-    <ButtonGroup hasMargin>
+    <ButtonGroup>
       <ButtonMenu
         variant="outline"
         size="md"

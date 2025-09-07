@@ -4,9 +4,10 @@ import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
 import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader, PageLoader } from '@dimasbaguspm/versaur';
 import { Dayjs } from 'dayjs';
-import { PlusIcon, RefreshCwIcon } from 'lucide-react';
+import { CalendarRangeIcon, PlusIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
+import { useSwipeable } from 'react-swipeable';
 
 import { TransactionCard } from '../../components/transaction-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -62,6 +63,18 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
     navigate(DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path);
   };
 
+  const containerHandlers = useSwipeable({
+    onSwipedRight: () => {
+      const previousDate = startDate.subtract(1, 'd');
+      navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(previousDate.year(), previousDate.month(), previousDate.date()));
+    },
+    onSwipedLeft: () => {
+      const nextDate = startDate.add(1, 'd');
+      navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(nextDate.year(), nextDate.month(), nextDate.date()));
+    },
+    trackMouse: false,
+  });
+
   return (
     <>
       <PageHeader
@@ -70,7 +83,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
         actions={
           <ButtonGroup>
             <Button variant="outline" onClick={handleOnScheduledPaymentsClick}>
-              <Icon as={RefreshCwIcon} color="inherit" size="sm" />
+              <Icon as={CalendarRangeIcon} color="inherit" size="sm" />
               Scheduled Payments
             </Button>
             <Button onClick={handleOnNewTransactionClick}>
@@ -82,7 +95,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
         mobileActions={
           <ButtonGroup>
             <ButtonIcon
-              as={RefreshCwIcon}
+              as={CalendarRangeIcon}
               aria-label="Refresh"
               variant="outline"
               onClick={handleOnScheduledPaymentsClick}
@@ -93,7 +106,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
         tabs={<TabsDate date={startDate} onDateChange={handleOnDateChange} />}
       />
 
-      <PageContent>
+      <PageContent {...containerHandlers} className="min-h-[calc(100dvh-25dvh)]">
         <ActionsControl
           date={startDate}
           onFilterClick={handleOnFilterClick}

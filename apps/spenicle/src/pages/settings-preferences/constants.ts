@@ -45,4 +45,24 @@ export const settingsGroups = [
       },
     ],
   },
+  {
+    title: 'Backup & Restore',
+    description: 'Secure your data with backup and restore options',
+    items: [
+      {
+        id: 'backup',
+        title: 'Backup',
+        description: 'Create backups of your financial data to prevent loss',
+        icon: DEEP_LINKS.SETTINGS_BACKUP.icon,
+        path: DEEP_LINKS.SETTINGS_BACKUP.path,
+      },
+      {
+        id: 'restore',
+        title: 'Restore',
+        description: 'Restore your financial data from backups',
+        icon: DEEP_LINKS.SETTINGS_BACKUP_RESTORE.icon,
+        path: DEEP_LINKS.SETTINGS_BACKUP_RESTORE.path,
+      },
+    ],
+  },
 ];

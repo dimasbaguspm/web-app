@@ -46,6 +46,7 @@ export const ActionsControl: FC<ActionsControlProps> = ({ date, onFilterClick, o
           Calendar
           <input
             type="date"
+            tabIndex={-1}
             className="sr-only absolute -bottom-2.5 right-50 translate-x-1/2"
             ref={inputRef}
             value={formatDate(date, DateFormat.ISO_DATE)}

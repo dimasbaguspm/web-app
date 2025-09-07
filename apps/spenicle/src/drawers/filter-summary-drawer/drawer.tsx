@@ -50,7 +50,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
       id: getValues().categoryIds,
     },
     {
-      enabled: Boolean(getValues().categoryIds),
+      enabled: Boolean(getValues().categoryIds?.length),
     },
   );
 
@@ -59,7 +59,7 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
       id: getValues().accountIds,
     },
     {
-      enabled: Boolean(getValues().accountIds),
+      enabled: Boolean(getValues().accountIds?.length),
     },
   );
 
