@@ -28,6 +28,7 @@ import { NewAccountGroupDrawer } from '../drawers/new-account-group-drawer/drawe
 import { NewBackupRequestDrawer } from '../drawers/new-backup-request-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
 import { NewCategoryGroupDrawer } from '../drawers/new-category-group-drawer/drawer';
+import { NewRestoreBackupRequestDrawer } from '../drawers/new-restore-backup-request-drawer/drawer';
 import { NewScheduledPaymentsDrawer } from '../drawers/new-scheduled-payments-drawer/drawer';
 import { NewTransactionDrawer } from '../drawers/new-transaction-drawer/drawer';
 import { SelectAccountDrawer } from '../drawers/select-account-drawer/drawer';
@@ -176,6 +177,7 @@ export const DrawerRoutes: FC = () => {
         <EditScheduledPaymentsDrawer scheduledTransactionId={params.scheduledTransactionId!} payload={state?.payload} />
       )}
       {is(DRAWER_ROUTES.NEW_BACKUP_REQUEST) && <NewBackupRequestDrawer />}
+      {is(DRAWER_ROUTES.RESTORE_BACKUP_REQUEST) && <NewRestoreBackupRequestDrawer />}
     </Drawer>
   );
 };

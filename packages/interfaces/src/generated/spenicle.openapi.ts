@@ -196,6 +196,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/backup-requests/restore': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Restore backup data
+     * @description Restore data from an encrypted backup file. The backup data will be imported into the current profile with idempotent upserts to avoid duplicates.
+     */
+    post: operations['postBackup-requestsRestore'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/category/': {
     parameters: {
       query?: never;
@@ -1803,6 +1823,75 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  'postBackup-requestsRestore': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Base64 encoded encrypted backup data */
+          encryptedBackup: string;
+        };
+        'multipart/form-data': {
+          /** @description Base64 encoded encrypted backup data */
+          encryptedBackup: string;
+        };
+        'text/plain': {
+          /** @description Base64 encoded encrypted backup data */
+          encryptedBackup: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            success: boolean;
+            message: string;
+            restoredCounts: {
+              accounts: number;
+              accountGroups: number;
+              categories: number;
+              categoryGroups: number;
+              transactions: number;
+              scheduledTransactions: number;
+            };
+          };
+          'multipart/form-data': {
+            success: boolean;
+            message: string;
+            restoredCounts: {
+              accounts: number;
+              accountGroups: number;
+              categories: number;
+              categoryGroups: number;
+              transactions: number;
+              scheduledTransactions: number;
+            };
+          };
+          'text/plain': {
+            success: boolean;
+            message: string;
+            restoredCounts: {
+              accounts: number;
+              accountGroups: number;
+              categories: number;
+              categoryGroups: number;
+              transactions: number;
+              scheduledTransactions: number;
+            };
+          };
+        };
       };
     };
   };

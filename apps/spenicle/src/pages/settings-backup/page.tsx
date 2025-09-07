@@ -21,7 +21,7 @@ import {
   PageLoader,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
-import { Download, FolderOutputIcon, SearchXIcon } from 'lucide-react';
+import { Download, FolderInputIcon, FolderOutputIcon, SearchXIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -74,6 +74,10 @@ const SettingsBackupPage = () => {
     openDrawer(DRAWER_ROUTES.NEW_BACKUP_REQUEST);
   };
 
+  const handleOnRestoreBackupClick = () => {
+    openDrawer(DRAWER_ROUTES.RESTORE_BACKUP_REQUEST);
+  };
+
   return (
     <>
       <PageHeader
@@ -81,6 +85,10 @@ const SettingsBackupPage = () => {
         subtitle="View and manage your backup requests"
         actions={
           <ButtonGroup>
+            <Button onClick={handleOnRestoreBackupClick} variant="outline">
+              <Icon as={FolderInputIcon} size="sm" color="inherit" />
+              Restore Backup
+            </Button>
             <Button onClick={handleOnCreateBackupClick}>
               <Icon as={FolderOutputIcon} size="sm" color="inherit" />
               Create Backup
@@ -89,6 +97,7 @@ const SettingsBackupPage = () => {
         }
         mobileActions={
           <ButtonGroup>
+            <ButtonIcon onClick={handleOnRestoreBackupClick} as={FolderInputIcon} aria-label="Restore Backup" />
             <ButtonIcon onClick={handleOnCreateBackupClick} as={FolderOutputIcon} aria-label="Create Backup" />
           </ButtonGroup>
         }
@@ -107,7 +116,7 @@ const SettingsBackupPage = () => {
         </If>
 
         <If condition={!isInitialFetching && !!backupRequest.length}>
-          <ul className="grid gap-4">
+          <ul className="mb-4">
             {backupRequest.map((item, index) => {
               const { status, variant, dateRange, requestedDate, finishedDate, isReady, isFailed, errorMessage } =
                 formatSpenicleBackupRequest(item);
@@ -161,13 +170,11 @@ const SettingsBackupPage = () => {
           </ul>
 
           <If condition={hasNextPage}>
-            <div className="mt-6">
-              <ButtonGroup alignment="center">
-                <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-                  Load More
-                </Button>
-              </ButtonGroup>
-            </div>
+            <ButtonGroup alignment="center">
+              <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                Load More
+              </Button>
+            </ButtonGroup>
           </If>
         </If>
       </PageContent>

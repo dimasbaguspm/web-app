@@ -36,4 +36,5 @@ export const DRAWER_ROUTES = {
   EDIT_SCHEDULED_PAYMENTS: 'edit-scheduled-payments',
 
   NEW_BACKUP_REQUEST: 'new-backup-request',
+  RESTORE_BACKUP_REQUEST: 'restore-backup-request',
 } as const;

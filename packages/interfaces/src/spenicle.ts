@@ -99,3 +99,7 @@ export type BackupRequestsPageModel =
   operations['getBackup-requests']['responses']['200']['content']['application/json'];
 export type CreateBackupRequestModel = operations['postBackup-requests']['requestBody']['content']['application/json'];
 export type DownloadBackupRequestModel = operations['getBackup-requestsByIdDownload']['parameters']['path'];
+export type CreateRestoreBackupRequestModel =
+  operations['postBackup-requestsRestore']['requestBody']['content']['application/json'];
+export type RestoreBackupRequestModel =
+  operations['postBackup-requestsRestore']['responses']['200']['content']['application/json'];

@@ -4,6 +4,8 @@ import {
   SearchBackupRequestsModel,
   BackupRequestsPageModel,
   DownloadBackupRequestModel,
+  RestoreBackupRequestModel,
+  CreateRestoreBackupRequestModel,
 } from '@dimasbaguspm/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -76,5 +78,24 @@ export const useApiSpenicleBackupRequestDownload = () => {
     path: '/backup-requests/:id/download',
     method: 'GET',
     base: 'SPENICLE',
+  });
+};
+
+export const useApiSpenicleBackupRequestRestore = () => {
+  const queryClient = useQueryClient();
+  return useApiMutate<RestoreBackupRequestModel, CreateRestoreBackupRequestModel>({
+    path: '/backup-requests/restore',
+    method: 'POST',
+    base: 'SPENICLE',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_BACKUP_REQUESTS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SPENICLE_BACKUP_REQUESTS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+    },
   });
 };
