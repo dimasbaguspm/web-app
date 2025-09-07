@@ -1,6 +1,7 @@
 import { useApiSpenicleCategoryGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { If } from '@dimasbaguspm/utils/if';
 import { ButtonGroup, ButtonMenu, Icon } from '@dimasbaguspm/versaur';
+import { startCase } from 'lodash';
 import { ChevronDownIcon } from 'lucide-react';
 
 import { useCategoryFilter } from '../../hooks/use-category-filter';
@@ -38,16 +39,17 @@ export const CategoryFiltersControl = ({ config, hideGroupFilter, hideTypeFilter
     }
   };
 
+  const hasTypeFilter = !!filters.getAll('type')?.length;
   return (
     <ButtonGroup hasMargin>
       <If condition={!hideTypeFilter}>
         <ButtonMenu
           variant="outline"
-          size="sm"
+          size="md"
           label={
             <>
               <Icon as={ChevronDownIcon} color="inherit" size="sm" />
-              Type {filters.getAll('type')?.length ? `(${filters.getAll('type').length})` : null}
+              {hasTypeFilter ? startCase(filters.getSingle('type') || '') : 'Type'}
             </>
           }
         >
@@ -74,7 +76,7 @@ export const CategoryFiltersControl = ({ config, hideGroupFilter, hideTypeFilter
       <If condition={[!hideGroupFilter, categoryGroups?.length]}>
         <ButtonMenu
           variant="outline"
-          size="sm"
+          size="md"
           preserve
           label={
             <>

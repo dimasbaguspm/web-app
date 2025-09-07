@@ -1,8 +1,11 @@
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { Button, ButtonGroup, Icon } from '@dimasbaguspm/versaur';
 import dayjs, { Dayjs } from 'dayjs';
-import { CalendarCogIcon, FilterIcon } from 'lucide-react';
+import { CalendarCogIcon } from 'lucide-react';
 import { ChangeEvent, FC, useRef } from 'react';
+
+import { TransactionFiltersControl } from '../../../components/transaction-filter-control';
+import { useTransactionFilter } from '../../../hooks/use-transaction-filter';
 
 interface ActionsControlProps {
   date: Dayjs;
@@ -12,6 +15,7 @@ interface ActionsControlProps {
 
 export const ActionsControl: FC<ActionsControlProps> = ({ date, onFilterClick, onDateChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const config = useTransactionFilter();
 
   const handleOnCalendarClick = () => {
     if (!inputRef.current) return;
@@ -36,10 +40,7 @@ export const ActionsControl: FC<ActionsControlProps> = ({ date, onFilterClick, o
   return (
     <>
       <ButtonGroup alignment="between" className="mb-4">
-        <Button variant="outline" onClick={onFilterClick}>
-          <Icon as={FilterIcon} size="sm" color="gray" />
-          Filter
-        </Button>
+        <TransactionFiltersControl handleOnFilterClick={onFilterClick} config={config} />
         <Button variant="outline" onClick={handleOnCalendarClick} className="relative">
           <Icon as={CalendarCogIcon} size="sm" color="gray" />
           Calendar

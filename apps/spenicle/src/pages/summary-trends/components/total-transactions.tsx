@@ -4,22 +4,22 @@ import { Text, Tile } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { useGeneralSummaryStats } from '../../../hooks/use-general-summary-stats';
-import { SummaryFrequencyType, useSummaryFilter } from '../../summary/hooks/use-summary-filter';
+import { FilterFrequency, useSummaryFilter } from '../../../hooks/use-summary-filter';
 
 interface MostActiveDayProps {
   data: SummaryTransactionsModel;
 }
 
 export const TotalTransactions: FC<MostActiveDayProps> = ({ data }) => {
-  const { frequency } = useSummaryFilter();
+  const { appliedFilters } = useSummaryFilter();
+
   const periodGranularity = (() => {
-    switch (frequency) {
-      case SummaryFrequencyType.allTheTime:
+    switch (appliedFilters.frequency) {
+      case FilterFrequency.Yearly:
         return 'year';
-      case SummaryFrequencyType.thisYear:
+      case FilterFrequency.Monthly:
         return 'month';
-      case SummaryFrequencyType.thisMonth:
-      case SummaryFrequencyType.lastMonth:
+      case FilterFrequency.Weekly:
         return 'week';
       default:
         return 'day';

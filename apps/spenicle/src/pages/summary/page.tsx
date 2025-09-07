@@ -3,7 +3,6 @@ import { HardDriveDownloadIcon } from 'lucide-react';
 import { Outlet } from 'react-router';
 
 import { ActionHeader } from './components/action-header';
-import { FilterControl } from './components/filter-control';
 
 const SummaryLayout = () => {
   return (
@@ -27,7 +26,6 @@ const SummaryLayout = () => {
       />
       <PageContent>
         <ActionHeader />
-        <FilterControl />
         <Outlet />
       </PageContent>
     </>

@@ -13,12 +13,10 @@ import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
 
 import { ActionsControl } from './components/actions-control';
-import { FiltersControl } from './components/filters-control';
 import { NoResults } from './components/no-results';
 import { TabsDate } from './components/tabs-date';
 import { DateGuard } from './guards/date-guard';
 import { useTransactionData } from './hooks/use-transactions-data';
-import { useTransactionsFilter } from './hooks/use-transactions-filter';
 
 interface TransactionsPageProps {
   startDate: Dayjs;
@@ -28,7 +26,6 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
   const { openDrawer } = useDrawerRoute();
   const navigate = useNavigate();
 
-  const { humanizedFilters } = useTransactionsFilter();
   const { isLoading, transactions, accounts, categories, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useTransactionData({ date: startDate });
 
@@ -102,10 +99,6 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
           onFilterClick={handleOnFilterClick}
           onDateChange={handleOnCalendarDateChange}
         />
-
-        <If condition={[humanizedFilters.length]}>
-          <FiltersControl />
-        </If>
 
         <If condition={[isLoading]}>
           <PageLoader />

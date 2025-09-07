@@ -5,23 +5,21 @@ import { Text, Tile } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { useGeneralSummaryStats } from '../../../hooks/use-general-summary-stats';
-import { SummaryFrequencyType, useSummaryFilter } from '../../summary/hooks/use-summary-filter';
+import { useSummaryFilter } from '../../../hooks/use-summary-filter';
 
 interface AverageAmountProps {
   data: SummaryTransactionsModel;
 }
 
 export const AverageAmount: FC<AverageAmountProps> = ({ data }) => {
-  const { frequency } = useSummaryFilter();
+  const { appliedFilters } = useSummaryFilter();
+
   const periodGranularity = (() => {
-    switch (frequency) {
-      case SummaryFrequencyType.allTheTime:
+    switch (appliedFilters.frequency) {
+      case 'yearly':
         return 'year';
-      case SummaryFrequencyType.thisYear:
+      case 'monthly':
         return 'month';
-      case SummaryFrequencyType.thisMonth:
-      case SummaryFrequencyType.lastMonth:
-        return 'week';
       default:
         return 'day';
     }

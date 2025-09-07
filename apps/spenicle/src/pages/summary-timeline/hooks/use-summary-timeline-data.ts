@@ -6,14 +6,14 @@ import {
   useApiSpenicleTransactionsInfiniteQuery,
 } from '@dimasbaguspm/hooks/use-api';
 
-import { useSummaryFilter } from '../../summary/hooks/use-summary-filter';
+import { useSummaryFilter } from '../../../hooks/use-summary-filter';
 
 export const useSummaryTimelineData = () => {
   const { appliedFilters } = useSummaryFilter();
 
   const dateFilters = {
-    from: appliedFilters.range.startDate.toISOString(),
-    to: appliedFilters.range.endDate.toISOString(),
+    from: appliedFilters.dateFrom,
+    to: appliedFilters.dateTo,
     categoryIds: appliedFilters.categoryIds,
     accountIds: appliedFilters.accountIds,
   };
@@ -22,8 +22,8 @@ export const useSummaryTimelineData = () => {
     useApiSpenicleTransactionsInfiniteQuery({
       dateFrom: dateFilters.from,
       dateTo: dateFilters.to,
-      categoryId: appliedFilters.categoryIds,
-      accountId: appliedFilters.accountIds,
+      categoryId: appliedFilters.categoryId,
+      accountId: appliedFilters.accountId,
       pageSize: 15,
       sortBy: 'date',
     });

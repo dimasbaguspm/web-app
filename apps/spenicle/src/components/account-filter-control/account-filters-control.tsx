@@ -1,6 +1,7 @@
 import { useApiSpenicleAccountGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { If } from '@dimasbaguspm/utils/if';
 import { ButtonGroup, ButtonMenu, Icon } from '@dimasbaguspm/versaur';
+import { startCase } from 'lodash';
 import { ChevronDownIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -34,16 +35,18 @@ export const AccountFiltersControl: FC<AccountFiltersControlProps> = ({ config, 
     }
   };
 
+  const hasTypeFilter = !!filters.getAll('type')?.length;
+
   return (
     <ButtonGroup hasMargin>
       <If condition={!hideTypeFilter}>
         <ButtonMenu
           variant="outline"
-          size="sm"
+          size="md"
           label={
             <>
               <Icon as={ChevronDownIcon} color="inherit" size="sm" />
-              Type {filters.getAll('type')?.length ? `(${filters.getAll('type').length})` : null}
+              {hasTypeFilter ? startCase(filters.getSingle('type') || '') : 'Type'}
             </>
           }
         >
@@ -64,7 +67,7 @@ export const AccountFiltersControl: FC<AccountFiltersControlProps> = ({ config, 
       <If condition={[!hideGroupFilter, accountGroups?.length]}>
         <ButtonMenu
           variant="outline"
-          size="sm"
+          size="md"
           preserve
           label={
             <>

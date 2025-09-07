@@ -14,15 +14,15 @@ import {
   FormLayout,
   PageLoader,
   SelectInput,
-  SwitchInput,
-  TextAreaInput,
+  TextInput,
 } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
+import { noop } from 'lodash';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-import { SummaryFrequencyType, useSummaryFilter } from '../../pages/summary/hooks/use-summary-filter';
+import { FilterFrequency, FREQUENCY_LABELS, useSummaryFilter } from '../../hooks/use-summary-filter';
 
 import { FilterSummaryFormSchema } from './types';
 
@@ -31,16 +31,15 @@ interface FilterSummaryDrawer {
 }
 export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
   const { isDesktop } = useWindowResize();
-  const { appliedFilters, setFilters, frequencyToDateRange, frequency } = useSummaryFilter();
+  const { appliedFilters, filters } = useSummaryFilter({ adapter: 'url' });
 
   const { openDrawer, closeDrawer } = useDrawerRoute();
 
   const { control, handleSubmit, watch, getValues } = useForm<FilterSummaryFormSchema>({
     defaultValues: {
-      frequency: frequency || 'thisWeek',
-      customRange: frequency === SummaryFrequencyType.custom,
-      startDate: formatDate(appliedFilters.range.startDate, DateFormat.ISO_DATE),
-      endDate: formatDate(appliedFilters.range.endDate, DateFormat.ISO_DATE),
+      startDate: formatDate(appliedFilters.dateFrom, DateFormat.ISO_DATE),
+      endDate: formatDate(appliedFilters.dateTo, DateFormat.ISO_DATE),
+      frequency: (payload?.frequency as string) || appliedFilters.frequency || FilterFrequency.Monthly,
       categoryIds: (payload?.categoryIds as number[]) || appliedFilters.categoryIds || [],
       accountIds: (payload?.accountIds as number[]) || appliedFilters.accountIds || [],
     },
@@ -65,29 +64,14 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
   );
 
   const handleOnValidSubmit: SubmitHandler<FilterSummaryFormSchema> = (data) => {
-    const { frequency, startDate, endDate, customRange, categoryIds, accountIds } = data ?? {};
+    const { startDate, endDate, frequency, categoryIds, accountIds } = data ?? {};
 
-    if (customRange && startDate && endDate) {
-      setFilters({
-        range: {
-          startDate: dayjs(data.startDate),
-          endDate: dayjs(data.endDate),
-        },
-        categoryIds,
-        accountIds,
-      });
-      return;
-    }
-
-    const { startDate: frequencyStartDate, endDate: frequencyEndDate } = frequencyToDateRange(frequency);
-
-    setFilters({
-      range: {
-        startDate: frequencyStartDate,
-        endDate: frequencyEndDate,
-      },
-      categoryIds,
-      accountIds,
+    filters.replaceAll({
+      dateFrom: dayjs(startDate).startOf('day').toISOString(),
+      dateTo: dayjs(endDate).endOf('day').toISOString(),
+      frequency: frequency,
+      accountId: accountIds,
+      categoryId: categoryIds,
     });
   };
 
@@ -138,96 +122,87 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
         <Drawer.Body>
           <form id="filter-transaction-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
             <FormLayout>
+              <FormLayout.Column span={6}>
+                <Controller
+                  name="startDate"
+                  control={control}
+                  rules={{
+                    deps: ['endDate'],
+                    validate: (value) => {
+                      const endDate = dayjs(watch('endDate'));
+                      const startDate = dayjs(value);
+
+                      return startDate.isBefore(endDate) ? true : 'Start date must be before end date';
+                    },
+                  }}
+                  render={({ field, formState }) => (
+                    <DateSinglePickerInput
+                      {...field}
+                      label="Start Date"
+                      max={watch('endDate')}
+                      placeholder="Select a start date"
+                      error={formState.errors.startDate?.message}
+                    />
+                  )}
+                />
+              </FormLayout.Column>
+              <FormLayout.Column span={6}>
+                <Controller
+                  name="endDate"
+                  control={control}
+                  rules={{
+                    deps: ['startDate'],
+                    validate: (value) => {
+                      const startDate = dayjs(watch('startDate'));
+                      const endDate = dayjs(value);
+                      return endDate.isAfter(startDate) ? true : 'End date must be after start date';
+                    },
+                  }}
+                  render={({ field, formState }) => (
+                    <DateSinglePickerInput
+                      {...field}
+                      label="End Date"
+                      max={dayjs().toISOString()}
+                      placeholder="Select an end date"
+                      error={formState.errors.endDate?.message}
+                    />
+                  )}
+                />
+              </FormLayout.Column>
               <FormLayout.Column span={12}>
                 <Controller
                   name="frequency"
                   control={control}
-                  render={({ field }) => (
-                    <SelectInput {...field} label="Frequency">
-                      <option value="thisWeek">This Week</option>
-                      <option value="lastWeek">Last Week</option>
-                      <option value="thisMonth">This Month</option>
-                      <option value="lastMonth">Last Month</option>
-                      <option value="thisYear">This Year</option>
-                      <option value="allTheTime">All Time</option>
+                  render={({ field, fieldState }) => (
+                    <SelectInput
+                      {...field}
+                      label="Frequency"
+                      error={fieldState.error?.message}
+                      placeholder="Select frequency"
+                    >
+                      {Object.entries(FREQUENCY_LABELS).map(([key, label], index) => (
+                        <option key={index} value={key}>
+                          {label}
+                        </option>
+                      ))}
                     </SelectInput>
                   )}
                 />
               </FormLayout.Column>
               <FormLayout.Column span={12}>
                 <Controller
-                  name="customRange"
-                  control={control}
-                  render={({ field }) => <SwitchInput {...field} checked={field.value} label="Custom Range?" />}
-                />
-              </FormLayout.Column>
-              <If condition={watch('customRange')}>
-                <FormLayout.Column span={6}>
-                  <Controller
-                    name="startDate"
-                    control={control}
-                    rules={{
-                      deps: ['endDate'],
-                      validate: (value) => {
-                        const endDate = dayjs(watch('endDate'));
-                        const startDate = dayjs(value);
-
-                        return startDate.isBefore(endDate) ? true : 'Start date must be before end date';
-                      },
-                    }}
-                    render={({ field, formState }) => (
-                      <DateSinglePickerInput
-                        {...field}
-                        label="Start Date"
-                        max={watch('endDate')}
-                        placeholder="Select a start date"
-                        error={formState.errors.startDate?.message}
-                      />
-                    )}
-                  />
-                </FormLayout.Column>
-                <FormLayout.Column span={6}>
-                  <Controller
-                    name="endDate"
-                    control={control}
-                    rules={{
-                      deps: ['startDate'],
-                      validate: (value) => {
-                        const startDate = dayjs(watch('startDate'));
-                        const endDate = dayjs(value);
-                        return endDate.isAfter(startDate) ? true : 'End date must be after start date';
-                      },
-                    }}
-                    render={({ field, formState }) => (
-                      <DateSinglePickerInput
-                        {...field}
-                        label="End Date"
-                        max={dayjs().toISOString()}
-                        placeholder="Select an end date"
-                        error={formState.errors.endDate?.message}
-                      />
-                    )}
-                  />
-                </FormLayout.Column>
-              </If>
-              <FormLayout.Column span={12}>
-                <Controller
                   name="accountIds"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <>
-                      <TextAreaInput
+                      <TextInput
+                        label="Accounts"
+                        placeholder="Select Accounts"
+                        value={field.value ? accounts?.items?.map((acc) => acc.name).join(', ') : ''}
+                        onChange={noop}
                         readOnly
                         onClick={handleOnAccountClick}
-                        value={
-                          field.value
-                            ? accounts?.items
-                                ?.filter((account) => field.value?.includes(account.id))
-                                ?.map((account) => account.name)
-                            : []
-                        }
-                        label="Accounts"
-                        placeholder="Select accounts"
+                        error={fieldState.error?.message}
                       />
                       <input type="hidden" {...field} value={field.value?.map(String)} />
                     </>
@@ -238,20 +213,16 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                 <Controller
                   name="categoryIds"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <>
-                      <TextAreaInput
+                      <TextInput
+                        label="Categories"
+                        placeholder="Select Categories"
+                        value={field.value ? categories?.items?.map((cat) => cat.name).join(', ') : ''}
+                        onChange={noop}
                         readOnly
                         onClick={handleOnCategoryClick}
-                        value={
-                          field.value
-                            ? categories?.items
-                                ?.filter((category) => field.value?.includes(category.id))
-                                ?.map((category) => category.name)
-                            : []
-                        }
-                        label="Categories"
-                        placeholder="Select categories"
+                        error={fieldState.error?.message}
                       />
                       <input type="hidden" {...field} value={field.value?.map(String)} />
                     </>

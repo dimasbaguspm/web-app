@@ -5,22 +5,22 @@ import { lowerCase } from 'lodash';
 import { FC } from 'react';
 
 import { useGeneralSummaryStats } from '../../../hooks/use-general-summary-stats';
-import { SummaryFrequencyType, useSummaryFilter } from '../../summary/hooks/use-summary-filter';
+import { FilterFrequency, useSummaryFilter } from '../../../hooks/use-summary-filter';
 
 interface AverageLoggedTransactionProps {
   data: SummaryTransactionsModel;
 }
 
 export const AverageLoggedTransaction: FC<AverageLoggedTransactionProps> = ({ data }) => {
-  const { frequency } = useSummaryFilter();
+  const { appliedFilters } = useSummaryFilter();
+
   const periodGranularity = (() => {
-    switch (frequency) {
-      case SummaryFrequencyType.allTheTime:
+    switch (appliedFilters.frequency) {
+      case FilterFrequency.Yearly:
         return 'year';
-      case SummaryFrequencyType.thisYear:
+      case FilterFrequency.Monthly:
         return 'month';
-      case SummaryFrequencyType.thisMonth:
-      case SummaryFrequencyType.lastMonth:
+      case FilterFrequency.Weekly:
         return 'week';
       default:
         return 'day';
@@ -34,7 +34,7 @@ export const AverageLoggedTransaction: FC<AverageLoggedTransactionProps> = ({ da
   return (
     <Tile className="flex flex-col gap-1">
       <Text fontWeight="medium" fontSize="sm" color="gray">
-        Average {lowerCase(frequency)} transactions
+        Average {lowerCase(appliedFilters.frequency)} transactions
       </Text>
       <If condition={avgTransactionsPerUnit > 0}>
         <Text fontWeight="semibold" fontSize="lg">

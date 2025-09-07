@@ -6,7 +6,7 @@ import {
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { Dayjs } from 'dayjs';
 
-import { useTransactionsFilter } from './use-transactions-filter';
+import { useTransactionFilter } from '../../../hooks/use-transaction-filter';
 
 interface UseTransactionDataProps {
   date: Dayjs;
@@ -15,7 +15,7 @@ interface UseTransactionDataProps {
 export const useTransactionData = (props: UseTransactionDataProps) => {
   const { date } = props ?? {};
 
-  const { appliedFilters } = useTransactionsFilter();
+  const { appliedFilters } = useTransactionFilter({ adapter: 'url' });
 
   const [transactions, , { hasNextPage, isLoading: isLoadingTransactions, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleTransactionsInfiniteQuery({

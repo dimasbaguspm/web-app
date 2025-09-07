@@ -7,28 +7,40 @@ import { capitalize } from 'lodash';
 import { FC } from 'react';
 import { Area, AreaChart, Brush, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { SummaryFrequencyType, useSummaryFilter } from '../../summary/hooks/use-summary-filter';
+import { FilterFrequency, useSummaryFilter } from '../../../hooks/use-summary-filter';
 
 interface DateTransactionsAreaChartProps {
   data: SummaryTransactionsModel;
 }
 
 export const DateTransactionsAreaChart: FC<DateTransactionsAreaChartProps> = ({ data }) => {
-  const { frequency } = useSummaryFilter();
+  const { appliedFilters } = useSummaryFilter();
 
-  const xAxisDateFormat =
-    frequency === SummaryFrequencyType.allTheTime
-      ? DateFormat.YEAR
-      : frequency === SummaryFrequencyType.thisYear
-        ? DateFormat.MONTH
-        : DateFormat.COMPACT_DATE;
+  const xAxisDateFormat = (() => {
+    switch (appliedFilters.frequency) {
+      case FilterFrequency.Yearly:
+        return DateFormat.YEAR;
+      case FilterFrequency.Monthly:
+        return DateFormat.MONTH;
+      case FilterFrequency.Weekly:
+        return DateFormat.COMPACT_DATE;
+      default:
+        return DateFormat.COMPACT_DATE;
+    }
+  })();
 
-  const tooltipDateFormat =
-    frequency === SummaryFrequencyType.allTheTime
-      ? DateFormat.YEAR
-      : frequency === SummaryFrequencyType.thisYear
-        ? DateFormat.MONTH
-        : DateFormat.FULL_DATE;
+  const tooltipDateFormat = (() => {
+    switch (appliedFilters.frequency) {
+      case FilterFrequency.Yearly:
+        return DateFormat.YEAR;
+      case FilterFrequency.Monthly:
+        return DateFormat.MONTH;
+      case FilterFrequency.Weekly:
+        return DateFormat.COMPACT_DATE;
+      default:
+        return DateFormat.COMPACT_DATE;
+    }
+  })();
 
   return (
     <div className="w-full h-80">

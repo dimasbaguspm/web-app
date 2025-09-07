@@ -1,16 +1,15 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { Button, ButtonGroup, ChipSingleInput, Icon } from '@dimasbaguspm/versaur';
-import { ChartBarBigIcon, ChartNoAxesCombinedIcon, FilterIcon, TargetIcon } from 'lucide-react';
+import { ChipSingleInput, Icon } from '@dimasbaguspm/versaur';
+import { ChartBarBigIcon, ChartNoAxesCombinedIcon, TargetIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../../constants/page-routes';
+
+import { FiltersControl } from './filters-control';
 
 export const ActionHeader: FC = () => {
   const { isDesktop } = useWindowResize();
-  const { openDrawer } = useDrawerRoute();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,18 +25,9 @@ export const ActionHeader: FC = () => {
     });
   };
 
-  const handleOnFilterClick = () => {
-    openDrawer(DRAWER_ROUTES.FILTER_SUMMARY);
-  };
-
   return (
     <div className="flex flex-row justify-between w-full mb-4">
-      <ButtonGroup>
-        <Button variant="outline" onClick={handleOnFilterClick}>
-          <Icon as={FilterIcon} color="inherit" size="sm" />
-          Filter
-        </Button>
-      </ButtonGroup>
+      <FiltersControl />
 
       <ChipSingleInput
         value={

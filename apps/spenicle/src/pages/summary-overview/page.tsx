@@ -6,8 +6,9 @@ import {
 } from '@dimasbaguspm/hooks/use-api';
 import { If } from '@dimasbaguspm/utils/if';
 import { PageLoader } from '@dimasbaguspm/versaur';
+import dayjs from 'dayjs';
 
-import { useSummaryFilter } from '../summary/hooks/use-summary-filter';
+import { useSummaryFilter } from '../../hooks/use-summary-filter';
 
 import { OverviewChart } from './components/overview-chart';
 import { TopTenExpenseAccounts } from './components/top-ten-expense-accounts';
@@ -16,50 +17,50 @@ import { TopTenIncomeAccounts } from './components/top-ten-income-accounts';
 import { TopTenIncomeCategories } from './components/top-ten-income-categories';
 
 const SummaryPage = () => {
-  const { appliedFilters } = useSummaryFilter();
+  const { appliedFilters } = useSummaryFilter({ adapter: 'url' });
 
   const dateFilters = {
-    from: appliedFilters.range.startDate.toISOString(),
-    to: appliedFilters.range.endDate.toISOString(),
+    from: dayjs(appliedFilters.dateFrom).toISOString(),
+    to: dayjs(appliedFilters.dateTo).toISOString(),
   };
 
   const [summaryTotal, , { isLoading: isFetchingSummaryTotal }] = useApiSpenicleSummaryTotalQuery({
     ...dateFilters,
-    categoryId: appliedFilters.categoryIds,
-    accountId: appliedFilters.accountIds,
+    categoryId: appliedFilters.categoryId,
+    accountId: appliedFilters.accountId,
   });
 
   const [summaryTransactions, , { isLoading: isFetchingSummaryTransactions }] = useApiSpenicleSummaryTransactionsQuery({
     ...dateFilters,
     frequency: 'daily',
-    categoryId: appliedFilters.categoryIds,
-    accountId: appliedFilters.accountIds,
+    categoryId: appliedFilters.categoryId,
+    accountId: appliedFilters.accountId,
   });
 
   const [summaryExpenseCategories, , { isLoading: isFetchingSummaryExpenseCategories }] =
     useApiSpenicleSummaryCategoriesQuery({
       ...dateFilters,
-      id: appliedFilters.categoryIds,
+      id: appliedFilters.categoryId,
       type: ['expense'],
     });
 
   const [summaryIncomeCategories, , { isLoading: isFetchingSummaryIncomeCategories }] =
     useApiSpenicleSummaryCategoriesQuery({
       ...dateFilters,
-      id: appliedFilters.categoryIds,
+      id: appliedFilters.categoryId,
       type: ['income'],
     });
 
   const [summaryExpenseAccounts, , { isLoading: isFetchingSummaryExpenseAccounts }] =
     useApiSpenicleSummaryAccountsQuery({
       ...dateFilters,
-      id: appliedFilters.accountIds,
+      id: appliedFilters.accountId,
       type: 'expense',
     });
 
   const [summaryIncomeAccounts, , { isLoading: isFetchingSummaryIncomeAccounts }] = useApiSpenicleSummaryAccountsQuery({
     ...dateFilters,
-    id: appliedFilters.accountIds,
+    id: appliedFilters.accountId,
     type: 'income',
   });
 

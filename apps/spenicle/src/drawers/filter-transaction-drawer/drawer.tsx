@@ -5,23 +5,15 @@ import {
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Button,
-  ButtonGroup,
-  ChipMultipleInput,
-  Drawer,
-  FormLayout,
-  Icon,
-  PageLoader,
-  TextInput,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, FormLayout, PageLoader, TextInput } from '@dimasbaguspm/versaur';
 import { noop } from 'lodash';
-import { TrendingDownIcon, TrendingUpDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-import { TransactionFilterModel, useTransactionsFilter } from '../../pages/transactions/hooks/use-transactions-filter';
+import { useTransactionFilter } from '../../hooks/use-transaction-filter';
+
+import { TransactionFilterFormSchema } from './types';
 
 interface FilterTransactionDrawerProps {
   payload?: Record<string, unknown>;
@@ -29,14 +21,14 @@ interface FilterTransactionDrawerProps {
 
 export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payload }) => {
   const { isDesktop } = useWindowResize();
-  const { appliedFilters, setFilters } = useTransactionsFilter();
   const { closeDrawer, openDrawer } = useDrawerRoute();
 
-  const { control, handleSubmit, watch } = useForm<TransactionFilterModel>({
+  const { appliedFilters, filters } = useTransactionFilter({ adapter: 'url' });
+
+  const { control, handleSubmit, watch } = useForm<TransactionFilterFormSchema>({
     defaultValues: {
       accountId: (payload?.accountId as number[]) ?? appliedFilters?.accountId ?? [],
       categoryId: (payload?.categoryId as number[]) ?? appliedFilters?.categoryId ?? [],
-      type: appliedFilters?.type ?? [],
     },
   });
 
@@ -62,11 +54,13 @@ export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payl
     },
   );
 
-  const handleOnValidSubmit: SubmitHandler<TransactionFilterModel> = (data) => {
-    setFilters({
-      accountId: data.accountId ? data.accountId : undefined,
-      categoryId: data.categoryId ? data.categoryId : undefined,
-      type: data.type ? data.type : undefined,
+  const handleOnValidSubmit: SubmitHandler<TransactionFilterFormSchema> = (data) => {
+    const { categoryId, accountId } = data ?? {};
+
+    filters.replaceAll({
+      type: appliedFilters.type,
+      accountId,
+      categoryId,
     });
   };
 
@@ -119,35 +113,13 @@ export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payl
             <FormLayout>
               <FormLayout.Column span={12}>
                 <Controller
-                  name="type"
-                  control={control}
-                  render={({ field }) => (
-                    <ChipMultipleInput {...field} variant="primary" label="Type">
-                      <ChipMultipleInput.Option value="expense">
-                        <Icon as={TrendingDownIcon} color="inherit" size="sm" />
-                        Expense
-                      </ChipMultipleInput.Option>
-                      <ChipMultipleInput.Option value="income">
-                        <Icon as={TrendingUpIcon} color="inherit" size="sm" />
-                        Income
-                      </ChipMultipleInput.Option>
-                      <ChipMultipleInput.Option value="transfer">
-                        <Icon as={TrendingUpDownIcon} color="inherit" size="sm" />
-                        Transfer
-                      </ChipMultipleInput.Option>
-                    </ChipMultipleInput>
-                  )}
-                />
-              </FormLayout.Column>
-              <FormLayout.Column span={12}>
-                <Controller
                   name="accountId"
                   control={control}
                   render={({ field, fieldState }) => (
                     <>
                       <TextInput
                         label="Accounts"
-                        placeholder="Select Account"
+                        placeholder="Select Accounts"
                         value={field.value ? accounts?.items?.map((acc) => acc.name).join(', ') : ''}
                         onChange={noop}
                         readOnly
@@ -168,7 +140,7 @@ export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payl
                     <>
                       <TextInput
                         label="Categories"
-                        placeholder="Select Category"
+                        placeholder="Select Categories"
                         value={field.value ? categories?.items?.map((cat) => cat.name).join(', ') : ''}
                         onChange={noop}
                         readOnly
