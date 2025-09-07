@@ -8,8 +8,7 @@ import {
   WalletCardsIcon,
   CalendarSyncIcon,
   CalendarRangeIcon,
-  FolderOutputIcon,
-  FolderInputIcon,
+  DatabaseZapIcon,
 } from 'lucide-react';
 
 export const ROUTES = {
@@ -27,7 +26,6 @@ export const ROUTES = {
   SETTINGS_SCHEDULED_PAYMENTS: '/settings/scheduled-payments',
   SETTINGS_SCHEDULED_PAYMENTS_RECURRING: '/settings/scheduled-payments/recurring',
   SETTINGS_BACKUP: '/settings/backup',
-  SETTINGS_BACKUP_RESTORE: '/settings/backup/restore',
 } as const;
 
 export const DEEP_LINKS = {
@@ -99,12 +97,7 @@ export const DEEP_LINKS = {
   SETTINGS_BACKUP: {
     path: '/settings/backup',
     title: 'Backup',
-    icon: FolderOutputIcon,
-  },
-  SETTINGS_BACKUP_RESTORE: {
-    path: '/settings/backup/restore',
-    title: 'Restore Backup',
-    icon: FolderInputIcon,
+    icon: DatabaseZapIcon,
   },
 } as const;
 

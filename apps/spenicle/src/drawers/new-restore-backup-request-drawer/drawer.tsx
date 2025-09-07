@@ -20,11 +20,21 @@ export const NewRestoreBackupRequestDrawer: FC = () => {
   });
 
   const handleOnValidSubmit: SubmitHandler<NewRestoreBackupRequestFormSchema> = async (data) => {
-    await restoreBackup({
-      encryptedBackup: data.file ?? '',
-    });
-    showSnack('success', 'Backup restored successfully');
-    closeDrawer();
+    if (!data.file) return;
+
+    const fileReader = new FileReader();
+
+    fileReader.onload = async (event) => {
+      const fileContent = event.target?.result;
+
+      await restoreBackup({
+        encryptedBackup: fileContent as string,
+      });
+      showSnack('success', 'Backup restored successfully');
+      closeDrawer();
+    };
+
+    fileReader.readAsText(data.file);
   };
 
   return (
@@ -48,12 +58,16 @@ export const NewRestoreBackupRequestDrawer: FC = () => {
                     return true;
                   },
                 }}
-                render={({ field, fieldState }) => (
+                render={({ field: { onChange, name }, fieldState }) => (
                   <TextInput
-                    {...field}
-                    label="File"
+                    name={name}
+                    label="Upload Backup File"
+                    helperText="Select the encrypted backup file to restore (.json.enc)"
                     type="file"
-                    value={typeof field.value === 'string' ? field.value : ''}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null;
+                      onChange(file);
+                    }}
                     error={fieldState.error?.message}
                   />
                 )}

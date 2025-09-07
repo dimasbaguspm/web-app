@@ -21,7 +21,7 @@ import {
   PageLoader,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
-import { Download, FolderInputIcon, FolderOutputIcon, SearchXIcon } from 'lucide-react';
+import { Download, RotateCcwIcon, RotateCwIcon, SearchXIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -86,11 +86,11 @@ const SettingsBackupPage = () => {
         actions={
           <ButtonGroup>
             <Button onClick={handleOnRestoreBackupClick} variant="outline">
-              <Icon as={FolderInputIcon} size="sm" color="inherit" />
+              <Icon as={RotateCcwIcon} size="sm" color="inherit" />
               Restore Backup
             </Button>
             <Button onClick={handleOnCreateBackupClick}>
-              <Icon as={FolderOutputIcon} size="sm" color="inherit" />
+              <Icon as={RotateCwIcon} size="sm" color="inherit" />
               Create Backup
             </Button>
           </ButtonGroup>
@@ -100,10 +100,10 @@ const SettingsBackupPage = () => {
             <ButtonIcon
               variant="outline"
               onClick={handleOnRestoreBackupClick}
-              as={FolderInputIcon}
+              as={RotateCcwIcon}
               aria-label="Restore Backup"
             />
-            <ButtonIcon onClick={handleOnCreateBackupClick} as={FolderOutputIcon} aria-label="Create Backup" />
+            <ButtonIcon onClick={handleOnCreateBackupClick} as={RotateCwIcon} aria-label="Create Backup" />
           </ButtonGroup>
         }
       />
@@ -130,6 +130,7 @@ const SettingsBackupPage = () => {
               return (
                 <li key={item.id}>
                   <Card
+                    as="div"
                     key={item.id}
                     title={dateRange || 'Backup Request'}
                     subtitle={

@@ -21,6 +21,14 @@ export const settingsGroups = [
         path: DEEP_LINKS.SETTINGS_CATEGORY_GROUPS.path,
         badge: null,
       },
+      {
+        id: 'backup-and-restore',
+        title: 'Backup & Restore',
+        description: 'Create backups of your data to prevent loss and restore when needed',
+        icon: DEEP_LINKS.SETTINGS_BACKUP.icon,
+        path: DEEP_LINKS.SETTINGS_BACKUP.path,
+        badge: null,
+      },
     ],
   },
   {
@@ -42,28 +50,6 @@ export const settingsGroups = [
         icon: DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS_RECURRING.icon,
         path: DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS_RECURRING.path,
         badge: 'New',
-      },
-    ],
-  },
-  {
-    title: 'Backup & Restore',
-    description: 'Secure your data with backup and restore options',
-    items: [
-      {
-        id: 'backup',
-        title: 'Backup',
-        description: 'Create backups of your financial data to prevent loss',
-        icon: DEEP_LINKS.SETTINGS_BACKUP.icon,
-        path: DEEP_LINKS.SETTINGS_BACKUP.path,
-        badge: null,
-      },
-      {
-        id: 'restore',
-        title: 'Restore',
-        description: 'Restore your financial data from backups',
-        icon: DEEP_LINKS.SETTINGS_BACKUP_RESTORE.icon,
-        path: DEEP_LINKS.SETTINGS_BACKUP_RESTORE.path,
-        badge: null,
       },
     ],
   },
