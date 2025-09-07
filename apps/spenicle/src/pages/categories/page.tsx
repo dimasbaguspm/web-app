@@ -16,24 +16,22 @@ import { FoldersIcon, PlusIcon, SearchXIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { CategoryCard } from '../../components/category-card';
+import { CategoryFiltersControl } from '../../components/category-filter-control';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
-
-import { ActionsControl } from './components/actions-control';
-import { FilterControl } from './components/filter-control';
-import { useCategoryFilter } from './hooks/use-category-filter';
+import { useCategoryFilter } from '../../hooks/use-category-filter';
 
 const CategoriesPage = () => {
   const { openDrawer } = useDrawerRoute();
   const navigate = useNavigate();
 
-  const { appliedFilters } = useCategoryFilter();
+  const categoryFilter = useCategoryFilter({ adapter: 'url' });
 
   const [categories, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleCategoriesInfiniteQuery({
       pageSize: 15,
-      search: appliedFilters.q,
-      type: appliedFilters.type,
+      type: categoryFilter.appliedFilters.type,
+      categoryGroupIds: categoryFilter.appliedFilters.groupId,
     });
 
   const handleOpenDrawer = () => {
@@ -77,14 +75,13 @@ const CategoriesPage = () => {
         }
       />
       <PageContent>
+        <CategoryFiltersControl config={categoryFilter} />
+
         <If condition={isInitialFetching}>
           <PageLoader />
         </If>
 
         <If condition={[!isInitialFetching, categories]}>
-          <ActionsControl />
-          <FilterControl />
-
           <ul className="mb-4">
             {categories?.map((category) => (
               <li key={category.id} className="border-b border-border">

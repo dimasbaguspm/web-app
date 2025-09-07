@@ -16,24 +16,21 @@ import { FoldersIcon, PlusIcon, SearchXIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { AccountCard } from '../../components/account-card';
+import { AccountFiltersControl } from '../../components/account-filter-control';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
-
-import { ActionsControl } from './components/actions-control';
-import { FilterControl } from './components/filter-control';
-import { useAccountFilter } from './hooks/use-account-filter';
+import { useAccountFilter } from '../../hooks/use-account-filter';
 
 const AccountsPage = () => {
   const navigate = useNavigate();
   const { openDrawer } = useDrawerRoute();
-  const { appliedFilters, getParsedSorterFilters } = useAccountFilter();
+  const accountFilter = useAccountFilter({ adapter: 'url' });
 
   const [accounts, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
     useApiSpenicleAccountsInfiniteQuery({
       pageSize: 15,
-      search: appliedFilters.q,
-      type: appliedFilters.type,
-      ...getParsedSorterFilters(),
+      type: accountFilter.appliedFilters.type,
+      accountGroupIds: accountFilter.appliedFilters.groupId,
     });
 
   const handleOpenDrawer = () => {
@@ -78,13 +75,13 @@ const AccountsPage = () => {
         }
       />
       <PageContent>
+        <AccountFiltersControl config={accountFilter} />
+
         <If condition={isInitialFetching}>
           <PageLoader />
         </If>
 
         <If condition={[!isInitialFetching, accounts]}>
-          <ActionsControl />
-          <FilterControl />
           <ul className="mb-4">
             {accounts?.map((account) => (
               <li key={account.id} className="border-b border-border">

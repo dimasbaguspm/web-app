@@ -57,8 +57,8 @@ export const DrawerRoutes: FC = () => {
   const { isOpen, drawerId, params, state, closeDrawer } = useDrawerRoute<DrawerParams, DrawerState>();
 
   const is = (id: string) => drawerId === id;
-  const hasParam = (param: keyof typeof params) => param in params;
-  const hasState = (stateKey: keyof typeof state) => stateKey in state;
+  const hasParam = (param: keyof typeof params) => (params && typeof params === 'object' ? param in params : false);
+  const hasState = (stateKey: keyof typeof state) => (state && typeof state === 'object' ? stateKey in state : false);
 
   const disableInteractive = (
     [

@@ -24,8 +24,8 @@ export const BottomSheetRoutes: FC = () => {
   const { isOpen, bottomSheetId, closeBottomSheet } = useBottomSheetRoute<BottomSheetParams, BottomSheetState>();
 
   const is = (id: string) => bottomSheetId === id;
-  // const hasParam = (param: keyof typeof params) => param in params;
-  //   const hasState = (stateKey: keyof typeof state) => stateKey in state;
+  // const hasParam = (param: keyof typeof params) => (params && typeof params === 'object' ? param in params : false);
+  // const hasState = (stateKey: keyof typeof state) => (state && typeof state === 'object' ? stateKey in state : false);
 
   return (
     <BottomSheet isOpen={isOpen} onClose={closeBottomSheet}>

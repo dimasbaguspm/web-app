@@ -1,7 +1,4 @@
-import {
-  useApiSpenicleAccountGroupsInfiniteQuery,
-  useApiSpenicleAccountsInfiniteQuery,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleAccountsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
@@ -10,19 +7,19 @@ import {
   Button,
   ButtonGroup,
   ButtonIcon,
-  ButtonMenu,
   Drawer,
   FormLayout,
-  Icon,
   NoResults,
   PageLoader,
   SearchInput,
   SelectableMultipleInput,
 } from '@dimasbaguspm/versaur';
-import { SearchXIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react';
+import { SearchXIcon, XIcon } from 'lucide-react';
 import { FC, useState } from 'react';
 
 import { AccountCard } from '../../components/account-card';
+import { AccountFiltersControl } from '../../components/account-filter-control';
+import { useAccountFilter } from '../../hooks/use-account-filter';
 
 interface SelectMultipleAccountDrawerProps {
   returnToDrawer: string;
@@ -48,18 +45,19 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
         : [],
   );
 
+  const accountFilters = useAccountFilter({ adapter: 'state' });
+
   const [searchValue, setSearchValue] = useDebouncedState({ defaultValue: '' });
-  const [selectGroupId, setSelectGroupId] = useDebouncedState<number[]>({ defaultValue: [], debounceTime: 100 });
 
   const [accounts, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
     useApiSpenicleAccountsInfiniteQuery({
       search: searchValue,
-      accountGroupIds: selectGroupId ? selectGroupId : undefined,
+      accountGroupIds: accountFilters.appliedFilters.groupId,
+      type: accountFilters.appliedFilters.type,
+      sortBy: 'name',
+      sortOrder: 'asc',
+      pageSize: 15,
     });
-
-  const [accountGroups] = useApiSpenicleAccountGroupsInfiniteQuery({
-    pageSize: 100,
-  });
 
   const handleOnSubmit = () => {
     openDrawer(returnToDrawer, returnToDrawerId, {
@@ -95,36 +93,7 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
             <SearchInput defaultValue={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           </FormLayout.Column>
           <FormLayout.Column span={12}>
-            <ButtonGroup>
-              <If condition={accountGroups?.length}>
-                <ButtonMenu
-                  variant="outline"
-                  preserve
-                  label={
-                    <>
-                      <Icon as={SlidersHorizontalIcon} color="inherit" size="sm" />
-                      Group
-                    </>
-                  }
-                >
-                  {accountGroups?.map((group) => (
-                    <ButtonMenu.Item
-                      key={group.id}
-                      active={selectGroupId?.includes(group.id)}
-                      onClick={() => {
-                        if (selectGroupId?.includes(group.id)) {
-                          setSelectGroupId(selectGroupId.filter((id) => id !== group.id));
-                        } else {
-                          setSelectGroupId([...selectGroupId, group.id]);
-                        }
-                      }}
-                    >
-                      {group.name}
-                    </ButtonMenu.Item>
-                  ))}
-                </ButtonMenu>
-              </If>
-            </ButtonGroup>
+            <AccountFiltersControl config={accountFilters} />
           </FormLayout.Column>
         </FormLayout>
 

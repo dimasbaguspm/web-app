@@ -1,7 +1,4 @@
-import {
-  useApiSpenicleCategoriesInfiniteQuery,
-  useApiSpenicleCategoryGroupsInfiniteQuery,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleCategoriesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
@@ -10,19 +7,19 @@ import {
   Button,
   ButtonGroup,
   ButtonIcon,
-  ButtonMenu,
   Drawer,
   FormLayout,
-  Icon,
   NoResults,
   PageLoader,
   SearchInput,
   SelectableMultipleInput,
 } from '@dimasbaguspm/versaur';
-import { SearchXIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react';
+import { SearchXIcon, XIcon } from 'lucide-react';
 import { FC, useState } from 'react';
 
 import { CategoryCard } from '../../components/category-card';
+import { CategoryFiltersControl } from '../../components/category-filter-control';
+import { useCategoryFilter } from '../../hooks/use-category-filter';
 
 interface SelectMultipleCategoryDrawerProps {
   returnToDrawer: string;
@@ -48,22 +45,17 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
   );
 
   const [searchValue, setSearchValue] = useDebouncedState({ defaultValue: '' });
-  const [selectGroupId, setSelectGroupId] = useDebouncedState<number[]>({ defaultValue: [], debounceTime: 100 });
+  const categoryFilters = useCategoryFilter({ adapter: 'state' });
 
   const [categories, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
     useApiSpenicleCategoriesInfiniteQuery({
       search: searchValue,
-      type: ['expense', 'income', 'transfer'].includes(payload.type as string)
-        ? [payload.type as 'expense' | 'income' | 'transfer']
-        : undefined,
-      categoryGroupIds: selectGroupId ? selectGroupId : undefined,
+      type: categoryFilters.appliedFilters.type,
+      categoryGroupIds: categoryFilters.appliedFilters.groupId,
       sortBy: 'name',
       sortOrder: 'asc',
+      pageSize: 15,
     });
-
-  const [categoryGroups] = useApiSpenicleCategoryGroupsInfiniteQuery({
-    pageSize: 15,
-  });
 
   const handleOnSubmit = () => {
     openDrawer(returnToDrawer, returnToDrawerId, {
@@ -99,36 +91,7 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
             <SearchInput defaultValue={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           </FormLayout.Column>
           <FormLayout.Column span={12}>
-            <ButtonGroup>
-              <If condition={categoryGroups?.length}>
-                <ButtonMenu
-                  variant="outline"
-                  preserve
-                  label={
-                    <>
-                      <Icon as={SlidersHorizontalIcon} color="inherit" size="sm" />
-                      Group
-                    </>
-                  }
-                >
-                  {categoryGroups?.map((group) => (
-                    <ButtonMenu.Item
-                      key={group.id}
-                      active={selectGroupId?.includes(group.id)}
-                      onClick={() => {
-                        if (selectGroupId?.includes(group.id)) {
-                          setSelectGroupId(selectGroupId.filter((id) => id !== group.id));
-                        } else {
-                          setSelectGroupId([...selectGroupId, group.id]);
-                        }
-                      }}
-                    >
-                      {group.name}
-                    </ButtonMenu.Item>
-                  ))}
-                </ButtonMenu>
-              </If>
-            </ButtonGroup>
+            <CategoryFiltersControl config={categoryFilters} />
           </FormLayout.Column>
         </FormLayout>
 

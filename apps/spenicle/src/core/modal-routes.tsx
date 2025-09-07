@@ -35,8 +35,8 @@ export const ModalRoutes: FC = () => {
   const { isOpen, modalId, params, closeModal } = useModalRoute<ModalParams, ModalState>();
 
   const is = (id: string) => modalId === id;
-  const hasParam = (param: keyof typeof params) => param in params;
-  //   const hasState = (stateKey: keyof typeof state) => stateKey in state;
+  const hasParam = (param: keyof typeof params) => (params && typeof params === 'object' ? param in params : false);
+  // const hasState = (stateKey: keyof typeof state) => (state && typeof state === 'object' ? stateKey in state : false);
 
   return (
     <Modal isOpen={isOpen} onClose={closeModal} size={'lg'}>
