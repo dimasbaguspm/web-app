@@ -1,6 +1,16 @@
 import { useApiHiAppQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { Badge, Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader, Tabs } from '@dimasbaguspm/versaur';
+import {
+  Badge,
+  BadgeGroup,
+  Button,
+  ButtonGroup,
+  ButtonIcon,
+  Icon,
+  PageContent,
+  PageHeader,
+  Tabs,
+} from '@dimasbaguspm/versaur';
 import { DownloadIcon, ExternalLinkIcon } from 'lucide-react';
 import { Outlet, useParams } from 'react-router';
 
@@ -30,11 +40,10 @@ const MarketplaceDetailPage = () => {
         title={app?.name}
         subtitle={app?.description}
         badges={
-          <>
+          <BadgeGroup>
             <Badge>Free</Badge>
             <Badge color="secondary">Beta</Badge>
-            <Badge>v1.0.0</Badge>
-          </>
+          </BadgeGroup>
         }
         actions={
           <ButtonGroup>
@@ -57,8 +66,8 @@ const MarketplaceDetailPage = () => {
         tabs={
           <Tabs value="overview" onValueChange={(value) => console.log(value)}>
             <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
+            <Tabs.Trigger value="profiles">Profiles</Tabs.Trigger>
             <Tabs.Trigger value="usage">Usage</Tabs.Trigger>
-            <Tabs.Trigger value="review">Review</Tabs.Trigger>
           </Tabs>
         }
       />

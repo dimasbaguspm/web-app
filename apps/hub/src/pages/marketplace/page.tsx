@@ -5,6 +5,9 @@ import { AppModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   Brand,
+  Button,
+  ButtonGroup,
+  ButtonIcon,
   ButtonMenu,
   Card,
   FormLayout,
@@ -15,21 +18,24 @@ import {
   PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
-import { ChevronDown, SearchXIcon } from 'lucide-react';
+import { ChevronDown, HelpCircleIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
 
 import { DEEP_LINKS } from '../../constants/page-routes';
 
-import { MarketplaceProvider } from './context/provider';
-
-const MarketplaceContent: FC = () => {
+const MarketplacePage: FC = () => {
   const { isDesktop } = useWindowResize();
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useDebouncedState<string>();
 
-  const [apps, , { isInitialFetching }] = useApiHiAppsInfiniteQuery({});
+  const [apps, , { isInitialFetching }] = useApiHiAppsInfiniteQuery({
+    search: searchTerm,
+    pageSize: 15,
+    sortBy: 'name',
+    sortOrder: 'asc',
+  });
 
   const handleOnCardClick = (app: AppModel) => {
     navigate(DEEP_LINKS.MARKETPLACE_DETAIL(app.id).path);
@@ -37,7 +43,23 @@ const MarketplaceContent: FC = () => {
 
   return (
     <>
-      <PageHeader title="Marketplace" subtitle="Discover and manage your installed apps" />
+      <PageHeader
+        title="Marketplace"
+        subtitle="Discover the available apps"
+        actions={
+          <ButtonGroup>
+            <Button>
+              <Icon as={HelpCircleIcon} size="sm" color="inherit" />
+              Help
+            </Button>
+          </ButtonGroup>
+        }
+        mobileActions={
+          <ButtonGroup>
+            <ButtonIcon as={HelpCircleIcon} aria-label="Help" />
+          </ButtonGroup>
+        }
+      />
 
       <PageContent>
         <FormLayout className="mb-4">
@@ -92,14 +114,6 @@ const MarketplaceContent: FC = () => {
         </If>
       </PageContent>
     </>
-  );
-};
-
-const MarketplacePage: FC = () => {
-  return (
-    <MarketplaceProvider>
-      <MarketplaceContent />
-    </MarketplaceProvider>
   );
 };
 
