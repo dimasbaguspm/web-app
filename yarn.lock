@@ -1466,6 +1466,7 @@ __metadata:
     "@types/react-dom": "npm:19.1.9"
     "@vitejs/plugin-basic-ssl": "npm:2.1.0"
     "@vitejs/plugin-react": "npm:4.7.0"
+    "@zumer/snapdom": "npm:1.9.9"
     axios: "npm:1.11.0"
     class-variance-authority: "npm:0.7.1"
     clsx: "npm:2.1.1"
@@ -3034,6 +3035,13 @@ __metadata:
     loupe: "npm:^3.1.4"
     tinyrainbow: "npm:^2.0.0"
   checksum: 10/7f12ef63bd8ee13957744d1f336b0405f164ade4358bf9dfa531f75bbb58ffac02bf61aba65724311ddbc50b12ba54853a169e59c6b837c16086173b9a480710
+  languageName: node
+  linkType: hard
+
+"@zumer/snapdom@npm:1.9.9":
+  version: 1.9.9
+  resolution: "@zumer/snapdom@npm:1.9.9"
+  checksum: 10/8393c15e0e4fb2c4c665589ef4ea9c3e5c2ba0db828dd2eee33ae653b966aa61182992e8e09f45d1b9944f494b937fcc3d931c3322a14929ccfa06496809e08e
   languageName: node
   linkType: hard
 
