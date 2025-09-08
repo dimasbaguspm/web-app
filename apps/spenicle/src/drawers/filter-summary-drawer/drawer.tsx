@@ -45,8 +45,6 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
     },
   });
 
-  console.log(watch());
-
   const [categories, , { isLoading: isCategoriesFetching }] = useApiSpenicleCategoriesPaginatedQuery(
     {
       id: getValues().categoryIds,
