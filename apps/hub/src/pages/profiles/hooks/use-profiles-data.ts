@@ -4,10 +4,11 @@ import {
   useApiHiDeleteAppProfile,
   useApiHiGroupsPaginatedQuery,
 } from '@dimasbaguspm/hooks/use-api';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useMemo, useState } from 'react';
 
-import { useDrawerRoute } from '../../../hooks/use-drawer-route';
+import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 import { useAuthProvider } from '../../../providers/auth-provider';
 
 import type { ProfileWithApp, ProfilesContextValue } from '../types';
@@ -15,7 +16,7 @@ import type { ProfileWithApp, ProfilesContextValue } from '../types';
 export const useProfilesData = (): ProfilesContextValue => {
   const { appProfiles, user } = useAuthProvider();
   const { showSnack } = useSnackbars();
-  const { handleOpenDrawer } = useDrawerRoute();
+  const { openDrawer } = useDrawerRoute();
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -108,7 +109,7 @@ export const useProfilesData = (): ProfilesContextValue => {
   };
 
   const handleCreateProfile = (appId: number) => {
-    handleOpenDrawer('APP_PROFILE_CREATION', { appId });
+    openDrawer(DRAWER_ROUTES.APP_PROFILE_CREATION, { appId });
   };
 
   const handlePlayProfile = (profile: ProfileWithApp) => {

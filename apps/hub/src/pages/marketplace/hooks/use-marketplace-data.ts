@@ -7,7 +7,7 @@ import { AppModel, AppProfileModel, GroupModel } from '@dimasbaguspm/interfaces'
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { DEEP_LINKS } from '../../../constants/routes';
+import { DEEP_LINKS } from '../../../constants/page-routes';
 import { useAuthProvider } from '../../../providers/auth-provider';
 
 import type { MarketplaceContextType, MarketplaceData } from '../types';

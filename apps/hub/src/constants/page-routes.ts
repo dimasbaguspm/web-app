@@ -1,31 +1,32 @@
+import { AxeIcon, BoltIcon } from 'lucide-react';
+
 export const ROUTES = {
   MARKETPLACE: '/marketplace',
   MARKETPLACE_DETAIL: '/marketplace/:id',
-  PROFILES: '/profiles',
   GROUPS: '/groups',
-  ACCOUNTS: '/accounts',
+  SETTINGS: '/settings',
 } as const;
 
 export const DEEP_LINKS = {
   MARKETPLACE: {
     path: ROUTES.MARKETPLACE,
     title: 'Marketplace',
+    icon: AxeIcon,
   },
   MARKETPLACE_DETAIL: (appId: number) => ({
     path: ROUTES.MARKETPLACE_DETAIL.replace(':id', appId.toString()),
     title: 'Marketplace Detail',
+    icon: AxeIcon,
   }),
-  PROFILES: {
-    path: ROUTES.PROFILES,
-    title: 'Profiles',
-  },
   GROUPS: {
     path: ROUTES.GROUPS,
     title: 'Groups',
+    icon: AxeIcon,
   },
-  ACCOUNTS: {
-    path: ROUTES.ACCOUNTS,
-    title: 'Accounts',
+  SETTINGS: {
+    path: ROUTES.SETTINGS,
+    title: 'Settings',
+    icon: BoltIcon,
   },
 } as const;
 

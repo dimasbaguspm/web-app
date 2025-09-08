@@ -1,18 +1,29 @@
+import { BottomSheetRouteProvider } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
+import { DrawerRouteProvider } from '@dimasbaguspm/providers/drawer-route-provider';
+import { ModalRouteProvider } from '@dimasbaguspm/providers/modal-route-provider';
 import { lazy } from 'react';
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router';
 
-import { PageLayout } from '../components/page-layout/page-layout';
-import { ROUTES } from '../constants/routes';
+import { ROUTES } from '../constants/page-routes';
 
+import { AppLayout } from './app-layout';
 import { DrawerRoutes } from './drawer-routes';
+import { ModalRoutes } from './modal-routes';
 
 const router = createBrowserRouter([
   {
     element: (
-      <>
-        <PageLayout />
-        <DrawerRoutes />
-      </>
+      <DrawerRouteProvider>
+        <ModalRouteProvider>
+          <BottomSheetRouteProvider>
+            <AppLayout>
+              <Outlet />
+            </AppLayout>
+            <ModalRoutes />
+            <DrawerRoutes />
+          </BottomSheetRouteProvider>
+        </ModalRouteProvider>
+      </DrawerRouteProvider>
     ),
     children: [
       {
@@ -25,19 +36,11 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.MARKETPLACE_DETAIL,
-        lazy: async () => {
-          const { default: MarketplaceDetailPage } = await import('../pages/marketplace-detail/page');
-
-          return { Component: MarketplaceDetailPage };
-        },
+        Component: lazy(() => import('../pages/marketplace-detail/page')),
       },
       {
         path: ROUTES.GROUPS,
         Component: lazy(() => import('../pages/groups/page')),
-      },
-      {
-        path: ROUTES.PROFILES,
-        Component: lazy(() => import('../pages/profiles/page')),
       },
     ],
   },

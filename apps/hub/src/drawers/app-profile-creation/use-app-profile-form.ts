@@ -1,9 +1,9 @@
 import { useApiHiCreateAppProfile } from '@dimasbaguspm/hooks/use-api';
 import { AppModel, CreateAppProfileModel } from '@dimasbaguspm/interfaces';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useForm } from 'react-hook-form';
 
-import { useDrawerRoute } from '../../hooks/use-drawer-route';
 import { useAuthProvider } from '../../providers/auth-provider';
 
 import { AppProfileCreationFormData } from './types';
@@ -16,7 +16,7 @@ export const useAppProfileForm = (options: Props) => {
   const { app } = options ?? {};
 
   const { user } = useAuthProvider();
-  const { handleCloseDrawer } = useDrawerRoute();
+  const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
 
   const form = useForm<AppProfileCreationFormData>({
@@ -43,7 +43,7 @@ export const useAppProfileForm = (options: Props) => {
 
       return payload;
     } finally {
-      handleCloseDrawer();
+      closeDrawer();
     }
   });
 

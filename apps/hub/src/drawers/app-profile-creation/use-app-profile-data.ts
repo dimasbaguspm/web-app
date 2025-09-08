@@ -1,16 +1,13 @@
 import { useApiHiAppQuery, useApiHiGroupsPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
 import { useMemo } from 'react';
 
-import { useDrawerRoute } from '../../hooks/use-drawer-route';
 import { useAuthProvider } from '../../providers/auth-provider';
 
 export const useAppProfileData = () => {
   const { groupMembers, user } = useAuthProvider();
-  const { additionalParams } = useDrawerRoute();
-  const appId = additionalParams?.appId;
 
-  const [app, , { isLoading: isAppLoading }] = useApiHiAppQuery(+appId!, {
-    enabled: Boolean(appId),
+  const [app, , { isLoading: isAppLoading }] = useApiHiAppQuery(1, {
+    enabled: Boolean(1),
   });
 
   const groupIds = useMemo(() => {

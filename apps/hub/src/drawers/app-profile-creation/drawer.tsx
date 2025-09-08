@@ -1,15 +1,14 @@
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Button, Drawer, LoadingIndicator, Text } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { FormProvider } from 'react-hook-form';
-
-import { useDrawerRoute } from '../../hooks/use-drawer-route';
 
 import { AppProfileCreationForm } from './form';
 import { useAppProfileData } from './use-app-profile-data';
 import { useAppProfileForm } from './use-app-profile-form';
 
 export const AppProfileCreationDrawer: FC = () => {
-  const { handleCloseDrawer } = useDrawerRoute();
+  const { closeDrawer } = useDrawerRoute();
 
   const { isDataLoading, app, groups, user } = useAppProfileData();
   const { form, handleOnSubmit, isSubmitting } = useAppProfileForm({ app });
@@ -29,7 +28,7 @@ export const AppProfileCreationDrawer: FC = () => {
             <AppProfileCreationForm user={user} groups={groups} />
           </Drawer.Body>
           <Drawer.Footer>
-            <Button variant="ghost" onClick={handleCloseDrawer} disabled={isSubmitting}>
+            <Button variant="ghost" onClick={closeDrawer} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button variant="primary" onClick={handleOnSubmit} disabled={isSubmitting}>

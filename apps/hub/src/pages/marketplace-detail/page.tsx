@@ -1,22 +1,22 @@
 import { useApiHiAppQuery } from '@dimasbaguspm/hooks/use-api';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Badge, Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader, Tabs } from '@dimasbaguspm/versaur';
 import { DownloadIcon, ExternalLinkIcon } from 'lucide-react';
-import { FC } from 'react';
 import { Outlet, useParams } from 'react-router';
 
-import { useDrawerRoute } from '../../hooks/use-drawer-route';
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
-const MarketplaceDetailPage: FC = () => {
+const MarketplaceDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { handleOpenDrawer } = useDrawerRoute();
+  const { openDrawer } = useDrawerRoute();
 
   const [app] = useApiHiAppQuery(+id!, {
     enabled: !!id,
   });
 
   const onInstallClick = () => {
-    handleOpenDrawer('APP_PROFILE_CREATION', {
-      appId: app?.id,
+    openDrawer(DRAWER_ROUTES.APP_PROFILE_CREATION, {
+      appId: app?.id ?? 0,
     });
   };
 
