@@ -2,20 +2,14 @@ import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { CategoryModel, TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Button,
-  ButtonGroup,
-  ButtonMenuIcon,
-  FormLayout,
-  NoResults,
-  PageLoader,
-  SearchInput,
-} from '@dimasbaguspm/versaur';
-import { FilterIcon, SearchXIcon } from 'lucide-react';
+import { Button, ButtonGroup, FormLayout, NoResults, PageLoader, SearchInput } from '@dimasbaguspm/versaur';
+import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { TransactionCard } from '../../../components/transaction-card';
+import { TransactionFiltersControl } from '../../../components/transaction-filter-control';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
+import { useTransactionFilter } from '../../../hooks/use-transaction-filter';
 import { useCategoryDetailHistoryData } from '../hooks/use-category-detail-history-data';
 
 interface HistoryTabProps {
@@ -27,6 +21,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
   const [searchValue, setSearchValue] = useDebouncedState<string>({
     debounceTime: 1000,
   });
+  const filters = useTransactionFilter({ adapter: 'state' });
 
   const {
     data: transactions,
@@ -34,7 +29,12 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useCategoryDetailHistoryData(data, searchValue);
+  } = useCategoryDetailHistoryData(data, {
+    search: searchValue,
+    dateFrom: filters.appliedFilters.startDate,
+    dateTo: filters.appliedFilters.endDate,
+    type: filters.appliedFilters.type,
+  });
 
   const handleOnTransactionClick = (transaction: TransactionModel) => {
     openDrawer(DRAWER_ROUTES.DETAIL_TRANSACTION, {
@@ -45,13 +45,12 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
   return (
     <>
       <FormLayout className="mb-4">
-        <FormLayout.Column span={10}>
-          <SearchInput onChange={(ev) => setSearchValue(ev.target.value)} placeholder="Search name or notes" />
+        <FormLayout.Column span={12}>
+          <SearchInput onChange={(ev) => setSearchValue(ev.target.value)} placeholder="Search notes" />
         </FormLayout.Column>
-        <ButtonMenuIcon as={FilterIcon} variant="outline" aria-label="Filter">
-          <ButtonMenuIcon.Item>Sort by date</ButtonMenuIcon.Item>
-          <ButtonMenuIcon.Item>Sort by amount</ButtonMenuIcon.Item>
-        </ButtonMenuIcon>
+        <FormLayout.Column span={12}>
+          <TransactionFiltersControl config={filters} hideOtherFilters />
+        </FormLayout.Column>
       </FormLayout>
 
       <If condition={[isInitialLoading]}>

@@ -101,6 +101,21 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
 
         <If condition={[categories?.length, !isInitialFetching]}>
           <ul className="mb-4">
+            <li>
+              <SelectableMultipleInput
+                label="Select All Visible"
+                checked={selectedCategoryIds.length === categories.length && selectedCategoryIds.length > 0}
+                value="all"
+                onChange={() => {
+                  if (selectedCategoryIds.length === categories.length) {
+                    setSelectedCategoryIds([]);
+                  } else {
+                    setSelectedCategoryIds(categories.map((category) => category.id));
+                  }
+                }}
+              />
+            </li>
+
             {categories?.map((category) => {
               return (
                 <li key={category.id}>

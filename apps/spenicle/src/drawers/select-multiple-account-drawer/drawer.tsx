@@ -103,6 +103,20 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
 
         <If condition={[accounts.length, !isInitialFetching]}>
           <ul className="mb-4">
+            <li>
+              <SelectableMultipleInput
+                label="Select All Visible"
+                checked={selectedAccountIds.length === accounts.length && selectedAccountIds.length > 0}
+                value="all"
+                onChange={() => {
+                  if (selectedAccountIds.length === accounts.length) {
+                    setSelectedAccountIds([]);
+                  } else {
+                    setSelectedAccountIds(accounts.map((account) => account.id));
+                  }
+                }}
+              />
+            </li>
             {accounts?.map((account) => {
               return (
                 <li key={account.id}>

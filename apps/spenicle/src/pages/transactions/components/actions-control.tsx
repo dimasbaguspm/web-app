@@ -40,7 +40,7 @@ export const ActionsControl: FC<ActionsControlProps> = ({ date, onFilterClick, o
   return (
     <>
       <ButtonGroup alignment="between" className="mb-4">
-        <TransactionFiltersControl handleOnFilterClick={onFilterClick} config={config} />
+        <TransactionFiltersControl handleOnFilterClick={onFilterClick} config={config} hideDateRangeFilter />
         <Button variant="outline" onClick={handleOnCalendarClick} className="relative">
           <Icon as={CalendarCogIcon} size="sm" color="gray" />
           Calendar

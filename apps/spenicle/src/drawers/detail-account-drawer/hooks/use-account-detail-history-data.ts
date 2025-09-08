@@ -5,12 +5,12 @@ import {
   useApiSpenicleCategoriesPaginatedQuery,
   useApiSpenicleTransactionsInfiniteQuery,
 } from '@dimasbaguspm/hooks/use-api';
-import { AccountModel } from '@dimasbaguspm/interfaces';
+import { AccountModel, SearchTransactionsModel } from '@dimasbaguspm/interfaces';
 
-export const useAccountDetailHistoryData = (account: AccountModel, query: string) => {
+export const useAccountDetailHistoryData = (account: AccountModel, searchParams: SearchTransactionsModel) => {
   const [transactions, , { hasNextPage, isLoading, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleTransactionsInfiniteQuery({
-      search: query,
+      ...searchParams,
       accountId: [account.id],
       pageSize: 15,
       sortBy: 'date',
