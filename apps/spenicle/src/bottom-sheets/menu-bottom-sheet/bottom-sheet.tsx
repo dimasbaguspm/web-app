@@ -1,9 +1,10 @@
+import { HUB_BASE_URL } from '@dimasbaguspm/constants';
 import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, BottomSheet, Button, ButtonIcon, Hr, Icon, Text } from '@dimasbaguspm/versaur';
-import { BoltIcon, ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon } from 'lucide-react';
+import { BoltIcon, ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon, OrbitIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -27,6 +28,10 @@ export const MenuBottomSheet: FC = () => {
 
   const handleOnLogoutClick = () => {
     openModal(MODAL_ROUTES.LOGOUT_CONFIRMATION);
+  };
+
+  const handleNavigateToMarketplace = () => {
+    window.open(HUB_BASE_URL, '_blank');
   };
 
   return (
@@ -54,7 +59,7 @@ export const MenuBottomSheet: FC = () => {
           </div>
         </div>
 
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-1">
           <li>
             <Button
               variant={isActive(DEEP_LINKS.SETTINGS.path) ? 'primary-ghost' : 'ghost'}
@@ -64,6 +69,8 @@ export const MenuBottomSheet: FC = () => {
               <Icon as={BoltIcon} size="sm" color="inherit" />
               Settings
             </Button>
+          </li>
+          <li>
             <Hr />
           </li>
           <li>
@@ -71,6 +78,17 @@ export const MenuBottomSheet: FC = () => {
               <Icon as={NotebookPenIcon} size="sm" color="inherit" />
               Feedback
             </Button>
+          </li>
+          <li>
+            <Hr />
+          </li>
+          <li>
+            <Button variant="ghost" className="w-full justify-start" onClick={handleNavigateToMarketplace}>
+              <Icon as={OrbitIcon} size="sm" color="inherit" />
+              Marketplace
+            </Button>
+          </li>
+          <li>
             <Hr />
           </li>
           <li>
@@ -79,7 +97,9 @@ export const MenuBottomSheet: FC = () => {
               Logout
             </Button>
           </li>
-          <Hr />
+          <li>
+            <Hr />
+          </li>
         </ul>
       </BottomSheet.Body>
       <BottomSheet.Footer className="mx-auto">

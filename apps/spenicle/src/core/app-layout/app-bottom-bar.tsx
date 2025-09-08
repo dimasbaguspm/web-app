@@ -43,6 +43,7 @@ export const AppBottomBar: FC = () => {
           />
         );
       })}
+
       <BottomBar.Item onClick={() => openBottomSheet(BOTTOM_SHEET_ROUTES.MENU)}>
         <Icon as={MoreHorizontalIcon} size="md" color={isActive(DEEP_LINKS.SETTINGS.path) ? 'primary' : 'inherit'} />
       </BottomBar.Item>
