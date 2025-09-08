@@ -13,7 +13,7 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
 
   const variant = isExpense ? 'primary' : isIncome ? 'secondary' : 'tertiary';
 
-  const trimmedNotes = category?.note ? category.note.slice(0, 100) + (category.note.length > 100 ? +'...' : '') : '';
+  const trimmedNotes = category?.note ? `${category.note.slice(0, 25) + (category.note.length > 25 ? '...' : '')}` : '';
   const note = category?.note;
 
   const groups = categoryGroups || [];

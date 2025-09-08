@@ -16,7 +16,7 @@ import {
   NoResults,
   PageLoader,
 } from '@dimasbaguspm/versaur';
-import { Edit2Icon, ListXIcon, Trash2Icon } from 'lucide-react';
+import { Edit2Icon, ListXIcon, TrashIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { TransactionCard } from '../../components/transaction-card';
@@ -73,7 +73,7 @@ export const DetailScheduledPaymentsDrawer: FC<DetailScheduledPaymentsDrawerProp
           </Button>
           <ButtonIcon
             variant="danger-outline"
-            as={Trash2Icon}
+            as={TrashIcon}
             aria-label="Delete Scheduled Payment"
             onClick={handleOnDeleteClick}
           />

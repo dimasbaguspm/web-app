@@ -27,10 +27,16 @@ export const formatSpenicleBackupRequest = (data?: BackupRequestModel | null) =>
     status,
     variant,
     requestedDate: data?.requestedAt ? formatDate(data.requestedAt, DateFormat.WEEKDAY_DATE) : '',
+    requestedDateTime: data?.requestedAt ? formatDate(data.requestedAt, DateFormat.SHORT_DATETIME) : '',
     finishedDate: data?.completedAt
       ? formatDate(data.completedAt, DateFormat.WEEKDAY_DATE)
       : data?.errorAt
         ? formatDate(data.errorAt, DateFormat.WEEKDAY_DATE)
+        : '',
+    finishedDateTime: data?.completedAt
+      ? formatDate(data.completedAt, DateFormat.SHORT_DATETIME)
+      : data?.errorAt
+        ? formatDate(data.errorAt, DateFormat.SHORT_DATETIME)
         : '',
     errorMessage: data?.error || '',
   } as const;

@@ -21,7 +21,7 @@ import {
   PageLoader,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
-import { Download, RotateCcwIcon, RotateCwIcon, SearchXIcon } from 'lucide-react';
+import { DatabaseBackupIcon, Download, PlusIcon, SearchXIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -77,17 +77,17 @@ const SettingsBackupPage = () => {
   return (
     <>
       <PageHeader
-        title="Backup History"
-        subtitle="View and manage your backup requests"
+        title="Backup Requests"
+        subtitle="Manage your backup requests and restore data"
         actions={
           <ButtonGroup>
             <Button onClick={handleOnRestoreBackupClick} variant="outline">
-              <Icon as={RotateCcwIcon} size="sm" color="inherit" />
+              <Icon as={DatabaseBackupIcon} size="sm" color="inherit" />
               Restore Backup
             </Button>
             <Button onClick={handleOnCreateBackupClick}>
-              <Icon as={RotateCwIcon} size="sm" color="inherit" />
-              Create Backup
+              <Icon as={PlusIcon} size="sm" color="inherit" />
+              New Backup
             </Button>
           </ButtonGroup>
         }
@@ -96,10 +96,10 @@ const SettingsBackupPage = () => {
             <ButtonIcon
               variant="outline"
               onClick={handleOnRestoreBackupClick}
-              as={RotateCcwIcon}
+              as={DatabaseBackupIcon}
               aria-label="Restore Backup"
             />
-            <ButtonIcon onClick={handleOnCreateBackupClick} as={RotateCwIcon} aria-label="Create Backup" />
+            <ButtonIcon onClick={handleOnCreateBackupClick} as={PlusIcon} aria-label="Create Backup" />
           </ButtonGroup>
         }
       />
@@ -119,8 +119,16 @@ const SettingsBackupPage = () => {
         <If condition={!isInitialFetching && !!backupRequest.length}>
           <ul className="mb-4">
             {backupRequest.map((item, index) => {
-              const { status, variant, dateRange, requestedDate, finishedDate, isReady, isFailed, errorMessage } =
-                formatSpenicleBackupRequest(item);
+              const {
+                status,
+                variant,
+                dateRange,
+                requestedDateTime,
+                finishedDateTime,
+                isReady,
+                isFailed,
+                errorMessage,
+              } = formatSpenicleBackupRequest(item);
 
               const isLastItem = index === backupRequest.length - 1;
               return (
@@ -132,14 +140,14 @@ const SettingsBackupPage = () => {
                     subtitle={
                       <Card.List>
                         <If condition={isReady}>
-                          <Card.ListItem>Requested on {requestedDate || 'Unknown date'}</Card.ListItem>
-                          <Card.ListItem>Successfully completed on {finishedDate || 'Unknown date'}</Card.ListItem>
+                          <Card.ListItem>Requested on {requestedDateTime}</Card.ListItem>
+                          <Card.ListItem>Completed on {finishedDateTime}</Card.ListItem>
                         </If>
-                        <If condition={isFailed && errorMessage}>
+                        <If condition={[isFailed, errorMessage]}>
                           <Card.ListItem>Failed: {errorMessage}</Card.ListItem>
                         </If>
                         <If condition={!isReady && !isFailed}>
-                          <Card.ListItem>Requested on {requestedDate || 'Unknown date'}</Card.ListItem>
+                          <Card.ListItem>Requested on {requestedDateTime}</Card.ListItem>
                           <Card.ListItem>Processing in progress...</Card.ListItem>
                         </If>
                       </Card.List>

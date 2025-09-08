@@ -90,6 +90,7 @@ const AccountsPage = () => {
         <FormLayout>
           <FormLayout.Column span={isDesktop ? 4 : 12}>
             <SearchInput
+              variant="neutral"
               defaultValue={debouncedAccountFilter}
               onChange={(ev) => setDebouncedAccountFilter(ev.target.value)}
             />

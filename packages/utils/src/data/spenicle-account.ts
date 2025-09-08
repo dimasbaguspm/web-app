@@ -11,7 +11,7 @@ export const formatSpenicleAccount = (account: AccountModel | null | undefined) 
   const isExpense = account?.type === 'expense';
   const variant = isExpense ? 'primary' : 'secondary';
 
-  const trimmedNotes = account?.note ? account.note.slice(0, 100) + (account.note.length > 100 ? '...' : '') : '';
+  const trimmedNotes = account?.note ? `${account.note.slice(0, 25) + (account.note.length > 25 ? '...' : '')}` : '';
   const note = account?.note;
 
   const groups = accountGroups || [];

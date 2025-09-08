@@ -25,16 +25,13 @@ export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategoryS
   const [categories, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleCategoriesInfiniteQuery({
       search: searchTerm,
+      pageSize: 15,
     });
 
   return (
     <>
       <div className="mb-4">
-        <SearchInput
-          defaultValue={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search..."
-        />
+        <SearchInput defaultValue={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" />
       </div>
 
       <If condition={isInitialFetching}>

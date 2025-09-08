@@ -8,9 +8,10 @@ export const formatSpenicleTransaction = (transaction: TransactionModel | null) 
   const isIncome = transaction?.type === 'income';
   const isExpense = transaction?.type === 'expense';
   const isTransfer = transaction?.type === 'transfer';
+  const isScheduled = !!transaction?.isScheduledPayment;
 
   const trimmedNotes = transaction?.note
-    ? transaction.note.slice(0, 25) + (transaction.note.length > 25 ? +'...' : '')
+    ? `${transaction.note.slice(0, 25) + (transaction.note.length > 25 ? '...' : '')}`
     : '';
   const note = transaction?.note;
 
@@ -22,6 +23,7 @@ export const formatSpenicleTransaction = (transaction: TransactionModel | null) 
     isIncome,
     isExpense,
     isTransfer,
+    isScheduled,
     trimmedNotes,
     variant,
     capitalizedType,
