@@ -1,27 +1,33 @@
 import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader } from '@dimasbaguspm/versaur';
 import { snapdom } from '@zumer/snapdom';
 import { PrinterIcon } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Outlet } from 'react-router';
 
 import { ActionHeader } from './components/action-header';
 
 const SummaryLayout = () => {
+  const [isPrinting, setIsPrinting] = useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
+
   const handleOnPrintClick = async () => {
-    if (!ref.current) return;
+    try {
+      setIsPrinting(true);
+      if (!ref.current) return;
 
-    const result = await snapdom(ref.current);
+      const result = await snapdom(ref.current);
 
-    const img = await result.toPng();
-    document.body.appendChild(img);
-
-    await result.download({
-      format: 'png',
-      compress: false,
-      filename: 'spenicle-exported-summary-' + new Date().toISOString(),
-      backgroundColor: '#ffffff',
-    });
+      await result.download({
+        fast: false,
+        format: 'png',
+        compress: false,
+        filename: 'spenicle-exported-summary-' + new Date().toISOString(),
+        backgroundColor: '#ffffff',
+      });
+    } finally {
+      setIsPrinting(false);
+    }
   };
 
   return (
@@ -31,7 +37,7 @@ const SummaryLayout = () => {
         subtitle="Manage your summary transactions"
         actions={
           <ButtonGroup>
-            <Button onClick={handleOnPrintClick}>
+            <Button disabled={isPrinting} onClick={handleOnPrintClick}>
               <Icon as={PrinterIcon} color="inherit" size="sm" />
               Report
             </Button>
@@ -39,7 +45,7 @@ const SummaryLayout = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon onClick={handleOnPrintClick} as={PrinterIcon} aria-label="Report" />
+            <ButtonIcon disabled={isPrinting} onClick={handleOnPrintClick} as={PrinterIcon} aria-label="Report" />
           </ButtonGroup>
         }
       />
