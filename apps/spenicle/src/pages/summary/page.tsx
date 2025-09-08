@@ -1,12 +1,13 @@
 import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader } from '@dimasbaguspm/versaur';
 import { snapdom } from '@zumer/snapdom';
-import { PrinterIcon } from 'lucide-react';
+import { ArrowBigDownDashIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 
 import { ActionHeader } from './components/action-header';
 
 const SummaryLayout = () => {
+  const location = useLocation();
   const [isPrinting, setIsPrinting] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -31,21 +32,26 @@ const SummaryLayout = () => {
   };
 
   return (
-    <div ref={ref}>
+    <div ref={ref} key={location.pathname}>
       <PageHeader
         title="Summary"
         subtitle="Manage your summary transactions"
         actions={
           <ButtonGroup>
             <Button disabled={isPrinting} onClick={handleOnPrintClick}>
-              <Icon as={PrinterIcon} color="inherit" size="sm" />
-              Report
+              <Icon as={ArrowBigDownDashIcon} color="inherit" size="sm" />
+              Download Report
             </Button>
           </ButtonGroup>
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon disabled={isPrinting} onClick={handleOnPrintClick} as={PrinterIcon} aria-label="Report" />
+            <ButtonIcon
+              disabled={isPrinting}
+              onClick={handleOnPrintClick}
+              as={ArrowBigDownDashIcon}
+              aria-label="Download Report"
+            />
           </ButtonGroup>
         }
       />

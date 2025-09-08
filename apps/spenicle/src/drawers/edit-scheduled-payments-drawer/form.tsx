@@ -8,7 +8,6 @@ import {
   Icon,
   PriceInput,
   SelectInput,
-  SwitchInput,
   TextAreaInput,
   TextInput,
 } from '@dimasbaguspm/versaur';
@@ -272,20 +271,6 @@ export const EditScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit }
                 value={field.value === undefined ? '' : field.value}
                 formatter={(date) => (date ? formatDate(date, DateFormat.FULL_DATE) : '')}
                 error={fieldState.error?.message}
-              />
-            )}
-          />
-        </FormLayout.Column>
-        <FormLayout.Column span={12}>
-          <Controller
-            control={control}
-            name="immediate"
-            render={({ field }) => (
-              <SwitchInput
-                {...field}
-                label="Create first payment immediately?"
-                checked={field.value || false}
-                onCheckedChange={(value) => field.onChange(value)}
               />
             )}
           />

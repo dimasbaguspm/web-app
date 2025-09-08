@@ -11,6 +11,4 @@ export interface EditScheduledPaymentsFormSchema {
   categoryId: number | string;
   type: 'income' | 'expense';
   notes: string;
-
-  immediate?: boolean;
 }

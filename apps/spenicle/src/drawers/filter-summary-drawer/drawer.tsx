@@ -40,10 +40,12 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
       startDate: formatDate(appliedFilters.dateFrom, DateFormat.ISO_DATE),
       endDate: formatDate(appliedFilters.dateTo, DateFormat.ISO_DATE),
       frequency: (payload?.frequency as string) || appliedFilters.frequency || FilterFrequency.Monthly,
-      categoryIds: (payload?.categoryIds as number[]) || appliedFilters.categoryIds || [],
-      accountIds: (payload?.accountIds as number[]) || appliedFilters.accountIds || [],
+      categoryIds: (payload?.categoryIds as number[]) || appliedFilters.categoryId || [],
+      accountIds: (payload?.accountIds as number[]) || appliedFilters.accountId || [],
     },
   });
+
+  console.log(watch());
 
   const [categories, , { isLoading: isCategoriesFetching }] = useApiSpenicleCategoriesPaginatedQuery(
     {

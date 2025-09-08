@@ -10,7 +10,7 @@ export const formatSpenicleTransaction = (transaction: TransactionModel | null) 
   const isTransfer = transaction?.type === 'transfer';
 
   const trimmedNotes = transaction?.note
-    ? transaction.note.slice(0, 100) + (transaction.note.length > 100 ? +'...' : '')
+    ? transaction.note.slice(0, 25) + (transaction.note.length > 25 ? +'...' : '')
     : '';
   const note = transaction?.note;
 

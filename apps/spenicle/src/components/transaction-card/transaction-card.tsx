@@ -21,7 +21,7 @@ export const TransactionCard: FC<TransactionCardProps> = ({
   useDateTime,
   ...props
 }) => {
-  const { variant, capitalizedType, dateTime, time } = formatSpenicleTransaction(transaction);
+  const { variant, capitalizedType, dateTime, time, trimmedNotes } = formatSpenicleTransaction(transaction);
   const { name: categoryName, groups: categoryGroups, hasGroup: hasCategoryGroup } = formatSpenicleCategory(category);
   const {
     name: accountName,
@@ -40,6 +40,9 @@ export const TransactionCard: FC<TransactionCardProps> = ({
         <Card.List>
           <Card.ListItem>{accountName}</Card.ListItem>
           <Card.ListItem>{categoryName}</Card.ListItem>
+          <If condition={!!trimmedNotes.length}>
+            <Card.ListItem>{trimmedNotes}</Card.ListItem>
+          </If>
         </Card.List>
       }
       supplementaryInfo={useDateTime ? dateTime : time}

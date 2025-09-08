@@ -41,14 +41,10 @@ const SettingsBackupPage = () => {
       setDownloadingId(data.id);
 
       const response = await downloadFile({ id: data.id });
-
-      // Create a blob from the response
       const blob = new Blob([response], { type: 'application/octet-stream' });
 
-      // Create a temporary URL for the blob
       const url = window.URL.createObjectURL(blob);
 
-      // Create a temporary anchor element to trigger download
       const link = document.createElement('a');
       link.href = url;
 

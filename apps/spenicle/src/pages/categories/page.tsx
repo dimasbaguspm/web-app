@@ -1,4 +1,6 @@
 import { useApiSpenicleCategoriesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { CategoryModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
@@ -6,11 +8,13 @@ import {
   Button,
   ButtonGroup,
   ButtonIcon,
+  FormLayout,
   Icon,
   NoResults,
   PageContent,
   PageHeader,
   PageLoader,
+  SearchInput,
 } from '@dimasbaguspm/versaur';
 import { FoldersIcon, PlusIcon, SearchXIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
@@ -24,12 +28,18 @@ import { useCategoryFilter } from '../../hooks/use-category-filter';
 const CategoriesPage = () => {
   const { openDrawer } = useDrawerRoute();
   const navigate = useNavigate();
+  const { isDesktop } = useWindowResize();
 
+  const [debouncedSearch, setDebouncedSearch] = useDebouncedState<string>({
+    adapter: 'url',
+    urlKey: 'q',
+  });
   const categoryFilter = useCategoryFilter({ adapter: 'url' });
 
   const [categories, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleCategoriesInfiniteQuery({
       pageSize: 15,
+      search: debouncedSearch,
       type: categoryFilter.appliedFilters.type,
       categoryGroupIds: categoryFilter.appliedFilters.groupId,
     });
@@ -75,7 +85,18 @@ const CategoriesPage = () => {
         }
       />
       <PageContent>
-        <CategoryFiltersControl config={categoryFilter} />
+        <FormLayout>
+          <FormLayout.Column span={isDesktop ? 4 : 12}>
+            <SearchInput
+              variant="neutral"
+              defaultValue={debouncedSearch}
+              onChange={(ev) => setDebouncedSearch(ev.target.value)}
+            />
+          </FormLayout.Column>
+          <FormLayout.Column span={isDesktop ? 8 : 12}>
+            <CategoryFiltersControl config={categoryFilter} />
+          </FormLayout.Column>
+        </FormLayout>
 
         <If condition={isInitialFetching}>
           <PageLoader />

@@ -1,4 +1,6 @@
 import { useApiSpenicleAccountsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { AccountModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
@@ -6,11 +8,13 @@ import {
   Button,
   ButtonGroup,
   ButtonIcon,
+  FormLayout,
   Icon,
   NoResults,
   PageContent,
   PageHeader,
   PageLoader,
+  SearchInput,
 } from '@dimasbaguspm/versaur';
 import { FoldersIcon, PlusIcon, SearchXIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
@@ -22,15 +26,23 @@ import { DEEP_LINKS } from '../../constants/page-routes';
 import { useAccountFilter } from '../../hooks/use-account-filter';
 
 const AccountsPage = () => {
-  const navigate = useNavigate();
   const { openDrawer } = useDrawerRoute();
+  const { isDesktop } = useWindowResize();
+
+  const navigate = useNavigate();
+
+  const [debouncedAccountFilter, setDebouncedAccountFilter] = useDebouncedState<string>({
+    adapter: 'url',
+    urlKey: 'q',
+  });
   const accountFilter = useAccountFilter({ adapter: 'url' });
 
   const [accounts, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
     useApiSpenicleAccountsInfiniteQuery({
-      pageSize: 15,
+      search: debouncedAccountFilter,
       type: accountFilter.appliedFilters.type,
       accountGroupIds: accountFilter.appliedFilters.groupId,
+      pageSize: 15,
     });
 
   const handleOpenDrawer = () => {
@@ -75,7 +87,17 @@ const AccountsPage = () => {
         }
       />
       <PageContent>
-        <AccountFiltersControl config={accountFilter} />
+        <FormLayout>
+          <FormLayout.Column span={isDesktop ? 4 : 12}>
+            <SearchInput
+              defaultValue={debouncedAccountFilter}
+              onChange={(ev) => setDebouncedAccountFilter(ev.target.value)}
+            />
+          </FormLayout.Column>
+          <FormLayout.Column span={isDesktop ? 8 : 12}>
+            <AccountFiltersControl config={accountFilter} />
+          </FormLayout.Column>
+        </FormLayout>
 
         <If condition={isInitialFetching}>
           <PageLoader />
