@@ -1,10 +1,9 @@
 import { useApiHiCreateAppProfile } from '@dimasbaguspm/hooks/use-api';
 import { AppModel, CreateAppProfileModel } from '@dimasbaguspm/interfaces';
+import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useSnackbars } from '@dimasbaguspm/versaur';
 import { useForm } from 'react-hook-form';
-
-import { useAuthProvider } from '../../providers/auth-provider';
 
 import { AppProfileCreationFormData } from './types';
 

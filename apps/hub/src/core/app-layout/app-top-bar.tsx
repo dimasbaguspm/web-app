@@ -1,5 +1,5 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-provider';
+import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, Brand, ButtonMenuIcon, Hr, Icon, Text, TopBar } from '@dimasbaguspm/versaur';
@@ -13,7 +13,7 @@ import { DEEP_LINKS } from '../../constants/page-routes';
 import { LINKS } from './constants';
 
 export const AppTopBar: FC = () => {
-  const { profile } = useActiveAppProfile();
+  const { user } = useAuthProvider();
   const { isDesktop } = useWindowResize();
   const location = useLocation();
 
@@ -53,7 +53,7 @@ export const AppTopBar: FC = () => {
         </TopBar.Nav>
       </TopBar.Leading>
       <TopBar.Trailing>
-        <Avatar size="md">{nameToInitials(profile.name)}</Avatar>
+        <Avatar size="md">{nameToInitials(user.name)}</Avatar>
         <ButtonMenuIcon variant="ghost" aria-label="Profile Menu" as={EllipsisIcon}>
           <ButtonMenuIcon.Item onClick={handleNavigation(DEEP_LINKS.SETTINGS.path)}>
             <Icon as={BoltIcon} size="sm" color="inherit" />

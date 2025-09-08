@@ -6,6 +6,19 @@ import { HI_URL } from '../../url';
 import { useApiMutate } from '../../use-api-mutate';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
+export const useApiHiUsersInfiniteQuery = (
+  params: SearchUsersModel,
+  options?: Partial<UseApiQueryOptions<UserModel[], SearchUsersModel, unknown>>,
+) => {
+  return useApiQuery<UserModel[], SearchUsersModel>({
+    ...options,
+    base: 'HI',
+    queryKey: QUERY_KEYS.HI_USER_INFINITE(params),
+    queryParams: params,
+    path: HI_URL.USER.PAGINATED,
+  });
+};
+
 export const useApiHiUsersPaginatedQuery = (params: SearchUsersModel) => {
   return useApiQuery<UsersPageModel, SearchUsersModel>({
     base: 'HI',

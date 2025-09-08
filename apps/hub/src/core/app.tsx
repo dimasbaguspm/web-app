@@ -1,10 +1,9 @@
+import { AuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { GlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { SnackbarsProvider } from '@dimasbaguspm/versaur';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { FC, StrictMode } from 'react';
-
-import { AuthProvider } from '../providers/auth-provider';
 
 import { PageRouter } from './page-routes';
 

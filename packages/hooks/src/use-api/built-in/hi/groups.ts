@@ -9,8 +9,22 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
+import { useApiInfiniteQuery, UseApiInfiniteQueryOptions } from '../../use-api-infinite-query';
 import { useApiMutate } from '../../use-api-mutate';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
+
+export const useApiHiGroupsInfiniteQuery = (
+  params: SearchGroupsModel,
+  options?: Partial<UseApiInfiniteQueryOptions<GroupModel, SearchGroupsModel, unknown>>,
+) => {
+  return useApiInfiniteQuery({
+    ...options,
+    base: 'HI',
+    queryKey: QUERY_KEYS.HI_GROUPS_INFINITE(params),
+    queryParams: params,
+    path: HI_URL.GROUPS.PAGINATED,
+  });
+};
 
 export const useApiHiGroupsPaginatedQuery = (
   params: SearchGroupsModel,
@@ -45,6 +59,10 @@ export const useApiHiCreateGroup = () => {
         queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUPS_INFINITE().slice(0, 3),
+        exact: false,
+      });
       queryClient.setQueryData(QUERY_KEYS.HI_GROUPS_BY_ID(data.id), data);
     },
   });
@@ -59,6 +77,10 @@ export const useApiHiUpdateGroup = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUPS_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.HI_GROUPS_BY_ID(data.id), data);

@@ -32,15 +32,24 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.MARKETPLACE,
-        Component: lazy(() => import('../pages/marketplace/page')),
-      },
-      {
-        path: ROUTES.MARKETPLACE_DETAIL,
-        Component: lazy(() => import('../pages/marketplace-detail/page')),
+        children: [
+          {
+            index: true,
+            Component: lazy(() => import('../pages/marketplace/page')),
+          },
+          {
+            path: ROUTES.MARKETPLACE_DETAIL,
+            Component: lazy(() => import('../pages/marketplace-detail/page')),
+          },
+        ],
       },
       {
         path: ROUTES.GROUPS,
         Component: lazy(() => import('../pages/groups/page')),
+      },
+      {
+        path: ROUTES.SETTINGS,
+        Component: lazy(() => import('../pages/settings/page')),
       },
     ],
   },

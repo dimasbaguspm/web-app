@@ -3,6 +3,8 @@ import { BottomBar, Icon } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
 
+import { DEEP_LINKS } from '../../constants/page-routes';
+
 import { LINKS } from './constants';
 
 export const AppBottomBar: FC = () => {
@@ -21,7 +23,7 @@ export const AppBottomBar: FC = () => {
 
   return (
     <BottomBar>
-      {LINKS.map((link) => {
+      {[...LINKS, DEEP_LINKS.SETTINGS].map((link) => {
         return (
           <BottomBar.Item
             key={link.path}

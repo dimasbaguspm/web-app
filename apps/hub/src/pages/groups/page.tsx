@@ -1,8 +1,7 @@
+import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader } from '@dimasbaguspm/versaur';
 import { PlusIcon } from 'lucide-react';
 import { FC } from 'react';
-
-import { useAuthProvider } from '../../providers/auth-provider';
 
 import { GroupsStateProvider, useGroupsStateContext } from './context';
 import { useCreateGroup, useGroupsData } from './hooks';

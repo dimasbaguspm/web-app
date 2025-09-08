@@ -2,7 +2,21 @@ import { SearchAppsModel, AppsPageModel, AppModel } from '@dimasbaguspm/interfac
 
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
+import { useApiInfiniteQuery, UseApiInfiniteQueryOptions } from '../../use-api-infinite-query';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
+
+export const useApiHiAppsInfiniteQuery = (
+  params: SearchAppsModel,
+  options?: Partial<UseApiInfiniteQueryOptions<AppModel, SearchAppsModel, unknown>>,
+) => {
+  return useApiInfiniteQuery({
+    ...options,
+    base: 'HI',
+    queryKey: QUERY_KEYS.HI_APPS_INFINITE(params),
+    queryParams: params,
+    path: HI_URL.APPS.PAGINATED,
+  });
+};
 
 export const useApiHiAppsPaginatedQuery = (
   params: SearchAppsModel,

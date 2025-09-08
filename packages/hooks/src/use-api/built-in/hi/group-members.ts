@@ -10,8 +10,22 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
+import { useApiInfiniteQuery, UseApiInfiniteQueryOptions } from '../../use-api-infinite-query';
 import { useApiMutate } from '../../use-api-mutate';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
+
+export const useApiHiGroupMembersInfiniteQuery = (
+  params: SearchGroupMembersModel,
+  options?: Partial<UseApiInfiniteQueryOptions<GroupMemberModel, SearchGroupMembersModel, unknown>>,
+) => {
+  return useApiInfiniteQuery({
+    ...options,
+    base: 'HI',
+    queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_INFINITE(params),
+    queryParams: params,
+    path: HI_URL.GROUP_MEMBERS.PAGINATED,
+  });
+};
 
 export const useApiHiGroupMembersPaginatedQuery = (
   params: SearchGroupMembersModel,
@@ -46,6 +60,11 @@ export const useApiHiCreateGroupMember = () => {
     base: 'HI',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+
+      queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED().slice(0, 3),
         exact: false,
       });
@@ -65,6 +84,10 @@ export const useApiHiUpdateGroupMember = () => {
         queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_INFINITE().slice(0, 3),
+        exact: false,
+      });
       queryClient.setQueryData(QUERY_KEYS.HI_GROUP_MEMBERS_BY_ID(data.id), data);
     },
   });
@@ -80,6 +103,10 @@ export const useApiHiDeleteGroupMember = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUP_MEMBERS_INFINITE().slice(0, 3),
         exact: false,
       });
     },

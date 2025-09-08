@@ -1,7 +1,6 @@
 import { useApiHiAppQuery, useApiHiGroupsPaginatedQuery } from '@dimasbaguspm/hooks/use-api';
+import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useMemo } from 'react';
-
-import { useAuthProvider } from '../../providers/auth-provider';
 
 export const useAppProfileData = () => {
   const { groupMembers, user } = useAuthProvider();
