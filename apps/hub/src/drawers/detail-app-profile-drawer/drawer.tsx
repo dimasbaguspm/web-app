@@ -1,4 +1,4 @@
-import { useApiHiAppProfileQuery, useApiHiAppQuery } from '@dimasbaguspm/hooks/use-api';
+import { useApiHiAppProfileQuery, useApiHiAppQuery, useApiHiAuthSetActiveProfile } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
@@ -21,6 +21,7 @@ export const DetailAppProfileDrawer: FC<DetailAppProfileDrawerProps> = ({ appPro
   const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
 
+  const [setProfile] = useApiHiAuthSetActiveProfile();
   const [appProfile, , { isLoading: isAppProfileLoading }] = useApiHiAppProfileQuery(appProfileId);
   const [app, , { isLoading: isAppLoading }] = useApiHiAppQuery(appProfile?.appId ?? 0, {
     enabled: !!appProfile?.appId,
@@ -40,8 +41,10 @@ export const DetailAppProfileDrawer: FC<DetailAppProfileDrawerProps> = ({ appPro
     );
   };
 
-  const handleOnLaunchClick = () => {
+  const handleOnLaunchClick = async () => {
     if (!app?.url) return;
+
+    await setProfile({ profileId: appProfileId });
 
     window.open(app.url, '_blank');
   };

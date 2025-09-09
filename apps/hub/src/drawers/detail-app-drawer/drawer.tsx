@@ -7,7 +7,6 @@ import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
-import { ChangeLogTab } from './sub-tabs/change-log-tab';
 import { DetailsTab } from './sub-tabs/details-tab';
 import { ProfilesTab } from './sub-tabs/profiles-tab';
 import { SubTab } from './types';
@@ -46,7 +45,6 @@ export const DetailAppDrawer: FC<DetailAppDrawerProps> = ({ appId, tabId }) => {
         <Tabs value={activeTab} onValueChange={handleOnTabChange}>
           <Tabs.Trigger value={SubTab.Details}>Details</Tabs.Trigger>
           <Tabs.Trigger value={SubTab.MyProfiles}>My Profiles</Tabs.Trigger>
-          <Tabs.Trigger value={SubTab.ChangeLog}>Change Log</Tabs.Trigger>
         </Tabs>
       </Drawer.Tab>
       <If condition={isLoading}>
@@ -63,7 +61,6 @@ export const DetailAppDrawer: FC<DetailAppDrawerProps> = ({ appId, tabId }) => {
       <If condition={[!isLoading, app]}>
         {activeTab === SubTab.Details && <DetailsTab app={app!} />}
         {activeTab === SubTab.MyProfiles && <ProfilesTab app={app!} />}
-        {activeTab === SubTab.ChangeLog && <ChangeLogTab app={app!} />}
       </If>
     </>
   );

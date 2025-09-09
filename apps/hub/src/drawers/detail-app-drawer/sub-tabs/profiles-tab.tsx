@@ -98,7 +98,7 @@ export const ProfilesTab: FC<ProfilesTabProps> = ({ app }) => {
       </Drawer.Body>
       <Drawer.Footer>
         <ButtonGroup alignment="end" fluid={!isDesktop}>
-          <Button onClick={handleOnCreateClick}>Create</Button>
+          <Button onClick={handleOnCreateClick}>Create New Profile</Button>
         </ButtonGroup>
       </Drawer.Footer>
     </>

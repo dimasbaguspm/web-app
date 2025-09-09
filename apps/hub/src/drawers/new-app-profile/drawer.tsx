@@ -1,47 +1,40 @@
 import { useApiHiCreateAppProfile } from '@dimasbaguspm/hooks/use-api';
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { Button, ButtonGroup, Drawer } from '@dimasbaguspm/versaur';
+import { Drawer } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { NewAppProfileForm } from './form';
+import { formatDefaultValues } from './helpers';
+import { NewAppProfileFormSchema } from './types';
 
 interface NewAppProfileDrawerProps {
   appId: number;
+  payload?: Record<string, unknown>;
 }
 
-export const NewAppProfileDrawer: FC<NewAppProfileDrawerProps> = ({ appId }) => {
-  const { closeDrawer } = useDrawerRoute();
-  const { isDesktop } = useWindowResize();
-
+export const NewAppProfileDrawer: FC<NewAppProfileDrawerProps> = ({ appId, payload }) => {
   const [createAppProfile] = useApiHiCreateAppProfile();
+  const { closeDrawer } = useDrawerRoute();
 
-  const handleOnSubmit = async () => {
-    return;
+  const { user } = useAuthProvider();
+
+  const handleOnSubmit = async (data: NewAppProfileFormSchema) => {
     await createAppProfile({
-      appId,
-      name: 'New Profile',
+      appId: +appId,
+      name: data.name.trim(),
+      userId: data.type === 'personal' ? +user.id : undefined,
+      groupId: data.type === 'group' ? +data.relatedId : undefined,
     });
+
+    closeDrawer();
   };
 
   return (
     <>
       <Drawer.Header>New App Profile</Drawer.Header>
-      <Drawer.Body>
-        <form id="new-app-profile-form" onSubmit={handleOnSubmit}>
-          <NewAppProfileForm defaultValues={{ name: '' }} />
-        </form>
-      </Drawer.Body>
-      <Drawer.Footer>
-        <ButtonGroup fluid={!isDesktop} alignment="end">
-          <Button variant="ghost" onClick={closeDrawer}>
-            Cancel
-          </Button>
-          <Button form="new-app-profile-form" type="submit">
-            Create
-          </Button>
-        </ButtonGroup>
-      </Drawer.Footer>
+
+      <NewAppProfileForm defaultValues={formatDefaultValues({ ...payload, appId })} onSubmit={handleOnSubmit} />
     </>
   );
 };

@@ -20,14 +20,14 @@ import { FC, useState } from 'react';
 
 interface SelectGroupDrawerProps {
   returnToDrawer: string;
-  returnToDrawerId?: Record<string, string> | null;
+  returnToDrawerPayload?: Record<string, string> | null;
   payload: Record<string, unknown>;
   payloadId: string;
 }
 
 export const SelectGroupDrawer: FC<SelectGroupDrawerProps> = ({
   returnToDrawer,
-  returnToDrawerId = null,
+  returnToDrawerPayload = null,
   payloadId,
   payload,
 }) => {
@@ -48,7 +48,7 @@ export const SelectGroupDrawer: FC<SelectGroupDrawerProps> = ({
     });
 
   const handleOnSubmit = () => {
-    openDrawer(returnToDrawer, returnToDrawerId, {
+    openDrawer(returnToDrawer, returnToDrawerPayload, {
       replace: true,
       state: {
         payload: {
@@ -60,7 +60,7 @@ export const SelectGroupDrawer: FC<SelectGroupDrawerProps> = ({
   };
 
   const handleOnCancel = () => {
-    openDrawer(returnToDrawer, returnToDrawerId, {
+    openDrawer(returnToDrawer, returnToDrawerPayload, {
       replace: true,
       state: {
         payload,

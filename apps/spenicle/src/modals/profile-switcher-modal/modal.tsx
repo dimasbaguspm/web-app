@@ -3,7 +3,7 @@ import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
-import { formatAppProfile } from '@dimasbaguspm/utils/data';
+import { formatHiAppProfile } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   Avatar,
@@ -64,7 +64,7 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
         <If condition={[!isLoading, profiles.length]}>
           <ul>
             {profiles.map((profile) => {
-              const { name, initial, isGroupRelated } = formatAppProfile(profile);
+              const { name, initial, groupRelatedVariant, type } = formatHiAppProfile(profile);
 
               const isChecked = profile.id === selectedId;
 
@@ -83,11 +83,7 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
                         <Avatar>{initial}</Avatar>
                         <Text>{name}</Text>
                         <BadgeGroup>
-                          {isGroupRelated ? (
-                            <Badge color="secondary">Group</Badge>
-                          ) : (
-                            <Badge color="tertiary">Personal</Badge>
-                          )}
+                          <Badge color={groupRelatedVariant}>{type}</Badge>
                         </BadgeGroup>
                       </div>
                     }

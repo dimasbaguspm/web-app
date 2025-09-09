@@ -19,7 +19,7 @@ interface DrawerParams {
 interface DrawerState {
   payload?: Record<string, string>;
   returnToDrawer?: string;
-  returnToDrawerId?: Record<string, string> | null;
+  returnToDrawerPayload?: Record<string, string> | null;
 }
 
 export const DrawerRoutes: FC = () => {
@@ -40,7 +40,9 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.DETAIL_APP) && hasParam('appId') && (
         <DetailAppDrawer appId={params.appId!} tabId={params?.tabId} />
       )}
-      {is(DRAWER_ROUTES.NEW_APP_PROFILE) && hasParam('appId') && <NewAppProfileDrawer appId={params.appId!} />}
+      {is(DRAWER_ROUTES.NEW_APP_PROFILE) && hasParam('appId') && (
+        <NewAppProfileDrawer appId={params.appId!} payload={{ ...state?.returnToDrawerPayload, ...state?.payload }} />
+      )}
       {is(DRAWER_ROUTES.DETAIL_APP_PROFILE) && hasParam('appProfileId') && (
         <DetailAppProfileDrawer appProfileId={params.appProfileId!} tabId={params.tabId} />
       )}
@@ -49,7 +51,7 @@ export const DrawerRoutes: FC = () => {
           payloadId={params.payloadId!}
           payload={state.payload!}
           returnToDrawer={state.returnToDrawer!}
-          returnToDrawerId={state.returnToDrawerId!}
+          returnToDrawerPayload={state.returnToDrawerPayload!}
         />
       )}
     </Drawer>

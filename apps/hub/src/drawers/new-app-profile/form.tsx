@@ -1,6 +1,8 @@
+import { useApiHiGroupQuery } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { ChipSingleInput, FormLayout, TextInput } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ChipSingleInput, Drawer, FormLayout, TextInput } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -10,11 +12,14 @@ import { NewAppProfileFormSchema } from './types';
 
 export interface NewAppProfileFormProps {
   defaultValues?: Partial<NewAppProfileFormSchema>;
+  onSubmit: (data: NewAppProfileFormSchema) => void;
 }
 
-export const NewAppProfileForm: FC<NewAppProfileFormProps> = ({ defaultValues }) => {
-  const { openDrawer } = useDrawerRoute();
-  const { control, watch } = useForm<NewAppProfileFormSchema>({
+export const NewAppProfileForm: FC<NewAppProfileFormProps> = ({ defaultValues, onSubmit }) => {
+  const { openDrawer, closeDrawer } = useDrawerRoute();
+  const { isDesktop } = useWindowResize();
+
+  const { control, watch, handleSubmit } = useForm<NewAppProfileFormSchema>({
     defaultValues,
   });
 
@@ -29,63 +34,91 @@ export const NewAppProfileForm: FC<NewAppProfileFormProps> = ({ defaultValues })
         state: {
           payload: watch(),
           returnToDrawer: DRAWER_ROUTES.NEW_APP_PROFILE,
+          returnToDrawerPayload: { appId: watch('appId')?.toString() || '' },
         },
       },
     );
   };
 
+  const [group] = useApiHiGroupQuery(watch('relatedId') || 0, {
+    enabled: watch('type') === 'group' && !!watch('relatedId') && watch('relatedId') > 0,
+  });
+
   return (
-    <FormLayout>
-      <FormLayout.Column span={12}>
-        <Controller
-          control={control}
-          name="name"
-          rules={{
-            validate: (value) => (value.trim() === '' ? 'Name is required' : true),
-          }}
-          render={({ field, fieldState }) => (
-            <TextInput
-              {...field}
-              label="Profile Name"
-              placeholder="Enter profile name"
-              error={fieldState.error?.message}
-              required
-            />
-          )}
-        />
-      </FormLayout.Column>
-      <FormLayout.Column span={12}>
-        <Controller
-          control={control}
-          name="type"
-          render={({ field }) => (
-            <ChipSingleInput {...field} label="Type">
-              <ChipSingleInput.Option value="personal">Personal</ChipSingleInput.Option>
-              <ChipSingleInput.Option value="group">Group</ChipSingleInput.Option>
-            </ChipSingleInput>
-          )}
-        />
-      </FormLayout.Column>
-      <If condition={[watch('type') === 'group']}>
-        <FormLayout.Column span={12}>
-          <Controller
-            control={control}
-            name="relatedId"
-            render={({ field }) => (
-              <>
+    <>
+      <Drawer.Body>
+        <FormLayout>
+          <FormLayout.Column span={12}>
+            <Controller
+              control={control}
+              name="name"
+              rules={{
+                validate: (value) => (value.trim() === '' ? 'Name is required' : true),
+              }}
+              render={({ field, fieldState }) => (
                 <TextInput
                   {...field}
-                  readOnly
-                  label="Related ID"
-                  placeholder="Select Group"
-                  onClick={handleOnSelectGroupClick}
+                  label="Profile Name"
+                  placeholder="Enter profile name"
+                  error={fieldState.error?.message}
+                  required
                 />
-                <input type="hidden" {...field} />
-              </>
-            )}
-          />
-        </FormLayout.Column>
-      </If>
-    </FormLayout>
+              )}
+            />
+          </FormLayout.Column>
+          <FormLayout.Column span={12}>
+            <Controller
+              control={control}
+              name="type"
+              render={({ field }) => (
+                <ChipSingleInput {...field} label="Type">
+                  <ChipSingleInput.Option value="personal">Personal</ChipSingleInput.Option>
+                  <ChipSingleInput.Option value="group">Group</ChipSingleInput.Option>
+                </ChipSingleInput>
+              )}
+            />
+          </FormLayout.Column>
+          <If condition={[watch('type') === 'group']}>
+            <FormLayout.Column span={12}>
+              <Controller
+                control={control}
+                name="relatedId"
+                rules={{
+                  validate: (value, formValues) => {
+                    if (formValues.type === 'group' && (!value || value <= 0)) {
+                      return 'Group is required';
+                    }
+                    return true;
+                  },
+                }}
+                render={({ field, fieldState }) => (
+                  <>
+                    <TextInput
+                      readOnly
+                      defaultValue={group?.name || ''}
+                      label="Related ID"
+                      placeholder="Select Group"
+                      onClick={handleOnSelectGroupClick}
+                      error={fieldState.error?.message}
+                    />
+                    <input type="hidden" {...field} />
+                  </>
+                )}
+              />
+            </FormLayout.Column>
+          </If>
+        </FormLayout>
+      </Drawer.Body>
+      <Drawer.Footer>
+        <ButtonGroup fluid={!isDesktop} alignment="end">
+          <Button variant="ghost" onClick={closeDrawer}>
+            Cancel
+          </Button>
+          <Button form="new-app-profile-form" onClick={handleSubmit(onSubmit)}>
+            Create
+          </Button>
+        </ButtonGroup>
+      </Drawer.Footer>
+    </>
   );
 };
