@@ -516,7 +516,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -567,12 +567,12 @@ export interface operations {
   'getApp-profiles': {
     parameters: {
       query?: {
-        id?: (number | string)[];
-        appId?: (number | string)[];
-        userId?: (number | string)[];
-        groupId?: (number | string)[];
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        id?: number[];
+        appId?: number[];
+        userId?: number[];
+        groupId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'app_id';
         sortOrder?: 'asc' | 'desc';
       };
@@ -719,7 +719,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -1269,6 +1269,7 @@ export interface operations {
         name?: string[];
         creatorId?: number[];
         search?: string;
+        memberIds?: number[];
         pageNumber?: number;
         pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
@@ -1500,9 +1501,9 @@ export interface operations {
   'getGroup-members': {
     parameters: {
       query?: {
-        groupId?: string | (string | string[]);
-        userId?: string | (string | string[]);
-        role?: ('member' | 'owner') | (string | ('member' | 'owner')[]);
+        groupId?: string | string[];
+        userId?: string | string[];
+        role?: ('member' | 'owner') | ('member' | 'owner')[];
         pageNumber?: string;
         pageSize?: string;
         sortBy?: 'created_at' | 'updated_at';
@@ -2118,7 +2119,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };

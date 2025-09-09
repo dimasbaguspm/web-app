@@ -48,8 +48,10 @@ export const DateFormat = {
   /** Example: "01/15/2024 2:30 PM" */
   SHORT_DATETIME: 'shortDateTime',
 
+  /** Example: "Jan 15, 2024 2:30 PM" */
   MEDIUM_DATETIME: 'mediumDateTime',
 
+  /** Example: "January 15, 2024 2:30 PM" */
   LONG_DATETIME: 'longDateTime',
 
   // Time only

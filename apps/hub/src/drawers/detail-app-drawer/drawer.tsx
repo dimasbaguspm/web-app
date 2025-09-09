@@ -1,41 +1,70 @@
 import { useApiHiAppQuery } from '@dimasbaguspm/hooks/use-api';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import { Drawer, NoResults, PageLoader, Tabs } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+
+import { ChangeLogTab } from './sub-tabs/change-log-tab';
+import { DetailsTab } from './sub-tabs/details-tab';
+import { ProfilesTab } from './sub-tabs/profiles-tab';
+import { SubTab } from './types';
+
 interface DetailAppDrawerProps {
   appId: number;
+  tabId?: string;
 }
 
-export const DetailAppDrawer: FC<DetailAppDrawerProps> = ({ appId }) => {
+export const DetailAppDrawer: FC<DetailAppDrawerProps> = ({ appId, tabId }) => {
+  const { openDrawer } = useDrawerRoute();
+
   const [app, , { isLoading }] = useApiHiAppQuery(appId, {
     enabled: Boolean(appId && appId > 0),
   });
+
+  const activeTab = tabId || SubTab.Details;
+
+  const handleOnTabChange = (tabId: string) => {
+    openDrawer(
+      DRAWER_ROUTES.DETAIL_APP,
+      { appId, tabId },
+      {
+        replace: true,
+      },
+    );
+  };
 
   return (
     <>
       <Drawer.Header hasTab>
         <Drawer.Title>{app?.name} App</Drawer.Title>
+        <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Tab>
-        <Tabs value="overview" onValueChange={() => {}}>
-          <Tabs.Trigger value="overview">Details</Tabs.Trigger>
-          <Tabs.Trigger value="reviews">Profiles</Tabs.Trigger>
-          <Tabs.Trigger value="support">Usage</Tabs.Trigger>
+        <Tabs value={activeTab} onValueChange={handleOnTabChange}>
+          <Tabs.Trigger value={SubTab.Details}>Details</Tabs.Trigger>
+          <Tabs.Trigger value={SubTab.MyProfiles}>My Profiles</Tabs.Trigger>
+          <Tabs.Trigger value={SubTab.ChangeLog}>Change Log</Tabs.Trigger>
         </Tabs>
       </Drawer.Tab>
-      <Drawer.Body>
-        <If condition={isLoading}>
+      <If condition={isLoading}>
+        <Drawer.Body>
           <PageLoader />
-        </If>
-        <If condition={[!isLoading, app]}>
-          <p>Change Log</p>
-        </If>
-        <If condition={[!isLoading, !app]}>
+        </Drawer.Body>
+      </If>
+      <If condition={[!isLoading, !app]}>
+        <Drawer.Body>
           <NoResults icon={SearchXIcon} title="App not found" subtitle="The app you are looking for does not exist." />
-        </If>
-      </Drawer.Body>
+        </Drawer.Body>
+      </If>
+
+      <If condition={[!isLoading, app]}>
+        {activeTab === SubTab.Details && <DetailsTab app={app!} />}
+        {activeTab === SubTab.MyProfiles && <ProfilesTab app={app!} />}
+        {activeTab === SubTab.ChangeLog && <ChangeLogTab app={app!} />}
+      </If>
     </>
   );
 };

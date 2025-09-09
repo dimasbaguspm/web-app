@@ -1,40 +1,40 @@
+import { useApiHiGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
+import { formatHiGroup } from '@dimasbaguspm/utils/data';
+import { If } from '@dimasbaguspm/utils/if';
 import {
+  Avatar,
   Button,
   ButtonGroup,
   ButtonIcon,
+  Card,
   FormLayout,
+  Hr,
   Icon,
   PageContent,
   PageHeader,
+  PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
 import { PlusIcon } from 'lucide-react';
 import { FC } from 'react';
 
-import { GroupsStateProvider, useGroupsStateContext } from './context';
-import { useCreateGroup, useGroupsData } from './hooks';
-import { CreateGroupModal, GroupsList } from './presentation';
-
-const GroupPageContent: FC = () => {
+const GroupPage: FC = () => {
   const { user } = useAuthProvider();
   const { isDesktop } = useWindowResize();
 
   const [searchTerm, setSearchTerm] = useDebouncedState<string>();
-  const { searchQuery, setIsCreating, closeModal } = useGroupsStateContext();
 
-  const { myGroups, isGroupsLoading, createGroup, getGroupMemberCount, isGroupOwner } = useGroupsData(user);
-
-  const { handleCreateGroup } = useCreateGroup(createGroup, closeModal);
-
-  const handleCreateGroupWithName = async (groupName: string) => {
-    await handleCreateGroup(groupName);
-  };
-
-  // Filter groups based on search query
-  const filteredGroups = myGroups?.filter((group) => group.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const [groups, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiHiGroupsInfiniteQuery({
+      search: searchTerm,
+      memberIds: user?.id ? [user.id] : undefined,
+      sortBy: 'name',
+      sortOrder: 'asc',
+      pageSize: 15,
+    });
 
   return (
     <>
@@ -43,15 +43,15 @@ const GroupPageContent: FC = () => {
         subtitle="Manage your groups and discover apps together"
         actions={
           <ButtonGroup>
-            <Button onClick={() => setIsCreating(true)}>
+            <Button>
               <Icon as={PlusIcon} color="inherit" />
-              Create New Group
+              New Group
             </Button>
           </ButtonGroup>
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon as={PlusIcon} aria-label="New Group" onClick={() => setIsCreating(true)} />
+            <ButtonIcon as={PlusIcon} aria-label="New Group" />
           </ButtonGroup>
         }
       />
@@ -67,24 +67,38 @@ const GroupPageContent: FC = () => {
             />
           </FormLayout.Column>
         </FormLayout>
-        <GroupsList
-          groups={filteredGroups}
-          isLoading={isGroupsLoading}
-          getMemberCount={getGroupMemberCount}
-          isOwner={isGroupOwner}
-        />
+
+        <If condition={[isInitialFetching]}>
+          <PageLoader />
+        </If>
+        <If condition={[groups?.length, !isInitialFetching]}>
+          <ul className="mb-4">
+            {groups?.map((group, index) => {
+              const { initialName, name, createdDateTime } = formatHiGroup(group);
+              const isLastItem = index === groups.length - 1;
+              return (
+                <li key={group.id}>
+                  <Card
+                    avatar={<Avatar size="lg">{initialName}</Avatar>}
+                    title={name}
+                    supplementaryInfo={createdDateTime}
+                  />
+                  {!isLastItem && <Hr />}
+                </li>
+              );
+            })}
+          </ul>
+
+          <If condition={hasNextPage}>
+            <ButtonGroup alignment="center">
+              <Button disabled={isFetchingNextPage} variant="outline" onClick={() => fetchNextPage()}>
+                Load More
+              </Button>
+            </ButtonGroup>
+          </If>
+        </If>
       </PageContent>
-
-      <CreateGroupModal onCreateGroup={handleCreateGroupWithName} />
     </>
-  );
-};
-
-const GroupPage: FC = () => {
-  return (
-    <GroupsStateProvider>
-      <GroupPageContent />
-    </GroupsStateProvider>
   );
 };
 
