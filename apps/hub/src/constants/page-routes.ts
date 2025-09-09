@@ -2,7 +2,6 @@ import { BoltIcon, Layers3Icon, Users2Icon } from 'lucide-react';
 
 export const ROUTES = {
   MARKETPLACE: '/marketplace',
-  MARKETPLACE_DETAIL: ':id',
   GROUPS: '/groups',
   SETTINGS: '/settings',
 } as const;
@@ -13,11 +12,7 @@ export const DEEP_LINKS = {
     title: 'Marketplace',
     icon: Layers3Icon,
   },
-  MARKETPLACE_DETAIL: (appId: number) => ({
-    path: `${ROUTES.MARKETPLACE}/${appId}`,
-    title: 'Marketplace Detail',
-    icon: Layers3Icon,
-  }),
+
   GROUPS: {
     path: ROUTES.GROUPS,
     title: 'Groups',

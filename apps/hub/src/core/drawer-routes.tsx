@@ -4,10 +4,11 @@ import { Drawer } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
-import { AppProfileCreationDrawer } from '../drawers/app-profile-creation/drawer';
+import { DetailAppDrawer } from '../drawers/detail-app-drawer/drawer';
+import { NewAppProfileDrawer } from '../drawers/new-app-profile/drawer';
 
 interface DrawerParams {
-  appId?: string;
+  appId?: number;
   payloadId?: string;
   tabId?: string;
 }
@@ -33,7 +34,8 @@ export const DrawerRoutes: FC = () => {
       size={isDesktop ? 'lg' : 'full'}
       transitionType={isDesktop ? 'slide' : 'fade'}
     >
-      {is(DRAWER_ROUTES.APP_PROFILE_CREATION) && hasParam('appId') && <AppProfileCreationDrawer />}
+      {is(DRAWER_ROUTES.DETAIL_APP) && hasParam('appId') && <DetailAppDrawer appId={params.appId!} />}
+      {is(DRAWER_ROUTES.NEW_APP_PROFILE) && hasParam('appId') && <NewAppProfileDrawer appId={params.appId!} />}
     </Drawer>
   );
 };

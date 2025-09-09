@@ -32,16 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.MARKETPLACE,
-        children: [
-          {
-            index: true,
-            Component: lazy(() => import('../pages/marketplace/page')),
-          },
-          {
-            path: ROUTES.MARKETPLACE_DETAIL,
-            Component: lazy(() => import('../pages/marketplace-detail/page')),
-          },
-        ],
+        Component: lazy(() => import('../pages/marketplace/page')),
       },
       {
         path: ROUTES.GROUPS,

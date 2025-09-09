@@ -2,6 +2,7 @@ import { useApiHiAppsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { AppModel } from '@dimasbaguspm/interfaces';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   Brand,
@@ -20,25 +21,27 @@ import {
 } from '@dimasbaguspm/versaur';
 import { ChevronDown, HelpCircleIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
-import { useNavigate } from 'react-router';
 
-import { DEEP_LINKS } from '../../constants/page-routes';
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 const MarketplacePage: FC = () => {
   const { isDesktop } = useWindowResize();
-  const navigate = useNavigate();
-
+  const { openDrawer } = useDrawerRoute();
   const [searchTerm, setSearchTerm] = useDebouncedState<string>();
 
-  const [apps, , { isInitialFetching }] = useApiHiAppsInfiniteQuery({
-    search: searchTerm,
-    pageSize: 15,
-    sortBy: 'name',
-    sortOrder: 'asc',
-  });
+  const [apps, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] = useApiHiAppsInfiniteQuery(
+    {
+      search: searchTerm,
+      pageSize: 15,
+      sortBy: 'name',
+      sortOrder: 'asc',
+    },
+  );
 
   const handleOnCardClick = (app: AppModel) => {
-    navigate(DEEP_LINKS.MARKETPLACE_DETAIL(app.id).path);
+    openDrawer(DRAWER_ROUTES.DETAIL_APP, {
+      appId: app.id,
+    });
   };
 
   return (
@@ -104,6 +107,13 @@ const MarketplacePage: FC = () => {
               </li>
             ))}
           </ul>
+          <If condition={hasNextPage}>
+            <ButtonGroup alignment="center">
+              <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} variant="outline">
+                Load More
+              </Button>
+            </ButtonGroup>
+          </If>
         </If>
         <If condition={[!isInitialFetching, !apps.length]}>
           <NoResults
