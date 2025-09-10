@@ -58,7 +58,7 @@ export const NewAppProfileForm: FC<NewAppProfileFormProps> = ({ defaultValues, o
               render={({ field, fieldState }) => (
                 <TextInput
                   {...field}
-                  label="Profile Name"
+                  label="Name"
                   placeholder="Enter profile name"
                   error={fieldState.error?.message}
                   required

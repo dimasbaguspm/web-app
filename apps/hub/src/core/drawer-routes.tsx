@@ -6,6 +6,7 @@ import { FC } from 'react';
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
 import { DetailAppDrawer } from '../drawers/detail-app-drawer/drawer';
 import { DetailAppProfileDrawer } from '../drawers/detail-app-profile-drawer/drawer';
+import { EditAppProfileDrawer } from '../drawers/edit-app-profile/drawer';
 import { NewAppProfileDrawer } from '../drawers/new-app-profile/drawer';
 import { SelectGroupDrawer } from '../drawers/select-group-drawer/drawer';
 
@@ -45,6 +46,9 @@ export const DrawerRoutes: FC = () => {
       )}
       {is(DRAWER_ROUTES.DETAIL_APP_PROFILE) && hasParam('appProfileId') && (
         <DetailAppProfileDrawer appProfileId={params.appProfileId!} tabId={params.tabId} />
+      )}
+      {is(DRAWER_ROUTES.EDIT_APP_PROFILE) && hasParam('appProfileId') && hasParam('appId') && (
+        <EditAppProfileDrawer appProfileId={params.appProfileId!} appId={params.appId!} />
       )}
       {is(DRAWER_ROUTES.SELECT_GROUP) && hasState('payload') && hasState('returnToDrawer') && hasParam('payloadId') && (
         <SelectGroupDrawer

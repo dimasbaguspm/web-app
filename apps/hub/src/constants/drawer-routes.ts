@@ -6,6 +6,7 @@ export const DRAWER_ROUTES = {
 
   NEW_APP_PROFILE: 'new-app-profile',
   DETAIL_APP_PROFILE: 'detail-app-profile',
+  EDIT_APP_PROFILE: 'edit-app-profile',
 
   SELECT_GROUP: 'select-group',
 } as const;
