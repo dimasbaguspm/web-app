@@ -1,4 +1,5 @@
-import { useApiHiAuthSetActiveProfile } from '@dimasbaguspm/hooks/use-api';
+import { AppId } from '@dimasbaguspm/constants';
+import { useApiHiAppProfilesInfiniteQuery, useApiHiAuthSetActiveProfile } from '@dimasbaguspm/hooks/use-api';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
@@ -16,11 +17,10 @@ import {
   SelectableSingleInput,
   Text,
   PageLoader,
+  Hr,
 } from '@dimasbaguspm/versaur';
 import { UserSearchIcon } from 'lucide-react';
 import { FC, useState } from 'react';
-
-import { useAppProfileSwitcherData } from './use-app-profile-switcher-data';
 
 interface ProfileSwitcherModalProps {
   isSessionCheck?: boolean;
@@ -35,7 +35,10 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
 
   const [selectedId, setSelectedId] = useState<number | null>(activeProfile ? +activeProfile.id : null);
 
-  const { profiles, isLoading } = useAppProfileSwitcherData();
+  const [appProfiles, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiHiAppProfilesInfiniteQuery({
+      appId: [AppId.Spenicle],
+    });
 
   const [setActiveProfile, , { isPending: isSettingActiveProfile }] = useApiHiAuthSetActiveProfile();
 
@@ -58,24 +61,25 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
       <Modal.Header>Select Profile</Modal.Header>
 
       <Modal.Body className="max-h-[56dvh] overflow-y-auto">
-        <If condition={isLoading}>
+        <If condition={isInitialFetching}>
           <PageLoader minimal />
         </If>
-        <If condition={[!isLoading, profiles.length]}>
-          <ul>
-            {profiles.map((profile) => {
-              const { name, initial, groupRelatedVariant, type } = formatHiAppProfile(profile);
+        <If condition={[!isInitialFetching, appProfiles.length]}>
+          <ul className="mb-4">
+            {appProfiles.map((appProfile, index) => {
+              const { name, initial, groupRelatedVariant, type } = formatHiAppProfile(appProfile);
 
-              const isChecked = profile.id === selectedId;
+              const isChecked = appProfile.id === selectedId;
+              const isLastItem = index === appProfiles.length - 1;
 
               const handleOnClick = () => {
-                setSelectedId(isChecked ? null : profile.id);
+                setSelectedId(isChecked ? null : appProfile.id);
               };
 
               return (
-                <li key={profile.id}>
+                <li key={appProfile.id}>
                   <SelectableSingleInput
-                    value={profile.id.toString()}
+                    value={appProfile.id.toString()}
                     onChange={handleOnClick}
                     checked={isChecked}
                     label={
@@ -88,12 +92,20 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
                       </div>
                     }
                   />
+                  {!isLastItem && <Hr />}
                 </li>
               );
             })}
           </ul>
+          <If condition={hasNextPage}>
+            <ButtonGroup alignment="center">
+              <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                Load More
+              </Button>
+            </ButtonGroup>
+          </If>
         </If>
-        <If condition={[!isLoading, !profiles.length]}>
+        <If condition={[!isInitialFetching, !appProfiles.length]}>
           <NoResults icon={UserSearchIcon} title="No profiles found" subtitle="Register a new profile to get started" />
         </If>
       </Modal.Body>
@@ -103,7 +115,7 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
             Cancel
           </Button>
 
-          <If condition={profiles.length}>
+          <If condition={appProfiles.length}>
             <Button onClick={handleOnSubmit} disabled={isSettingActiveProfile}>
               Select
             </Button>

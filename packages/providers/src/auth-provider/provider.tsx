@@ -1,5 +1,5 @@
 import {
-  useApiHiAppProfilesPaginatedQuery,
+  useApiHiAppProfilesInfiniteQuery,
   useApiHiAuthLogout,
   useApiHiAuthMeQuery,
   useApiHiAuthTokenRefresher,
@@ -30,9 +30,8 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
     },
   );
 
-  const [userAppProfiles, , { isLoading: isUserAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
+  const [appProfiles, , { isInitialFetching: isUserAppProfilesFetching }] = useApiHiAppProfilesInfiniteQuery(
     {
-      userId: [data?.user?.id ?? 0],
       pageSize: 100,
     },
     {
@@ -40,21 +39,9 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
     },
   );
 
-  const [userGroupAppProfiles, , { isLoading: isUserGroupAppProfilesFetching }] = useApiHiAppProfilesPaginatedQuery(
-    {
-      groupId: (userMembers?.items ?? []).map((member) => member.groupId),
-      pageSize: 100,
-    },
-    {
-      enabled: (userMembers?.items ?? []).length > 0 && !!data?.user?.id,
-    },
-  );
-
-  const isDataFetching =
-    isLoading || isUserFetching || isUserGroupFetching || isUserAppProfilesFetching || isUserGroupAppProfilesFetching;
+  const isDataFetching = isLoading || isUserFetching || isUserGroupFetching || isUserAppProfilesFetching;
 
   const groupMembers = userMembers?.items ?? [];
-  const appProfiles = [...(userAppProfiles?.items ?? []), ...(userGroupAppProfiles?.items ?? [])];
 
   const handleLogout = async () => {
     await logout({});

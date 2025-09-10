@@ -437,11 +437,11 @@ export interface operations {
   getApps: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -516,7 +516,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -567,12 +567,11 @@ export interface operations {
   'getApp-profiles': {
     parameters: {
       query?: {
-        id?: number[];
-        appId?: number[];
-        userId?: number[];
-        groupId?: number[];
-        pageNumber?: number;
-        pageSize?: number;
+        id?: (number | string)[];
+        appId?: (number | string)[];
+        groupId?: (number | string)[];
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'app_id';
         sortOrder?: 'asc' | 'desc';
       };
@@ -592,7 +591,7 @@ export interface operations {
               id: number;
               name: string;
               appId: number;
-              userId?: number | null;
+              userId: number;
               groupId?: number | null;
               /** Format: date-time */
               createdAt: string;
@@ -609,7 +608,7 @@ export interface operations {
               id: number;
               name: string;
               appId: number;
-              userId?: number | null;
+              userId: number;
               groupId?: number | null;
               /** Format: date-time */
               createdAt: string;
@@ -626,7 +625,7 @@ export interface operations {
               id: number;
               name: string;
               appId: number;
-              userId?: number | null;
+              userId: number;
               groupId?: number | null;
               /** Format: date-time */
               createdAt: string;
@@ -654,19 +653,16 @@ export interface operations {
         'application/json': {
           name: string;
           appId: number;
-          userId?: number;
           groupId?: number;
         };
         'multipart/form-data': {
           name: string;
           appId: number;
-          userId?: number;
           groupId?: number;
         };
         'text/plain': {
           name: string;
           appId: number;
-          userId?: number;
           groupId?: number;
         };
       };
@@ -681,7 +677,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -692,7 +688,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -703,7 +699,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -719,7 +715,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -734,7 +730,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -745,7 +741,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -756,7 +752,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -772,7 +768,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -810,19 +806,16 @@ export interface operations {
         'application/json': {
           name?: string;
           appId?: number;
-          userId?: number | null;
           groupId?: number | null;
         };
         'multipart/form-data': {
           name?: string;
           appId?: number;
-          userId?: number | null;
           groupId?: number | null;
         };
         'text/plain': {
           name?: string;
           appId?: number;
-          userId?: number | null;
           groupId?: number | null;
         };
       };
@@ -837,7 +830,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -848,7 +841,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -859,7 +852,7 @@ export interface operations {
             id: number;
             name: string;
             appId: number;
-            userId?: number | null;
+            userId: number;
             groupId?: number | null;
             /** Format: date-time */
             createdAt: string;
@@ -1265,13 +1258,13 @@ export interface operations {
   getGroups: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string[];
-        creatorId?: number[];
+        creatorId?: (number | string)[];
         search?: string;
-        memberIds?: number[];
-        pageNumber?: number;
-        pageSize?: number;
+        memberIds?: (number | string)[];
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -1397,7 +1390,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -1501,9 +1494,9 @@ export interface operations {
   'getGroup-members': {
     parameters: {
       query?: {
-        groupId?: string | string[];
-        userId?: string | string[];
-        role?: ('member' | 'owner') | ('member' | 'owner')[];
+        groupId?: string | (string | string[]);
+        userId?: string | (string | string[]);
+        role?: ('member' | 'owner') | (string | ('member' | 'owner')[]);
         pageNumber?: string;
         pageSize?: string;
         sortBy?: 'created_at' | 'updated_at';
@@ -2119,7 +2112,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };

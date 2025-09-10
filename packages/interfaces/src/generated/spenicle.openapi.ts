@@ -1485,7 +1485,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        accountGroupId: string | number;
+        accountGroupId: string | (number | string);
       };
       cookie?: never;
     };
@@ -2770,7 +2770,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        categoryGroupId: string | number;
+        categoryGroupId: string | (number | string);
       };
       cookie?: never;
     };
@@ -3098,7 +3098,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: string | (number | string);
       };
       cookie?: never;
     };
@@ -3225,7 +3225,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: string | (number | string);
       };
       cookie?: never;
     };
@@ -3383,7 +3383,7 @@ export interface operations {
       };
       header?: never;
       path: {
-        id: string | number;
+        id: string | (number | string);
       };
       cookie?: never;
     };
@@ -3521,7 +3521,7 @@ export interface operations {
         accountId?: number[];
         categoryId?: number[];
         isScheduledPayment?: boolean;
-        amount?: [number, number];
+        amount?: [number | string, number | string];
         type?: ('income' | 'expense' | 'transfer')[];
         dateFrom?: string;
         dateTo?: string;

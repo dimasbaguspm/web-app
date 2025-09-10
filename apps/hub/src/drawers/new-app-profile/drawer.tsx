@@ -1,5 +1,4 @@
 import { useApiHiCreateAppProfile } from '@dimasbaguspm/hooks/use-api';
-import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Drawer } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
@@ -17,13 +16,10 @@ export const NewAppProfileDrawer: FC<NewAppProfileDrawerProps> = ({ appId, paylo
   const [createAppProfile] = useApiHiCreateAppProfile();
   const { closeDrawer } = useDrawerRoute();
 
-  const { user } = useAuthProvider();
-
   const handleOnSubmit = async (data: NewAppProfileFormSchema) => {
     await createAppProfile({
       appId: +appId,
       name: data.name.trim(),
-      userId: data.type === 'personal' ? +user.id : undefined,
       groupId: data.type === 'group' ? +data.relatedId : undefined,
     });
 
