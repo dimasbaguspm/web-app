@@ -52,7 +52,6 @@ export const AddAccountGroupMemberDrawer: FC<AddAccountGroupMemberDrawerProps> =
     const idsToRemove = currentMemberIds.filter((id) => !data.accountIds.includes(id));
     const idsToAdd = data.accountIds.filter((id) => !currentMemberIds.includes(id));
 
-    console.log({ idsToAdd, idsToRemove });
     if (idsToAdd.length) {
       await addToGroupMembers({
         accountGroupId,

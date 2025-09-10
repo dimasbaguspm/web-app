@@ -8,5 +8,10 @@ export const DRAWER_ROUTES = {
   DETAIL_APP_PROFILE: 'detail-app-profile',
   EDIT_APP_PROFILE: 'edit-app-profile',
 
+  DETAIL_GROUP: 'detail-group',
+  NEW_GROUP: 'new-group',
+  EDIT_GROUP: 'edit-group',
+  MANAGE_GROUP_MEMBERS: 'manage-group-members',
+
   SELECT_GROUP: 'select-group',
 } as const;

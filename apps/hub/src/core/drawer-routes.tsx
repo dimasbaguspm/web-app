@@ -6,13 +6,18 @@ import { FC } from 'react';
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
 import { DetailAppDrawer } from '../drawers/detail-app-drawer/drawer';
 import { DetailAppProfileDrawer } from '../drawers/detail-app-profile-drawer/drawer';
+import { DetailGroupDrawer } from '../drawers/detail-group-drawer/drawer';
 import { EditAppProfileDrawer } from '../drawers/edit-app-profile/drawer';
+import { EditGroupDrawer } from '../drawers/edit-group-drawer/drawer';
+import { ManageGroupMemberDrawer } from '../drawers/manage-group-member-drawer/drawer';
 import { NewAppProfileDrawer } from '../drawers/new-app-profile/drawer';
+import { NewGroupDrawer } from '../drawers/new-group-drawer/drawer';
 import { SelectGroupDrawer } from '../drawers/select-group-drawer/drawer';
 
 interface DrawerParams {
   appId?: number;
   appProfileId?: number;
+  groupId?: number;
   payloadId?: string;
   tabId?: string;
 }
@@ -57,6 +62,14 @@ export const DrawerRoutes: FC = () => {
           returnToDrawer={state.returnToDrawer!}
           returnToDrawerPayload={state.returnToDrawerPayload!}
         />
+      )}
+      {is(DRAWER_ROUTES.NEW_GROUP) && <NewGroupDrawer />}
+      {is(DRAWER_ROUTES.DETAIL_GROUP) && hasParam('groupId') && (
+        <DetailGroupDrawer groupId={params.groupId!} tabId={params?.tabId} />
+      )}
+      {is(DRAWER_ROUTES.EDIT_GROUP) && hasParam('groupId') && <EditGroupDrawer groupId={params.groupId!} />}
+      {is(DRAWER_ROUTES.MANAGE_GROUP_MEMBERS) && hasParam('groupId') && (
+        <ManageGroupMemberDrawer groupId={params.groupId!} />
       )}
     </Drawer>
   );

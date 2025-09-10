@@ -3,14 +3,15 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
+import { useApiInfiniteQuery, UseApiInfiniteQueryOptions } from '../../use-api-infinite-query';
 import { useApiMutate } from '../../use-api-mutate';
 import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
 export const useApiHiUsersInfiniteQuery = (
   params: SearchUsersModel,
-  options?: Partial<UseApiQueryOptions<UserModel[], SearchUsersModel, unknown>>,
+  options?: Partial<UseApiInfiniteQueryOptions<UserModel, SearchUsersModel, unknown>>,
 ) => {
-  return useApiQuery<UserModel[], SearchUsersModel>({
+  return useApiInfiniteQuery({
     ...options,
     base: 'HI',
     queryKey: QUERY_KEYS.HI_USER_INFINITE(params),

@@ -1,7 +1,9 @@
 import { useApiHiGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+import { GroupModel } from '@dimasbaguspm/interfaces';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatHiGroup } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
@@ -21,7 +23,10 @@ import {
 import { PlusIcon } from 'lucide-react';
 import { FC } from 'react';
 
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+
 const GroupPage: FC = () => {
+  const { openDrawer } = useDrawerRoute();
   const { user } = useAuthProvider();
   const { isDesktop } = useWindowResize();
 
@@ -36,14 +41,22 @@ const GroupPage: FC = () => {
       pageSize: 15,
     });
 
+  const handleOnNewGroupClick = () => {
+    openDrawer(DRAWER_ROUTES.NEW_GROUP);
+  };
+
+  const handleOnCardClick = (group: GroupModel) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_GROUP, { groupId: group.id.toString() });
+  };
+
   return (
     <>
       <PageHeader
         title="My Groups"
-        subtitle="Manage your groups and discover apps together"
+        subtitle="Manage your groups and their members"
         actions={
           <ButtonGroup>
-            <Button>
+            <Button onClick={handleOnNewGroupClick}>
               <Icon as={PlusIcon} color="inherit" />
               New Group
             </Button>
@@ -51,7 +64,7 @@ const GroupPage: FC = () => {
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon as={PlusIcon} aria-label="New Group" />
+            <ButtonIcon as={PlusIcon} aria-label="New Group" onClick={handleOnNewGroupClick} />
           </ButtonGroup>
         }
       />
@@ -82,6 +95,7 @@ const GroupPage: FC = () => {
                     avatar={<Avatar size="lg">{initialName}</Avatar>}
                     title={name}
                     supplementaryInfo={createdDateTime}
+                    onClick={() => handleOnCardClick(group)}
                   />
                   {!isLastItem && <Hr />}
                 </li>
