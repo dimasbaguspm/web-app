@@ -36,8 +36,50 @@ export default defineConfig({
           {
             src: 'logo.svg',
             type: 'image/svg+xml',
-            sizes: '32x32',
-            purpose: 'any maskable',
+            sizes: '48x48',
+            purpose: 'any',
+          },
+          {
+            src: 'logo.svg',
+            type: 'image/svg+xml',
+            sizes: '72x72',
+            purpose: 'any',
+          },
+          {
+            src: 'logo.svg',
+            type: 'image/svg+xml',
+            sizes: '96x96',
+            purpose: 'any',
+          },
+          {
+            src: 'logo.svg',
+            type: 'image/svg+xml',
+            sizes: '144x144',
+            purpose: 'any',
+          },
+          {
+            src: 'logo.svg',
+            type: 'image/svg+xml',
+            sizes: '192x192',
+            purpose: 'any',
+          },
+          {
+            src: 'logo.svg',
+            type: 'image/svg+xml',
+            sizes: '512x512',
+            purpose: 'any',
+          },
+          {
+            src: 'logo.svg',
+            type: 'image/svg+xml',
+            sizes: '192x192',
+            purpose: 'maskable',
+          },
+          {
+            src: 'logo.svg',
+            type: 'image/svg+xml',
+            sizes: '512x512',
+            purpose: 'maskable',
           },
         ],
         protocol_handlers: [
