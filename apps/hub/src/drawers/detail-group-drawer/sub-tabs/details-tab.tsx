@@ -1,11 +1,12 @@
-import { useApiHiGroupMembersInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { useApiHiUsersInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { GroupModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Card, Heading, Hr, Icon, PageLoader } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Heading, Hr, Icon, PageLoader } from '@dimasbaguspm/versaur';
 import { Edit2Icon, Users2Icon } from 'lucide-react';
 import { FC } from 'react';
 
+import { UserCard } from '../../../components/user-card';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 
 interface DetailsTabProps {
@@ -15,23 +16,10 @@ interface DetailsTabProps {
 export const DetailsTab: FC<DetailsTabProps> = ({ group }) => {
   const { openDrawer } = useDrawerRoute();
 
-  const [
-    groupMembers,
-    ,
-    {
-      isInitialFetching: isInitialFetchingGroupMembers,
-      hasNextPage: hasNextPageGroupMembers,
-      isFetchingNextPage: isFetchingNextPageGroupMembers,
-    },
-    { fetchNextPage: fetchNextPageGroupMembers },
-  ] = useApiHiGroupMembersInfiniteQuery(
-    {
-      groupId: [group.id.toString()],
-    },
-    {
-      enabled: !!group.id,
-    },
-  );
+  const [users, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiHiUsersInfiniteQuery({
+      id: group.memberIds,
+    });
 
   const handleOnEditGroupClick = () => {
     openDrawer(DRAWER_ROUTES.EDIT_GROUP, { groupId: group.id.toString() });
@@ -43,7 +31,7 @@ export const DetailsTab: FC<DetailsTabProps> = ({ group }) => {
 
   return (
     <>
-      <ButtonGroup>
+      <ButtonGroup hasMargin>
         <Button variant="outline" onClick={handleOnEditGroupClick}>
           <Icon as={Edit2Icon} size="sm" color="inherit" />
           Edit
@@ -56,36 +44,25 @@ export const DetailsTab: FC<DetailsTabProps> = ({ group }) => {
 
       <Heading hasMargin>Members</Heading>
 
-      <If condition={isInitialFetchingGroupMembers}>
+      <If condition={isInitialFetching}>
         <PageLoader />
       </If>
 
-      <If condition={[!isInitialFetchingGroupMembers, groupMembers?.length]}>
+      <If condition={[!isInitialFetching, users?.length]}>
         <ul className="mb-4">
-          {groupMembers?.map((member, index) => {
-            const isLast = index === groupMembers.length - 1;
+          {users?.map((user, index) => {
+            const isLast = index === users.length - 1;
             return (
-              <li key={member.id}>
-                <Card
-                  title={member.userId}
-                  subtitle={
-                    <Card.List>
-                      <Card.ListItem>`Role: ${member.role}`</Card.ListItem>
-                    </Card.List>
-                  }
-                />
+              <li key={user.id}>
+                <UserCard user={user} onClick={() => {}} />
                 {!isLast && <Hr />}
               </li>
             );
           })}
         </ul>
-        <If condition={hasNextPageGroupMembers}>
+        <If condition={hasNextPage}>
           <ButtonGroup alignment="center">
-            <Button
-              onClick={() => fetchNextPageGroupMembers()}
-              variant="outline"
-              disabled={isFetchingNextPageGroupMembers}
-            >
+            <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
               Load More
             </Button>
           </ButtonGroup>

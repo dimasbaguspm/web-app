@@ -1,4 +1,8 @@
-import { useApiHiGroupQuery } from '@dimasbaguspm/hooks/use-api';
+import {
+  useApiHiAddBulkGroupMembers,
+  useApiHiGroupQuery,
+  useApiHiRemoveBulkGroupMembers,
+} from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatHiGroup } from '@dimasbaguspm/utils/data';
@@ -20,6 +24,9 @@ export const ManageGroupMemberDrawer: FC<ManageGroupMemberDrawerProps> = ({ grou
 
   const [group, , { isLoading }] = useApiHiGroupQuery(groupId);
 
+  const [addToGroupMembers, , { isPending: isPendingSubmit }] = useApiHiAddBulkGroupMembers();
+  const [removeFromGroupMembers, , { isPending: isPendingRemove }] = useApiHiRemoveBulkGroupMembers();
+
   const form = useForm<ManageGroupMemberFormSchema>({
     defaultValues: {
       userIds: [group?.creatorId],
@@ -28,8 +35,7 @@ export const ManageGroupMemberDrawer: FC<ManageGroupMemberDrawerProps> = ({ grou
 
   useEffect(() => {
     form.reset({
-      // TODO: support it form backend to get member Ids within the group model
-      userIds: [group?.creatorId],
+      userIds: group?.memberIds,
     });
   }, [group, form.reset]);
 
@@ -38,6 +44,29 @@ export const ManageGroupMemberDrawer: FC<ManageGroupMemberDrawerProps> = ({ grou
   const handleOnUserSelect = (ids: number[]) => {
     form.setValue('userIds', ids, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
+
+  const handleOnSubmit = async (data: ManageGroupMemberFormSchema) => {
+    const currentMemberIds = group?.memberIds || [];
+    const idsToRemove = currentMemberIds.filter((id) => !data.userIds.includes(id));
+    const idsToAdd = data.userIds.filter((id) => !currentMemberIds.includes(id));
+
+    if (idsToAdd.length) {
+      await addToGroupMembers({
+        id: groupId,
+        userIds: idsToAdd,
+      });
+    }
+    if (idsToRemove.length) {
+      await removeFromGroupMembers({
+        id: groupId,
+        userIds: idsToRemove,
+      });
+    }
+
+    closeDrawer();
+  };
+
+  const isPending = isPendingSubmit || isPendingRemove;
 
   return (
     <>
@@ -55,10 +84,12 @@ export const ManageGroupMemberDrawer: FC<ManageGroupMemberDrawerProps> = ({ grou
       </Drawer.Body>
       <Drawer.Footer>
         <ButtonGroup alignment="end" fluid={!isDesktop}>
-          <Button variant="ghost" onClick={closeDrawer}>
+          <Button variant="ghost" onClick={closeDrawer} disabled={isPending}>
             Cancel
           </Button>
-          <Button>Save</Button>
+          <Button onClick={form.handleSubmit(handleOnSubmit)} disabled={isPending}>
+            Save
+          </Button>
         </ButtonGroup>
       </Drawer.Footer>
     </>

@@ -1510,6 +1510,7 @@ __metadata:
     "@dimasbaguspm/typescript": "workspace:*"
     "@types/lodash": "npm:^4.17.20"
   peerDependencies:
+    "@dimasbaguspm/constants": "workspace:*"
     "@dimasbaguspm/interfaces": "workspace:*"
     dayjs: 1.11.13
     lodash: 4.17.21

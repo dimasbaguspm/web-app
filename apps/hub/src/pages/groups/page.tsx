@@ -4,14 +4,11 @@ import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { GroupModel } from '@dimasbaguspm/interfaces';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { formatHiGroup } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
-  Avatar,
   Button,
   ButtonGroup,
   ButtonIcon,
-  Card,
   FormLayout,
   Hr,
   Icon,
@@ -23,6 +20,7 @@ import {
 import { PlusIcon } from 'lucide-react';
 import { FC } from 'react';
 
+import { GroupCard } from '../../components/group-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 const GroupPage: FC = () => {
@@ -87,16 +85,10 @@ const GroupPage: FC = () => {
         <If condition={[groups?.length, !isInitialFetching]}>
           <ul className="mb-4">
             {groups?.map((group, index) => {
-              const { initialName, name, createdDateTime } = formatHiGroup(group);
               const isLastItem = index === groups.length - 1;
               return (
                 <li key={group.id}>
-                  <Card
-                    avatar={<Avatar size="lg">{initialName}</Avatar>}
-                    title={name}
-                    supplementaryInfo={createdDateTime}
-                    onClick={() => handleOnCardClick(group)}
-                  />
+                  <GroupCard group={group} onClick={handleOnCardClick} />
                   {!isLastItem && <Hr />}
                 </li>
               );

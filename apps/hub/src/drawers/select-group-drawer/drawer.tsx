@@ -2,14 +2,11 @@ import { useApiHiGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { formatHiGroup } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
-  Avatar,
   Button,
   ButtonGroup,
   ButtonIcon,
-  Card,
   Drawer,
   NoResults,
   PageLoader,
@@ -17,6 +14,8 @@ import {
 } from '@dimasbaguspm/versaur';
 import { SearchXIcon, XIcon } from 'lucide-react';
 import { FC, useState } from 'react';
+
+import { GroupCard } from '../../components/group-card';
 
 interface SelectGroupDrawerProps {
   returnToDrawer: string;
@@ -82,27 +81,16 @@ export const SelectGroupDrawer: FC<SelectGroupDrawerProps> = ({
 
         <If condition={[groups?.length, !isInitialFetching]}>
           <ul className="mb-4">
-            {groups?.map((group) => {
-              const { initialName, name, createdDateTime } = formatHiGroup(group);
-              return (
-                <li key={group.id}>
-                  <SelectableSingleInput
-                    label={
-                      <Card
-                        as="div"
-                        size="none"
-                        avatar={<Avatar size="lg">{initialName}</Avatar>}
-                        title={name}
-                        supplementaryInfo={createdDateTime}
-                      />
-                    }
-                    value={group.id.toString()}
-                    checked={group.id === selectedGroupId}
-                    onChange={() => setSelectedGroupId(group.id)}
-                  />
-                </li>
-              );
-            })}
+            {groups?.map((group) => (
+              <li key={group.id}>
+                <SelectableSingleInput
+                  label={<GroupCard group={group} size="none" as="div" />}
+                  value={group.id.toString()}
+                  checked={group.id === selectedGroupId}
+                  onChange={() => setSelectedGroupId(group.id)}
+                />
+              </li>
+            ))}
           </ul>
           <If condition={hasNextPage}>
             <ButtonGroup alignment="center">

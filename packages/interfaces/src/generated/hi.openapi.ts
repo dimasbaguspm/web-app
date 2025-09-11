@@ -244,6 +244,22 @@ export interface paths {
     patch: operations['patchGroupsById'];
     trace?: never;
   };
+  '/groups/{id}/bulk': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['postGroupsByIdBulk'];
+    delete: operations['deleteGroupsByIdBulk'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/group-members/': {
     parameters: {
       query?: never;
@@ -437,11 +453,11 @@ export interface operations {
   getApps: {
     parameters: {
       query?: {
-        id?: (number | string)[];
+        id?: number[];
         name?: string[];
         search?: string;
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -516,7 +532,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -567,11 +583,11 @@ export interface operations {
   'getApp-profiles': {
     parameters: {
       query?: {
-        id?: (number | string)[];
-        appId?: (number | string)[];
-        groupId?: (number | string)[];
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        id?: number[];
+        appId?: number[];
+        groupId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'app_id';
         sortOrder?: 'asc' | 'desc';
       };
@@ -715,7 +731,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -768,7 +784,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -1258,13 +1274,13 @@ export interface operations {
   getGroups: {
     parameters: {
       query?: {
-        id?: (number | string)[];
+        id?: number[];
         name?: string[];
-        creatorId?: (number | string)[];
+        creatorId?: number[];
         search?: string;
-        memberIds?: (number | string)[];
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        memberIds?: number[];
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -1284,10 +1300,23 @@ export interface operations {
               id: number;
               name: string;
               creatorId: number;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embedded: {
+                members: {
+                  id: number;
+                  groupId: number;
+                  userId: number;
+                  role: 'member' | 'owner';
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -1299,10 +1328,23 @@ export interface operations {
               id: number;
               name: string;
               creatorId: number;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embedded: {
+                members: {
+                  id: number;
+                  groupId: number;
+                  userId: number;
+                  role: 'member' | 'owner';
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -1314,10 +1356,23 @@ export interface operations {
               id: number;
               name: string;
               creatorId: number;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              embedded: {
+                members: {
+                  id: number;
+                  groupId: number;
+                  userId: number;
+                  role: 'member' | 'owner';
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+              } | null;
             }[];
             pageNumber: number;
             pageSize: number;
@@ -1358,28 +1413,67 @@ export interface operations {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
         };
       };
@@ -1390,7 +1484,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -1405,28 +1499,67 @@ export interface operations {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
         };
       };
@@ -1464,28 +1597,179 @@ export interface operations {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'multipart/form-data': {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
           };
           'text/plain': {
             id: number;
             name: string;
             creatorId: number;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            embedded: {
+              members: {
+                id: number;
+                groupId: number;
+                userId: number;
+                role: 'member' | 'owner';
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+            } | null;
+          };
+        };
+      };
+    };
+  };
+  postGroupsByIdBulk: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          userIds: number[];
+        };
+        'multipart/form-data': {
+          userIds: number[];
+        };
+        'text/plain': {
+          userIds: number[];
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            success: boolean;
+            message: string;
+            addedCount?: number;
+            removedCount?: number;
+            skippedUserIds?: number[];
+            errors?: string[];
+          };
+          'multipart/form-data': {
+            success: boolean;
+            message: string;
+            addedCount?: number;
+            removedCount?: number;
+            skippedUserIds?: number[];
+            errors?: string[];
+          };
+          'text/plain': {
+            success: boolean;
+            message: string;
+            addedCount?: number;
+            removedCount?: number;
+            skippedUserIds?: number[];
+            errors?: string[];
+          };
+        };
+      };
+    };
+  };
+  deleteGroupsByIdBulk: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          userIds: number[];
+        };
+        'multipart/form-data': {
+          userIds: number[];
+        };
+        'text/plain': {
+          userIds: number[];
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            success: boolean;
+            message: string;
+            addedCount?: number;
+            removedCount?: number;
+            skippedUserIds?: number[];
+            errors?: string[];
+          };
+          'multipart/form-data': {
+            success: boolean;
+            message: string;
+            addedCount?: number;
+            removedCount?: number;
+            skippedUserIds?: number[];
+            errors?: string[];
+          };
+          'text/plain': {
+            success: boolean;
+            message: string;
+            addedCount?: number;
+            removedCount?: number;
+            skippedUserIds?: number[];
+            errors?: string[];
           };
         };
       };
@@ -1494,9 +1778,9 @@ export interface operations {
   'getGroup-members': {
     parameters: {
       query?: {
-        groupId?: string | (string | string[]);
-        userId?: string | (string | string[]);
-        role?: ('member' | 'owner') | (string | ('member' | 'owner')[]);
+        groupId?: string | string[];
+        userId?: string | string[];
+        role?: ('member' | 'owner') | ('member' | 'owner')[];
         pageNumber?: string;
         pageSize?: string;
         sortBy?: 'created_at' | 'updated_at';
@@ -2112,7 +2396,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };

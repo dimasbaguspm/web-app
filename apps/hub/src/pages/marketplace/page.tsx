@@ -5,12 +5,10 @@ import { AppModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import {
-  Brand,
   Button,
   ButtonGroup,
   ButtonIcon,
   ButtonMenu,
-  Card,
   FormLayout,
   Icon,
   NoResults,
@@ -22,6 +20,7 @@ import {
 import { ChevronDown, HelpCircleIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
+import { AppCard } from '../../components/app-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 const MarketplacePage: FC = () => {
@@ -98,12 +97,7 @@ const MarketplacePage: FC = () => {
           <ul className="mb-4">
             {apps.map((app) => (
               <li key={app.id}>
-                <Card
-                  title={app.name}
-                  subtitle={app.description}
-                  avatar={<Brand name="spenicle" shape="rounded" size="lg" />}
-                  onClick={() => handleOnCardClick(app)}
-                />
+                <AppCard app={app} onClick={handleOnCardClick} />
               </li>
             ))}
           </ul>

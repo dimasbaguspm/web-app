@@ -25,6 +25,11 @@ export type DeleteAppProfileModel = operations['deleteApp-profilesById']['parame
 export type SearchGroupsModel = NonNullable<operations['getGroups']['parameters']['query']>;
 export type GroupPageModel = operations['getGroups']['responses']['200']['content']['application/json'];
 export type GroupModel = operations['getGroupsById']['responses']['200']['content']['application/json'];
+export type AddBulkGroupMemberModel = operations['postGroupsByIdBulk']['requestBody']['content']['application/json'] &
+  operations['postGroupsByIdBulk']['parameters']['path'];
+export type RemoveBulkGroupMemberModel =
+  operations['deleteGroupsByIdBulk']['requestBody']['content']['application/json'] &
+    operations['deleteGroupsByIdBulk']['parameters']['path'];
 export type CreateGroupModel = operations['postGroups']['requestBody']['content']['application/json'];
 export type UpdateGroupModel = operations['patchGroupsById']['requestBody']['content']['application/json'] &
   operations['patchGroupsById']['parameters']['path'];

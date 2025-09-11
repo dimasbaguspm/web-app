@@ -4,6 +4,8 @@ import {
   GroupModel,
   CreateGroupModel,
   UpdateGroupModel,
+  AddBulkGroupMemberModel,
+  RemoveBulkGroupMemberModel,
 } from '@dimasbaguspm/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -45,6 +47,44 @@ export const useApiHiGroupQuery = (id: number, options?: Partial<UseApiQueryOpti
     base: 'HI',
     queryKey: QUERY_KEYS.HI_GROUPS_BY_ID(id),
     path: HI_URL.GROUPS.BY_ID(id),
+  });
+};
+
+export const useApiHiAddBulkGroupMembers = () => {
+  const queryClient = useQueryClient();
+  return useApiMutate<void, AddBulkGroupMemberModel>({
+    path: '/groups/:id/bulk',
+    method: 'POST',
+    base: 'HI',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUPS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+    },
+  });
+};
+
+export const useApiHiRemoveBulkGroupMembers = () => {
+  const queryClient = useQueryClient();
+  return useApiMutate<void, RemoveBulkGroupMemberModel>({
+    path: '/groups/:id/bulk',
+    method: 'DELETE',
+    base: 'HI',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUPS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_GROUPS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+    },
   });
 };
 

@@ -2,23 +2,12 @@ import { useApiHiAppProfilesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { AppModel, AppProfileModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { formatHiAppProfile } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Avatar,
-  Badge,
-  BadgeGroup,
-  Button,
-  ButtonGroup,
-  Card,
-  Drawer,
-  Hr,
-  NoResults,
-  PageLoader,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, Hr, NoResults, PageLoader } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
+import { AppProfileCard } from '../../../components/app-profile-card';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 
 interface ProfilesTabProps {
@@ -52,28 +41,11 @@ export const ProfilesTab: FC<ProfilesTabProps> = ({ app }) => {
         <If condition={[!isInitialFetching, profiles?.length]}>
           <ul className="mb-4">
             {profiles?.map((profile, index) => {
-              const { initial, name, groupRelatedVariant, createdDateTime, isGroupRelated } =
-                formatHiAppProfile(profile);
-
               const isLastItem = index === profiles.length - 1;
 
               return (
                 <li key={profile.id}>
-                  <Card
-                    onClick={() => handleOnCardClick(profile)}
-                    avatar={
-                      <Avatar size="lg" shape="rounded">
-                        {initial}
-                      </Avatar>
-                    }
-                    badge={
-                      <BadgeGroup>
-                        <Badge color={groupRelatedVariant}>{isGroupRelated ? 'Group' : 'Personal'}</Badge>
-                      </BadgeGroup>
-                    }
-                    title={name}
-                    supplementaryInfo={`Created on ${createdDateTime}`}
-                  />
+                  <AppProfileCard app={app} appProfile={profile} onClick={handleOnCardClick} />
                   {!isLastItem && <Hr />}
                 </li>
               );
