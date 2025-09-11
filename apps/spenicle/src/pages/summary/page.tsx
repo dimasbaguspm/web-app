@@ -22,7 +22,6 @@ const SummaryLayout = () => {
       await result.download({
         fast: false,
         format: 'png',
-        compress: false,
         filename: 'spenicle-exported-summary-' + new Date().toISOString(),
         backgroundColor: '#ffffff',
       });

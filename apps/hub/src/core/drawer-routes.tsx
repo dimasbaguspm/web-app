@@ -10,6 +10,8 @@ import { DetailGroupDrawer } from '../drawers/detail-group-drawer/drawer';
 import { EditAppProfileDrawer } from '../drawers/edit-app-profile/drawer';
 import { EditGroupDrawer } from '../drawers/edit-group-drawer/drawer';
 import { ManageGroupMemberDrawer } from '../drawers/manage-group-member-drawer/drawer';
+import { ManageSettingPasswordDrawer } from '../drawers/manage-setting-password/drawer';
+import { ManageSettingProfileDrawer } from '../drawers/manage-setting-profile/drawer';
 import { NewAppProfileDrawer } from '../drawers/new-app-profile/drawer';
 import { NewGroupDrawer } from '../drawers/new-group-drawer/drawer';
 import { SelectGroupDrawer } from '../drawers/select-group-drawer/drawer';
@@ -71,6 +73,9 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.MANAGE_GROUP_MEMBERS) && hasParam('groupId') && (
         <ManageGroupMemberDrawer groupId={params.groupId!} />
       )}
+
+      {is(DRAWER_ROUTES.MANAGE_SETTING_PROFILE) && <ManageSettingProfileDrawer />}
+      {is(DRAWER_ROUTES.MANAGE_SETTING_PASSWORD) && <ManageSettingPasswordDrawer />}
     </Drawer>
   );
 };

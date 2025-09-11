@@ -11,6 +11,8 @@ export const formatHiAppData = (data?: AppModel | null) => {
     switch (data?.id) {
       case AppId.Spenicle:
         return 'spenicle';
+      case AppId.Notunic:
+        return 'notunic';
       default:
         return 'spenicle';
     }

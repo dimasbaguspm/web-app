@@ -1,6 +1,6 @@
 export const DRAWER_ROUTES = {
-  /** @deprecated */
-  APP_PROFILE_CREATION: 'app-profile-creation',
+  MANAGE_SETTING_PASSWORD: 'manage-setting-password',
+  MANAGE_SETTING_PROFILE: 'manage-setting-profile',
 
   DETAIL_APP: 'detail-app',
 
