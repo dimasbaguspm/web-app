@@ -102,7 +102,7 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
               return (
                 <li key={account.id}>
                   <SelectableSingleInput
-                    label={<AccountCard as="div" account={account} size="none" />}
+                    label={<AccountCard as="div" account={account} size="none" supplementaryInfo="" />}
                     value={account.id.toString()}
                     checked={account.id === selectedAccountId}
                     onChange={() => setSelectedAccountId(account.id)}

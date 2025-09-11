@@ -110,10 +110,7 @@ const getDateRangeFromPreset = (
         dateTo: now.endOf('day').toISOString(),
       };
     default:
-      return {
-        dateFrom: now.startOf('month').toISOString(),
-        dateTo: now.endOf('month').toISOString(),
-      };
+      return getDateRangeFromPreset(FilterDateRangePresets.Last7Days, firstDate);
   }
 };
 
@@ -141,8 +138,8 @@ export const useSummaryFilter = (opts?: UseFiltersOptions) => {
 
   const firstDate = dayjs(firstTransaction?.[0]?.date ?? dayjs().toISOString());
 
-  // Default date range (this month)
-  const defaultDateRange = getDateRangeFromPreset(FilterDateRangePresets.ThisMonth, firstDate);
+  // Default date range (last 7 days)
+  const defaultDateRange = getDateRangeFromPreset(FilterDateRangePresets.Last7Days, firstDate);
 
   // parse applied filters with proper typing, ensuring all 4 keys are always present
   const appliedFilters: Required<SummaryFilterModel> = {

@@ -121,7 +121,7 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
               return (
                 <li key={account.id}>
                   <SelectableMultipleInput
-                    label={<AccountCard as="div" size="none" account={account} />}
+                    label={<AccountCard as="div" size="none" account={account} supplementaryInfo="" />}
                     checked={selectedAccountIds.includes(account.id)}
                     value={account.id.toString()}
                     onChange={(e) => {
