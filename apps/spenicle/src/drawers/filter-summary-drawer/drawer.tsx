@@ -37,8 +37,8 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
 
   const { control, handleSubmit, watch, getValues } = useForm<FilterSummaryFormSchema>({
     defaultValues: {
-      startDate: formatDate((payload?.dateFrom as string) ?? appliedFilters.dateFrom, DateFormat.ISO_DATE),
-      endDate: formatDate((payload?.dateTo as string) ?? appliedFilters.dateTo, DateFormat.ISO_DATE),
+      startDate: formatDate((payload?.startDate as string) ?? appliedFilters.dateFrom, DateFormat.ISO_DATE),
+      endDate: formatDate((payload?.endDate as string) ?? appliedFilters.dateTo, DateFormat.ISO_DATE),
       frequency: (payload?.frequency as string) || appliedFilters.frequency || FilterFrequency.Monthly,
       categoryIds: (payload?.categoryIds as number[]) || appliedFilters.categoryId || [],
       accountIds: (payload?.accountIds as number[]) || appliedFilters.accountId || [],
