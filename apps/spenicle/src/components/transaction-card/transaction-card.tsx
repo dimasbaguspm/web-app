@@ -13,6 +13,9 @@ interface TransactionCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' |
   destinationAccount?: AccountModel | undefined;
   onClick: (transaction: TransactionModel) => void;
   useDateTime?: boolean;
+  hideAccountSubtitle?: boolean;
+  hideCategorySubtitle?: boolean;
+  hideNotesSubtitle?: boolean;
 }
 
 export const TransactionCard: FC<TransactionCardProps> = ({
@@ -22,6 +25,9 @@ export const TransactionCard: FC<TransactionCardProps> = ({
   destinationAccount,
   onClick,
   useDateTime,
+  hideAccountSubtitle,
+  hideCategorySubtitle,
+  hideNotesSubtitle,
   ...props
 }) => {
   const { variant, capitalizedType, dateTime, time, trimmedNotes, isScheduled, isTransfer } =
@@ -50,16 +56,18 @@ export const TransactionCard: FC<TransactionCardProps> = ({
       avatar={<Avatar shape="rounded">{accountInitialName}</Avatar>}
       subtitle={
         <Card.List>
-          <If condition={isTransfer}>
+          <If condition={[isTransfer, !hideAccountSubtitle]}>
             <Card.ListItem>
               {accountName} to {destinationAccountName}
             </Card.ListItem>
           </If>
-          <If condition={!isTransfer}>
+          <If condition={[!isTransfer, !hideAccountSubtitle]}>
             <Card.ListItem>{accountName}</Card.ListItem>
           </If>
-          <Card.ListItem>{categoryName}</Card.ListItem>
-          <If condition={!!trimmedNotes.length}>
+          <If condition={[!hideCategorySubtitle]}>
+            <Card.ListItem>{categoryName}</Card.ListItem>
+          </If>
+          <If condition={[!!trimmedNotes.length, !hideNotesSubtitle]}>
             <Card.ListItem>{trimmedNotes}</Card.ListItem>
           </If>
         </Card.List>

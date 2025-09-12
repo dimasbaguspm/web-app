@@ -149,7 +149,7 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.FILTER_ACCOUNT) && <FilterAccountDrawer />}
       {is(DRAWER_ROUTES.NEW_ACCOUNT_GROUP) && <NewAccountGroupDrawer />}
       {is(DRAWER_ROUTES.DETAIL_ACCOUNT_GROUP) && hasParam('accountGroupId') && (
-        <DetailAccountGroupDrawer accountGroupId={params.accountGroupId!} />
+        <DetailAccountGroupDrawer accountGroupId={params.accountGroupId!} tabId={params?.tabId} />
       )}
       {is(DRAWER_ROUTES.EDIT_ACCOUNT_GROUP) && hasParam('accountGroupId') && (
         <EditAccountGroupDrawer accountGroupId={params.accountGroupId!} />
@@ -160,7 +160,7 @@ export const DrawerRoutes: FC = () => {
 
       {is(DRAWER_ROUTES.NEW_CATEGORY_GROUP) && <NewCategoryGroupDrawer />}
       {is(DRAWER_ROUTES.DETAIL_CATEGORY_GROUP) && hasParam('categoryGroupId') && (
-        <DetailCategoryGroupDrawer categoryGroupId={params.categoryGroupId!} />
+        <DetailCategoryGroupDrawer categoryGroupId={params.categoryGroupId!} tabId={params?.tabId} />
       )}
       {is(DRAWER_ROUTES.EDIT_CATEGORY_GROUP) && hasParam('categoryGroupId') && (
         <EditCategoryGroupDrawer categoryGroupId={params.categoryGroupId!} />

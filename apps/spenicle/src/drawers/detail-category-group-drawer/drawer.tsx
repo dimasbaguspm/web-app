@@ -12,6 +12,7 @@ import { MODAL_ROUTES } from '../../constants/modal-routes';
 
 interface DetailCategoryGroupDrawerProps {
   categoryGroupId: number;
+  tabId?: string;
 }
 
 export const DetailCategoryGroupDrawer: FC<DetailCategoryGroupDrawerProps> = ({ categoryGroupId }) => {

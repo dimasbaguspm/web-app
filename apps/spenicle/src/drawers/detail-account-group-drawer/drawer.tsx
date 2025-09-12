@@ -1,112 +1,57 @@
-import { useApiSpenicleAccountGroupQuery, useApiSpenicleAccountsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleAccountGroupQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, ButtonIcon, Drawer, Heading, Icon, NoResults, PageLoader } from '@dimasbaguspm/versaur';
-import { Edit3Icon, TrashIcon, UsersRoundIcon, UserX2Icon } from 'lucide-react';
+import { Drawer, PageLoader, Tabs } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-import { AccountCard } from '../../components/account-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-import { MODAL_ROUTES } from '../../constants/modal-routes';
+
+import { HistoryTab } from './sub-tabs/history-tab';
+import { OverviewTab } from './sub-tabs/overview-tab';
+import { TrendsTab } from './sub-tabs/trends-tab';
+import { AccountGroupDetailTab } from './types';
 
 interface DetailAccountGroupDrawerProps {
   accountGroupId: number;
+  tabId?: string;
 }
 
-export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ accountGroupId }) => {
+export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ accountGroupId, tabId }) => {
   const { openDrawer } = useDrawerRoute();
-  const { openModal } = useModalRoute();
 
-  const [accountGroup] = useApiSpenicleAccountGroupQuery(accountGroupId, {
+  const [accountGroup, , { isLoading }] = useApiSpenicleAccountGroupQuery(accountGroupId, {
     enabled: Boolean(accountGroupId),
   });
 
-  const [accounts, , { isLoading: isFetchingAccounts }] = useApiSpenicleAccountsInfiniteQuery(
-    {
-      id: accountGroup?.memberIds || [],
-    },
-    {
-      enabled: Boolean(accountGroup?.memberIds.length),
-    },
-  );
+  const activeTabId = tabId || 'overview';
 
-  const handleAddMembersClick = () => {
-    openDrawer(DRAWER_ROUTES.ADD_ACCOUNT_GROUP_MEMBERS, { accountGroupId });
-  };
-
-  const handleEditClick = () => {
-    openDrawer(DRAWER_ROUTES.EDIT_ACCOUNT_GROUP, { accountGroupId });
-  };
-
-  const handleDeleteClick = () => {
-    openModal(MODAL_ROUTES.DELETE_ACCOUNT_GROUP, { accountGroupId });
-  };
-
-  const handleAccountClick = (accountId: number) => {
-    openDrawer(DRAWER_ROUTES.ACCOUNT_DETAIL, { accountId });
+  const handleTabChange = (tabId: string) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_ACCOUNT_GROUP, { accountGroupId, tabId });
   };
 
   return (
     <>
-      <Drawer.Header>
+      <Drawer.Header hasTab>
         <Drawer.Title>{accountGroup?.name ?? 'Account Group Details'}</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
-      <Drawer.Body>
-        <ButtonGroup alignment="between" hasMargin>
-          <ButtonGroup>
-            <Button variant="outline" onClick={handleEditClick}>
-              <Icon as={Edit3Icon} color="inherit" size="sm" />
-              Edit
-            </Button>
-            <Button variant="outline" aria-label="Manage Members" onClick={handleAddMembersClick}>
-              <Icon as={UsersRoundIcon} color="inherit" size="sm" />
-              Manage
-            </Button>
-          </ButtonGroup>
-          <ButtonIcon
-            as={TrashIcon}
-            variant="danger-outline"
-            aria-label="Delete Account Group"
-            onClick={handleDeleteClick}
-          />
-        </ButtonGroup>
-
-        <div>
-          <Heading level={3} hasMargin>
-            Members
-          </Heading>
-          <If condition={isFetchingAccounts}>
-            <PageLoader />
-          </If>
-          <If condition={[!isFetchingAccounts, !accounts.length]}>
-            <NoResults
-              icon={UserX2Icon}
-              title="No members found"
-              subtitle="This group doesn't have any members yet. Start adding to manage accounts."
-              action={
-                <ButtonGroup>
-                  <Button variant="outline" onClick={handleAddMembersClick}>
-                    Add Members
-                  </Button>
-                </ButtonGroup>
-              }
-            />
-          </If>
-          <If condition={[!isFetchingAccounts, accounts.length]}>
-            <ul>
-              {accounts?.map((account) => {
-                return (
-                  <li key={account.id}>
-                    <AccountCard account={account} onClick={() => handleAccountClick(account.id)} />
-                  </li>
-                );
-              })}
-            </ul>
-          </If>
-        </div>
-      </Drawer.Body>
+      <Drawer.Tab>
+        <Tabs value={activeTabId} onValueChange={handleTabChange}>
+          <Tabs.Trigger value={AccountGroupDetailTab.Overview}>Overview</Tabs.Trigger>
+          <Tabs.Trigger value={AccountGroupDetailTab.Trends}>Trends</Tabs.Trigger>
+          <Tabs.Trigger value={AccountGroupDetailTab.History}>History</Tabs.Trigger>
+        </Tabs>
+      </Drawer.Tab>
+      <If condition={isLoading}>
+        <PageLoader />
+      </If>
+      <If condition={!isLoading && accountGroup}>
+        <Drawer.Body>
+          {activeTabId === AccountGroupDetailTab.Overview && <OverviewTab accountGroup={accountGroup!} />}
+          {activeTabId === AccountGroupDetailTab.Trends && <TrendsTab accountGroup={accountGroup!} />}
+          {activeTabId === AccountGroupDetailTab.History && <HistoryTab accountGroup={accountGroup!} />}
+        </Drawer.Body>
+      </If>
     </>
   );
 };
