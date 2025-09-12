@@ -1,9 +1,12 @@
-import { useApiSpenicleCreateBackupRequest } from '@dimasbaguspm/hooks/use-api';
+import {
+  useApiSpenicleCreateBackupRequest,
+  useApiSpenicleTransactionsInfiniteQuery,
+} from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Button, ButtonGroup, DateSinglePickerInput, Drawer, FormLayout, useSnackbars } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { NewBackupRequestFormSchema } from './types';
@@ -13,13 +16,24 @@ export const NewBackupRequestDrawer: FC = () => {
   const { showSnack } = useSnackbars();
   const { isDesktop } = useWindowResize();
 
+  const [firstTransaction] = useApiSpenicleTransactionsInfiniteQuery({ pageSize: 1, sortBy: 'date', sortOrder: 'asc' });
+
   const [createBackupRequest, , { isPending }] = useApiSpenicleCreateBackupRequest();
-  const { handleSubmit, control, formState } = useForm<NewBackupRequestFormSchema>({
+  const { handleSubmit, reset, control, formState } = useForm<NewBackupRequestFormSchema>({
     defaultValues: {
-      dateFrom: dayjs().startOf('month').format('YYYY-MM-DD'),
-      dateTo: dayjs().endOf('month').format('YYYY-MM-DD'),
+      dateFrom: dayjs(firstTransaction?.[0]?.date).format('YYYY-MM-DD'),
+      dateTo: dayjs().endOf('day').format('YYYY-MM-DD'),
     },
   });
+
+  useEffect(() => {
+    if (firstTransaction?.[0]) {
+      reset({
+        dateFrom: dayjs(firstTransaction[0].date).format('YYYY-MM-DD'),
+        dateTo: dayjs().endOf('day').format('YYYY-MM-DD'),
+      });
+    }
+  }, [firstTransaction]);
 
   const handleOnValidSubmit: SubmitHandler<FieldValues> = async (data) => {
     await createBackupRequest({
@@ -78,7 +92,12 @@ export const NewBackupRequestDrawer: FC = () => {
                   },
                 }}
                 render={({ field, fieldState }) => (
-                  <DateSinglePickerInput {...field} label="End Date" error={fieldState.error?.message} />
+                  <DateSinglePickerInput
+                    {...field}
+                    label="End Date"
+                    error={fieldState.error?.message}
+                    max={dayjs().endOf('day').format('YYYY-MM-DD')}
+                  />
                 )}
               />
             </FormLayout.Column>
