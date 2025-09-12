@@ -59,10 +59,12 @@ export const useSummaryTimelineData = () => {
 
   const data = (transactions || []).map((transaction) => {
     const account = cachedAccounts.find((a) => a.id === transaction.accountId)!;
+    const destinationAccount = cachedAccounts.find((a) => a.id === transaction.destinationAccountId);
     const category = cachedCategories.find((c) => c.id === transaction.categoryId)!;
     return {
       transaction,
       account,
+      destinationAccount,
       category,
     };
   });

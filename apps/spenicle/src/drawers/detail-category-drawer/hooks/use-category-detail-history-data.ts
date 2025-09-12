@@ -47,9 +47,11 @@ export const useCategoryDetailHistoryData = (category: CategoryModel, searchPara
 
   const data = (transactions || []).map((transaction) => {
     const account = cachedAccounts.find((a) => a.id === transaction.accountId)!;
+    const destinationAccount = cachedAccounts.find((a) => a.id === transaction.destinationAccountId);
     const category = cachedCategories.find((c) => c.id === transaction.categoryId)!;
     return {
       transaction,
+      destinationAccount,
       account,
       category,
     };

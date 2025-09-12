@@ -63,11 +63,12 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
         </If>
         <If condition={[transactions.length]}>
           <ul>
-            {transactions.map(({ transaction, account, category }) => (
+            {transactions.map(({ transaction, account, destinationAccount, category }) => (
               <li key={transaction.id} className="border-b border-border">
                 <TransactionCard
                   transaction={transaction}
                   account={account}
+                  destinationAccount={destinationAccount}
                   category={category}
                   onClick={handleOnTransactionClick}
                   useDateTime

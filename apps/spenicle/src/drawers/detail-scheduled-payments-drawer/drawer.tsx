@@ -108,13 +108,14 @@ export const DetailScheduledPaymentsDrawer: FC<DetailScheduledPaymentsDrawerProp
         </If>
         <If condition={[!isFirstLoading, data.length]}>
           <ul className="mb-4">
-            {data.map(({ account, category, transaction }, index) => {
+            {data.map(({ account, destinationAccount, category, transaction }, index) => {
               const isLastItem = index === data.length - 1;
               return (
                 <li key={transaction.id}>
                   <TransactionCard
                     transaction={transaction}
                     account={account}
+                    destinationAccount={destinationAccount}
                     category={category}
                     onClick={handleOnTransactionClick}
                     useDateTime

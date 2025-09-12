@@ -121,6 +121,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
           <ul className="flex flex-col mb-4">
             {transactions.map((transaction) => {
               const account = accounts?.items.find((acc) => acc.id === transaction.accountId);
+              const destinationAccount = accounts?.items.find((acc) => acc.id === transaction.destinationAccountId);
               const category = categories?.items.find((cat) => cat.id === transaction.categoryId);
 
               return (
@@ -128,6 +129,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
                   <TransactionCard
                     transaction={transaction}
                     account={account}
+                    destinationAccount={destinationAccount}
                     category={category}
                     onClick={handleOnTransactionClick}
                   />

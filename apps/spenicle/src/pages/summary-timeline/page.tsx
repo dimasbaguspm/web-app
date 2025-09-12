@@ -27,13 +27,14 @@ const SummaryTimeline = () => {
 
       <If condition={[!isInitialLoading, data.length]}>
         <ul className="mb-4">
-          {data.map(({ transaction, account, category }) => {
+          {data.map(({ transaction, account, destinationAccount, category }) => {
             return (
               <li key={transaction.id} className="border-b border-border">
                 <TransactionCard
                   transaction={transaction}
                   category={category}
                   account={account}
+                  destinationAccount={destinationAccount}
                   onClick={handleOnTransactionClick}
                   useDateTime
                 />

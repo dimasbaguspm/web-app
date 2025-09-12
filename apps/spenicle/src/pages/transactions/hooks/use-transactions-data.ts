@@ -28,7 +28,12 @@ export const useTransactionData = (props: UseTransactionDataProps) => {
       sortBy: 'date',
     });
 
-  const accountIds = [...new Set(transactions.map((item) => item.accountId))];
+  const accountIds = [
+    ...new Set([
+      ...transactions.map((item) => item.accountId),
+      ...transactions.filter(Boolean).map((item) => item.destinationAccountId!),
+    ]),
+  ];
   const categoryIds = [...new Set(transactions.map((item) => item.categoryId))];
 
   const [accounts] = useApiSpenicleAccountsPaginatedQuery(

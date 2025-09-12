@@ -10,6 +10,7 @@ interface TransactionCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' |
   transaction: TransactionModel;
   category: CategoryModel | undefined;
   account: AccountModel | undefined;
+  destinationAccount?: AccountModel | undefined;
   onClick: (transaction: TransactionModel) => void;
   useDateTime?: boolean;
 }
@@ -18,11 +19,12 @@ export const TransactionCard: FC<TransactionCardProps> = ({
   transaction,
   category,
   account,
+  destinationAccount,
   onClick,
   useDateTime,
   ...props
 }) => {
-  const { variant, capitalizedType, dateTime, time, trimmedNotes, isScheduled } =
+  const { variant, capitalizedType, dateTime, time, trimmedNotes, isScheduled, isTransfer } =
     formatSpenicleTransaction(transaction);
   const { name: categoryName, groups: categoryGroups, hasGroup: hasCategoryGroup } = formatSpenicleCategory(category);
   const {
@@ -31,6 +33,7 @@ export const TransactionCard: FC<TransactionCardProps> = ({
     hasGroup: hasAccountGroup,
     initialName: accountInitialName,
   } = formatSpenicleAccount(account);
+  const { name: destinationAccountName } = formatSpenicleAccount(destinationAccount);
 
   return (
     <Card
@@ -47,7 +50,14 @@ export const TransactionCard: FC<TransactionCardProps> = ({
       avatar={<Avatar shape="rounded">{accountInitialName}</Avatar>}
       subtitle={
         <Card.List>
-          <Card.ListItem>{accountName}</Card.ListItem>
+          <If condition={isTransfer}>
+            <Card.ListItem>
+              {accountName} to {destinationAccountName}
+            </Card.ListItem>
+          </If>
+          <If condition={!isTransfer}>
+            <Card.ListItem>{accountName}</Card.ListItem>
+          </If>
           <Card.ListItem>{categoryName}</Card.ListItem>
           <If condition={!!trimmedNotes.length}>
             <Card.ListItem>{trimmedNotes}</Card.ListItem>
