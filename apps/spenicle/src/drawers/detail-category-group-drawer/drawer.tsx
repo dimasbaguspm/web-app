@@ -1,113 +1,57 @@
-import { useApiSpenicleCategoriesInfiniteQuery, useApiSpenicleCategoryGroupQuery } from '@dimasbaguspm/hooks/use-api';
+import { useApiSpenicleCategoryGroupQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, ButtonIcon, Drawer, Heading, Icon, NoResults, PageLoader } from '@dimasbaguspm/versaur';
-import { Edit3Icon, TrashIcon, UsersRoundIcon, UserX2Icon } from 'lucide-react';
+import { Drawer, PageLoader, Tabs } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-import { CategoryCard } from '../../components/category-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-import { MODAL_ROUTES } from '../../constants/modal-routes';
+
+import { HistoryTab } from './sub-tabs/history-tab';
+import { OverviewTab } from './sub-tabs/overview-tab';
+import { TrendsTab } from './sub-tabs/trends-tab';
+import { CategoryGroupDetailTab } from './types';
 
 interface DetailCategoryGroupDrawerProps {
   categoryGroupId: number;
   tabId?: string;
 }
 
-export const DetailCategoryGroupDrawer: FC<DetailCategoryGroupDrawerProps> = ({ categoryGroupId }) => {
+export const DetailCategoryGroupDrawer: FC<DetailCategoryGroupDrawerProps> = ({ categoryGroupId, tabId }) => {
   const { openDrawer } = useDrawerRoute();
-  const { openModal } = useModalRoute();
 
-  const [categoryGroup] = useApiSpenicleCategoryGroupQuery(categoryGroupId, {
+  const [categoryGroup, , { isLoading }] = useApiSpenicleCategoryGroupQuery(categoryGroupId, {
     enabled: Boolean(categoryGroupId),
   });
 
-  const [categories, , { isLoading: isFetchingCategories }] = useApiSpenicleCategoriesInfiniteQuery(
-    {
-      id: categoryGroup?.memberIds || [],
-    },
-    {
-      enabled: Boolean(categoryGroup?.memberIds.length),
-    },
-  );
+  const activeTabId = tabId || 'overview';
 
-  const handleAddMembersClick = () => {
-    openDrawer(DRAWER_ROUTES.ADD_CATEGORY_GROUP_MEMBERS, { categoryGroupId });
-  };
-
-  const handleEditClick = () => {
-    openDrawer(DRAWER_ROUTES.EDIT_CATEGORY_GROUP, { categoryGroupId });
-  };
-
-  const handleDeleteClick = () => {
-    openModal(MODAL_ROUTES.DELETE_CATEGORY_GROUP, { categoryGroupId });
-  };
-
-  const handleCategoryClick = (categoryId: number) => {
-    openDrawer(DRAWER_ROUTES.DETAIL_CATEGORY, { categoryId });
+  const handleTabChange = (tabId: string) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_ACCOUNT_GROUP, { categoryGroupId, tabId });
   };
 
   return (
     <>
-      <Drawer.Header>
+      <Drawer.Header hasTab>
         <Drawer.Title>{categoryGroup?.name ?? 'Category Group Details'}</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
-      <Drawer.Body>
-        <ButtonGroup alignment="between" hasMargin>
-          <ButtonGroup>
-            <Button variant="outline" onClick={handleEditClick}>
-              <Icon as={Edit3Icon} color="inherit" size="sm" />
-              Edit
-            </Button>
-            <Button variant="outline" aria-label="Manage Members" onClick={handleAddMembersClick}>
-              <Icon as={UsersRoundIcon} color="inherit" size="sm" />
-              Manage
-            </Button>
-          </ButtonGroup>
-          <ButtonIcon
-            as={TrashIcon}
-            variant="danger-outline"
-            aria-label="Delete Category Group"
-            onClick={handleDeleteClick}
-          />
-        </ButtonGroup>
-
-        <div>
-          <Heading level={3} hasMargin>
-            Members
-          </Heading>
-          <If condition={isFetchingCategories}>
-            <PageLoader />
-          </If>
-          <If condition={[!isFetchingCategories, !categories.length]}>
-            <NoResults
-              icon={UserX2Icon}
-              title="No members found"
-              subtitle="This group doesn't have any members yet. Start adding to manage categories"
-              action={
-                <ButtonGroup>
-                  <Button variant="outline" onClick={handleAddMembersClick}>
-                    Add Members
-                  </Button>
-                </ButtonGroup>
-              }
-            />
-          </If>
-          <If condition={[!isFetchingCategories, categories.length]}>
-            <ul>
-              {categories?.map((category) => {
-                return (
-                  <li key={category.id}>
-                    <CategoryCard category={category} onClick={() => handleCategoryClick(category.id)} />
-                  </li>
-                );
-              })}
-            </ul>
-          </If>
-        </div>
-      </Drawer.Body>
+      <Drawer.Tab>
+        <Tabs value={activeTabId} onValueChange={handleTabChange}>
+          <Tabs.Trigger value={CategoryGroupDetailTab.Overview}>Overview</Tabs.Trigger>
+          <Tabs.Trigger value={CategoryGroupDetailTab.Trends}>Trends</Tabs.Trigger>
+          <Tabs.Trigger value={CategoryGroupDetailTab.History}>History</Tabs.Trigger>
+        </Tabs>
+      </Drawer.Tab>
+      <If condition={isLoading}>
+        <PageLoader />
+      </If>
+      <If condition={!isLoading && categoryGroup}>
+        <Drawer.Body>
+          {activeTabId === CategoryGroupDetailTab.Overview && <OverviewTab categoryGroup={categoryGroup!} />}
+          {activeTabId === CategoryGroupDetailTab.Trends && <TrendsTab categoryGroup={categoryGroup!} />}
+          {activeTabId === CategoryGroupDetailTab.History && <HistoryTab categoryGroup={categoryGroup!} />}
+        </Drawer.Body>
+      </If>
     </>
   );
 };
