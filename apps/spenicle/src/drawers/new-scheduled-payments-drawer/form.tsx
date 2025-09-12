@@ -121,6 +121,7 @@ export const NewScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit })
                   field.onChange(Number.isNaN(parsed) ? 0 : parsed);
                 }}
                 error={fieldState.error?.message}
+                helperText="Per occurrence"
               />
             )}
           />

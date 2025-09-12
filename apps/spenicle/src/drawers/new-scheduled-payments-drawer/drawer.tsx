@@ -25,7 +25,7 @@ export const NewScheduledPaymentsDrawer: FC<Props> = ({ payload }) => {
       startDate: dayjs(data.startDate).set('h', dayjs().hour()).set('m', dayjs().minute()).toISOString(),
       frequency: data.frequency,
       interval: data.interval,
-      until: data.until,
+      until: data.until ? dayjs(data.until).set('h', dayjs().hour()).set('m', dayjs().minute()).toISOString() : null,
       amount: data.amount,
       accountId: +data.accountId,
       categoryId: +data.categoryId,
