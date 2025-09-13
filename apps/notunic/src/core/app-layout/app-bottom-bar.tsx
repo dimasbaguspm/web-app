@@ -6,6 +6,7 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router';
 
 import { BOTTOM_SHEET_ROUTES } from '../../constants/bottom-sheet-routes';
+import { DEEP_LINKS } from '../../constants/page-routes';
 
 import { LINKS } from './constants';
 
@@ -19,6 +20,10 @@ export const AppBottomBar: FC = () => {
   };
 
   const isActive = (path: string) => {
+    if (path === DEEP_LINKS.BOARD.path) {
+      return location.pathname === DEEP_LINKS.BOARD.path;
+    }
+
     return location.pathname.startsWith(path);
   };
 

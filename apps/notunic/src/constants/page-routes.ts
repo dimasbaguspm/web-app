@@ -1,4 +1,4 @@
-import { KanbanSquareIcon, SquareChartGanttIcon } from 'lucide-react';
+import { GalleryVerticalEndIcon, KanbanSquareIcon } from 'lucide-react';
 
 export const ROUTES = {
   BOARD: '/',
@@ -15,7 +15,7 @@ export const DEEP_LINKS = {
   SPACE: {
     path: '/space',
     title: 'Space',
-    icon: SquareChartGanttIcon,
+    icon: GalleryVerticalEndIcon,
   },
 } as const;
 
