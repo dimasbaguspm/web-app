@@ -9,8 +9,8 @@ import { FC } from 'react';
 import { TransactionCard } from '../../../components/transaction-card';
 import { TransactionFiltersControl } from '../../../components/transaction-filter-control';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
+import { useTransactionData } from '../../../hooks/use-transaction-data';
 import { useTransactionFilter } from '../../../hooks/use-transaction-filter';
-import { useAccountDetailHistoryData } from '../hooks/use-account-detail-history-data';
 
 interface HistoryTabProps {
   data: AccountModel;
@@ -29,7 +29,8 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useAccountDetailHistoryData(data, {
+  } = useTransactionData({
+    accountId: [data.id],
     search: searchValue,
     dateFrom: filters.appliedFilters.startDate,
     dateTo: filters.appliedFilters.endDate,
@@ -72,6 +73,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
                   category={category}
                   onClick={handleOnTransactionClick}
                   useDateTime
+                  hideAccountSubtitle
                 />
               </li>
             ))}

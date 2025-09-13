@@ -67,6 +67,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ accountGroup }) => {
                   category={category}
                   onClick={handleOnTransactionClick}
                   useDateTime
+                  hideAccountGroup
                 />
               </li>
             ))}

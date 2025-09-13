@@ -5,14 +5,17 @@ import { PageLoader } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
-import { TrendsChart } from '../components/trends-chart';
-import { TrendsStats } from '../components/trends-stats';
+import { TransactionTrends } from '../../../components/transaction-trends';
+import { TransactionTrendsFiltersControl } from '../../../components/transaction-trends-filter-control';
+import { useTransactionTrendsFilter } from '../../../hooks/use-transaction-trends-filter';
 
 interface TrendsTabProps {
   data: CategoryModel;
 }
 
 export const TrendsTab: FC<TrendsTabProps> = ({ data }) => {
+  const filters = useTransactionTrendsFilter({ adapter: 'state' });
+
   const [transactions, , { isLoading }] = useApiSpenicleSummaryTransactionsQuery({
     from: dayjs().startOf('year').add(1, 'day').toISOString(),
     to: dayjs().endOf('month').toISOString(),
@@ -28,8 +31,8 @@ export const TrendsTab: FC<TrendsTabProps> = ({ data }) => {
       </If>
 
       <If condition={[!isLoading, !!transactions]}>
-        <TrendsChart data={data} transactions={transactions!} />
-        <TrendsStats data={data} transactions={transactions!} />
+        <TransactionTrendsFiltersControl config={filters} />
+        <TransactionTrends transactions={transactions!} metric={filters.appliedFilters.metric} />
       </If>
     </>
   );

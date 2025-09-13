@@ -6,8 +6,8 @@ import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
+import { DetailsTab } from './sub-tabs/details-tab';
 import { HistoryTab } from './sub-tabs/history-tab';
-import { OverviewTab } from './sub-tabs/overview-tab';
 import { TrendsTab } from './sub-tabs/trends-tab';
 import { AccountGroupDetailTab } from './types';
 
@@ -23,10 +23,10 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
     enabled: Boolean(accountGroupId),
   });
 
-  const activeTabId = tabId || 'overview';
+  const activeTabId = tabId || AccountGroupDetailTab.Details;
 
   const handleTabChange = (tabId: string) => {
-    openDrawer(DRAWER_ROUTES.DETAIL_ACCOUNT_GROUP, { accountGroupId, tabId });
+    openDrawer(DRAWER_ROUTES.DETAIL_ACCOUNT_GROUP, { accountGroupId, tabId }, { replace: true });
   };
 
   return (
@@ -37,7 +37,7 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
       </Drawer.Header>
       <Drawer.Tab>
         <Tabs value={activeTabId} onValueChange={handleTabChange}>
-          <Tabs.Trigger value={AccountGroupDetailTab.Overview}>Overview</Tabs.Trigger>
+          <Tabs.Trigger value={AccountGroupDetailTab.Details}>Details</Tabs.Trigger>
           <Tabs.Trigger value={AccountGroupDetailTab.Trends}>Trends</Tabs.Trigger>
           <Tabs.Trigger value={AccountGroupDetailTab.History}>History</Tabs.Trigger>
         </Tabs>
@@ -47,7 +47,7 @@ export const DetailAccountGroupDrawer: FC<DetailAccountGroupDrawerProps> = ({ ac
       </If>
       <If condition={!isLoading && accountGroup}>
         <Drawer.Body>
-          {activeTabId === AccountGroupDetailTab.Overview && <OverviewTab accountGroup={accountGroup!} />}
+          {activeTabId === AccountGroupDetailTab.Details && <DetailsTab accountGroup={accountGroup!} />}
           {activeTabId === AccountGroupDetailTab.Trends && <TrendsTab accountGroup={accountGroup!} />}
           {activeTabId === AccountGroupDetailTab.History && <HistoryTab accountGroup={accountGroup!} />}
         </Drawer.Body>

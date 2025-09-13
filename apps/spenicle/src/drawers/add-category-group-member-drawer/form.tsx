@@ -13,6 +13,8 @@ import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { CategoryCard } from '../../components/category-card';
+import { CategoryFiltersControl } from '../../components/category-filter-control';
+import { useCategoryFilter } from '../../hooks/use-category-filter';
 
 interface FormProps {
   handleCreateNewCategory: () => void;
@@ -21,9 +23,11 @@ interface FormProps {
 }
 export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategorySelect, categoryIds }) => {
   const [searchTerm, setSearchTerm] = useDebouncedState<string>();
+  const filter = useCategoryFilter({ adapter: 'state' });
 
   const [categories, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleCategoriesInfiniteQuery({
+      ...filter.appliedFilters,
       search: searchTerm,
       pageSize: 15,
     });
@@ -31,8 +35,14 @@ export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategoryS
   return (
     <>
       <div className="mb-4">
-        <SearchInput defaultValue={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" />
+        <SearchInput
+          variant="neutral"
+          defaultValue={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search"
+        />
       </div>
+      <CategoryFiltersControl config={filter} hideGroupFilter />
 
       <If condition={isInitialFetching}>
         <PageLoader />

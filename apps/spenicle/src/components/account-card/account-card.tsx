@@ -7,10 +7,12 @@ import { FC } from 'react';
 interface AccountCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
   account: AccountModel;
   onClick?: (account: AccountModel) => void;
+  hideGroup?: boolean;
+  hideAmount?: boolean;
 }
 
 export const AccountCard: FC<AccountCardProps> = (props) => {
-  const { account, onClick, ...rest } = props;
+  const { account, onClick, hideGroup, hideAmount, ...rest } = props;
   const { formattedAmount, name, initialName, type, variant, hasGroup, groups } = formatSpenicleAccount(account);
 
   const handleClick = () => {
@@ -25,7 +27,8 @@ export const AccountCard: FC<AccountCardProps> = (props) => {
       badge={
         <BadgeGroup>
           <Badge color={variant}>{type}</Badge>
-          <If condition={hasGroup}>
+
+          <If condition={[hasGroup, !hideGroup]}>
             {groups.map(({ name }) => (
               <Badge key={name} color="accent_1">
                 {name}
@@ -34,7 +37,7 @@ export const AccountCard: FC<AccountCardProps> = (props) => {
           </If>
         </BadgeGroup>
       }
-      supplementaryInfo={formattedAmount}
+      supplementaryInfo={hideAmount ? undefined : formattedAmount}
       {...rest}
     />
   );

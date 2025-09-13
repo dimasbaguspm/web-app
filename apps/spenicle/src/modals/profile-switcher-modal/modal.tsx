@@ -17,7 +17,6 @@ import {
   SelectableSingleInput,
   Text,
   PageLoader,
-  Hr,
 } from '@dimasbaguspm/versaur';
 import { UserSearchIcon } from 'lucide-react';
 import { FC, useState } from 'react';
@@ -66,11 +65,10 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
         </If>
         <If condition={[!isInitialFetching, appProfiles.length]}>
           <ul className="mb-4">
-            {appProfiles.map((appProfile, index) => {
+            {appProfiles.map((appProfile) => {
               const { name, initial, groupRelatedVariant, type } = formatHiAppProfile(appProfile);
 
               const isChecked = appProfile.id === selectedId;
-              const isLastItem = index === appProfiles.length - 1;
 
               const handleOnClick = () => {
                 setSelectedId(isChecked ? null : appProfile.id);
@@ -92,7 +90,6 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
                       </div>
                     }
                   />
-                  {!isLastItem && <Hr />}
                 </li>
               );
             })}

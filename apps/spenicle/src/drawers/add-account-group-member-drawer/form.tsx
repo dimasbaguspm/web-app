@@ -13,6 +13,8 @@ import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { AccountCard } from '../../components/account-card';
+import { AccountFiltersControl } from '../../components/account-filter-control';
+import { useAccountFilter } from '../../hooks/use-account-filter';
 
 interface FormProps {
   handleCreateNewAccount: () => void;
@@ -22,8 +24,11 @@ interface FormProps {
 export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSelect, accountIds }) => {
   const [searchTerm, setSearchTerm] = useDebouncedState<string>();
 
+  const filter = useAccountFilter({ adapter: 'state' });
+
   const [accounts, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleAccountsInfiniteQuery({
+      ...filter.appliedFilters,
       search: searchTerm,
       pageSize: 15,
     });
@@ -31,8 +36,14 @@ export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSel
   return (
     <>
       <div className="mb-4">
-        <SearchInput defaultValue={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" />
+        <SearchInput
+          variant="neutral"
+          defaultValue={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search"
+        />
       </div>
+      <AccountFiltersControl config={filter} hideGroupFilter />
 
       <If condition={isInitialFetching}>
         <PageLoader />

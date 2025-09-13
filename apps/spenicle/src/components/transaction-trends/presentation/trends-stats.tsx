@@ -1,34 +1,29 @@
-import { CategoryModel, SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
-import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
+import { SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
-import { Icon, Text, Tile } from '@dimasbaguspm/versaur';
+import { Heading, Icon, Text, Tile } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { useGeneralSummaryStats } from '../../../hooks/use-general-summary-stats';
 import { useGrowthSummaryStats } from '../../../hooks/use-growth-summary-stats';
 
 interface TrendsStatsProps {
-  data: CategoryModel;
   transactions: SummaryTransactionsModel;
+  metric: 'net' | 'income' | 'expense';
 }
 
-export const TrendsStats: FC<TrendsStatsProps> = ({ data, transactions }) => {
-  const { isExpense, isTransfer } = formatSpenicleCategory(data);
-
+export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric }) => {
   const generalStats = useGeneralSummaryStats(transactions, {
-    metric: isExpense ? 'expense' : isTransfer ? 'transfer' : 'income',
+    metric: metric,
     periodGranularity: 'month',
   });
   const growthStats = useGrowthSummaryStats(transactions, {
-    metric: isExpense ? 'expense' : isTransfer ? 'transfer' : 'income',
+    metric: metric,
   });
 
   return (
     <>
       <div className="mb-4">
-        <Text fontWeight="medium" fontSize="lg" color="black">
-          Summary
-        </Text>
+        <Heading level={3}>Summary</Heading>
       </div>
 
       <div className="mb-4 grid grid-cols-2 gap-4">
@@ -70,7 +65,7 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ data, transactions }) => {
             <Text fontWeight="medium" fontSize="sm" color="gray">
               Growth
             </Text>
-            <Icon as={growthStats.TrendIcon} size="xs" color={growthStats.getTrendColor(isExpense)} />
+            <Icon as={growthStats.TrendIcon} size="xs" color={growthStats.getTrendColor(metric === 'expense')} />
           </div>
           <Text fontWeight="semibold" fontSize="lg">
             {growthStats.formattedPercentage}
@@ -100,7 +95,7 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ data, transactions }) => {
             Peak Month
           </Text>
           <Text fontWeight="semibold" fontSize="lg">
-            {generalStats.peakPeriodByHighestNet}
+            {generalStats.peakPeriodFormatted}
           </Text>
           <Text fontSize="xs" color="gray">
             {formatPrice(generalStats.metricMax, Currency.IDR, {

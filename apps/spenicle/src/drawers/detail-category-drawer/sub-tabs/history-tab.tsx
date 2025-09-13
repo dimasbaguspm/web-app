@@ -9,8 +9,8 @@ import { FC } from 'react';
 import { TransactionCard } from '../../../components/transaction-card';
 import { TransactionFiltersControl } from '../../../components/transaction-filter-control';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
+import { useTransactionData } from '../../../hooks/use-transaction-data';
 import { useTransactionFilter } from '../../../hooks/use-transaction-filter';
-import { useCategoryDetailHistoryData } from '../hooks/use-category-detail-history-data';
 
 interface HistoryTabProps {
   data: CategoryModel;
@@ -29,7 +29,8 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useCategoryDetailHistoryData(data, {
+  } = useTransactionData({
+    categoryId: [data.id],
     search: searchValue,
     dateFrom: filters.appliedFilters.startDate,
     dateTo: filters.appliedFilters.endDate,
@@ -62,7 +63,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
           <NoResults icon={SearchXIcon} title="No history available" subtitle="Try adjusting your search criteria" />
         </If>
         <If condition={[transactions.length]}>
-          <ul>
+          <ul className="mb-4">
             {transactions.map(({ transaction, account, destinationAccount, category }) => (
               <li key={transaction.id} className="border-b border-border">
                 <TransactionCard
@@ -71,6 +72,7 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
                   destinationAccount={destinationAccount}
                   category={category}
                   onClick={handleOnTransactionClick}
+                  hideCategorySubtitle
                   useDateTime
                 />
               </li>

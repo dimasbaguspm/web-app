@@ -14,7 +14,9 @@ interface TransactionCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' |
   onClick: (transaction: TransactionModel) => void;
   useDateTime?: boolean;
   hideAccountSubtitle?: boolean;
+  hideAccountGroup?: boolean;
   hideCategorySubtitle?: boolean;
+  hideCategoryGroup?: boolean;
   hideNotesSubtitle?: boolean;
 }
 
@@ -26,7 +28,9 @@ export const TransactionCard: FC<TransactionCardProps> = ({
   onClick,
   useDateTime,
   hideAccountSubtitle,
+  hideAccountGroup,
   hideCategorySubtitle,
+  hideCategoryGroup,
   hideNotesSubtitle,
   ...props
 }) => {
@@ -76,14 +80,14 @@ export const TransactionCard: FC<TransactionCardProps> = ({
       badge={
         <BadgeGroup>
           <Badge color={variant}>{capitalizedType}</Badge>
-          <If condition={hasAccountGroup}>
+          <If condition={[hasAccountGroup && !hideAccountGroup]}>
             {accountGroups.map(({ name }) => (
               <Badge key={name} color="accent_1">
                 {name}
               </Badge>
             ))}
           </If>
-          <If condition={hasCategoryGroup}>
+          <If condition={[hasCategoryGroup && !hideCategoryGroup]}>
             {categoryGroups.map(({ name }) => (
               <Badge key={name} color="accent_2">
                 {name}

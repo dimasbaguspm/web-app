@@ -11,11 +11,11 @@ import { CategoryCard } from '../../../components/category-card';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 import { MODAL_ROUTES } from '../../../constants/modal-routes';
 
-interface OverviewTabProps {
+interface DetailsTabProps {
   categoryGroup: CategoryGroupModel;
 }
 
-export const OverviewTab: FC<OverviewTabProps> = ({ categoryGroup }) => {
+export const DetailsTab: FC<DetailsTabProps> = ({ categoryGroup }) => {
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
 

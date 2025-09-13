@@ -1,5 +1,5 @@
 export enum AccountGroupDetailTab {
-  Overview = 'overview',
+  Details = 'details',
   Trends = 'trends',
   History = 'history',
 }

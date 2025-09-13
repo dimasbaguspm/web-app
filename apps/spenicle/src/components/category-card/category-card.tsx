@@ -7,9 +7,10 @@ import { FC } from 'react';
 interface CategoryCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
   category: CategoryModel;
   onClick?: (category: CategoryModel) => void;
+  hideGroup?: boolean;
 }
 
-export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, ...rest }) => {
+export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGroup, ...rest }) => {
   const { variant, name, initialName, type, hasGroup, groups } = formatSpenicleCategory(category);
   const handleClick = () => {
     onClick?.(category);
@@ -23,7 +24,7 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, ...rest
       badge={
         <BadgeGroup>
           <Badge color={variant}>{type}</Badge>
-          <If condition={hasGroup}>
+          <If condition={[hasGroup, !hideGroup]}>
             {groups.map(({ name }) => (
               <Badge key={name} color="accent_3">
                 {name}

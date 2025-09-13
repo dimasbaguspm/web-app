@@ -1,36 +1,36 @@
-import { AccountModel, SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
-import { formatSpenicleAccount } from '@dimasbaguspm/utils/data';
+import { SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
-import { Text } from '@dimasbaguspm/versaur';
-import { capitalize } from 'lodash';
+import { Heading, Text } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface TrendsChartProps {
-  data: AccountModel;
   transactions: SummaryTransactionsModel;
+  metric: 'net' | 'income' | 'expense';
 }
 
-export const TrendsChart: FC<TrendsChartProps> = ({ data, transactions }) => {
-  const { isExpense } = formatSpenicleAccount(data);
-
+export const TrendsChart: FC<TrendsChartProps> = ({ transactions, metric }) => {
   const getDataKey = () => {
-    if (isExpense) return 'expense';
-    return 'income';
+    return metric;
   };
 
   const getAreaColor = () => {
-    if (isExpense) return '#e07a5f';
-    return '#81b29a';
+    switch (metric) {
+      case 'expense':
+        return '#e07a5f';
+      case 'income':
+        return '#81b29a';
+      case 'net':
+      default:
+        return '#84a5c0';
+    }
   };
 
   return (
     <>
       <div className="mb-4">
-        <Text fontWeight="medium" fontSize="lg" color="black">
-          Monthly trends
-        </Text>
+        <Heading level={3}>Monthly Trends</Heading>
       </div>
 
       <div className="w-full h-80">
@@ -75,7 +75,6 @@ export const TrendsChart: FC<TrendsChartProps> = ({ data, transactions }) => {
                       <div className="flex flex-col gap-1 mt-1">
                         {payload.map((entry) => (
                           <Text color="gray" fontSize="xs" key={entry.name}>
-                            {capitalize(entry.name)}:{' '}
                             {formatPrice(entry.value, Currency.IDR, {
                               compact: true,
                             })}

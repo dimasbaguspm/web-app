@@ -1,5 +1,5 @@
 export enum CategoryGroupDetailTab {
-  Overview = 'overview',
+  Details = 'details',
   Trends = 'trends',
   History = 'history',
 }

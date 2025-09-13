@@ -11,11 +11,11 @@ import { AccountCard } from '../../../components/account-card';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 import { MODAL_ROUTES } from '../../../constants/modal-routes';
 
-interface OverviewTabProps {
+interface DetailsTabProps {
   accountGroup: AccountGroupModel;
 }
 
-export const OverviewTab: FC<OverviewTabProps> = ({ accountGroup }) => {
+export const DetailsTab: FC<DetailsTabProps> = ({ accountGroup }) => {
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
 
