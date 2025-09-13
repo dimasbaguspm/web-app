@@ -2,9 +2,9 @@ import { operations } from './generated/hi.openapi';
 
 export type SearchUsersModel = NonNullable<operations['getUser']['parameters']['query']>;
 export type UsersPageModel = operations['getUser']['responses']['200']['content']['application/json'];
-export type UserModel = operations['getUserById']['responses']['200']['content']['application/json'];
-export type UpdateUserModel = operations['patchUserById']['requestBody']['content']['application/json'] &
-  operations['patchUserById']['parameters']['path'];
+export type UserModel = operations['getUserMe']['responses']['200']['content']['application/json'];
+export type UpdateUserModel = operations['patchUserMe']['requestBody']['content']['application/json'];
+export type UpdateUserPasswordModel = operations['patchUserMePassword']['requestBody']['content']['application/json'];
 
 export type AuthMeModel = operations['getAuthMe']['responses']['200']['content']['application/json'];
 export type SetActiveProfileModel =

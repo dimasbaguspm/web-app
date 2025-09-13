@@ -7,7 +7,7 @@ export const HI_URL = {
   },
   USER: {
     PAGINATED: '/user',
-    BY_ID: (id: number) => `/user/${id}`,
+    ME: '/user/me',
   },
   APPS: {
     PAGINATED: '/apps',

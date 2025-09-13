@@ -11,6 +11,7 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  HI_USER_ME: ['hi', 'user', 'me'],
   HI_APPS_INFINITE: (params: object = {}) => [...BASE_QUERY_KEYS.HI_APPS, 'infinite', JSON.stringify(params ?? {})],
   HI_APPS_PAGINATED: (params: object = {}) => [...BASE_QUERY_KEYS.HI_APPS, 'paginated', JSON.stringify(params ?? {})],
   HI_APPS_BY_ID: (id: number, params: object = {}) => [

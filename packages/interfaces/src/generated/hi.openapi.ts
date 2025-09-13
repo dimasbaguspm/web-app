@@ -372,20 +372,36 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/user/{id}': {
+  '/user/me': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['getUserById'];
+    get: operations['getUserMe'];
     put?: never;
     post?: never;
     delete?: never;
     options?: never;
     head?: never;
-    patch: operations['patchUserById'];
+    patch: operations['patchUserMe'];
+    trace?: never;
+  };
+  '/user/me/password': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['patchUserMePassword'];
     trace?: never;
   };
   '/': {
@@ -453,11 +469,11 @@ export interface operations {
   getApps: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -532,7 +548,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -583,11 +599,11 @@ export interface operations {
   'getApp-profiles': {
     parameters: {
       query?: {
-        id?: number[];
-        appId?: number[];
-        groupId?: number[];
-        pageNumber?: number;
-        pageSize?: number;
+        id?: (number | string)[];
+        appId?: (number | string)[];
+        groupId?: (number | string)[];
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'app_id';
         sortOrder?: 'asc' | 'desc';
       };
@@ -731,7 +747,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -1274,13 +1290,13 @@ export interface operations {
   getGroups: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string[];
-        creatorId?: number[];
+        creatorId?: (number | string)[];
         search?: string;
-        memberIds?: number[];
-        pageNumber?: number;
-        pageSize?: number;
+        memberIds?: (number | string)[];
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -1484,7 +1500,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -1778,9 +1794,9 @@ export interface operations {
   'getGroup-members': {
     parameters: {
       query?: {
-        groupId?: string | string[];
-        userId?: string | string[];
-        role?: ('member' | 'owner') | ('member' | 'owner')[];
+        groupId?: string | (string | string[]);
+        userId?: string | (string | string[]);
+        role?: ('member' | 'owner') | (string | ('member' | 'owner')[]);
         pageNumber?: string;
         pageSize?: string;
         sortBy?: 'created_at' | 'updated_at';
@@ -2320,11 +2336,11 @@ export interface operations {
   getUser: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         email?: string[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at';
         sortOrder?: 'asc' | 'desc';
       };
@@ -2391,13 +2407,11 @@ export interface operations {
       };
     };
   };
-  getUserById: {
+  getUserMe: {
     parameters: {
       query?: never;
       header?: never;
-      path: {
-        id: number;
-      };
+      path?: never;
       cookie?: never;
     };
     requestBody?: never;
@@ -2441,28 +2455,89 @@ export interface operations {
       };
     };
   };
-  patchUserById: {
+  patchUserMe: {
     parameters: {
       query?: never;
       header?: never;
-      path: {
-        id: number;
-      };
+      path?: never;
       cookie?: never;
     };
     requestBody: {
       content: {
         'application/json': {
-          name?: string;
-          password?: string;
+          name: string;
         };
         'multipart/form-data': {
-          name?: string;
-          password?: string;
+          name: string;
         };
         'text/plain': {
-          name?: string;
-          password?: string;
+          name: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            /** Format: email */
+            email: string;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            /** Format: email */
+            email: string;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            /** Format: email */
+            email: string;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  patchUserMePassword: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          currentPassword: string;
+          newPassword: string;
+          confirmNewPassword: string;
+        };
+        'multipart/form-data': {
+          currentPassword: string;
+          newPassword: string;
+          confirmNewPassword: string;
+        };
+        'text/plain': {
+          currentPassword: string;
+          newPassword: string;
+          confirmNewPassword: string;
         };
       };
     };

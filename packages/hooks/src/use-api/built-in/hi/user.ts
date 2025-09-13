@@ -1,4 +1,10 @@
-import { SearchUsersModel, UpdateUserModel, UserModel, UsersPageModel } from '@dimasbaguspm/interfaces';
+import {
+  SearchUsersModel,
+  UpdateUserModel,
+  UpdateUserPasswordModel,
+  UserModel,
+  UsersPageModel,
+} from '@dimasbaguspm/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '../../query-keys';
@@ -29,20 +35,20 @@ export const useApiHiUsersPaginatedQuery = (params: SearchUsersModel) => {
   });
 };
 
-export const useApiHiUserQuery = (id: number, options?: Partial<UseApiQueryOptions<UserModel, unknown, unknown>>) => {
+export const useApiHiWhoAmIQuery = (options?: Partial<UseApiQueryOptions<UserModel, unknown, unknown>>) => {
   return useApiQuery<UserModel, unknown>({
     ...options,
     base: 'HI',
-    queryKey: QUERY_KEYS.HI_USER_BY_ID(id),
-    path: HI_URL.USER.BY_ID(id),
+    queryKey: QUERY_KEYS.HI_USER_ME,
+    path: HI_URL.USER.ME,
   });
 };
 
-export const useApiHiUpdateUser = () => {
+export const useApiHiUpdateWhoAmI = () => {
   const queryClient = useQueryClient();
 
   return useApiMutate<UserModel, UpdateUserModel>({
-    path: '/user/:id',
+    path: '/user/me',
     method: 'PATCH',
     base: 'HI',
     onSuccess: (data) => {
@@ -50,7 +56,26 @@ export const useApiHiUpdateUser = () => {
         queryKey: QUERY_KEYS.HI_USER_PAGINATED().slice(0, 3),
         exact: false,
       });
-      queryClient.setQueryData(QUERY_KEYS.HI_USER_BY_ID(data.id), data);
+      queryClient.setQueryData(QUERY_KEYS.HI_USER_ME, data);
+    },
+  });
+};
+
+export const useApiHiUpdateWhoAmIPassword = () => {
+  const queryClient = useQueryClient();
+
+  return useApiMutate<void, UpdateUserPasswordModel>({
+    path: '/user/me/password',
+    method: 'PATCH',
+    base: 'HI',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_USER_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.HI_USER_ME,
+      });
     },
   });
 };

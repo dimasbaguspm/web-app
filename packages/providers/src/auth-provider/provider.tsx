@@ -1,10 +1,8 @@
 import {
-  useApiHiAppProfilesInfiniteQuery,
   useApiHiAuthLogout,
   useApiHiAuthMeQuery,
   useApiHiAuthTokenRefresher,
-  useApiHiGroupMembersPaginatedQuery,
-  useApiHiUserQuery,
+  useApiHiWhoAmIQuery,
 } from '@dimasbaguspm/hooks/use-api';
 import { PageLoader } from '@dimasbaguspm/versaur';
 import { FC, PropsWithChildren } from 'react';
@@ -12,36 +10,17 @@ import { FC, PropsWithChildren } from 'react';
 import { AuthContext } from './context';
 
 const Provider: FC<PropsWithChildren> = ({ children }) => {
-  const [data, , { isLoading }, refetchAuth] = useApiHiAuthMeQuery();
+  const [authData, , { isFetching: isFetchingAuth }, refetchAuth] = useApiHiAuthMeQuery();
+
+  const isAuthenticated = !!authData?.user?.id;
 
   const [logout] = useApiHiAuthLogout();
 
-  const [user, , { isLoading: isUserFetching }, refetchUser] = useApiHiUserQuery(data?.user?.id ?? 0, {
-    enabled: !!data?.user?.id,
+  const [user, , { isFetching: isFetchingUser }, refetchUser] = useApiHiWhoAmIQuery({
+    enabled: isAuthenticated,
   });
 
-  const [userMembers, , { isLoading: isUserGroupFetching }] = useApiHiGroupMembersPaginatedQuery(
-    {
-      userId: [(data?.user?.id ?? 0).toString()],
-      pageSize: '100',
-    },
-    {
-      enabled: !!data?.user?.id,
-    },
-  );
-
-  const [appProfiles, , { isInitialFetching: isUserAppProfilesFetching }] = useApiHiAppProfilesInfiniteQuery(
-    {
-      pageSize: 100,
-    },
-    {
-      enabled: !!data?.user?.id,
-    },
-  );
-
-  const isDataFetching = isLoading || isUserFetching || isUserGroupFetching || isUserAppProfilesFetching;
-
-  const groupMembers = userMembers?.items ?? [];
+  const isDataFetching = isFetchingAuth || isFetchingUser;
 
   const handleLogout = async () => {
     await logout({});
@@ -51,7 +30,7 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
     await refetchUser();
   };
 
-  if (isDataFetching || !data || !user) {
+  if (!isAuthenticated || isDataFetching || !authData || !user) {
     return <PageLoader fullscreen />;
   }
 
@@ -59,9 +38,7 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        groupMembers,
-        appProfiles,
-        activeProfile: data.tokenPayload.activeProfile,
+        activeProfile: authData.tokenPayload.activeProfile,
         refetch,
         logout: handleLogout,
       }}
