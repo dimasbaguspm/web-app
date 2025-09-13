@@ -1424,6 +1424,54 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@dimasbaguspm/notunic@workspace:apps/notunic":
+  version: 0.0.0-use.local
+  resolution: "@dimasbaguspm/notunic@workspace:apps/notunic"
+  dependencies:
+    "@dimasbaguspm/constants": "workspace:*"
+    "@dimasbaguspm/eslint": "workspace:*"
+    "@dimasbaguspm/hooks": "workspace:*"
+    "@dimasbaguspm/interfaces": "workspace:*"
+    "@dimasbaguspm/providers": "workspace:*"
+    "@dimasbaguspm/typescript": "workspace:*"
+    "@dimasbaguspm/utils": "workspace:*"
+    "@dimasbaguspm/versaur": "npm:0.0.45"
+    "@tailwindcss/vite": "npm:4.1.13"
+    "@tanstack/react-query": "npm:5.87.4"
+    "@tanstack/react-query-devtools": "npm:5.87.4"
+    "@testing-library/dom": "npm:10.4.1"
+    "@testing-library/react": "npm:16.3.0"
+    "@types/lodash": "npm:^4.17.20"
+    "@types/node": "npm:22.18.0"
+    "@types/react": "npm:19.1.12"
+    "@types/react-dom": "npm:19.1.9"
+    "@vitejs/plugin-basic-ssl": "npm:2.1.0"
+    "@vitejs/plugin-react": "npm:4.7.0"
+    "@zumer/snapdom": "npm:1.9.11"
+    axios: "npm:1.12.0"
+    class-variance-authority: "npm:0.7.1"
+    clsx: "npm:2.1.1"
+    dayjs: "npm:1.11.18"
+    jsdom: "npm:26.1.0"
+    lodash: "npm:4.17.21"
+    lucide-react: "npm:0.544.0"
+    query-string: "npm:9.3.0"
+    react: "npm:19.1.1"
+    react-dom: "npm:19.1.1"
+    react-hook-form: "npm:7.62.0"
+    react-router: "npm:7.8.2"
+    react-swipeable: "npm:7.0.2"
+    recharts: "npm:3.2.0"
+    tailwind-merge: "npm:3.3.1"
+    tailwindcss: "npm:4.1.13"
+    tailwindcss-animate: "npm:1.0.7"
+    vite: "npm:7.1.5"
+    vite-plugin-pwa: "npm:1.0.3"
+    vitest: "npm:3.2.4"
+    web-vitals: "npm:5.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@dimasbaguspm/providers@workspace:*, @dimasbaguspm/providers@workspace:packages/providers":
   version: 0.0.0-use.local
   resolution: "@dimasbaguspm/providers@workspace:packages/providers"

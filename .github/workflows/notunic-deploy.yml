@@ -1,0 +1,18 @@
+name: Notunic Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/notunic/**'
+      - 'packages/**'
+      - '.github/**'
+      - 'scripts/**'
+      - 'package.json'
+
+jobs:
+  deploy-notunic:
+    uses: ./.github/workflows/reuseable-deploy.yml
+    with:
+      app_name: notunic
+    secrets: inherit

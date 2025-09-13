@@ -1,0 +1,23 @@
+import { KanbanSquareIcon, SquareChartGanttIcon } from 'lucide-react';
+
+export const ROUTES = {
+  BOARD: '/',
+  SPACE: '/space',
+  TODO: '/todo',
+} as const;
+
+export const DEEP_LINKS = {
+  BOARD: {
+    path: '/',
+    title: 'Board',
+    icon: KanbanSquareIcon,
+  },
+  SPACE: {
+    path: '/space',
+    title: 'Space',
+    icon: SquareChartGanttIcon,
+  },
+} as const;
+
+export type RouteKeys = keyof typeof ROUTES;
+export type DeepLinkKeys = keyof typeof DEEP_LINKS;
