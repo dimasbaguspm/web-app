@@ -12,10 +12,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js 22.14
+      - name: Setup Node.js 22.18
         uses: actions/setup-node@v4
         with:
-          node-version: 22.14.0
+          node-version: 22.18.0
 
       - name: Enable Corepack (Yarn Berry)
         run: |
