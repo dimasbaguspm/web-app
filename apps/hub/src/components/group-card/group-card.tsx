@@ -21,8 +21,15 @@ export const GroupCard: FC<GroupCardProps> = (props) => {
     <Card
       onClick={handleClick}
       avatar={<Avatar shape="rounded">{initialName}</Avatar>}
+      subtitle={
+        <Card.List>
+          <Card.ListItem>
+            {group.memberIds.length} Member{group.memberIds.length !== 1 ? 's' : ''}
+          </Card.ListItem>
+        </Card.List>
+      }
       title={name}
-      supplementaryInfo={createdDateTime}
+      supplementaryInfo={`Created on ${createdDateTime}`}
       {...rest}
     />
   );

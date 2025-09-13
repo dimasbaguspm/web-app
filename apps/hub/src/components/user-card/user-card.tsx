@@ -3,7 +3,8 @@ import { formatHiUserData } from '@dimasbaguspm/utils/data';
 import { Avatar, Card, CardProps } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
-interface UserCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
+interface UserCardProps
+  extends Partial<Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo' | 'badge'>> {
   user: UserModel;
   onClick?: (user: UserModel) => void;
 }

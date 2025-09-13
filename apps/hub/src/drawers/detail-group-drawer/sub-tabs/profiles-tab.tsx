@@ -17,16 +17,21 @@ export const ProfilesTab: FC<ProfilesTabProps> = ({ group }) => {
   const { openDrawer } = useDrawerRoute();
 
   const [apps, , { isInitialFetching: isInitialFetchingApps }] = useApiHiAppsInfiniteQuery({ pageSize: 100 });
-  const [profiles, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
-    useApiHiAppProfilesInfiniteQuery({ groupId: [group.id] });
+  const [
+    profiles,
+    ,
+    { isInitialFetching: isInitialFetchingAppProfiles, isFetchingNextPage, hasNextPage },
+    { fetchNextPage },
+  ] = useApiHiAppProfilesInfiniteQuery({ groupId: [group.id] });
 
   const handleOnCardClick = (profile: AppProfileModel) => {
     openDrawer(DRAWER_ROUTES.DETAIL_APP_PROFILE, { appProfileId: profile.id });
   };
 
+  const isInitialFetching = isInitialFetchingAppProfiles || isInitialFetchingApps;
   return (
     <>
-      <If condition={[isInitialFetching, isInitialFetchingApps]}>
+      <If condition={[isInitialFetching]}>
         <PageLoader />
       </If>
       <If condition={!isInitialFetching && !profiles.length}>
@@ -36,14 +41,20 @@ export const ProfilesTab: FC<ProfilesTabProps> = ({ group }) => {
           subtitle="We couldn't find any profiles in this group"
         />
       </If>
-      <If condition={[!isInitialFetching, profiles.length]}>
+      <If condition={[!isInitialFetching && profiles.length]}>
         <ul className="mb-4">
           {profiles?.map((profile, index) => {
             const app = apps.find((app) => app.id === profile.appId);
             const isLastItem = profiles.length === index + 1;
             return (
               <li>
-                <AppProfileCard appProfile={profile} onClick={handleOnCardClick} app={app!} />
+                <AppProfileCard
+                  appProfile={profile}
+                  onClick={handleOnCardClick}
+                  app={app!}
+                  hideGroupRelatedBadge
+                  useBrandAvatar
+                />
                 {!isLastItem && <Hr />}
               </li>
             );

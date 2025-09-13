@@ -44,7 +44,7 @@ export const DetailAppDrawer: FC<DetailAppDrawerProps> = ({ appId, tabId }) => {
       <Drawer.Tab>
         <Tabs value={activeTab} onValueChange={handleOnTabChange}>
           <Tabs.Trigger value={SubTab.Details}>Details</Tabs.Trigger>
-          <Tabs.Trigger value={SubTab.MyProfiles}>My Profiles</Tabs.Trigger>
+          <Tabs.Trigger value={SubTab.MyProfiles}>Profiles</Tabs.Trigger>
         </Tabs>
       </Drawer.Tab>
       <If condition={isLoading}>

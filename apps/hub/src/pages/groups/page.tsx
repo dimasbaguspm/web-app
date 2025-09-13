@@ -44,7 +44,7 @@ const GroupPage: FC = () => {
   };
 
   const handleOnCardClick = (group: GroupModel) => {
-    openDrawer(DRAWER_ROUTES.DETAIL_GROUP, { groupId: group.id.toString() });
+    openDrawer(DRAWER_ROUTES.DETAIL_GROUP, { groupId: group.id });
   };
 
   return (

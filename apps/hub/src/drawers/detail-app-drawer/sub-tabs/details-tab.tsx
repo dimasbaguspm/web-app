@@ -1,43 +1,25 @@
-import { useApiHiAppProfilesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { AppModel } from '@dimasbaguspm/interfaces';
-import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer } from '@dimasbaguspm/versaur';
+import { Drawer } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 interface DetailsTabProps {
   app: AppModel;
 }
 
-export const DetailsTab: FC<DetailsTabProps> = ({ app }) => {
-  const { isDesktop } = useWindowResize();
-
-  const [profiles] = useApiHiAppProfilesInfiniteQuery({
-    appId: [app.id],
-    pageSize: 1,
-  });
-
-  const handleOnLaunchClick = () => {
-    window.open(app.url, '_blank');
-  };
-
-  const hasProfiles = profiles && profiles.length > 0;
-
+export const DetailsTab: FC<DetailsTabProps> = () => {
   return (
     <>
       <Drawer.Body>
-        <div>Details Tab</div>
+        <div>TODO</div>
+        <p>Video introduction</p>
+        <p>Main feature</p>
+        <p>Documentation link</p>
+        <p>Support link</p>
+        <p>Terms of service link</p>
+        <p>Privacy policy link</p>
+        <p>App version</p>
+        <p>Last updated date</p>
       </Drawer.Body>
-      <Drawer.Footer>
-        <ButtonGroup alignment="end" fluid={!isDesktop}>
-          <If condition={hasProfiles}>
-            <Button onClick={handleOnLaunchClick}>Launch</Button>
-          </If>
-          <If condition={!hasProfiles}>
-            <Button onClick={handleOnLaunchClick}>Create Profile</Button>
-          </If>
-        </ButtonGroup>
-      </Drawer.Footer>
     </>
   );
 };

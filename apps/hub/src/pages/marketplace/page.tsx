@@ -10,6 +10,7 @@ import {
   ButtonIcon,
   ButtonMenu,
   FormLayout,
+  Hr,
   Icon,
   NoResults,
   PageContent,
@@ -95,11 +96,16 @@ const MarketplacePage: FC = () => {
         </If>
         <If condition={[!isInitialFetching, apps.length]}>
           <ul className="mb-4">
-            {apps.map((app) => (
-              <li key={app.id}>
-                <AppCard app={app} onClick={handleOnCardClick} />
-              </li>
-            ))}
+            {apps.map((app, index) => {
+              const isLastItem = index === apps.length - 1;
+
+              return (
+                <li key={app.id}>
+                  <AppCard app={app} onClick={handleOnCardClick} />
+                  {!isLastItem && <Hr />}
+                </li>
+              );
+            })}
           </ul>
           <If condition={hasNextPage}>
             <ButtonGroup alignment="center">

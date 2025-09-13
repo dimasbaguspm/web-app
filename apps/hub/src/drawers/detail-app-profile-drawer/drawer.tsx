@@ -9,6 +9,7 @@ import { FC } from 'react';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 import { DetailsTab } from './sub-tabs/details-tab';
+import { SettingsTab } from './sub-tabs/settings-tab';
 import { UsageTab } from './sub-tabs/usage-tab';
 import { SubTab } from './types';
 
@@ -59,22 +60,24 @@ export const DetailAppProfileDrawer: FC<DetailAppProfileDrawerProps> = ({ appPro
         <Tabs value={activeTab} onValueChange={handleOnTabChange}>
           <Tabs.Trigger value={SubTab.Details}>Details</Tabs.Trigger>
           <Tabs.Trigger value={SubTab.Usage}>Usage</Tabs.Trigger>
+          <Tabs.Trigger value={SubTab.Settings}>Settings</Tabs.Trigger>
         </Tabs>
       </Drawer.Tab>
       <Drawer.Body>
         <If condition={isLoading}>
           <PageLoader />
         </If>
-        <If condition={[!isLoading, !appProfile]}>
+        <If condition={[!isLoading && !appProfile]}>
           <NoResults
             icon={SearchXIcon}
             title="Profile not found"
             subtitle="The profile you are looking for does not exist"
           />
         </If>
-        <If condition={[!isLoading, appProfile]}>
+        <If condition={[!isLoading && appProfile]}>
           {activeTab === SubTab.Details && <DetailsTab app={app!} appProfile={appProfile!} />}
           {activeTab === SubTab.Usage && <UsageTab />}
+          {activeTab === SubTab.Settings && <SettingsTab />}
         </If>
       </Drawer.Body>
       <Drawer.Footer>

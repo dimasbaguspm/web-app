@@ -1,8 +1,9 @@
 import { useApiHiUsersInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { GroupModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
+import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Heading, Hr, Icon, PageLoader } from '@dimasbaguspm/versaur';
+import { Badge, BadgeGroup, Button, ButtonGroup, Heading, Hr, Icon, PageLoader } from '@dimasbaguspm/versaur';
 import { Edit2Icon, Users2Icon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -52,9 +53,24 @@ export const DetailsTab: FC<DetailsTabProps> = ({ group }) => {
         <ul className="mb-4">
           {users?.map((user, index) => {
             const isLast = index === users.length - 1;
+            const isCreator = user.id === group.creatorId;
+            const memberDetail = group.embedded?.members?.find((member) => member.userId === user.id);
             return (
               <li key={user.id}>
-                <UserCard user={user} onClick={() => {}} />
+                <UserCard
+                  user={user}
+                  as="div"
+                  badge={
+                    <BadgeGroup>
+                      <Badge color={isCreator ? 'accent_2' : 'accent_3'}>{isCreator ? 'Admin' : 'Member'}</Badge>
+                    </BadgeGroup>
+                  }
+                  supplementaryInfo={
+                    memberDetail
+                      ? `Joined on ${formatDate(memberDetail.createdAt, DateFormat.MEDIUM_DATETIME)}`
+                      : undefined
+                  }
+                />
                 {!isLast && <Hr />}
               </li>
             );

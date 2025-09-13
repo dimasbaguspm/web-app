@@ -1,10 +1,9 @@
 import { useApiHiAppProfilesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { AppModel, AppProfileModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, Hr, NoResults, PageLoader } from '@dimasbaguspm/versaur';
-import { SearchXIcon } from 'lucide-react';
+import { Button, ButtonGroup, Drawer, Hr, Icon, NoResults, PageLoader } from '@dimasbaguspm/versaur';
+import { PlusIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { AppProfileCard } from '../../../components/app-profile-card';
@@ -15,7 +14,6 @@ interface ProfilesTabProps {
 }
 
 export const ProfilesTab: FC<ProfilesTabProps> = ({ app }) => {
-  const { isDesktop } = useWindowResize();
   const { openDrawer } = useDrawerRoute();
 
   const [profiles, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
@@ -34,6 +32,13 @@ export const ProfilesTab: FC<ProfilesTabProps> = ({ app }) => {
   return (
     <>
       <Drawer.Body>
+        <ButtonGroup hasMargin>
+          <Button variant="outline" onClick={handleOnCreateClick}>
+            <Icon as={PlusIcon} size="sm" color="inherit" />
+            New Profile
+          </Button>
+        </ButtonGroup>
+
         <If condition={isInitialFetching}>
           <PageLoader />
         </If>
@@ -45,7 +50,7 @@ export const ProfilesTab: FC<ProfilesTabProps> = ({ app }) => {
 
               return (
                 <li key={profile.id}>
-                  <AppProfileCard app={app} appProfile={profile} onClick={handleOnCardClick} />
+                  <AppProfileCard app={app} appProfile={profile} onClick={handleOnCardClick} hideAppBadge />
                   {!isLastItem && <Hr />}
                 </li>
               );
@@ -68,11 +73,6 @@ export const ProfilesTab: FC<ProfilesTabProps> = ({ app }) => {
           />
         </If>
       </Drawer.Body>
-      <Drawer.Footer>
-        <ButtonGroup alignment="end" fluid={!isDesktop}>
-          <Button onClick={handleOnCreateClick}>Create New Profile</Button>
-        </ButtonGroup>
-      </Drawer.Footer>
     </>
   );
 };

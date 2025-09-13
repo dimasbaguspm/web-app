@@ -88,7 +88,7 @@ export const ManageGroupMemberDrawer: FC<ManageGroupMemberDrawerProps> = ({ grou
             Cancel
           </Button>
           <Button onClick={form.handleSubmit(handleOnSubmit)} disabled={isPending}>
-            Save
+            Update
           </Button>
         </ButtonGroup>
       </Drawer.Footer>
