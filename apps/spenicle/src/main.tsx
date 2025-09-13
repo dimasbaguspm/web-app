@@ -1,3 +1,4 @@
+import { AppId } from '@dimasbaguspm/constants';
 import { createRoot } from 'react-dom/client';
 import './main.css';
 
@@ -10,7 +11,7 @@ const bootstrap = async () => {
   const root = createRoot(rootEl);
 
   //
-  root.render(<App />);
+  root.render(<App appId={AppId.Spenicle} />);
 };
 
 bootstrap().catch((error) => {

@@ -1,20 +1,20 @@
-import { AppId } from '@dimasbaguspm/constants';
 import { useApiHiAppProfileQuery } from '@dimasbaguspm/hooks/use-api';
 import { PageLoader } from '@dimasbaguspm/versaur';
 import { FC, ReactNode } from 'react';
 
 import { useAuthProvider } from '../auth-provider';
+import { useGlobalProvider } from '../global-provider';
 
 import { ActiveAppProfileContext } from './context';
 
 interface Props {
-  appId: AppId;
   children: ReactNode;
 }
 
 export const ActiveAppProfileProvider: FC<Props> = (props) => {
   const { children } = props;
 
+  const { appId } = useGlobalProvider();
   const { activeProfile, refetch } = useAuthProvider();
 
   const [activeProfileData] = useApiHiAppProfileQuery(activeProfile?.id ? +activeProfile.id : -1, {
@@ -29,12 +29,15 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
     return <PageLoader fullscreen />;
   }
 
+  const isDifferentApp = activeProfileData?.appId !== appId;
+
   return (
     <ActiveAppProfileContext.Provider
       value={{
         hasProfile: !!activeProfileData || !!activeProfile,
         profile: activeProfileData!,
         refetchProfile,
+        isDifferentApp,
       }}
     >
       {children}

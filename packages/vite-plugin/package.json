@@ -1,9 +1,8 @@
 {
-  "name": "@dimasbaguspm/constants",
+  "name": "@dimasbaguspm/vite-plugin",
   "type": "module",
   "exports": {
-    ".": "./index.ts",
-    "./app-id": "./src/app-id.ts"
+    "./pwa": "./src/vite-pwa/index.ts"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -12,5 +11,9 @@
   "devDependencies": {
     "@dimasbaguspm/eslint": "workspace:*",
     "@dimasbaguspm/typescript": "workspace:*"
+  },
+  "dependencies": {
+    "dayjs": "1.11.13",
+    "vite-plugin-pwa": "^1.0.3"
   }
 }

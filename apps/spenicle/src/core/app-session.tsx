@@ -5,9 +5,9 @@ import { FC, PropsWithChildren } from 'react';
 import { ProfileSwitcherModal } from '../modals/profile-switcher-modal/modal';
 
 export const AppSession: FC<PropsWithChildren> = ({ children }) => {
-  const { hasProfile, refetchProfile } = useActiveAppProfile();
+  const { hasProfile, isDifferentApp, refetchProfile } = useActiveAppProfile();
 
-  if (!hasProfile) {
+  if (!hasProfile || isDifferentApp) {
     return (
       <Modal disableEscapeKeyDown disableOverlayClickToClose isOpen onClose={refetchProfile}>
         <ProfileSwitcherModal isSessionCheck />

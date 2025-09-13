@@ -1,3 +1,4 @@
+import { AppId } from '@dimasbaguspm/constants';
 import { AuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { GlobalProvider } from '@dimasbaguspm/providers/global-provider';
 import { SnackbarsProvider } from '@dimasbaguspm/versaur';
@@ -9,10 +10,14 @@ import { PageRouter } from './page-routes';
 
 const qc = new QueryClient();
 
-export const App: FC = () => {
+interface AppProps {
+  appId: AppId;
+}
+
+export const App: FC<AppProps> = ({ appId }) => {
   return (
     <StrictMode>
-      <GlobalProvider>
+      <GlobalProvider appId={appId}>
         <SnackbarsProvider>
           <QueryClientProvider client={qc}>
             <AuthProvider>

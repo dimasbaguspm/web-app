@@ -20,14 +20,18 @@ const qc = new QueryClient({
   },
 });
 
-export const App: FC = () => {
+interface AppProps {
+  appId: AppId;
+}
+
+export const App: FC<AppProps> = ({ appId }) => {
   return (
     <StrictMode>
-      <GlobalProvider>
+      <GlobalProvider appId={appId}>
         <SnackbarsProvider>
           <QueryClientProvider client={qc}>
             <AuthProvider>
-              <ActiveAppProfileProvider appId={AppId.Spenicle}>
+              <ActiveAppProfileProvider>
                 <PageRouter />
               </ActiveAppProfileProvider>
             </AuthProvider>
