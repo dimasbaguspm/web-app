@@ -38,7 +38,7 @@ export const DetailAppDrawer: FC<DetailAppDrawerProps> = ({ appId, tabId }) => {
   return (
     <>
       <Drawer.Header hasTab>
-        <Drawer.Title>{app?.name} App</Drawer.Title>
+        <Drawer.Title>{app?.name}</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Tab>

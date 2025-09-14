@@ -65,7 +65,7 @@ export interface paths {
     delete?: never;
     options?: never;
     head?: never;
-    patch?: never;
+    patch: operations['patchAppsById'];
     trace?: never;
   };
   '/app-profiles/': {
@@ -469,11 +469,10 @@ export interface operations {
   getApps: {
     parameters: {
       query?: {
-        id?: (number | string)[];
-        name?: string[];
+        id?: number[];
         search?: string;
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -492,9 +491,12 @@ export interface operations {
             items: {
               id: number;
               name: string;
-              description: string;
+              outline: string;
               url: string;
-              logoUrl?: string | null;
+              description: string | null;
+              documentationUrl: string | null;
+              termsOfServiceUrl: string | null;
+              privacyPolicyUrl: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -509,9 +511,12 @@ export interface operations {
             items: {
               id: number;
               name: string;
-              description: string;
+              outline: string;
               url: string;
-              logoUrl?: string | null;
+              description: string | null;
+              documentationUrl: string | null;
+              termsOfServiceUrl: string | null;
+              privacyPolicyUrl: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -526,9 +531,12 @@ export interface operations {
             items: {
               id: number;
               name: string;
-              description: string;
+              outline: string;
               url: string;
-              logoUrl?: string | null;
+              description: string | null;
+              documentationUrl: string | null;
+              termsOfServiceUrl: string | null;
+              privacyPolicyUrl: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -548,7 +556,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -562,9 +570,12 @@ export interface operations {
           'application/json': {
             id: number;
             name: string;
-            description: string;
+            outline: string;
             url: string;
-            logoUrl?: string | null;
+            description: string | null;
+            documentationUrl: string | null;
+            termsOfServiceUrl: string | null;
+            privacyPolicyUrl: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -573,9 +584,12 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             name: string;
-            description: string;
+            outline: string;
             url: string;
-            logoUrl?: string | null;
+            description: string | null;
+            documentationUrl: string | null;
+            termsOfServiceUrl: string | null;
+            privacyPolicyUrl: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -584,9 +598,104 @@ export interface operations {
           'text/plain': {
             id: number;
             name: string;
-            description: string;
+            outline: string;
             url: string;
-            logoUrl?: string | null;
+            description: string | null;
+            documentationUrl: string | null;
+            termsOfServiceUrl: string | null;
+            privacyPolicyUrl: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  patchAppsById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name?: string;
+          outline?: string;
+          url?: string;
+          description?: string;
+          documentationUrl?: string;
+          termsOfServiceUrl?: string;
+          privacyPolicyUrl?: string;
+        };
+        'multipart/form-data': {
+          name?: string;
+          outline?: string;
+          url?: string;
+          description?: string;
+          documentationUrl?: string;
+          termsOfServiceUrl?: string;
+          privacyPolicyUrl?: string;
+        };
+        'text/plain': {
+          name?: string;
+          outline?: string;
+          url?: string;
+          description?: string;
+          documentationUrl?: string;
+          termsOfServiceUrl?: string;
+          privacyPolicyUrl?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            outline: string;
+            url: string;
+            description: string | null;
+            documentationUrl: string | null;
+            termsOfServiceUrl: string | null;
+            privacyPolicyUrl: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            name: string;
+            outline: string;
+            url: string;
+            description: string | null;
+            documentationUrl: string | null;
+            termsOfServiceUrl: string | null;
+            privacyPolicyUrl: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            name: string;
+            outline: string;
+            url: string;
+            description: string | null;
+            documentationUrl: string | null;
+            termsOfServiceUrl: string | null;
+            privacyPolicyUrl: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1050,6 +1159,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -1063,6 +1173,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -1076,6 +1187,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -1127,6 +1239,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -1135,12 +1248,6 @@ export interface operations {
             };
             tokenPayload: {
               userId: string | number;
-              appProfiles: {
-                id: string | number;
-                appId: string | number;
-                groupId: (string | number) | null;
-                userId: (string | number) | null;
-              }[];
               activeProfile: {
                 id: string | number;
                 appId: string | number;
@@ -1154,6 +1261,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -1162,12 +1270,6 @@ export interface operations {
             };
             tokenPayload: {
               userId: string | number;
-              appProfiles: {
-                id: string | number;
-                appId: string | number;
-                groupId: (string | number) | null;
-                userId: (string | number) | null;
-              }[];
               activeProfile: {
                 id: string | number;
                 appId: string | number;
@@ -1181,6 +1283,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -1189,12 +1292,6 @@ export interface operations {
             };
             tokenPayload: {
               userId: string | number;
-              appProfiles: {
-                id: string | number;
-                appId: string | number;
-                groupId: (string | number) | null;
-                userId: (string | number) | null;
-              }[];
               activeProfile: {
                 id: string | number;
                 appId: string | number;
@@ -1290,13 +1387,13 @@ export interface operations {
   getGroups: {
     parameters: {
       query?: {
-        id?: (number | string)[];
+        id?: number[];
         name?: string[];
-        creatorId?: (number | string)[];
+        creatorId?: number[];
         search?: string;
-        memberIds?: (number | string)[];
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        memberIds?: number[];
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -1500,7 +1597,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -1794,9 +1891,9 @@ export interface operations {
   'getGroup-members': {
     parameters: {
       query?: {
-        groupId?: string | (string | string[]);
-        userId?: string | (string | string[]);
-        role?: ('member' | 'owner') | (string | ('member' | 'owner')[]);
+        groupId?: string | string[];
+        userId?: string | string[];
+        role?: ('member' | 'owner') | ('member' | 'owner')[];
         pageNumber?: string;
         pageSize?: string;
         sortBy?: 'created_at' | 'updated_at';
@@ -2336,11 +2433,11 @@ export interface operations {
   getUser: {
     parameters: {
       query?: {
-        id?: (number | string)[];
+        id?: number[];
         email?: string[];
         search?: string;
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at';
         sortOrder?: 'asc' | 'desc';
       };
@@ -2360,6 +2457,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -2376,6 +2474,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -2392,6 +2491,7 @@ export interface operations {
               id: number;
               /** Format: email */
               email: string;
+              role: 'admin' | 'member' | 'guest';
               name: string;
               /** Format: date-time */
               createdAt: string;
@@ -2425,6 +2525,7 @@ export interface operations {
             id: number;
             /** Format: email */
             email: string;
+            role: 'admin' | 'member' | 'guest';
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -2435,6 +2536,7 @@ export interface operations {
             id: number;
             /** Format: email */
             email: string;
+            role: 'admin' | 'member' | 'guest';
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -2445,6 +2547,7 @@ export interface operations {
             id: number;
             /** Format: email */
             email: string;
+            role: 'admin' | 'member' | 'guest';
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -2485,6 +2588,7 @@ export interface operations {
             id: number;
             /** Format: email */
             email: string;
+            role: 'admin' | 'member' | 'guest';
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -2495,6 +2599,7 @@ export interface operations {
             id: number;
             /** Format: email */
             email: string;
+            role: 'admin' | 'member' | 'guest';
             name: string;
             /** Format: date-time */
             createdAt: string;
@@ -2505,6 +2610,7 @@ export interface operations {
             id: number;
             /** Format: email */
             email: string;
+            role: 'admin' | 'member' | 'guest';
             name: string;
             /** Format: date-time */
             createdAt: string;

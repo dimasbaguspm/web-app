@@ -9,7 +9,8 @@
     "./lazy-load": "./src/lazy-load.ts",
     "./if": "./src/if.tsx",
     "./client-id": "./src/client-id.ts",
-    "./cookie": "./src/cookie.ts"
+    "./cookie": "./src/cookie.ts",
+    "./admin-guard": "./src/admin-guard.tsx"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -24,6 +25,8 @@
   "peerDependencies": {
     "@dimasbaguspm/constants": "workspace:*",
     "@dimasbaguspm/interfaces": "workspace:*",
+    "@dimasbaguspm/providers": "workspace:*",
+    "@dimasbaguspm/versaur": "^0.0.40",
     "dayjs": "1.11.13",
     "lodash": "4.17.21",
     "lucide-react": "0.542.0",

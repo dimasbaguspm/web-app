@@ -7,6 +7,7 @@ import { DRAWER_ROUTES } from '../constants/drawer-routes';
 import { DetailAppDrawer } from '../drawers/detail-app-drawer/drawer';
 import { DetailAppProfileDrawer } from '../drawers/detail-app-profile-drawer/drawer';
 import { DetailGroupDrawer } from '../drawers/detail-group-drawer/drawer';
+import { EditAppDrawer } from '../drawers/edit-app-drawer/drawer';
 import { EditAppProfileDrawer } from '../drawers/edit-app-profile/drawer';
 import { EditGroupDrawer } from '../drawers/edit-group-drawer/drawer';
 import { ManageGroupMemberDrawer } from '../drawers/manage-group-member-drawer/drawer';
@@ -48,6 +49,7 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.DETAIL_APP) && hasParam('appId') && (
         <DetailAppDrawer appId={params.appId!} tabId={params?.tabId} />
       )}
+      {is(DRAWER_ROUTES.EDIT_APP) && hasParam('appId') && <EditAppDrawer appId={params.appId!} />}
       {is(DRAWER_ROUTES.NEW_APP_PROFILE) && hasParam('appId') && (
         <NewAppProfileDrawer appId={params.appId!} payload={{ ...state?.returnToDrawerPayload, ...state?.payload }} />
       )}

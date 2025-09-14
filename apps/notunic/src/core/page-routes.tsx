@@ -32,13 +32,12 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: ROUTES.BOARD,
-        Component: lazyLoad(() => import('../pages/board/page')),
+        path: ROUTES.SPACES,
+        Component: lazyLoad(() => import('../pages/spaces/page')),
       },
-
       {
-        path: ROUTES.SPACE,
-        Component: lazyLoad(() => import('../pages/space/page')),
+        path: ROUTES.MY_ACTIONS,
+        Component: lazyLoad(() => import('../pages/my-actions/page')),
       },
     ],
   },

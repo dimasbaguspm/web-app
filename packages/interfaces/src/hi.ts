@@ -13,6 +13,8 @@ export type SetActiveProfileModel =
 export type SearchAppsModel = NonNullable<operations['getApps']['parameters']['query']>;
 export type AppsPageModel = operations['getApps']['responses']['200']['content']['application/json'];
 export type AppModel = operations['getAppsById']['responses']['200']['content']['application/json'];
+export type UpdateAppModel = operations['patchAppsById']['requestBody']['content']['application/json'] &
+  operations['patchAppsById']['parameters']['path'];
 
 export type SearchAppProfilesModel = NonNullable<operations['getApp-profiles']['parameters']['query']>;
 export type AppProfilesPageModel = operations['getApp-profiles']['responses']['200']['content']['application/json'];

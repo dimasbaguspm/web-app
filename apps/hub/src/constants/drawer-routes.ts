@@ -3,6 +3,7 @@ export const DRAWER_ROUTES = {
   MANAGE_SETTING_PROFILE: 'manage-setting-profile',
 
   DETAIL_APP: 'detail-app',
+  EDIT_APP: 'edit-app',
 
   NEW_APP_PROFILE: 'new-app-profile',
   DETAIL_APP_PROFILE: 'detail-app-profile',

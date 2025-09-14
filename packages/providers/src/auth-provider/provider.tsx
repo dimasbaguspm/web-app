@@ -8,6 +8,8 @@ import { PageLoader } from '@dimasbaguspm/versaur';
 import { FC, PropsWithChildren } from 'react';
 
 import { AuthContext } from './context';
+import { getUserRole } from './helpers';
+import { AuthUserRole } from './types';
 
 const Provider: FC<PropsWithChildren> = ({ children }) => {
   const [authData, , { isFetching: isFetchingAuth }, refetchAuth] = useApiHiAuthMeQuery();
@@ -34,11 +36,21 @@ const Provider: FC<PropsWithChildren> = ({ children }) => {
     return <PageLoader fullscreen />;
   }
 
+  const role = getUserRole(user);
+
+  const isAdmin = role === AuthUserRole.Admin;
+  const isMember = role === AuthUserRole.Member;
+  const isGuest = role === AuthUserRole.Guest;
+
   return (
     <AuthContext.Provider
       value={{
         user,
         activeProfile: authData.tokenPayload.activeProfile,
+        role,
+        isAdmin,
+        isMember,
+        isGuest,
         refetch,
         logout: handleLogout,
       }}

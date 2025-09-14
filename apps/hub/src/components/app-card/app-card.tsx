@@ -11,7 +11,7 @@ interface AppCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'border
 export const AppCard: FC<AppCardProps> = (props) => {
   const { app, onClick, ...rest } = props;
 
-  const { name, createdDateTime, brandName, description } = formatHiAppData(app);
+  const { name, createdDateTime, brandName, outline } = formatHiAppData(app);
 
   const handleClick = () => {
     onClick?.(app);
@@ -21,14 +21,14 @@ export const AppCard: FC<AppCardProps> = (props) => {
     <Card
       onClick={handleClick}
       title={name}
-      subtitle={description}
+      subtitle={outline}
       avatar={<Brand name={brandName} shape="rounded" />}
       badge={
         <BadgeGroup>
           <Badge>Web</Badge>
         </BadgeGroup>
       }
-      supplementaryInfo={`Created on ${createdDateTime}`}
+      supplementaryInfo={`Available from ${createdDateTime}`}
       {...rest}
     />
   );

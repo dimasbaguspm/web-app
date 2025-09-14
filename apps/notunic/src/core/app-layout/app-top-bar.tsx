@@ -30,8 +30,8 @@ export const AppTopBar: FC = () => {
   };
 
   const isActive = (path: string) => {
-    if (path === DEEP_LINKS.BOARD.path) {
-      return location.pathname === DEEP_LINKS.BOARD.path;
+    if (path === DEEP_LINKS.SPACES.path) {
+      return location.pathname === DEEP_LINKS.SPACES.path;
     }
 
     return location.pathname.startsWith(path);
@@ -47,7 +47,7 @@ export const AppTopBar: FC = () => {
           size="lg"
           shape="rounded"
           aria-label="Notunic Logo"
-          onClick={handleNavigation(DEEP_LINKS.BOARD.path)}
+          onClick={handleNavigation(DEEP_LINKS.SPACES.path)}
         />
         <TopBar.Nav>
           {LINKS.map((link) => {

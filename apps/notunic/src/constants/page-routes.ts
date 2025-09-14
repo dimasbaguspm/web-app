@@ -1,21 +1,30 @@
 import { GalleryVerticalEndIcon, KanbanSquareIcon } from 'lucide-react';
 
 export const ROUTES = {
-  BOARD: '/',
-  SPACE: '/space',
-  TODO: '/todo',
+  SPACES: '/',
+  MY_ACTIONS: '/my-actions',
 } as const;
 
 export const DEEP_LINKS = {
-  BOARD: {
+  SPACES: {
     path: '/',
-    title: 'Board',
-    icon: KanbanSquareIcon,
-  },
-  SPACE: {
-    path: '/space',
-    title: 'Space',
+    title: 'Spaces',
     icon: GalleryVerticalEndIcon,
+  },
+  SPACES_ALT: {
+    path: '/spaces',
+    title: 'Spaces',
+    icon: GalleryVerticalEndIcon,
+  },
+  SPACES_DETAIL: {
+    path: (id: string) => `/spaces/${id}`,
+    title: 'Space Detail',
+    icon: GalleryVerticalEndIcon,
+  },
+  MY_ACTIONS: {
+    path: ROUTES.MY_ACTIONS,
+    title: 'My Actions',
+    icon: KanbanSquareIcon,
   },
 } as const;
 

@@ -22,7 +22,12 @@ export const formatHiAppData = (data?: AppModel | null) => {
     name: data?.name,
     brandName,
     initial: nameToInitials(data?.name ?? ''),
-    description: data?.description,
+    outline: data?.outline,
+    url: data?.url,
+    documentationUrl: data?.documentationUrl ?? '',
+    termsOfServiceUrl: data?.termsOfServiceUrl ?? '',
+    privacyPolicyUrl: data?.privacyPolicyUrl ?? '',
+    description: data?.description ?? '',
     createdDateTime: data?.createdAt ? formatDate(data?.createdAt, DateFormat.MEDIUM_DATETIME) : undefined,
   };
 };

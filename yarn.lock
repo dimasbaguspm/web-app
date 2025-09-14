@@ -1560,6 +1560,8 @@ __metadata:
   peerDependencies:
     "@dimasbaguspm/constants": "workspace:*"
     "@dimasbaguspm/interfaces": "workspace:*"
+    "@dimasbaguspm/providers": "workspace:*"
+    "@dimasbaguspm/versaur": ^0.0.40
     dayjs: 1.11.13
     lodash: 4.17.21
     lucide-react: 0.542.0

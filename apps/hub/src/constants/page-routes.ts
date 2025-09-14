@@ -1,9 +1,10 @@
-import { BoltIcon, Layers3Icon, Users2Icon } from 'lucide-react';
+import { BoltIcon, Layers3Icon, ShieldHalfIcon, Users2Icon } from 'lucide-react';
 
 export const ROUTES = {
   MARKETPLACE: '/marketplace',
   GROUPS: '/groups',
   SETTINGS: '/settings',
+  ADMINS: '/admins',
 } as const;
 
 export const DEEP_LINKS = {
@@ -12,7 +13,6 @@ export const DEEP_LINKS = {
     title: 'Marketplace',
     icon: Layers3Icon,
   },
-
   GROUPS: {
     path: ROUTES.GROUPS,
     title: 'Groups',
@@ -22,6 +22,11 @@ export const DEEP_LINKS = {
     path: ROUTES.SETTINGS,
     title: 'Settings',
     icon: BoltIcon,
+  },
+  ADMINS: {
+    path: ROUTES.ADMINS,
+    title: 'Admins',
+    icon: ShieldHalfIcon,
   },
 } as const;
 

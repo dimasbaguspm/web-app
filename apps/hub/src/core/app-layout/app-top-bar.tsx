@@ -10,10 +10,10 @@ import { useLocation, useNavigate } from 'react-router';
 import { MODAL_ROUTES } from '../../constants/modal-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
 
-import { LINKS } from './constants';
+import { getNavigationLinks } from './helpers';
 
 export const AppTopBar: FC = () => {
-  const { user } = useAuthProvider();
+  const { user, isAdmin } = useAuthProvider();
   const { isDesktop } = useWindowResize();
   const location = useLocation();
 
@@ -30,6 +30,8 @@ export const AppTopBar: FC = () => {
 
   if (!isDesktop) return null;
 
+  const navLinks = getNavigationLinks(isAdmin);
+
   return (
     <TopBar>
       <TopBar.Leading>
@@ -41,7 +43,7 @@ export const AppTopBar: FC = () => {
           onClick={handleNavigation(DEEP_LINKS.MARKETPLACE.path)}
         />
         <TopBar.Nav>
-          {LINKS.map((link) => {
+          {navLinks.map((link) => {
             const isActiveLink = isActive(link.path);
 
             return (

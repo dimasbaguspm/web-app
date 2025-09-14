@@ -1,13 +1,15 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { BottomBar, Icon } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
 
 import { DEEP_LINKS } from '../../constants/page-routes';
 
-import { LINKS } from './constants';
+import { getNavigationLinks } from './helpers';
 
 export const AppBottomBar: FC = () => {
+  const { isAdmin } = useAuthProvider();
   const { isDesktop } = useWindowResize();
   const navigate = useNavigate();
 
@@ -21,9 +23,11 @@ export const AppBottomBar: FC = () => {
 
   if (isDesktop) return null;
 
+  const navLinks = [...getNavigationLinks(isAdmin), DEEP_LINKS.SETTINGS];
+
   return (
     <BottomBar>
-      {[...LINKS, DEEP_LINKS.SETTINGS].map((link) => {
+      {navLinks.map((link) => {
         return (
           <BottomBar.Item
             key={link.path}

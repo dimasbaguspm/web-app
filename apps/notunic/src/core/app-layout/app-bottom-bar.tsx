@@ -20,8 +20,8 @@ export const AppBottomBar: FC = () => {
   };
 
   const isActive = (path: string) => {
-    if (path === DEEP_LINKS.BOARD.path) {
-      return location.pathname === DEEP_LINKS.BOARD.path;
+    if (path === DEEP_LINKS.SPACES.path) {
+      return location.pathname === DEEP_LINKS.SPACES.path;
     }
 
     return location.pathname.startsWith(path);

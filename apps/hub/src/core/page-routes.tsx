@@ -42,6 +42,10 @@ const router = createBrowserRouter([
         path: ROUTES.SETTINGS,
         Component: lazy(() => import('../pages/settings/page')),
       },
+      {
+        path: ROUTES.ADMINS,
+        Component: lazy(() => import('../pages/admins/page')),
+      },
     ],
   },
 ]);
