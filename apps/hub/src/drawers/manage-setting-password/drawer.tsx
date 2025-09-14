@@ -1,6 +1,7 @@
+import { useApiHiUpdateWhoAmIPassword } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { Button, ButtonGroup, Drawer, FormLayout, TextInput } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, FormLayout, TextInput, useSnackbars } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -9,11 +10,20 @@ import { ManageSettingPasswordFormSchema } from './types';
 export const ManageSettingPasswordDrawer: FC = () => {
   const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
+  const { showSnack } = useSnackbars();
+
+  const [updateWhoAmIPassword, , { isPending }] = useApiHiUpdateWhoAmIPassword();
 
   const { control, handleSubmit } = useForm<ManageSettingPasswordFormSchema>();
 
-  const handleOnSubmit = (data: ManageSettingPasswordFormSchema) => {
-    console.log(data);
+  const handleOnSubmit = async (data: ManageSettingPasswordFormSchema) => {
+    await updateWhoAmIPassword({
+      confirmNewPassword: data.confirmNewPassword,
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
+    });
+    showSnack('success', 'Password updated successfully');
+    closeDrawer();
   };
 
   return (
@@ -108,10 +118,10 @@ export const ManageSettingPasswordDrawer: FC = () => {
       </Drawer.Body>
       <Drawer.Footer>
         <ButtonGroup fluid={!isDesktop} alignment="end">
-          <Button variant="ghost" onClick={closeDrawer}>
+          <Button variant="ghost" onClick={closeDrawer} disabled={isPending}>
             Cancel
           </Button>
-          <Button variant="primary" form="manage-setting-password-form" type="submit">
+          <Button variant="primary" form="manage-setting-password-form" type="submit" disabled={isPending}>
             Save
           </Button>
         </ButtonGroup>
