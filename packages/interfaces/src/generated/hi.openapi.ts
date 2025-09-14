@@ -100,6 +100,38 @@ export interface paths {
     patch: operations['patchApp-profilesById'];
     trace?: never;
   };
+  '/app-profiles-auth/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getApp-profiles-auth'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['patchApp-profiles-auth'];
+    trace?: never;
+  };
+  '/app-profiles-auth/verify-pin': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['postApp-profiles-authVerify-pin'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/auth/signup': {
     parameters: {
       query?: never;
@@ -708,11 +740,11 @@ export interface operations {
   'getApp-profiles': {
     parameters: {
       query?: {
-        id?: (number | string)[];
-        appId?: (number | string)[];
-        groupId?: (number | string)[];
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        id?: number[];
+        appId?: number[];
+        groupId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'app_id';
         sortOrder?: 'asc' | 'desc';
       };
@@ -734,6 +766,7 @@ export interface operations {
               appId: number;
               userId: number;
               groupId?: number | null;
+              hasAuth: boolean;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -751,6 +784,7 @@ export interface operations {
               appId: number;
               userId: number;
               groupId?: number | null;
+              hasAuth: boolean;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -768,6 +802,7 @@ export interface operations {
               appId: number;
               userId: number;
               groupId?: number | null;
+              hasAuth: boolean;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -820,6 +855,7 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -831,6 +867,7 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -842,6 +879,7 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -856,7 +894,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -873,6 +911,7 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -884,6 +923,7 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -895,6 +935,7 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -973,6 +1014,7 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -984,6 +1026,7 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -995,10 +1038,128 @@ export interface operations {
             appId: number;
             userId: number;
             groupId?: number | null;
+            hasAuth: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getApp-profiles-auth': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            appProfileId: number;
+            pin: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            appProfileId: number;
+            pin: string;
+          };
+          'text/plain': {
+            id: number;
+            appProfileId: number;
+            pin: string;
+          };
+        };
+      };
+    };
+  };
+  'patchApp-profiles-auth': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          pin: string;
+        };
+        'multipart/form-data': {
+          pin: string;
+        };
+        'text/plain': {
+          pin: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            appProfileId: number;
+            pin: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            appProfileId: number;
+            pin: string;
+          };
+          'text/plain': {
+            id: number;
+            appProfileId: number;
+            pin: string;
+          };
+        };
+      };
+    };
+  };
+  'postApp-profiles-authVerify-pin': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          pin: string;
+        };
+        'multipart/form-data': {
+          pin: string;
+        };
+        'text/plain': {
+          pin: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            verified: boolean;
+          };
+          'multipart/form-data': {
+            verified: boolean;
+          };
+          'text/plain': {
+            verified: boolean;
           };
         };
       };

@@ -36,6 +36,12 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  HI_APP_PROFILES_AUTH: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.HI_APP_PROFILES,
+    'auth',
+    JSON.stringify(params ?? {}),
+  ],
+
   HI_GROUPS_INFINITE: (params: object = {}) => [...BASE_QUERY_KEYS.HI_GROUPS, 'infinite', JSON.stringify(params ?? {})],
   HI_GROUPS_PAGINATED: (params: object = {}) => [
     ...BASE_QUERY_KEYS.HI_GROUPS,

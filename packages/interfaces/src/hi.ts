@@ -24,6 +24,14 @@ export type UpdateAppProfileModel = operations['patchApp-profilesById']['request
   operations['patchApp-profilesById']['parameters']['path'];
 export type DeleteAppProfileModel = operations['deleteApp-profilesById']['parameters']['path'];
 
+export type AppProfileAuthModel = operations['getApp-profiles-auth']['responses']['200']['content']['application/json'];
+export type UpsertAppProfileAuthModel =
+  operations['patchApp-profiles-auth']['requestBody']['content']['application/json'];
+export type VerifyAppProfileAuthModel =
+  operations['postApp-profiles-authVerify-pin']['requestBody']['content']['application/json'];
+export type VerifyAppProfileAuthResponseModel =
+  operations['postApp-profiles-authVerify-pin']['responses']['200']['content']['application/json'];
+
 export type SearchGroupsModel = NonNullable<operations['getGroups']['parameters']['query']>;
 export type GroupPageModel = operations['getGroups']['responses']['200']['content']['application/json'];
 export type GroupModel = operations['getGroupsById']['responses']['200']['content']['application/json'];
