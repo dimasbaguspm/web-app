@@ -43,22 +43,24 @@ export const ProfilesTab: FC<ProfilesTabProps> = ({ group }) => {
       </If>
       <If condition={[!isInitialFetching && profiles.length]}>
         <ul className="mb-4">
-          {profiles?.map((profile, index) => {
-            const app = apps.find((app) => app.id === profile.appId);
-            const isLastItem = profiles.length === index + 1;
-            return (
-              <li>
-                <AppProfileCard
-                  appProfile={profile}
-                  onClick={handleOnCardClick}
-                  app={app!}
-                  hideGroupRelatedBadge
-                  useBrandAvatar
-                />
-                {!isLastItem && <Hr />}
-              </li>
-            );
-          })}
+          {profiles
+            ?.filter((profile) => profile.groupId === group.id)
+            ?.map((profile, index) => {
+              const app = apps.find((app) => app.id === profile.appId);
+              const isLastItem = profiles.length === index + 1;
+              return (
+                <li>
+                  <AppProfileCard
+                    appProfile={profile}
+                    onClick={handleOnCardClick}
+                    app={app!}
+                    hideGroupRelatedBadge
+                    useBrandAvatar
+                  />
+                  {!isLastItem && <Hr />}
+                </li>
+              );
+            })}
         </ul>
         <If condition={hasNextPage}>
           <ButtonGroup alignment="center">
