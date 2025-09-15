@@ -43,8 +43,14 @@ export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }
                     return true;
                   },
                 }}
-                render={({ field }) => (
-                  <TextInput {...field} type="password" label="Pin" placeholder="Enter your pin" />
+                render={({ field, fieldState }) => (
+                  <TextInput
+                    {...field}
+                    type="password"
+                    label="Pin"
+                    placeholder="Enter your pin"
+                    error={fieldState.error?.message}
+                  />
                 )}
               />
             </FormLayout.Column>
