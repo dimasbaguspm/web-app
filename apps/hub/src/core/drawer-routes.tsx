@@ -10,6 +10,7 @@ import { DetailGroupDrawer } from '../drawers/detail-group-drawer/drawer';
 import { EditAppDrawer } from '../drawers/edit-app-drawer/drawer';
 import { EditAppProfileDrawer } from '../drawers/edit-app-profile/drawer';
 import { EditGroupDrawer } from '../drawers/edit-group-drawer/drawer';
+import { ManageAppProfilePinDrawer } from '../drawers/manage-app-profile-pin-drawer/drawer';
 import { ManageGroupMemberDrawer } from '../drawers/manage-group-member-drawer/drawer';
 import { ManageSettingPasswordDrawer } from '../drawers/manage-setting-password/drawer';
 import { ManageSettingProfileDrawer } from '../drawers/manage-setting-profile/drawer';
@@ -59,6 +60,10 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.EDIT_APP_PROFILE) && hasParam('appProfileId') && hasParam('appId') && (
         <EditAppProfileDrawer appProfileId={params.appProfileId!} appId={params.appId!} />
       )}
+      {is(DRAWER_ROUTES.MANAGE_APP_PROFILE_PIN) && hasParam('appProfileId') && (
+        <ManageAppProfilePinDrawer appProfileId={params.appProfileId!} />
+      )}
+
       {is(DRAWER_ROUTES.SELECT_GROUP) && hasState('payload') && hasState('returnToDrawer') && hasParam('payloadId') && (
         <SelectGroupDrawer
           payloadId={params.payloadId!}

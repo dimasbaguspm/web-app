@@ -100,6 +100,22 @@ export interface paths {
     patch: operations['patchApp-profilesById'];
     trace?: never;
   };
+  '/app-profiles-auth/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['patchApp-profiles-authById'];
+    trace?: never;
+  };
   '/app-profiles-auth/': {
     parameters: {
       query?: never;
@@ -107,7 +123,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getApp-profiles-auth'];
+    get?: never;
     put?: never;
     post?: never;
     delete?: never;
@@ -1048,36 +1064,34 @@ export interface operations {
       };
     };
   };
-  'getApp-profiles-auth': {
+  'patchApp-profiles-authById': {
     parameters: {
       query?: never;
       header?: never;
-      path?: never;
+      path: {
+        id: number;
+      };
       cookie?: never;
     };
-    requestBody?: never;
+    requestBody: {
+      content: {
+        'application/json': {
+          pin: string;
+        };
+        'multipart/form-data': {
+          pin: string;
+        };
+        'text/plain': {
+          pin: string;
+        };
+      };
+    };
     responses: {
       200: {
         headers: {
           [name: string]: unknown;
         };
-        content: {
-          'application/json': {
-            id: number;
-            appProfileId: number;
-            pin: string;
-          };
-          'multipart/form-data': {
-            id: number;
-            appProfileId: number;
-            pin: string;
-          };
-          'text/plain': {
-            id: number;
-            appProfileId: number;
-            pin: string;
-          };
-        };
+        content?: never;
       };
     };
   };
@@ -1106,23 +1120,7 @@ export interface operations {
         headers: {
           [name: string]: unknown;
         };
-        content: {
-          'application/json': {
-            id: number;
-            appProfileId: number;
-            pin: string;
-          };
-          'multipart/form-data': {
-            id: number;
-            appProfileId: number;
-            pin: string;
-          };
-          'text/plain': {
-            id: number;
-            appProfileId: number;
-            pin: string;
-          };
-        };
+        content?: never;
       };
     };
   };

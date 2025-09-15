@@ -1,29 +1,25 @@
 import {
-  AppProfileAuthModel,
+  UpsertAppProfileAuthByIdModel,
   UpsertAppProfileAuthModel,
   VerifyAppProfileAuthModel,
   VerifyAppProfileAuthResponseModel,
 } from '@dimasbaguspm/interfaces';
 
-import { QUERY_KEYS } from '../../query-keys';
 import { HI_URL } from '../../url';
 import { useApiMutate } from '../../use-api-mutate';
-import { useApiQuery, UseApiQueryOptions } from '../../use-api-query';
 
-export const useApiHiAppProfileAuthQuery = (
-  options?: Partial<UseApiQueryOptions<AppProfileAuthModel, unknown, unknown>>,
-) => {
-  return useApiQuery<AppProfileAuthModel, unknown>({
-    ...options,
+export const useApiHiUpsertAppProfileAuthById = () => {
+  return useApiMutate<boolean, UpsertAppProfileAuthByIdModel>({
     base: 'HI',
-    queryKey: QUERY_KEYS.HI_APP_PROFILES_AUTH(),
-    path: HI_URL.APP_PROFILES_AUTH.GET,
+    method: 'PATCH',
+    path: HI_URL.APP_PROFILES_AUTH.UPSERT_BYID,
   });
 };
 
 export const useApiHiUpsertAppProfileAuth = () => {
-  return useApiMutate<AppProfileAuthModel, UpsertAppProfileAuthModel>({
+  return useApiMutate<boolean, UpsertAppProfileAuthModel>({
     base: 'HI',
+    method: 'PATCH',
     path: HI_URL.APP_PROFILES_AUTH.UPSERT,
   });
 };
@@ -31,6 +27,7 @@ export const useApiHiUpsertAppProfileAuth = () => {
 export const useApiHiVerifyAppProfileAuthPin = () => {
   return useApiMutate<VerifyAppProfileAuthResponseModel, VerifyAppProfileAuthModel>({
     base: 'HI',
+    method: 'POST',
     path: HI_URL.APP_PROFILES_AUTH.VERIFY_PIN,
   });
 };

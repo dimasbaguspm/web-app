@@ -24,7 +24,9 @@ export type UpdateAppProfileModel = operations['patchApp-profilesById']['request
   operations['patchApp-profilesById']['parameters']['path'];
 export type DeleteAppProfileModel = operations['deleteApp-profilesById']['parameters']['path'];
 
-export type AppProfileAuthModel = operations['getApp-profiles-auth']['responses']['200']['content']['application/json'];
+export type UpsertAppProfileAuthByIdModel =
+  operations['patchApp-profiles-authById']['requestBody']['content']['application/json'] &
+    operations['patchApp-profiles-authById']['parameters']['path'];
 export type UpsertAppProfileAuthModel =
   operations['patchApp-profiles-auth']['requestBody']['content']['application/json'];
 export type VerifyAppProfileAuthModel =

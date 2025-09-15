@@ -8,6 +8,7 @@ export const DRAWER_ROUTES = {
   NEW_APP_PROFILE: 'new-app-profile',
   DETAIL_APP_PROFILE: 'detail-app-profile',
   EDIT_APP_PROFILE: 'edit-app-profile',
+  MANAGE_APP_PROFILE_PIN: 'manage-app-profile-pin',
 
   DETAIL_GROUP: 'detail-group',
   NEW_GROUP: 'new-group',

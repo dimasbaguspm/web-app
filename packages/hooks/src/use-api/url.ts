@@ -26,7 +26,7 @@ export const HI_URL = {
     BY_ID: (id: number) => `/app-profiles/${id}`,
   },
   APP_PROFILES_AUTH: {
-    GET: '/app-profiles-auth',
+    UPSERT_BYID: `/app-profiles-auth/:id`,
     UPSERT: '/app-profiles-auth',
     VERIFY_PIN: '/app-profiles-auth/verify-pin',
   },

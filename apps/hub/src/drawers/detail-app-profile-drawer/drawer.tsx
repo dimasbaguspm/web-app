@@ -77,7 +77,7 @@ export const DetailAppProfileDrawer: FC<DetailAppProfileDrawerProps> = ({ appPro
         <If condition={[!isLoading && appProfile]}>
           {activeTab === SubTab.Details && <DetailsTab app={app!} appProfile={appProfile!} />}
           {activeTab === SubTab.Usage && <UsageTab />}
-          {activeTab === SubTab.Settings && <SettingsTab />}
+          {activeTab === SubTab.Settings && <SettingsTab appProfile={appProfile!} />}
         </If>
       </Drawer.Body>
       <Drawer.Footer>
