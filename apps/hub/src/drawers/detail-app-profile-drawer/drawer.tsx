@@ -80,11 +80,13 @@ export const DetailAppProfileDrawer: FC<DetailAppProfileDrawerProps> = ({ appPro
           {activeTab === SubTab.Settings && <SettingsTab appProfile={appProfile!} />}
         </If>
       </Drawer.Body>
-      <Drawer.Footer>
-        <ButtonGroup alignment="end" fluid={!isDesktop}>
-          <Button onClick={handleOnLaunchClick}>Launch</Button>
-        </ButtonGroup>
-      </Drawer.Footer>
+      {activeTab === SubTab.Details && (
+        <Drawer.Footer>
+          <ButtonGroup alignment="end" fluid={!isDesktop}>
+            <Button onClick={handleOnLaunchClick}>Launch</Button>
+          </ButtonGroup>
+        </Drawer.Footer>
+      )}
     </>
   );
 };

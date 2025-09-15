@@ -24,10 +24,10 @@ const router = createBrowserRouter([
               <AppLayout>
                 <Outlet />
               </AppLayout>
+              <DrawerRoutes />
+              <ModalRoutes />
+              <BottomSheetRoutes />
             </ProfileAuthGuard>
-            <DrawerRoutes />
-            <ModalRoutes />
-            <BottomSheetRoutes />
           </BottomSheetRouteProvider>
         </ModalRouteProvider>
       </DrawerRouteProvider>

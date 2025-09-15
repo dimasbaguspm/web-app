@@ -35,7 +35,14 @@ export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }
               <Controller
                 control={control}
                 name="pin"
-                defaultValue=""
+                rules={{
+                  validate: (value) => {
+                    if (!value) {
+                      return 'Pin is required';
+                    }
+                    return true;
+                  },
+                }}
                 render={({ field }) => (
                   <TextInput {...field} type="password" label="Pin" placeholder="Enter your pin" />
                 )}

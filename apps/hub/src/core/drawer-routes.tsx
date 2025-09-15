@@ -8,7 +8,7 @@ import { DetailAppDrawer } from '../drawers/detail-app-drawer/drawer';
 import { DetailAppProfileDrawer } from '../drawers/detail-app-profile-drawer/drawer';
 import { DetailGroupDrawer } from '../drawers/detail-group-drawer/drawer';
 import { EditAppDrawer } from '../drawers/edit-app-drawer/drawer';
-import { EditAppProfileDrawer } from '../drawers/edit-app-profile/drawer';
+import { EditAppProfileDrawer } from '../drawers/edit-app-profile-drawer/drawer';
 import { EditGroupDrawer } from '../drawers/edit-group-drawer/drawer';
 import { ManageAppProfilePinDrawer } from '../drawers/manage-app-profile-pin-drawer/drawer';
 import { ManageGroupMemberDrawer } from '../drawers/manage-group-member-drawer/drawer';

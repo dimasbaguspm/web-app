@@ -3,6 +3,7 @@ import { Modal } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { MODAL_ROUTES } from '../constants/modal-routes';
+import { DeleteAppProfileAuthModal } from '../modals/delete-app-profile-auth-modal/modal';
 import { DeleteAppProfileModal } from '../modals/delete-app-profile-modal/modal';
 import { LogoutConfirmationModal } from '../modals/logout-confirmation-modal/modal';
 
@@ -32,6 +33,9 @@ export const ModalRoutes: FC = () => {
       {is(MODAL_ROUTES.LOGOUT_CONFIRMATION) && <LogoutConfirmationModal />}
       {is(MODAL_ROUTES.DELETE_APP_PROFILE) && hasParam('appProfileId') && (
         <DeleteAppProfileModal appProfileId={params.appProfileId!} />
+      )}
+      {is(MODAL_ROUTES.DELETE_APP_PROFILE_AUTH) && hasParam('appProfileId') && (
+        <DeleteAppProfileAuthModal appProfileId={params.appProfileId!} />
       )}
     </Modal>
   );
