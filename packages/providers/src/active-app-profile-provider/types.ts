@@ -5,4 +5,5 @@ export type ActiveAppProfileModel = {
   profile: AppProfileModel;
   refetchProfile: () => Promise<void>;
   isDifferentApp: boolean;
+  shouldVerifyProfileOwnership?: boolean;
 };

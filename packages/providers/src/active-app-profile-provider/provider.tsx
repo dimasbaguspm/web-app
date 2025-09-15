@@ -30,6 +30,7 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
   }
 
   const isDifferentApp = activeProfileData?.appId !== appId;
+  const shouldVerifyProfileOwnership = !!activeProfileData && activeProfileData.hasAuth;
 
   return (
     <ActiveAppProfileContext.Provider
@@ -38,6 +39,7 @@ export const ActiveAppProfileProvider: FC<Props> = (props) => {
         profile: activeProfileData!,
         refetchProfile,
         isDifferentApp,
+        shouldVerifyProfileOwnership,
       }}
     >
       {children}

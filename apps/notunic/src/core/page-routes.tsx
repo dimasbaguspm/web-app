@@ -1,3 +1,4 @@
+import { ProfileAuthGuard } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { BottomSheetRouteProvider } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { DrawerRouteProvider } from '@dimasbaguspm/providers/drawer-route-provider';
 import { ModalRouteProvider } from '@dimasbaguspm/providers/modal-route-provider';
@@ -7,7 +8,6 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router';
 import { ROUTES } from '../constants/page-routes';
 
 import { AppLayout } from './app-layout';
-import { AppSession } from './app-session';
 import { BottomSheetRoutes } from './bottom-sheet-routes';
 import { DrawerRoutes } from './drawer-routes';
 import { ModalRoutes } from './modal-routes';
@@ -18,11 +18,11 @@ const router = createBrowserRouter([
       <DrawerRouteProvider>
         <ModalRouteProvider>
           <BottomSheetRouteProvider>
-            <AppSession>
+            <ProfileAuthGuard>
               <AppLayout>
                 <Outlet />
               </AppLayout>
-            </AppSession>
+            </ProfileAuthGuard>
             <DrawerRoutes />
             <ModalRoutes />
             <BottomSheetRoutes />
