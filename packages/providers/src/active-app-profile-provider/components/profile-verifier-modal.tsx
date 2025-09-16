@@ -1,5 +1,4 @@
 import { useApiHiVerifyAppProfileAuthPin } from '@dimasbaguspm/hooks/use-api';
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { Button, ButtonGroup, FormLayout, Modal, TextInput } from '@dimasbaguspm/versaur';
 import { noop } from 'lodash';
 import { FC } from 'react';
@@ -15,7 +14,6 @@ interface ProfileVerifierModalProps {
 
 export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }) => {
   const [pinVerifying, , { isPending }] = useApiHiVerifyAppProfileAuthPin();
-  const { isDesktop } = useWindowResize();
 
   const { control, handleSubmit } = useForm<ProfileSwitcherFormSchema>();
 
@@ -27,13 +25,7 @@ export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }
   };
 
   return (
-    <Modal
-      isOpen
-      onClose={noop}
-      disableEscapeKeyDown
-      disableOverlayClickToClose
-      placement={isDesktop ? 'center' : 'top'}
-    >
+    <Modal isOpen onClose={noop} disableEscapeKeyDown disableOverlayClickToClose>
       <Modal.Header>Verify Ownership</Modal.Header>
 
       <Modal.Body className="max-h-[56dvh] overflow-y-auto">
@@ -56,6 +48,7 @@ export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }
                     {...field}
                     type="password"
                     label="Pin"
+                    inputMode="numeric"
                     placeholder="Enter your pin"
                     autoFocus
                     autoComplete="on"
