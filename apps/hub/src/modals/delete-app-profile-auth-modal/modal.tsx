@@ -1,6 +1,6 @@
 import { useApiHiDeleteAppProfileAuth, useApiHiVerifyAppProfileAuthPin } from '@dimasbaguspm/hooks/use-api';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
-import { Button, ButtonGroup, FormLayout, Modal, PinField, useSnackbars } from '@dimasbaguspm/versaur';
+import { FormLayout, Modal, PinField, useSnackbars } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -15,8 +15,8 @@ export const DeleteAppProfileAuthModal: FC<DeleteAppProfileAuthModalProps> = ({ 
   const { showSnack } = useSnackbars();
 
   const { control, handleSubmit } = useForm<DeleteAppProfileAuthFormSchema>();
-  const [deleteAppProfile, , { isPending: isPendingDelete }] = useApiHiDeleteAppProfileAuth();
-  const [verifyAppProfile, , { isPending: isPendingVerify }] = useApiHiVerifyAppProfileAuthPin();
+  const [deleteAppProfile] = useApiHiDeleteAppProfileAuth();
+  const [verifyAppProfile] = useApiHiVerifyAppProfileAuthPin();
 
   const handleOnSubmit = async (data: DeleteAppProfileAuthFormSchema) => {
     const resp = await verifyAppProfile({
@@ -34,8 +34,6 @@ export const DeleteAppProfileAuthModal: FC<DeleteAppProfileAuthModalProps> = ({ 
     showSnack('success', 'PIN authentication is successfully deleted');
     closeModal();
   };
-
-  const isPending = isPendingDelete || isPendingVerify;
 
   return (
     <>
@@ -56,19 +54,15 @@ export const DeleteAppProfileAuthModal: FC<DeleteAppProfileAuthModalProps> = ({ 
                     return true;
                   },
                 }}
-                render={({ field, fieldState }) => <PinField {...field} secure error={fieldState.error?.message} />}
+                render={({ field, fieldState }) => (
+                  <PinField {...field} secure error={fieldState.error?.message} autoSubmit />
+                )}
               />
             </FormLayout.Column>
           </FormLayout>
         </form>
       </Modal.Body>
-      <Modal.Footer>
-        <ButtonGroup alignment="end" fluid>
-          <Button type="submit" form="profile-verifier-form" disabled={isPending}>
-            Submit
-          </Button>
-        </ButtonGroup>
-      </Modal.Footer>
+      <Modal.Footer>{null}</Modal.Footer>
     </>
   );
 };

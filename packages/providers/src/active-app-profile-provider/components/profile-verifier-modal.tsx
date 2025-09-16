@@ -1,5 +1,5 @@
 import { useApiHiVerifyAppProfileAuthPin } from '@dimasbaguspm/hooks/use-api';
-import { Button, ButtonGroup, FormLayout, Modal, PinField, useSnackbars } from '@dimasbaguspm/versaur';
+import { FormLayout, Modal, PinField, useSnackbars } from '@dimasbaguspm/versaur';
 import { noop } from 'lodash';
 import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -13,7 +13,7 @@ interface ProfileVerifierModalProps {
 }
 
 export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }) => {
-  const [pinVerifying, , { isPending }] = useApiHiVerifyAppProfileAuthPin();
+  const [pinVerifying] = useApiHiVerifyAppProfileAuthPin();
   const { showSnack } = useSnackbars();
 
   const { control, handleSubmit } = useForm<ProfileSwitcherFormSchema>();
@@ -51,26 +51,14 @@ export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }
                   },
                 }}
                 render={({ field, fieldState }) => (
-                  <PinField
-                    {...field}
-                    secure
-                    label="Pin"
-                    helperText="Enter your 6-digit pin"
-                    error={fieldState.error?.message}
-                  />
+                  <PinField {...field} secure error={fieldState.error?.message} autoSubmit />
                 )}
               />
             </FormLayout.Column>
           </FormLayout>
         </form>
       </Modal.Body>
-      <Modal.Footer>
-        <ButtonGroup alignment="end" fluid>
-          <Button type="submit" form="profile-verifier-form" disabled={isPending}>
-            Submit
-          </Button>
-        </ButtonGroup>
-      </Modal.Footer>
+      <Modal.Footer>{null}</Modal.Footer>
     </Modal>
   );
 };
