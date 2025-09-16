@@ -33,6 +33,7 @@ export type VerifyAppProfileAuthModel =
   operations['postApp-profiles-authVerify-pin']['requestBody']['content']['application/json'];
 export type VerifyAppProfileAuthResponseModel =
   operations['postApp-profiles-authVerify-pin']['responses']['200']['content']['application/json'];
+export type DeleteAppProfileAuthModel = operations['deleteApp-profiles-authById']['parameters']['path'];
 
 export type SearchGroupsModel = NonNullable<operations['getGroups']['parameters']['query']>;
 export type GroupPageModel = operations['getGroups']['responses']['200']['content']['application/json'];

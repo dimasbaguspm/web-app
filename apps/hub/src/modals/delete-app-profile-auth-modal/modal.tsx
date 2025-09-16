@@ -1,34 +1,71 @@
+import { useApiHiDeleteAppProfileAuth, useApiHiVerifyAppProfileAuthPin } from '@dimasbaguspm/hooks/use-api';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
-import { Button, ButtonGroup, Modal } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, FormLayout, Modal, PinField, useSnackbars } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+
+import { DeleteAppProfileAuthFormSchema } from './types';
 
 interface DeleteAppProfileAuthModalProps {
   appProfileId: number;
 }
 
-export const DeleteAppProfileAuthModal: FC<DeleteAppProfileAuthModalProps> = () => {
+export const DeleteAppProfileAuthModal: FC<DeleteAppProfileAuthModalProps> = ({ appProfileId }) => {
   const { closeModal } = useModalRoute();
+  const { showSnack } = useSnackbars();
 
-  // const [deleteAppProfile, , { isPending }] = useApiHiDeleteAppProfileAuth();
+  const { control, handleSubmit } = useForm<DeleteAppProfileAuthFormSchema>();
+  const [deleteAppProfile, , { isPending: isPendingDelete }] = useApiHiDeleteAppProfileAuth();
+  const [verifyAppProfile, , { isPending: isPendingVerify }] = useApiHiVerifyAppProfileAuthPin();
 
-  const handleDelete = async () => {
-    // await deleteAppProfile({
-    //   id: appProfileId,
-    // });
+  const handleOnSubmit = async (data: DeleteAppProfileAuthFormSchema) => {
+    const resp = await verifyAppProfile({
+      pin: data.pin,
+    });
+
+    if (!resp.verified) {
+      showSnack('danger', 'Pin is incorrect');
+      return;
+    }
+
+    await deleteAppProfile({
+      id: appProfileId,
+    });
+    showSnack('success', 'PIN authentication is successfully deleted');
     closeModal();
   };
 
+  const isPending = isPendingDelete || isPendingVerify;
+
   return (
     <>
-      <Modal.Header>Confirmation</Modal.Header>
-      <Modal.Body>Are you sure you want to delete PIN for this profile?</Modal.Body>
+      <Modal.Header>Verify PIN</Modal.Header>
+
+      <Modal.Body className="max-h-[56dvh] overflow-y-auto">
+        <form onSubmit={handleSubmit(handleOnSubmit)} id="profile-verifier-form">
+          <FormLayout>
+            <FormLayout.Column span={12}>
+              <Controller
+                control={control}
+                name="pin"
+                rules={{
+                  validate: (value) => {
+                    if (!value) {
+                      return 'Pin is required';
+                    }
+                    return true;
+                  },
+                }}
+                render={({ field, fieldState }) => <PinField {...field} secure error={fieldState.error?.message} />}
+              />
+            </FormLayout.Column>
+          </FormLayout>
+        </form>
+      </Modal.Body>
       <Modal.Footer>
-        <ButtonGroup>
-          <Button variant="ghost" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete
+        <ButtonGroup alignment="end" fluid>
+          <Button type="submit" form="profile-verifier-form" disabled={isPending}>
+            Submit
           </Button>
         </ButtonGroup>
       </Modal.Footer>

@@ -110,7 +110,7 @@ export interface paths {
     get?: never;
     put?: never;
     post?: never;
-    delete?: never;
+    delete: operations['deleteApp-profiles-authById'];
     options?: never;
     head?: never;
     patch: operations['patchApp-profiles-authById'];
@@ -517,10 +517,10 @@ export interface operations {
   getApps: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -604,7 +604,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -756,11 +756,11 @@ export interface operations {
   'getApp-profiles': {
     parameters: {
       query?: {
-        id?: number[];
-        appId?: number[];
-        groupId?: number[];
-        pageNumber?: number;
-        pageSize?: number;
+        id?: (number | string)[];
+        appId?: (number | string)[];
+        groupId?: (number | string)[];
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'app_id';
         sortOrder?: 'asc' | 'desc';
       };
@@ -910,7 +910,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -995,7 +995,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -1061,6 +1061,25 @@ export interface operations {
             updatedAt: string;
           };
         };
+      };
+    };
+  };
+  'deleteApp-profiles-authById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
