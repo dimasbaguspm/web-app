@@ -1,5 +1,5 @@
 import { useApiHiVerifyAppProfileAuthPin } from '@dimasbaguspm/hooks/use-api';
-import { FormLayout, Modal, PinField, useSnackbars } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, FormLayout, Heading, Modal, PinField, useSnackbars } from '@dimasbaguspm/versaur';
 import { noop } from 'lodash';
 import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -33,9 +33,11 @@ export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }
 
   return (
     <Modal isOpen onClose={noop} disableEscapeKeyDown disableOverlayClickToClose>
-      <Modal.Header>Verify Ownership</Modal.Header>
+      <Modal.Header>
+        <Heading level={3}>Enter PIN</Heading>
+      </Modal.Header>
 
-      <Modal.Body className="max-h-[56dvh] overflow-y-auto">
+      <Modal.Body>
         <form onSubmit={handleSubmit(handleOnSubmit)} id="profile-verifier-form">
           <FormLayout>
             <FormLayout.Column span={12}>
@@ -50,15 +52,19 @@ export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }
                     return true;
                   },
                 }}
-                render={({ field, fieldState }) => (
-                  <PinField {...field} secure error={fieldState.error?.message} autoSubmit />
-                )}
+                render={({ field, fieldState }) => <PinField {...field} secure error={fieldState.error?.message} />}
               />
             </FormLayout.Column>
           </FormLayout>
         </form>
       </Modal.Body>
-      <Modal.Footer>{null}</Modal.Footer>
+      <Modal.Footer>
+        <ButtonGroup alignment="end">
+          <Button type="submit" form="profile-verifier-form">
+            Verify
+          </Button>
+        </ButtonGroup>
+      </Modal.Footer>
     </Modal>
   );
 };
