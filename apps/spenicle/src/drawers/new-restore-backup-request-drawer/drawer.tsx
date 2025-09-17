@@ -58,15 +58,16 @@ export const NewRestoreBackupRequestDrawer: FC = () => {
                     return true;
                   },
                 }}
-                render={({ field: { onChange, name }, fieldState }) => (
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                render={({ field: { value: _, ...fieldRest }, fieldState }) => (
                   <TextInput
-                    name={name}
+                    {...fieldRest}
                     label="Upload Backup File"
                     helperText="Select the encrypted backup file to restore (.json.enc)"
                     type="file"
                     onChange={(e) => {
                       const file = e.target.files?.[0] || null;
-                      onChange(file);
+                      fieldRest.onChange(file);
                     }}
                     error={fieldState.error?.message}
                   />
