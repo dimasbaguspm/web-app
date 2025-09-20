@@ -43,4 +43,4 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           source: 'apps/${{ inputs.app_name }}/dist/**'
-          target: '/deployments/web-app/${{ inputs.app_name }}'
+          target: '~/web-app/${{ inputs.app_name }}'
