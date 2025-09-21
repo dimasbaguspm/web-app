@@ -1,4 +1,5 @@
 import { useApiNotunicSpacesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { SpaceModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
@@ -28,8 +29,11 @@ const SpacePage = () => {
   const { openDrawer } = useDrawerRoute();
   const navigate = useNavigate();
 
+  const [searchTerm, setSearchTerm] = useDebouncedState<string>();
+
   const [spaces, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiNotunicSpacesInfiniteQuery({
+      name: searchTerm,
       pageSize: 15,
     });
 
@@ -63,7 +67,12 @@ const SpacePage = () => {
       <PageContent>
         <FormLayout className="mb-4">
           <FormLayout.Column span={isDesktop ? 4 : 12}>
-            <SearchInput variant="neutral" placeholder="Search spaces..." />
+            <SearchInput
+              defaultValue={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              variant="neutral"
+              placeholder="Search spaces..."
+            />
           </FormLayout.Column>
         </FormLayout>
 
