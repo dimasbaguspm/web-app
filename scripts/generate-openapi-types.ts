@@ -13,23 +13,17 @@ const __dirname = path.dirname(__filename);
 const SWAGGER_URLS = {
   spenicle: 'https://spenicle-api.dimasbaguspm.com/swagger/json',
   hi: 'https://hi.dimasbaguspm.com/swagger/json',
+  notunic: 'https://notunic-api.dimasbaguspm.com/swagger/json',
 };
 
-const OUTPUT_DIR = path.resolve(
-  __dirname,
-  '../packages/interfaces/src/generated',
-);
+const OUTPUT_DIR = path.resolve(__dirname, '../packages/interfaces/src/generated');
 
 // Ensure output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-function fetchSwagger(
-  url: string,
-  dest: string,
-  cb: (err?: Error | null) => void,
-) {
+function fetchSwagger(url: string, dest: string, cb: (err?: Error | null) => void) {
   const file = fs.createWriteStream(dest);
   https
     .get(url, (response) => {
@@ -89,9 +83,7 @@ function generateTypesFromUrl(name: string, url: string) {
 // Generate types for both APIs
 async function generateAllTypes() {
   try {
-    const promises = Object.entries(SWAGGER_URLS).map(([name, url]) =>
-      generateTypesFromUrl(name, url),
-    );
+    const promises = Object.entries(SWAGGER_URLS).map(([name, url]) => generateTypesFromUrl(name, url));
 
     await Promise.all(promises);
     console.log('🎉 All OpenAPI types generated successfully!');

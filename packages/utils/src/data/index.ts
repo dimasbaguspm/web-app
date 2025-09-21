@@ -7,3 +7,5 @@ export * from './spenicle-transaction';
 export * from './spenicle-scheduled-transaction';
 export * from './spenicle-backup-request';
 export * from './hi-user';
+
+export * from './notunic';

@@ -76,3 +76,25 @@ export const SPENICLE_URL = {
     TOTAL: '/summary/total',
   },
 };
+
+export const NOTUNIC_URL = {
+  SPACES: {
+    PAGINATED: '/spaces',
+    BY_ID: (id: number) => `/spaces/${id}`,
+  },
+  THREADS: {
+    PAGINATED: '/threads',
+    BY_ID: (id: number) => `/threads/${id}`,
+  },
+  COMMENTS: {
+    PAGINATED: '/comments',
+    BY_ID: (id: number) => `/comments/${id}`,
+  },
+  ACTIONS: {
+    PAGINATED: '/actions',
+    BY_ID: (id: number) => `/actions/${id}`,
+  },
+  ACTION_LINKS: {
+    BY_ID: (id: number) => `/action-links/${id}`,
+  },
+};

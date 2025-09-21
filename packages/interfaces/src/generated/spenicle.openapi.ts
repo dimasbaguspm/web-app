@@ -1485,7 +1485,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        accountGroupId: string | (number | string);
+        accountGroupId: string | number;
       };
       cookie?: never;
     };
@@ -2770,7 +2770,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        categoryGroupId: string | (number | string);
+        categoryGroupId: string | number;
       };
       cookie?: never;
     };

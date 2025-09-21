@@ -2,7 +2,8 @@
   "name": "@dimasbaguspm/interfaces",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./notunic-api": "./src/notunic.ts"
   },
   "scripts": {
     "lint": "eslint src/**/*.{ts,tsx}",

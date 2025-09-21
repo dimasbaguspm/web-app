@@ -234,4 +234,75 @@ export const QUERY_KEYS = {
     'total',
     JSON.stringify(params ?? {}),
   ],
+
+  NOTUNIC_SPACES_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_SPACES,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_SPACES_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_SPACES,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_SPACES_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_SPACES,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_THREADS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREADS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_THREADS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREADS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_THREADS_BY_ID: (id: number, params = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREADS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_COMMENTS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENTS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_COMMENTS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENTS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_COMMENTS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENTS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_ACTIONS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_ACTIONS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_ACTIONS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_ACTIONS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_ACTIONS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_ACTIONS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_ACTION_LINKS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_ACTION_LINKS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
 };
