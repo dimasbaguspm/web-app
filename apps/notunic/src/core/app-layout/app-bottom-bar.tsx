@@ -1,5 +1,6 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
+import { PortalShifter } from '@dimasbaguspm/providers/portal-provider';
 import { BottomBar, Icon } from '@dimasbaguspm/versaur';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { FC } from 'react';
@@ -7,6 +8,7 @@ import { useNavigate } from 'react-router';
 
 import { BOTTOM_SHEET_ROUTES } from '../../constants/bottom-sheet-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
+import { PORTAL_ROUTES } from '../../constants/portal-routes';
 
 import { LINKS } from './constants';
 
@@ -27,26 +29,28 @@ export const AppBottomBar: FC = () => {
     return location.pathname.startsWith(path);
   };
 
-  if (isDesktop) return null;
-
   return (
-    <BottomBar>
-      {LINKS.map((link) => {
-        const isActiveLink = isActive(link.path);
-        return (
-          <BottomBar.Item
-            key={link.path}
-            className="h-16"
-            icon={<Icon as={link.icon} size="md" color={isActiveLink ? 'primary' : 'inherit'} />}
-            onClick={handleNavigation(link.path)}
-            active={isActiveLink}
-          />
-        );
-      })}
+    <PortalShifter id={PORTAL_ROUTES.BOTTOM_BAR}>
+      {isDesktop ? null : (
+        <BottomBar>
+          {LINKS.map((link) => {
+            const isActiveLink = isActive(link.path);
+            return (
+              <BottomBar.Item
+                key={link.path}
+                className="h-16"
+                icon={<Icon as={link.icon} size="md" color={isActiveLink ? 'primary' : 'inherit'} />}
+                onClick={handleNavigation(link.path)}
+                active={isActiveLink}
+              />
+            );
+          })}
 
-      <BottomBar.Item onClick={() => openBottomSheet(BOTTOM_SHEET_ROUTES.MENU)}>
-        <Icon as={MoreHorizontalIcon} size="md" color={'inherit'} />
-      </BottomBar.Item>
-    </BottomBar>
+          <BottomBar.Item onClick={() => openBottomSheet(BOTTOM_SHEET_ROUTES.MENU)}>
+            <Icon as={MoreHorizontalIcon} size="md" color={'inherit'} />
+          </BottomBar.Item>
+        </BottomBar>
+      )}
+    </PortalShifter>
   );
 };

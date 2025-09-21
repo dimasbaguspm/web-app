@@ -7,6 +7,7 @@
     "./modal-route-provider": "./src/modal-route-provider/index.ts",
     "./bottom-sheet-route-provider": "./src/bottom-sheet-route-provider/index.ts",
     "./active-app-profile-provider": "./src/active-app-profile-provider/index.ts",
+    "./portal-provider": "./src/portal-provider/index.ts",
     "./global-provider": "./src/global-provider/index.ts"
   },
   "scripts": {
