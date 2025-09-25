@@ -452,6 +452,22 @@ export interface paths {
     patch: operations['patchUserMePassword'];
     trace?: never;
   };
+  '/user/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getUserById'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/': {
     parameters: {
       query?: never;
@@ -1425,12 +1441,17 @@ export interface operations {
               updatedAt: string;
             };
             tokenPayload: {
-              userId: string | number;
+              user: {
+                id: string | number;
+                name: string;
+                email: string;
+                role: string;
+              };
               activeProfile: {
                 id: string | number;
                 appId: string | number;
                 groupId: (string | number) | null;
-                userId: (string | number) | null;
+                userId: string | number;
               } | null;
             };
           };
@@ -1447,12 +1468,17 @@ export interface operations {
               updatedAt: string;
             };
             tokenPayload: {
-              userId: string | number;
+              user: {
+                id: string | number;
+                name: string;
+                email: string;
+                role: string;
+              };
               activeProfile: {
                 id: string | number;
                 appId: string | number;
                 groupId: (string | number) | null;
-                userId: (string | number) | null;
+                userId: string | number;
               } | null;
             };
           };
@@ -1469,12 +1495,17 @@ export interface operations {
               updatedAt: string;
             };
             tokenPayload: {
-              userId: string | number;
+              user: {
+                id: string | number;
+                name: string;
+                email: string;
+                role: string;
+              };
               activeProfile: {
                 id: string | number;
                 appId: string | number;
                 groupId: (string | number) | null;
-                userId: (string | number) | null;
+                userId: string | number;
               } | null;
             };
           };
@@ -2831,6 +2862,59 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  getUserById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            /** Format: email */
+            email: string;
+            role: 'admin' | 'member' | 'guest';
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            /** Format: email */
+            email: string;
+            role: 'admin' | 'member' | 'guest';
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            /** Format: email */
+            email: string;
+            role: 'admin' | 'member' | 'guest';
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
       };
     };
   };

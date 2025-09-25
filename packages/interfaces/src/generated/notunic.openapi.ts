@@ -581,6 +581,10 @@ export interface operations {
               profileId: number;
               spaceId: number;
               parentThreadId?: number | null;
+              sender: {
+                id: number;
+                name: string;
+              };
               content: string;
               /** Format: date-time */
               createdAt: string;
@@ -599,6 +603,10 @@ export interface operations {
               profileId: number;
               spaceId: number;
               parentThreadId?: number | null;
+              sender: {
+                id: number;
+                name: string;
+              };
               content: string;
               /** Format: date-time */
               createdAt: string;
@@ -617,6 +625,10 @@ export interface operations {
               profileId: number;
               spaceId: number;
               parentThreadId?: number | null;
+              sender: {
+                id: number;
+                name: string;
+              };
               content: string;
               /** Format: date-time */
               createdAt: string;
@@ -643,16 +655,19 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
+          userId: number;
           spaceId: number;
           parentThreadId?: number | null;
           content: string;
         };
         'multipart/form-data': {
+          userId: number;
           spaceId: number;
           parentThreadId?: number | null;
           content: string;
         };
         'text/plain': {
+          userId: number;
           spaceId: number;
           parentThreadId?: number | null;
           content: string;
@@ -670,6 +685,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;
@@ -682,6 +701,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;
@@ -694,6 +717,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;
@@ -726,6 +753,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;
@@ -738,6 +769,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;
@@ -750,6 +785,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;
@@ -816,6 +855,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;
@@ -828,6 +871,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;
@@ -840,6 +887,10 @@ export interface operations {
             profileId: number;
             spaceId: number;
             parentThreadId?: number | null;
+            sender: {
+              id: number;
+              name: string;
+            };
             content: string;
             /** Format: date-time */
             createdAt: string;

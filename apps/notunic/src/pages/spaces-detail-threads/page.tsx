@@ -1,4 +1,5 @@
 import { useApiNotunicCreateThread, useApiNotunicThreadsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { PortalContainer } from '@dimasbaguspm/providers/portal-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import { Hr, NoResults, PageContent, PageLoader } from '@dimasbaguspm/versaur';
@@ -18,6 +19,7 @@ interface SpacesDetailThreadsPageProps {
 }
 
 const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) => {
+  const { user } = useAuthProvider();
   const [threads, , { isInitialFetching }] = useApiNotunicThreadsInfiniteQuery({
     spaceId: [spaceId],
     sortBy: 'createdAt',
@@ -33,6 +35,7 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
 
     await createThread({
       spaceId,
+      userId: user.id,
       content: data.message,
     });
 

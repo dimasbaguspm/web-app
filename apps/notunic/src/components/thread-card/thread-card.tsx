@@ -10,7 +10,7 @@ interface ThreadCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bor
 
 export const ThreadCard: FC<ThreadCardProps> = (props) => {
   const { thread, onClick } = props;
-  const { description, createdDateTime } = formatNotunicThread(thread);
+  const { description, createdDateTime, senderName, senderInitial } = formatNotunicThread(thread);
 
   const handleClick = () => {
     onClick?.(thread);
@@ -21,8 +21,8 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
       <div className="mb-2">
         <div className="flex justify-between transition-colors duration-200 w-full rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light hover:bg-gray-50 cursor-pointer @container/card">
           <div className="flex items-start gap-3">
-            <Avatar shape="rounded">DM</Avatar>
-            <Text fontWeight="semibold">Dimas Bagus P</Text>
+            <Avatar shape="rounded">{senderInitial}</Avatar>
+            <Text fontWeight="semibold">{senderName}</Text>
           </div>
         </div>
       </div>
