@@ -1,23 +1,24 @@
 import { useApiNotunicThreadGroupTagsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { ThreadGroupModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { ButtonMenu, Icon } from '@dimasbaguspm/versaur';
 import { ChevronDownIcon } from 'lucide-react';
-import { FC, useEffect, useMemo, useCallback } from 'react';
+import { FC, useMemo, useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { SendSpaceMessageForm } from '../types';
 
 interface ThreadGroupMenuProps {
-  threadGroupId: number;
+  threadGroup: ThreadGroupModel;
   disabled?: boolean;
 }
 
-export const ThreadGroupMenu: FC<ThreadGroupMenuProps> = ({ threadGroupId, disabled = false }) => {
+export const ThreadGroupMenu: FC<ThreadGroupMenuProps> = ({ threadGroup, disabled = false }) => {
   const { watch, setValue } = useFormContext<SendSpaceMessageForm>();
 
   const selectedTags = watch('tags') ?? [];
 
   const [threadGroupTags, , { isLoading }] = useApiNotunicThreadGroupTagsInfiniteQuery({
-    threadGroupId: [threadGroupId],
+    threadGroupId: [threadGroup?.id],
   });
 
   const groupTagIds = useMemo(() => threadGroupTags?.map((tag) => tag.id) ?? [], [threadGroupTags]);
@@ -26,19 +27,6 @@ export const ThreadGroupMenu: FC<ThreadGroupMenuProps> = ({ threadGroupId, disab
     () => threadGroupTags?.find((tag) => selectedTags.includes(tag.id)),
     [threadGroupTags, selectedTags],
   );
-
-  const hasValidSelection = useMemo(
-    () => selectedTags.some((id) => groupTagIds.includes(id)),
-    [selectedTags, groupTagIds],
-  );
-
-  // Auto-select first tag when no valid selection exists
-  useEffect(() => {
-    if (!hasValidSelection && threadGroupTags?.length > 0 && !disabled) {
-      const firstTag = threadGroupTags[0];
-      setValue('tags', [...selectedTags, firstTag.id]);
-    }
-  }, [hasValidSelection, threadGroupTags, selectedTags, setValue, disabled]);
 
   const handleTagSelection = useCallback(
     (tagId: number) => {
@@ -90,10 +78,11 @@ export const ThreadGroupMenu: FC<ThreadGroupMenuProps> = ({ threadGroupId, disab
       label={
         <>
           <Icon as={ChevronDownIcon} size="sm" color="inherit" />
-          {selectedTagInGroup ? selectedTagInGroup.name : 'Select tag'}
+          {selectedTagInGroup ? selectedTagInGroup.name : `Select ${threadGroup.name}`}
         </>
       }
       variant="outline"
+      size="sm"
       disabled={disabled}
     >
       {threadGroupTags.map((tag) => (

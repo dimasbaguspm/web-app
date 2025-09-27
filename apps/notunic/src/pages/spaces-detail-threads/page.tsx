@@ -57,7 +57,7 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
           />
         </If>
         <If condition={[!isInitialFetching, !!threads.length]}>
-          <ul className={threads.length > 5 ? 'pb-48' : ''}>
+          <ul className={threads.length > 3 ? 'pb-48' : ''}>
             {threads.map((thread, index) => {
               const isLast = index === threads.length - 1;
               return (

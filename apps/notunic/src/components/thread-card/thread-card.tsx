@@ -2,7 +2,7 @@ import { ThreadModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatNotunicThread } from '@dimasbaguspm/utils/data';
 import { Avatar, Badge, BadgeGroup, ButtonIcon, CardProps, Text } from '@dimasbaguspm/versaur';
-import { Edit2Icon } from 'lucide-react';
+import { Edit2Icon, EllipsisVerticalIcon, ReplyIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -32,8 +32,10 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
           <div className="w-full flex items-start gap-3">
             <Avatar shape="rounded">{senderInitial}</Avatar>
             <Text fontWeight="semibold">{senderName}</Text>
-            <div className="flex-grow flex justify-end">
-              <ButtonIcon as={Edit2Icon} size="sm" variant="ghost" aria-label="Edit thread" onClick={handleEditClick} />
+            <div className="flex-grow flex justify-end gap-1">
+              <ButtonIcon as={ReplyIcon} size="xs" variant="ghost" aria-label="Reply to thread" onClick={handleClick} />
+              <ButtonIcon as={Edit2Icon} size="xs" variant="ghost" aria-label="Edit thread" onClick={handleEditClick} />
+              <ButtonIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options" />
             </div>
           </div>
         </div>

@@ -40,7 +40,7 @@ export const SendForm: FC<SendFormProps> = ({ handleFormSubmit, form, isSubmitti
           <div className="mb-4" role="group" aria-label="Thread group selection">
             <div className="flex gap-2 flex-wrap">
               {threadGroups?.map((threadGroup) => (
-                <ThreadGroupMenu key={threadGroup.id} threadGroupId={threadGroup.id} disabled={isSubmitting} />
+                <ThreadGroupMenu key={threadGroup.id} threadGroup={threadGroup} disabled={isSubmitting} />
               ))}
             </div>
           </div>
@@ -48,7 +48,7 @@ export const SendForm: FC<SendFormProps> = ({ handleFormSubmit, form, isSubmitti
 
         <form onSubmit={form.handleSubmit(handleFormSubmit)}>
           <FormLayout className="grid-cols-20">
-            <FormLayout.Column className="col-span-18">
+            <FormLayout.Column className={isMobile ? 'col-span-17' : 'col-span-18'}>
               <TextAreaInput
                 {...form.register('message', {
                   required: 'Message is required',
@@ -64,7 +64,9 @@ export const SendForm: FC<SendFormProps> = ({ handleFormSubmit, form, isSubmitti
               />
             </FormLayout.Column>
 
-            <FormLayout.Column className="col-span-2 flex items-end">
+            <FormLayout.Column
+              className={`${isMobile ? 'col-span-3' : 'col-span-2'} flex items-end justify-end flex-shrink-0`}
+            >
               {!isMobile && !isTablet ? (
                 <Button variant="primary" type="submit" disabled={!isFormValid || isSubmitting}>
                   Send
