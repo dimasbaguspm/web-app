@@ -373,7 +373,7 @@ export interface operations {
   getSpaces: {
     parameters: {
       query?: {
-        id?: (number | string)[];
+        id?: number[];
         name?: string;
         description?: string | null;
         createdFrom?: string;
@@ -382,8 +382,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt' | 'name';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
       };
       header?: never;
       path?: never;
@@ -516,7 +516,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -648,8 +648,8 @@ export interface operations {
   getThreads: {
     parameters: {
       query?: {
-        id?: (number | string)[];
-        spaceId?: (number | string)[];
+        id?: number[];
+        spaceId?: number[];
         content?: string;
         createdFrom?: string;
         createdTo?: string;
@@ -657,8 +657,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
       };
       header?: never;
       path?: never;
@@ -767,18 +767,21 @@ export interface operations {
           spaceId: number;
           parentThreadId?: number | null;
           content: string;
+          tagIds?: number[];
         };
         'multipart/form-data': {
           userId: number;
           spaceId: number;
           parentThreadId?: number | null;
           content: string;
+          tagIds?: number[];
         };
         'text/plain': {
           userId: number;
           spaceId: number;
           parentThreadId?: number | null;
           content: string;
+          tagIds?: number[];
         };
       };
     };
@@ -965,14 +968,17 @@ export interface operations {
         'application/json': {
           parentThreadId?: number | null;
           content?: string;
+          tagIds?: number[];
         };
         'multipart/form-data': {
           parentThreadId?: number | null;
           content?: string;
+          tagIds?: number[];
         };
         'text/plain': {
           parentThreadId?: number | null;
           content?: string;
+          tagIds?: number[];
         };
       };
     };

@@ -37,6 +37,7 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
       spaceId,
       userId: user.id,
       content: data.message,
+      tagIds: data.tags,
     });
 
     form.reset();

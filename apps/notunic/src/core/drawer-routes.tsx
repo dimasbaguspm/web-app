@@ -6,6 +6,7 @@ import { FC } from 'react';
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
 import { DetailThreadGroupDrawer } from '../drawers/detail-thread-group-drawer/drawer';
 import { EditSpaceDrawer } from '../drawers/edit-space-drawer/drawer';
+import { EditThreadDrawer } from '../drawers/edit-thread-drawer/drawer';
 import { EditThreadGroupDrawer } from '../drawers/edit-thread-group/drawer';
 import { EditThreadGroupTagDrawer } from '../drawers/edit-thread-group-tag-drawer/drawer';
 import { ManageThreadGroupDrawer } from '../drawers/manage-thread-groups-drawer/drawer';
@@ -49,6 +50,7 @@ export const DrawerRoutes: FC = () => {
     >
       {is(DRAWER_ROUTES.NEW_SPACE) && <NewSpaceDrawer />}
       {is(DRAWER_ROUTES.EDIT_SPACE) && hasParam('spaceId') && <EditSpaceDrawer spaceId={params.spaceId!} />}
+      {is(DRAWER_ROUTES.EDIT_THREAD) && hasParam('threadId') && <EditThreadDrawer threadId={params.threadId!} />}
       {is(DRAWER_ROUTES.MANAGE_THREAD_GROUPS) && <ManageThreadGroupDrawer />}
       {is(DRAWER_ROUTES.NEW_THREAD_GROUP) && <NewThreadGroupDrawer />}
       {is(DRAWER_ROUTES.DETAIL_THREAD_GROUP) && hasParam('threadGroupId') && (
