@@ -5,7 +5,7 @@ import { If } from '@dimasbaguspm/utils/if';
 import { Hr, NoResults, PageContent, PageLoader } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 
 import { ThreadCard } from '../../components/thread-card';
@@ -69,9 +69,11 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
           </ul>
         </If>
       </PageContent>
-      <PortalContainer id={PORTAL_ROUTES.BOTTOM_BAR}>
-        <SendForm form={form} handleFormSubmit={handleFormSubmit} />
-      </PortalContainer>
+      <FormProvider {...form}>
+        <PortalContainer id={PORTAL_ROUTES.BOTTOM_BAR}>
+          <SendForm form={form} handleFormSubmit={handleFormSubmit} />
+        </PortalContainer>
+      </FormProvider>
     </>
   );
 };

@@ -267,6 +267,38 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  NOTUNIC_THREAD_GROUPS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUPS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_THREAD_GROUPS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUPS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_THREAD_GROUPS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUPS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_THREAD_GROUP_TAGS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUP_TAGS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_THREAD_GROUP_TAGS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUP_TAGS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_THREAD_GROUP_TAGS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUP_TAGS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
   NOTUNIC_COMMENTS_INFINITE: (params: object = {}) => [
     ...BASE_QUERY_KEYS.NOTUNIC_COMMENTS,
     'infinite',

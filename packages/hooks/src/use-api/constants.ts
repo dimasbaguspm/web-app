@@ -27,6 +27,8 @@ export const BASE_QUERY_KEYS = {
 
   NOTUNIC_SPACES: ['notunic', 'spaces'],
   NOTUNIC_THREADS: ['notunic', 'threads'],
+  NOTUNIC_THREAD_GROUPS: ['notunic', 'thread-groups'],
+  NOTUNIC_THREAD_GROUP_TAGS: ['notunic', 'thread-group-tags'],
   NOTUNIC_COMMENTS: ['notunic', 'comments'],
   NOTUNIC_ACTIONS: ['notunic', 'actions'],
   NOTUNIC_ACTION_LINKS: ['notunic', 'action-links'],

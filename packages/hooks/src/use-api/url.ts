@@ -86,6 +86,14 @@ export const NOTUNIC_URL = {
     PAGINATED: '/threads',
     BY_ID: (id: number) => `/threads/${id}`,
   },
+  THREAD_GROUPS: {
+    PAGINATED: '/thread-group',
+    BY_ID: (id: number) => `/thread-group/${id}`,
+  },
+  THREAD_GROUP_TAGS: {
+    PAGINATED: '/thread-group-tag',
+    BY_ID: (id: number) => `/thread-group-tag/${id}`,
+  },
   COMMENTS: {
     PAGINATED: '/comments',
     BY_ID: (id: number) => `/comments/${id}`,

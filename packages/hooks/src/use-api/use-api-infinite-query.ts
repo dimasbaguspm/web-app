@@ -19,7 +19,7 @@ export interface UseApiInfiniteQueryOptions<Data, Query, TError> {
   retry?: boolean;
   silentError?: boolean;
   initialData?: Data[] | null;
-  onSuccess?: (data: Data) => void;
+  onSuccess?: (data: Data[]) => void;
   onError?: (error: TError) => void;
   staleTime?: number;
   gcTime?: number;
@@ -95,7 +95,7 @@ export const useApiInfiniteQuery = <TData, TQuery, TError = { message: string }>
           (params as Record<string, unknown>).pageNumber = pageParam as unknown;
         }
 
-        const response = await axios.get<TData>(path, {
+        const response = await axios.get(path, {
           params,
           baseURL: BASE_URL[base],
           headers,
@@ -108,7 +108,7 @@ export const useApiInfiniteQuery = <TData, TQuery, TError = { message: string }>
           },
         });
         const data = response?.data;
-        onSuccess?.(data);
+        onSuccess?.(data?.items ?? []);
         return data;
       } catch (err) {
         if (err instanceof AxiosError) {

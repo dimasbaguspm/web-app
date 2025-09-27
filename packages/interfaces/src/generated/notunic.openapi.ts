@@ -100,6 +100,102 @@ export interface paths {
     patch: operations['patchThreadsById'];
     trace?: never;
   };
+  '/thread-group/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-group'];
+    put?: never;
+    post: operations['postThread-group'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/thread-group/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-groupById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteThread-groupById'];
+    options?: never;
+    head?: never;
+    patch: operations['patchThread-groupById'];
+    trace?: never;
+  };
+  '/thread-group/{id}/tags': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-groupByIdTags'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/thread-group-tag/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-group-tag'];
+    put?: never;
+    post: operations['postThread-group-tag'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/thread-group-tag/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-group-tagById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteThread-group-tagById'];
+    options?: never;
+    head?: never;
+    patch: operations['patchThread-group-tagById'];
+    trace?: never;
+  };
+  '/thread-group-tag/thread-tag': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['postThread-group-tagThread-tag'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/comments/': {
     parameters: {
       query?: never;
@@ -277,7 +373,7 @@ export interface operations {
   getSpaces: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string;
         description?: string | null;
         createdFrom?: string;
@@ -286,8 +382,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt' | 'name';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;
@@ -420,7 +516,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -552,8 +648,8 @@ export interface operations {
   getThreads: {
     parameters: {
       query?: {
-        id?: number[];
-        spaceId?: number[];
+        id?: (number | string)[];
+        spaceId?: (number | string)[];
         content?: string;
         createdFrom?: string;
         createdTo?: string;
@@ -561,8 +657,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;
@@ -586,6 +682,10 @@ export interface operations {
                 name: string;
               };
               content: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -608,6 +708,10 @@ export interface operations {
                 name: string;
               };
               content: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -630,6 +734,10 @@ export interface operations {
                 name: string;
               };
               content: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -690,6 +798,10 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -706,6 +818,10 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -722,6 +838,10 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -758,6 +878,10 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -774,6 +898,10 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -790,6 +918,10 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -860,6 +992,10 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -876,6 +1012,10 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -892,11 +1032,657 @@ export interface operations {
               name: string;
             };
             content: string;
+            groups: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
             deletedAt?: string | null;
+          };
+        };
+      };
+    };
+  };
+  'getThread-group': {
+    parameters: {
+      query?: {
+        id?: number[];
+        search?: string;
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'name';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              tagIds: number[];
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              tagIds: number[];
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              tagIds: number[];
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postThread-group': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name: string;
+        };
+        'multipart/form-data': {
+          name: string;
+        };
+        'text/plain': {
+          name: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getThread-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteThread-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'patchThread-groupById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name?: string;
+        };
+        'multipart/form-data': {
+          name?: string;
+        };
+        'text/plain': {
+          name?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            tagIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getThread-groupByIdTags': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+          'text/plain': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+        };
+      };
+    };
+  };
+  'getThread-group-tag': {
+    parameters: {
+      query?: {
+        id?: number[];
+        threadGroupId?: number[];
+        search?: string;
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'name';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              threadGroupId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              threadGroupId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              threadGroupId: number;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postThread-group-tag': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          threadGroupId: number;
+          name: string;
+        };
+        'multipart/form-data': {
+          threadGroupId: number;
+          name: string;
+        };
+        'text/plain': {
+          threadGroupId: number;
+          name: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getThread-group-tagById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteThread-group-tagById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'patchThread-group-tagById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          threadGroupId?: number;
+          name?: string;
+        };
+        'multipart/form-data': {
+          threadGroupId?: number;
+          name?: string;
+        };
+        'text/plain': {
+          threadGroupId?: number;
+          name?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            threadGroupId: number;
+            name: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'postThread-group-tagThread-tag': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          threadId: number;
+          tagId: number;
+        };
+        'multipart/form-data': {
+          threadId: number;
+          tagId: number;
+        };
+        'text/plain': {
+          threadId: number;
+          tagId: number;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            threadId: number;
+            tagId: number;
+            /** Format: date-time */
+            createdAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            threadId: number;
+            tagId: number;
+            /** Format: date-time */
+            createdAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            threadId: number;
+            tagId: number;
+            /** Format: date-time */
+            createdAt: string;
           };
         };
       };
@@ -936,6 +1722,10 @@ export interface operations {
               threadId: number;
               parentCommentId: number | null;
               content: string;
+              sender: {
+                id: number;
+                name: string;
+              };
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -954,6 +1744,10 @@ export interface operations {
               threadId: number;
               parentCommentId: number | null;
               content: string;
+              sender: {
+                id: number;
+                name: string;
+              };
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -972,6 +1766,10 @@ export interface operations {
               threadId: number;
               parentCommentId: number | null;
               content: string;
+              sender: {
+                id: number;
+                name: string;
+              };
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -999,16 +1797,19 @@ export interface operations {
         'application/json': {
           threadId: number;
           parentCommentId?: number | null;
+          userId: number;
           content: string;
         };
         'multipart/form-data': {
           threadId: number;
           parentCommentId?: number | null;
+          userId: number;
           content: string;
         };
         'text/plain': {
           threadId: number;
           parentCommentId?: number | null;
+          userId: number;
           content: string;
         };
       };
@@ -1025,6 +1826,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1037,6 +1842,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1049,6 +1858,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1081,6 +1894,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1093,6 +1910,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1105,6 +1926,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1171,6 +1996,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1183,6 +2012,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1195,6 +2028,10 @@ export interface operations {
             threadId: number;
             parentCommentId: number | null;
             content: string;
+            sender: {
+              id: number;
+              name: string;
+            };
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */

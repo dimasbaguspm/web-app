@@ -23,6 +23,24 @@ export type UpdateThreadModel = operations['patchThreadsById']['requestBody']['c
   operations['patchThreadsById']['parameters']['path'];
 export type ThreadModel = operations['getThreadsById']['responses']['200']['content']['application/json'];
 
+export type SearchThreadGroupsModel = NonNullable<operations['getThread-group']['parameters']['query']>;
+export type ThreadGroupsPageModel = operations['getThread-group']['responses']['200']['content']['application/json'];
+export type CreateThreadGroupModel = operations['postThread-group']['requestBody']['content']['application/json'];
+export type UpdateThreadGroupModel = operations['patchThread-groupById']['requestBody']['content']['application/json'] &
+  operations['patchThread-groupById']['parameters']['path'];
+export type ThreadGroupModel = operations['getThread-groupById']['responses']['200']['content']['application/json'];
+
+export type SearchThreadGroupTagsModel = NonNullable<operations['getThread-group-tag']['parameters']['query']>;
+export type ThreadGroupTagsPageModel =
+  operations['getThread-group-tag']['responses']['200']['content']['application/json'];
+export type CreateThreadGroupTagModel =
+  operations['postThread-group-tag']['requestBody']['content']['application/json'];
+export type UpdateThreadGroupTagModel =
+  operations['patchThread-group-tagById']['requestBody']['content']['application/json'] &
+    operations['patchThread-group-tagById']['parameters']['path'];
+export type ThreadGroupTagModel =
+  operations['getThread-group-tagById']['responses']['200']['content']['application/json'];
+
 export type SearchCommentsModel = NonNullable<operations['getComments']['parameters']['query']>;
 export type CommentsPageModel = operations['getComments']['responses']['200']['content']['application/json'];
 export type CreateCommentModel = operations['postComments']['requestBody']['content']['application/json'];

@@ -8,18 +8,16 @@ interface PortalShifterProps {
 }
 
 export const PortalShifter: FC<PortalShifterProps> = ({ id, children }) => {
-  const { setNode, isOpen } = usePortalProvider();
+  const { setNode } = usePortalProvider();
   const nodeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setNode(id, nodeRef.current);
   }, [id, setNode]);
 
-  const doesPortalHasChildren = isOpen(id);
-
   return (
     <>
-      {!doesPortalHasChildren && children}
+      {children}
       <div ref={nodeRef} />
     </>
   );

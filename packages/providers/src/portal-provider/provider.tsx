@@ -22,7 +22,7 @@ export const PortalProvider: FC<PropsWithChildren> = ({ children }) => {
 
     // If we're attaching a node (non-null), mark the portal as open immediately
     if (element) {
-      setPortalState((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+      setPortalState((prev) => ({ ...prev, [id]: true }));
     }
   }, []);
 
