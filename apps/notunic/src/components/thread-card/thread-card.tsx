@@ -33,6 +33,10 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
     openModal(MODAL_ROUTES.DELETE_THREAD, { threadId: thread.id });
   };
 
+  const handleReplyClick = () => {
+    openDrawer(DRAWER_ROUTES.DETAIL_THREAD, { threadId: thread.id });
+  };
+
   const sortedGroups = sortBy(thread.groups, (group) => group.id);
 
   return (
@@ -43,7 +47,13 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
             <Avatar shape="rounded">{senderInitial}</Avatar>
             <Text fontWeight="semibold">{senderName}</Text>
             <div className="flex-grow flex justify-end gap-1">
-              <ButtonIcon as={ReplyIcon} size="xs" variant="ghost" aria-label="Reply to thread" onClick={handleClick} />
+              <ButtonIcon
+                as={ReplyIcon}
+                size="xs"
+                variant="ghost"
+                aria-label="Reply to thread"
+                onClick={handleReplyClick}
+              />
               <ButtonIcon as={Edit2Icon} size="xs" variant="ghost" aria-label="Edit thread" onClick={handleEditClick} />
               <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
                 <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>

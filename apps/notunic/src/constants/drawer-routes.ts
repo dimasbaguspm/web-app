@@ -3,6 +3,7 @@ export const DRAWER_ROUTES = {
   EDIT_SPACE: 'edit-space',
 
   EDIT_THREAD: 'edit-thread',
+  DETAIL_THREAD: 'detail-thread',
 
   NEW_THREAD_GROUP: 'new-thread-group',
   DETAIL_THREAD_GROUP: 'detail-thread-group',

@@ -4,6 +4,7 @@ import { Drawer } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
+import { DetailThreadDrawer } from '../drawers/detail-thread-drawer/drawer';
 import { DetailThreadGroupDrawer } from '../drawers/detail-thread-group-drawer/drawer';
 import { EditSpaceDrawer } from '../drawers/edit-space-drawer/drawer';
 import { EditThreadDrawer } from '../drawers/edit-thread-drawer/drawer';
@@ -50,6 +51,7 @@ export const DrawerRoutes: FC = () => {
     >
       {is(DRAWER_ROUTES.NEW_SPACE) && <NewSpaceDrawer />}
       {is(DRAWER_ROUTES.EDIT_SPACE) && hasParam('spaceId') && <EditSpaceDrawer spaceId={params.spaceId!} />}
+      {is(DRAWER_ROUTES.DETAIL_THREAD) && hasParam('threadId') && <DetailThreadDrawer threadId={params.threadId!} />}
       {is(DRAWER_ROUTES.EDIT_THREAD) && hasParam('threadId') && <EditThreadDrawer threadId={params.threadId!} />}
       {is(DRAWER_ROUTES.MANAGE_THREAD_GROUPS) && <ManageThreadGroupDrawer />}
       {is(DRAWER_ROUTES.NEW_THREAD_GROUP) && <NewThreadGroupDrawer />}

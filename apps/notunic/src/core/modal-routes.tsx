@@ -3,6 +3,7 @@ import { Modal } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 import { MODAL_ROUTES } from '../constants/modal-routes';
+import { DeleteCommentModal } from '../modals/delete-comment-modal/modal';
 import { DeleteThreadGroupModal } from '../modals/delete-thread-group-modal/modal';
 import { DeleteThreadGroupTagModal } from '../modals/delete-thread-group-tag-modal/modal';
 import { DeleteThreadModal } from '../modals/delete-thread-modal/modal';
@@ -45,6 +46,7 @@ export const ModalRoutes: FC = () => {
       {is(MODAL_ROUTES.DELETE_THREAD_GROUP_TAG) && hasParam('threadGroupTagId') && (
         <DeleteThreadGroupTagModal threadGroupTagId={params.threadGroupTagId!} />
       )}
+      {is(MODAL_ROUTES.DELETE_COMMENT) && hasParam('commentId') && <DeleteCommentModal commentId={params.commentId!} />}
       {is(MODAL_ROUTES.PROFILE_SWITCHER) && <ProfileSwitcherModal />}
       {is(MODAL_ROUTES.LOGOUT_CONFIRMATION) && <LogoutConfirmationModal />}
     </Modal>
