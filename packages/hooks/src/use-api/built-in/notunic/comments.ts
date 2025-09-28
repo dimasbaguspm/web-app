@@ -76,6 +76,14 @@ export const useApiNotunicCreateComment = () => {
         queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_INFINITE().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
+        exact: false,
+      });
       queryClient.setQueryData(QUERY_KEYS.NOTUNIC_COMMENTS_BY_ID(data.id), data);
     },
   });
@@ -96,6 +104,14 @@ export const useApiNotunicUpdateComment = () => {
         queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_INFINITE().slice(0, 3),
         exact: false,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
+        exact: false,
+      });
       queryClient.setQueryData(QUERY_KEYS.NOTUNIC_COMMENTS_BY_ID(data.id), data);
     },
   });
@@ -114,6 +130,14 @@ export const useApiNotunicDeleteComment = () => {
       });
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
         exact: false,
       });
     },

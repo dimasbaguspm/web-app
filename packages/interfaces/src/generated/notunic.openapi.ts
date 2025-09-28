@@ -688,6 +688,7 @@ export interface operations {
                 tagId: number;
                 tagName: string;
               }[];
+              commentCount: number;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -716,6 +717,7 @@ export interface operations {
                 tagId: number;
                 tagName: string;
               }[];
+              commentCount: number;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -744,6 +746,7 @@ export interface operations {
                 tagId: number;
                 tagName: string;
               }[];
+              commentCount: number;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -813,6 +816,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -835,6 +839,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -857,6 +862,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -899,6 +905,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -921,6 +928,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -943,6 +951,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1022,6 +1031,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1044,6 +1054,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1066,6 +1077,7 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            commentCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */

@@ -2,6 +2,7 @@ import { ThreadModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { formatNotunicThread } from '@dimasbaguspm/utils/data';
+import { If } from '@dimasbaguspm/utils/if';
 import { Avatar, Badge, BadgeGroup, ButtonIcon, ButtonMenuIcon, CardProps, Text } from '@dimasbaguspm/versaur';
 import { sortBy } from 'lodash';
 import { Edit2Icon, EllipsisVerticalIcon, ReplyIcon } from 'lucide-react';
@@ -19,7 +20,8 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
   const { thread, onClick } = props;
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
-  const { description, createdDateTime, senderName, senderInitial } = formatNotunicThread(thread);
+  const { description, createdDateTime, senderName, senderInitial, hasComments, commentsText } =
+    formatNotunicThread(thread);
 
   const handleClick = () => {
     onClick?.(thread);
@@ -77,6 +79,11 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
                 {group.tagName}
               </Badge>
             ))}
+            <If condition={hasComments}>
+              <Badge color="accent_2" shape="square" size="sm">
+                {commentsText}
+              </Badge>
+            </If>
           </BadgeGroup>
           <Text color="gray" fontWeight="normal" fontSize="sm" align="right">
             {createdDateTime}
