@@ -2,6 +2,7 @@ import { ThreadModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatNotunicThread } from '@dimasbaguspm/utils/data';
 import { Avatar, Badge, BadgeGroup, ButtonIcon, CardProps, Text } from '@dimasbaguspm/versaur';
+import { sortBy } from 'lodash';
 import { Edit2Icon, EllipsisVerticalIcon, ReplyIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -24,6 +25,8 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
   const handleEditClick = () => {
     openDrawer(DRAWER_ROUTES.EDIT_THREAD, { threadId: thread.id });
   };
+
+  const sortedGroups = sortBy(thread.groups, (group) => group.id);
 
   return (
     <div className="p-4" onClick={handleClick}>
@@ -50,14 +53,14 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
 
         <div className="flex flex-col sm:flex-row justify-between">
           <BadgeGroup className="mb-2 sm:mb-0" aria-label="Thread groups">
-            {thread.groups?.map((group) => (
+            {sortedGroups?.map((group) => (
               <Badge key={group.id} color="accent_1" shape="square" size="sm">
-                {group.name}
+                {group.tagName}
               </Badge>
             ))}
           </BadgeGroup>
           <Text color="gray" fontWeight="normal" fontSize="sm" align="right">
-            Created on {createdDateTime}
+            {createdDateTime}
           </Text>
         </div>
       </div>

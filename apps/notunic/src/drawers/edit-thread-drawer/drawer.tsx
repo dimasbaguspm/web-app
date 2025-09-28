@@ -1,4 +1,8 @@
-import { useApiNotunicThreadQuery, useApiNotunicUpdateThread } from '@dimasbaguspm/hooks/use-api';
+import {
+  useApiNotunicThreadGroupsInfiniteQuery,
+  useApiNotunicThreadQuery,
+  useApiNotunicUpdateThread,
+} from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
@@ -19,16 +23,23 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId }) => {
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
 
-  const [thread, , { isLoading }] = useApiNotunicThreadQuery(threadId);
+  const [thread, , { isLoading: isLoadingThread }] = useApiNotunicThreadQuery(threadId);
+  const [threadGroups, , { isLoading: isLoadingThreadGroup }] = useApiNotunicThreadGroupsInfiniteQuery({});
 
   const [updateThread, , { isPending }] = useApiNotunicUpdateThread();
 
-  const form = useForm<EditThreadFormSchema>();
+  const form = useForm<EditThreadFormSchema>({
+    defaultValues: {
+      content: '',
+      tags: [],
+    },
+  });
 
   const handleOnSubmit = async (data: EditThreadFormSchema) => {
     await updateThread({
       id: threadId,
       content: data.content,
+      tagIds: data.tags,
     });
     showSnack('success', 'Thread updated successfully');
     closeDrawer();
@@ -38,6 +49,7 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId }) => {
     if (thread) {
       form.reset({
         content: thread.content,
+        tags: thread.groups?.map((tag) => tag.tagId) ?? [],
       });
     }
   }, [thread]);
@@ -48,16 +60,16 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId }) => {
         <Drawer.Title>Edit Thread</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
-      <If condition={isLoading}>
+      <If condition={[isLoadingThread, isLoadingThreadGroup]}>
         <Drawer.Body>
           <PageLoader />
         </Drawer.Body>
       </If>
-      <If condition={[!isLoading, !!thread]}>
+      <If condition={[!isLoadingThread, !isLoadingThreadGroup, !!thread]}>
         <Drawer.Body>
           <form id="edit-thread-form" onSubmit={form.handleSubmit(handleOnSubmit)}>
             <FormProvider {...form}>
-              <EditThreadForm />
+              <EditThreadForm threadGroups={threadGroups} />
             </FormProvider>
           </form>
         </Drawer.Body>
@@ -73,7 +85,7 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId }) => {
         </Drawer.Footer>
       </If>
 
-      <If condition={[!isLoading, !thread]}>
+      <If condition={[!isLoadingThread, !isLoadingThreadGroup, !thread]}>
         <Drawer.Body>
           <NoResults
             icon={SearchXIcon}

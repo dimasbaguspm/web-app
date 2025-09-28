@@ -685,6 +685,8 @@ export interface operations {
               groups: {
                 id: number;
                 name: string;
+                tagId: number;
+                tagName: string;
               }[];
               /** Format: date-time */
               createdAt: string;
@@ -711,6 +713,8 @@ export interface operations {
               groups: {
                 id: number;
                 name: string;
+                tagId: number;
+                tagName: string;
               }[];
               /** Format: date-time */
               createdAt: string;
@@ -737,6 +741,8 @@ export interface operations {
               groups: {
                 id: number;
                 name: string;
+                tagId: number;
+                tagName: string;
               }[];
               /** Format: date-time */
               createdAt: string;
@@ -804,6 +810,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;
@@ -824,6 +832,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;
@@ -844,6 +854,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;
@@ -884,6 +896,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;
@@ -904,6 +918,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;
@@ -924,6 +940,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;
@@ -1001,6 +1019,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;
@@ -1021,6 +1041,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;
@@ -1041,6 +1063,8 @@ export interface operations {
             groups: {
               id: number;
               name: string;
+              tagId: number;
+              tagName: string;
             }[];
             /** Format: date-time */
             createdAt: string;

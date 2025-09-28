@@ -3,20 +3,14 @@ import { ThreadGroupModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { ButtonMenu, Icon } from '@dimasbaguspm/versaur';
 import { ChevronDownIcon } from 'lucide-react';
 import { FC, useMemo, useCallback } from 'react';
-import { useFormContext } from 'react-hook-form';
-
-import { SendSpaceMessageForm } from '../types';
 
 interface ThreadGroupMenuProps {
+  selectedTags: number[];
   threadGroup: ThreadGroupModel;
-  disabled?: boolean;
+  onTagSelect: (tags: number[]) => void;
 }
 
-export const ThreadGroupMenu: FC<ThreadGroupMenuProps> = ({ threadGroup, disabled = false }) => {
-  const { watch, setValue } = useFormContext<SendSpaceMessageForm>();
-
-  const selectedTags = watch('tags') ?? [];
-
+export const ThreadGroupMenuField: FC<ThreadGroupMenuProps> = ({ threadGroup, selectedTags = [], onTagSelect }) => {
   const [threadGroupTags, , { isLoading }] = useApiNotunicThreadGroupTagsInfiniteQuery({
     threadGroupId: [threadGroup?.id],
   });
@@ -30,13 +24,19 @@ export const ThreadGroupMenu: FC<ThreadGroupMenuProps> = ({ threadGroup, disable
 
   const handleTagSelection = useCallback(
     (tagId: number) => {
-      if (disabled || selectedTags.includes(tagId)) return;
+      if (selectedTags.includes(tagId)) return;
 
-      // Remove all tags from the same group first, then add the selected tag
       const filteredTags = selectedTags.filter((id) => !groupTagIds.includes(id));
-      setValue('tags', [...filteredTags, tagId]);
+
+      if (tagId === -1) {
+        // Remove all tags from the same group
+        onTagSelect?.([...filteredTags]);
+        return;
+      }
+
+      onTagSelect?.([...filteredTags, tagId]);
     },
-    [disabled, selectedTags, groupTagIds, setValue],
+    [selectedTags, groupTagIds, onTagSelect],
   );
 
   if (isLoading) {
@@ -83,14 +83,13 @@ export const ThreadGroupMenu: FC<ThreadGroupMenuProps> = ({ threadGroup, disable
       }
       variant="outline"
       size="sm"
-      disabled={disabled}
     >
+      <ButtonMenu.Item onClick={() => handleTagSelection(-1)}>Select {threadGroup.name}</ButtonMenu.Item>
       {threadGroupTags.map((tag) => (
         <ButtonMenu.Item
           key={tag.id}
           active={selectedTagInGroup?.id === tag.id}
           onClick={() => handleTagSelection(tag.id)}
-          disabled={disabled}
         >
           {tag.name}
         </ButtonMenu.Item>

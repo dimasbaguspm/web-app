@@ -23,7 +23,7 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
   const [threads, , { isInitialFetching }] = useApiNotunicThreadsInfiniteQuery({
     spaceId: [spaceId],
     sortBy: 'createdAt',
-    sortOrder: 'asc',
+    sortOrder: 'desc',
   });
 
   const [createThread, , { isPending: isCreatePending }] = useApiNotunicCreateThread();

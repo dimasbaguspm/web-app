@@ -1,14 +1,13 @@
 import { useApiNotunicThreadGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonIcon, FormLayout, Icon, PageLayout, TextAreaInput } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ButtonIcon, FormLayout, Icon, PageLayout, TextAreaInput } from '@dimasbaguspm/versaur';
 import { SendIcon } from 'lucide-react';
 import { FC, useMemo } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { Controller, UseFormReturn } from 'react-hook-form';
 
+import { ThreadGroupMenuField } from '../../../components/thread-group-menu-field';
 import { SendSpaceMessageForm } from '../types';
-
-import { ThreadGroupMenu } from './thread-group-menu';
 
 interface SendFormProps {
   form: UseFormReturn<SendSpaceMessageForm>;
@@ -38,11 +37,22 @@ export const SendForm: FC<SendFormProps> = ({ handleFormSubmit, form, isSubmitti
       <div className="px-4 pt-4 sm:px-6 border-t border-border">
         <If condition={!isLoadingThreadGroups && threadGroups?.length > 0}>
           <div className="mb-4" role="group" aria-label="Thread group selection">
-            <div className="flex gap-2 flex-wrap">
-              {threadGroups?.map((threadGroup) => (
-                <ThreadGroupMenu key={threadGroup.id} threadGroup={threadGroup} disabled={isSubmitting} />
-              ))}
-            </div>
+            <Controller
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <ButtonGroup>
+                  {threadGroups?.map((threadGroup) => (
+                    <ThreadGroupMenuField
+                      key={threadGroup.id}
+                      threadGroup={threadGroup}
+                      onTagSelect={(tags) => field.onChange(tags)}
+                      selectedTags={field.value}
+                    />
+                  ))}
+                </ButtonGroup>
+              )}
+            />
           </div>
         </If>
 
