@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { MODAL_ROUTES } from '../constants/modal-routes';
 import { DeleteThreadGroupModal } from '../modals/delete-thread-group-modal/modal';
 import { DeleteThreadGroupTagModal } from '../modals/delete-thread-group-tag-modal/modal';
+import { DeleteThreadModal } from '../modals/delete-thread-modal/modal';
 import { LogoutConfirmationModal } from '../modals/logout-confirmation-modal/modal';
 import { ProfileSwitcherModal } from '../modals/profile-switcher-modal/modal';
 
@@ -37,6 +38,7 @@ export const ModalRoutes: FC = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={closeModal} size={'lg'}>
+      {is(MODAL_ROUTES.DELETE_THREAD) && hasParam('threadId') && <DeleteThreadModal threadId={params.threadId!} />}
       {is(MODAL_ROUTES.DELETE_THREAD_GROUP) && hasParam('threadGroupId') && (
         <DeleteThreadGroupModal threadGroupId={params.threadGroupId!} />
       )}

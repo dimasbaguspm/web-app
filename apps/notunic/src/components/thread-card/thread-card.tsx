@@ -1,12 +1,14 @@
 import { ThreadModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
+import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { formatNotunicThread } from '@dimasbaguspm/utils/data';
-import { Avatar, Badge, BadgeGroup, ButtonIcon, CardProps, Text } from '@dimasbaguspm/versaur';
+import { Avatar, Badge, BadgeGroup, ButtonIcon, ButtonMenuIcon, CardProps, Text } from '@dimasbaguspm/versaur';
 import { sortBy } from 'lodash';
 import { Edit2Icon, EllipsisVerticalIcon, ReplyIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
+import { MODAL_ROUTES } from '../../constants/modal-routes';
 
 interface ThreadCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
   thread: ThreadModel;
@@ -16,6 +18,7 @@ interface ThreadCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bor
 export const ThreadCard: FC<ThreadCardProps> = (props) => {
   const { thread, onClick } = props;
   const { openDrawer } = useDrawerRoute();
+  const { openModal } = useModalRoute();
   const { description, createdDateTime, senderName, senderInitial } = formatNotunicThread(thread);
 
   const handleClick = () => {
@@ -26,10 +29,14 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
     openDrawer(DRAWER_ROUTES.EDIT_THREAD, { threadId: thread.id });
   };
 
+  const handleDeleteClick = () => {
+    openModal(MODAL_ROUTES.DELETE_THREAD, { threadId: thread.id });
+  };
+
   const sortedGroups = sortBy(thread.groups, (group) => group.id);
 
   return (
-    <div className="p-4" onClick={handleClick}>
+    <div className="py-4" onClick={handleClick}>
       <div className="mb-2">
         <div className="flex justify-between w-full">
           <div className="w-full flex items-start gap-3">
@@ -38,7 +45,9 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
             <div className="flex-grow flex justify-end gap-1">
               <ButtonIcon as={ReplyIcon} size="xs" variant="ghost" aria-label="Reply to thread" onClick={handleClick} />
               <ButtonIcon as={Edit2Icon} size="xs" variant="ghost" aria-label="Edit thread" onClick={handleEditClick} />
-              <ButtonIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options" />
+              <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
+                <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>
+              </ButtonMenuIcon>
             </div>
           </div>
         </div>

@@ -3,8 +3,8 @@ import { SpaceModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatNotunicSpace } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, ButtonIcon, Icon, NoResults, PageHeader, PageLoader, Tabs } from '@dimasbaguspm/versaur';
-import { Edit2Icon, SearchXIcon, WandSparklesIcon } from 'lucide-react';
+import { ButtonGroup, ButtonMenuIcon, NoResults, PageHeader, PageLoader, Tabs } from '@dimasbaguspm/versaur';
+import { BoltIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
@@ -69,20 +69,20 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
         }
         actions={
           <ButtonGroup>
-            <Button variant="outline">
-              <Icon as={WandSparklesIcon} color="inherit" size="sm" />
-              Summarize
-            </Button>
-            <Button onClick={handleOnEditClick}>
-              <Icon as={Edit2Icon} color="inherit" size="sm" />
-              Edit
-            </Button>
+            <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
+              <ButtonMenuIcon.Item onClick={() => {}}>Search</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={() => {}}>Summarize</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit Space</ButtonMenuIcon.Item>
+            </ButtonMenuIcon>
           </ButtonGroup>
         }
         mobileActions={
           <ButtonGroup>
-            <ButtonIcon as={WandSparklesIcon} aria-label="Summarize Space" variant="outline" />
-            <ButtonIcon as={Edit2Icon} aria-label="Edit Space" onClick={handleOnEditClick} />
+            <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
+              <ButtonMenuIcon.Item onClick={() => {}}>Search</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={() => {}}>Summarize</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit Space</ButtonMenuIcon.Item>
+            </ButtonMenuIcon>
           </ButtonGroup>
         }
       />

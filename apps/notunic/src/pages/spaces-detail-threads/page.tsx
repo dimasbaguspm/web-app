@@ -2,9 +2,9 @@ import { useApiNotunicCreateThread, useApiNotunicThreadsInfiniteQuery } from '@d
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { PortalContainer } from '@dimasbaguspm/providers/portal-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Hr, NoResults, PageContent, PageLoader } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Hr, NoResults, PageContent, PageLoader } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 
@@ -20,15 +20,26 @@ interface SpacesDetailThreadsPageProps {
 
 const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) => {
   const { user } = useAuthProvider();
-  const [threads, , { isInitialFetching }] = useApiNotunicThreadsInfiniteQuery({
-    spaceId: [spaceId],
-    sortBy: 'createdAt',
-    sortOrder: 'desc',
-  });
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const hasInitiallyScrolled = useRef<boolean>(false);
+  const [threads, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiNotunicThreadsInfiniteQuery({
+      spaceId: [spaceId],
+      sortBy: 'createdAt',
+      sortOrder: 'desc',
+    });
 
   const [createThread, , { isPending: isCreatePending }] = useApiNotunicCreateThread();
 
   const form = useForm<SendSpaceMessageForm>();
+
+  // Auto-scroll to bottom only when initial fetch is done (not for pagination)
+  useEffect(() => {
+    if (!isInitialFetching && threads.length > 0 && !hasInitiallyScrolled.current) {
+      bottomRef.current?.scrollIntoView({ behavior: 'instant' });
+      hasInitiallyScrolled.current = true;
+    }
+  }, [isInitialFetching, threads.length]);
 
   const handleFormSubmit = async (data: SendSpaceMessageForm) => {
     if (isCreatePending) return;
@@ -41,7 +52,14 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
     });
 
     form.reset();
+
+    // Scroll to bottom after sending a message
+    setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: 'instant' });
+    }, 100);
   };
+
+  const reverseThreads = [...threads].reverse();
 
   return (
     <>
@@ -57,9 +75,16 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
           />
         </If>
         <If condition={[!isInitialFetching, !!threads.length]}>
-          <ul className={threads.length > 3 ? 'pb-48' : ''}>
-            {threads.map((thread, index) => {
-              const isLast = index === threads.length - 1;
+          {hasNextPage && (
+            <ButtonGroup hasMargin alignment="center">
+              <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                Load more
+              </Button>
+            </ButtonGroup>
+          )}
+          <ul className={reverseThreads.length > 3 ? 'pb-48' : ''}>
+            {reverseThreads.map((thread, index) => {
+              const isLast = index === reverseThreads.length - 1;
               return (
                 <li key={thread.id}>
                   <ThreadCard thread={thread} as="div" />
@@ -68,6 +93,7 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
               );
             })}
           </ul>
+          <div ref={bottomRef} />
         </If>
       </PageContent>
       <FormProvider {...form}>
