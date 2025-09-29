@@ -30,7 +30,9 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
       <div className="mb-2">
         <div className="flex justify-between w-full">
           <div className="w-full flex items-start gap-3">
-            <Avatar shape="rounded">{senderInitial}</Avatar>
+            <Avatar shape="circle" size="sm">
+              {senderInitial}
+            </Avatar>
             <Text fontWeight="semibold">{senderName}</Text>
             <div className="flex-grow flex justify-end gap-1">
               <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">

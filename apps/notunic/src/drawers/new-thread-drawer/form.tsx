@@ -5,14 +5,14 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { ThreadGroupMenuField } from '../../components/thread-group-menu-field';
 
-import { EditThreadFormSchema } from './types';
+import { NewThreadFormSchema } from './types';
 
-interface EditThreadFormProps {
+interface NewThreadFormProps {
   threadGroups: ThreadGroupModel[];
 }
 
-export const EditThreadForm: FC<EditThreadFormProps> = ({ threadGroups }) => {
-  const { control } = useFormContext<EditThreadFormSchema>();
+export const NewThreadForm: FC<NewThreadFormProps> = ({ threadGroups }) => {
+  const { control } = useFormContext<NewThreadFormSchema>();
 
   return (
     <FormLayout>
@@ -52,8 +52,8 @@ export const EditThreadForm: FC<EditThreadFormProps> = ({ threadGroups }) => {
           render={({ field, fieldState }) => (
             <TextAreaInput
               {...field}
-              label="Message"
-              placeholder="Type message"
+              label="Description"
+              placeholder="Type description"
               error={fieldState.error?.message}
               fieldSizing="content"
             />

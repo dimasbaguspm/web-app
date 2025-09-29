@@ -3,7 +3,7 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { formatNotunicThread } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { Avatar, Badge, BadgeGroup, ButtonIcon, ButtonMenuIcon, CardProps, Text } from '@dimasbaguspm/versaur';
+import { Badge, BadgeGroup, ButtonIcon, ButtonMenuIcon, CardProps, Heading, Text } from '@dimasbaguspm/versaur';
 import { sortBy } from 'lodash';
 import { Edit2Icon, EllipsisVerticalIcon, ReplyIcon } from 'lucide-react';
 import { FC } from 'react';
@@ -20,8 +20,7 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
   const { thread, onClick } = props;
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
-  const { description, createdDateTime, senderName, senderInitial, hasComments, commentsText } =
-    formatNotunicThread(thread);
+  const { description, createdDateTime, title, hasComments, commentsText } = formatNotunicThread(thread);
 
   const handleClick = () => {
     onClick?.(thread);
@@ -46,8 +45,7 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
       <div className="mb-2">
         <div className="flex justify-between w-full">
           <div className="w-full flex items-start gap-3">
-            <Avatar shape="rounded">{senderInitial}</Avatar>
-            <Text fontWeight="semibold">{senderName}</Text>
+            <Heading level={4}>{title}</Heading>
             <div className="flex-grow flex justify-end gap-1">
               <ButtonIcon
                 as={ReplyIcon}

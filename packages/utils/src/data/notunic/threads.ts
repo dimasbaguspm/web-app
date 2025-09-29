@@ -4,6 +4,8 @@ import { DateFormat, formatDate } from '../../date';
 import { nameToInitials } from '../../initial';
 
 export const formatNotunicThread = (thread?: ThreadModel | null) => {
+  const title = thread?.title || 'No Title';
+
   const description = thread?.content;
   const trimmedDescription = description ? `${description.slice(0, 25) + (description.length > 25 ? '...' : '')}` : '';
 
@@ -14,6 +16,7 @@ export const formatNotunicThread = (thread?: ThreadModel | null) => {
     : 'No comments';
 
   return {
+    title,
     senderName,
     senderInitial: nameToInitials(senderName),
     description,

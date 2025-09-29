@@ -3,8 +3,18 @@ import { SpaceModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatNotunicSpace } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { ButtonGroup, ButtonMenuIcon, NoResults, PageHeader, PageLoader, Tabs } from '@dimasbaguspm/versaur';
-import { BoltIcon, SearchXIcon } from 'lucide-react';
+import {
+  Button,
+  ButtonGroup,
+  ButtonIcon,
+  ButtonMenuIcon,
+  Icon,
+  NoResults,
+  PageHeader,
+  PageLoader,
+  Tabs,
+} from '@dimasbaguspm/versaur';
+import { BoltIcon, PlusIcon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
@@ -56,6 +66,14 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
     openDrawer(DRAWER_ROUTES.EDIT_SPACE, { spaceId: space.id });
   };
 
+  const handleOnPlusClick = () => {
+    openDrawer(DRAWER_ROUTES.NEW_THREAD, { spaceId: space.id });
+  };
+
+  const handleOnThreadGroupsClick = () => {
+    openDrawer(DRAWER_ROUTES.MANAGE_THREAD_GROUPS, { spaceId: space.id });
+  };
+
   return (
     <>
       <PageHeader
@@ -69,19 +87,24 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
         }
         actions={
           <ButtonGroup>
+            <Button onClick={handleOnPlusClick}>
+              <Icon as={PlusIcon} color="inherit" size="sm" />
+              New Thread
+            </Button>
             <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
               <ButtonMenuIcon.Item onClick={() => {}}>Search</ButtonMenuIcon.Item>
-              <ButtonMenuIcon.Item onClick={() => {}}>Summarize</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleOnThreadGroupsClick}>Thread Groups</ButtonMenuIcon.Item>
               <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit Space</ButtonMenuIcon.Item>
             </ButtonMenuIcon>
           </ButtonGroup>
         }
         mobileActions={
           <ButtonGroup>
+            <ButtonIcon as={PlusIcon} aria-label="New Thread" onClick={handleOnPlusClick} />
             <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
               <ButtonMenuIcon.Item onClick={() => {}}>Search</ButtonMenuIcon.Item>
-              <ButtonMenuIcon.Item onClick={() => {}}>Summarize</ButtonMenuIcon.Item>
-              <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit Space</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleOnThreadGroupsClick}>Summarize</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit</ButtonMenuIcon.Item>
             </ButtonMenuIcon>
           </ButtonGroup>
         }

@@ -1,14 +1,5 @@
 import { operations } from './generated/notunic.openapi';
 
-/**
- * 
- export type SearchAccountsModel = NonNullable<operations['getAccount']['parameters']['query']>;
- export type AccountsPageModel = operations['getAccount']['responses']['200']['content']['application/json'];
- export type CreateAccountModel = operations['postAccount']['requestBody']['content']['application/json'];
- export type UpdateAccountModel = operations['patchAccountById']['requestBody']['content']['application/json'] &
-   operations['patchAccountById']['parameters']['path'];
- export type AccountModel = operations['getAccountById']['responses']['200']['content']['application/json'];
- */
 export type SearchSpacesModel = NonNullable<operations['getSpaces']['parameters']['query']>;
 export type SpacesPageModel = operations['getSpaces']['responses']['200']['content']['application/json'];
 export type CreateSpaceModel = operations['postSpaces']['requestBody']['content']['application/json'];

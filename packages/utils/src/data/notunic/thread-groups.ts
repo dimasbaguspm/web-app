@@ -4,7 +4,7 @@ import { DateFormat, formatDate } from '../../date';
 import { nameToInitials } from '../../initial';
 
 export const formatNotunicThreadGroup = (thread?: ThreadGroupModel | null) => {
-  const tagsCount = thread?.tagIds?.length ?? 0;
+  const tagsCount = thread?.tags?.length ?? 0;
   const tagsText = tagsCount > 0 ? `${tagsCount} Tag${tagsCount > 1 ? 's' : ''}` : 'No Tags';
 
   return {

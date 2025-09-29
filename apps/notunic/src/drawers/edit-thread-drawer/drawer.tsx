@@ -38,6 +38,7 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId }) => {
   const handleOnSubmit = async (data: EditThreadFormSchema) => {
     await updateThread({
       id: threadId,
+      title: data.title,
       content: data.content,
       tagIds: data.tags,
     });
@@ -48,6 +49,7 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId }) => {
   useEffect(() => {
     if (thread) {
       form.reset({
+        title: thread.title,
         content: thread.content,
         tags: thread.groups?.map((tag) => tag.tagId) ?? [],
       });

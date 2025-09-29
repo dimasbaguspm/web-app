@@ -50,7 +50,7 @@ export const DetailThreadDrawer: FC<DetailThreadDrawerProps> = ({ threadId }) =>
   return (
     <>
       <Drawer.Header>
-        <Drawer.Title>{formattedThreadGroup.trimmedDescription ?? 'Thread Details'}</Drawer.Title>
+        <Drawer.Title>{formattedThreadGroup.title ?? 'Thread Details'}</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Body>

@@ -9,13 +9,19 @@ import { FC } from 'react';
 import { ThreadGroupCard } from '../../components/thread-group-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
-export const ManageThreadGroupDrawer: FC = () => {
+interface ManageThreadGroupDrawerProps {
+  spaceId: number;
+}
+
+export const ManageThreadGroupDrawer: FC<ManageThreadGroupDrawerProps> = ({ spaceId }) => {
   const { openDrawer } = useDrawerRoute();
   const [threadGroups, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
-    useApiNotunicThreadGroupsInfiniteQuery({});
+    useApiNotunicThreadGroupsInfiniteQuery({
+      spaceId: [spaceId],
+    });
 
   const handleOpenNewThreadGroup = () => {
-    openDrawer(DRAWER_ROUTES.NEW_THREAD_GROUP);
+    openDrawer(DRAWER_ROUTES.NEW_THREAD_GROUP, { spaceId });
   };
 
   const handleOnCardClick = (threadGroup: ThreadGroupModel) => () => {

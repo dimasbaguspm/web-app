@@ -132,22 +132,6 @@ export interface paths {
     patch: operations['patchThread-groupById'];
     trace?: never;
   };
-  '/thread-group/{id}/tags': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['getThread-groupByIdTags'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/thread-group-tag/': {
     parameters: {
       query?: never;
@@ -178,22 +162,6 @@ export interface paths {
     options?: never;
     head?: never;
     patch: operations['patchThread-group-tagById'];
-    trace?: never;
-  };
-  '/thread-group-tag/thread-tag': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post: operations['postThread-group-tagThread-tag'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
     trace?: never;
   };
   '/comments/': {
@@ -650,6 +618,7 @@ export interface operations {
       query?: {
         id?: number[];
         spaceId?: number[];
+        title?: string;
         content?: string;
         createdFrom?: string;
         createdTo?: string;
@@ -681,6 +650,7 @@ export interface operations {
                 id: number;
                 name: string;
               };
+              title: string;
               content: string;
               groups: {
                 id: number;
@@ -710,6 +680,7 @@ export interface operations {
                 id: number;
                 name: string;
               };
+              title: string;
               content: string;
               groups: {
                 id: number;
@@ -739,6 +710,7 @@ export interface operations {
                 id: number;
                 name: string;
               };
+              title: string;
               content: string;
               groups: {
                 id: number;
@@ -774,21 +746,21 @@ export interface operations {
         'application/json': {
           userId: number;
           spaceId: number;
-          parentThreadId?: number | null;
+          title: string;
           content: string;
           tagIds?: number[];
         };
         'multipart/form-data': {
           userId: number;
           spaceId: number;
-          parentThreadId?: number | null;
+          title: string;
           content: string;
           tagIds?: number[];
         };
         'text/plain': {
           userId: number;
           spaceId: number;
-          parentThreadId?: number | null;
+          title: string;
           content: string;
           tagIds?: number[];
         };
@@ -809,6 +781,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -832,6 +805,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -855,6 +829,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -898,6 +873,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -921,6 +897,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -944,6 +921,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -993,17 +971,17 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          parentThreadId?: number | null;
+          title?: string;
           content?: string;
           tagIds?: number[];
         };
         'multipart/form-data': {
-          parentThreadId?: number | null;
+          title?: string;
           content?: string;
           tagIds?: number[];
         };
         'text/plain': {
-          parentThreadId?: number | null;
+          title?: string;
           content?: string;
           tagIds?: number[];
         };
@@ -1024,6 +1002,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -1047,6 +1026,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -1070,6 +1050,7 @@ export interface operations {
               id: number;
               name: string;
             };
+            title: string;
             content: string;
             groups: {
               id: number;
@@ -1093,6 +1074,7 @@ export interface operations {
       query?: {
         id?: number[];
         search?: string;
+        spaceId?: number[];
         pageNumber?: number;
         pageSize?: number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
@@ -1113,8 +1095,12 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              spaceId: number;
               name: string;
-              tagIds: number[];
+              tags: {
+                id: number;
+                name: string;
+              }[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1129,8 +1115,12 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              spaceId: number;
               name: string;
-              tagIds: number[];
+              tags: {
+                id: number;
+                name: string;
+              }[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1145,8 +1135,12 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              spaceId: number;
               name: string;
-              tagIds: number[];
+              tags: {
+                id: number;
+                name: string;
+              }[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1172,12 +1166,15 @@ export interface operations {
       content: {
         'application/json': {
           name: string;
+          spaceId: number;
         };
         'multipart/form-data': {
           name: string;
+          spaceId: number;
         };
         'text/plain': {
           name: string;
+          spaceId: number;
         };
       };
     };
@@ -1190,8 +1187,12 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1200,8 +1201,12 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1210,8 +1215,12 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1240,8 +1249,12 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1250,8 +1263,12 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1260,8 +1277,12 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1321,8 +1342,12 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1331,8 +1356,12 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1341,63 +1370,17 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            spaceId: number;
             name: string;
-            tagIds: number[];
+            tags: {
+              id: number;
+              name: string;
+            }[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
           };
-        };
-      };
-    };
-  };
-  'getThread-groupByIdTags': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            id: number;
-            profileId: number;
-            threadGroupId: number;
-            name: string;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          }[];
-          'multipart/form-data': {
-            id: number;
-            profileId: number;
-            threadGroupId: number;
-            name: string;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          }[];
-          'text/plain': {
-            id: number;
-            profileId: number;
-            threadGroupId: number;
-            name: string;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-          }[];
         };
       };
     };
@@ -1668,63 +1651,6 @@ export interface operations {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-          };
-        };
-      };
-    };
-  };
-  'postThread-group-tagThread-tag': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          threadId: number;
-          tagId: number;
-        };
-        'multipart/form-data': {
-          threadId: number;
-          tagId: number;
-        };
-        'text/plain': {
-          threadId: number;
-          tagId: number;
-        };
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            id: number;
-            profileId: number;
-            threadId: number;
-            tagId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-          'multipart/form-data': {
-            id: number;
-            profileId: number;
-            threadId: number;
-            tagId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-          'text/plain': {
-            id: number;
-            profileId: number;
-            threadId: number;
-            tagId: number;
-            /** Format: date-time */
-            createdAt: string;
           };
         };
       };

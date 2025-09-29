@@ -2,6 +2,7 @@ export const DRAWER_ROUTES = {
   NEW_SPACE: 'new-space',
   EDIT_SPACE: 'edit-space',
 
+  NEW_THREAD: 'new-thread',
   EDIT_THREAD: 'edit-thread',
   DETAIL_THREAD: 'detail-thread',
 

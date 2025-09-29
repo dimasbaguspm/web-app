@@ -8,7 +8,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { NewThreadGroupForm } from './form';
 import { NewThreadGroupFormSchema } from './types';
 
-export const NewThreadGroupDrawer: FC = () => {
+interface NewThreadGroupDrawerProps {
+  spaceId: number;
+}
+
+export const NewThreadGroupDrawer: FC<NewThreadGroupDrawerProps> = ({ spaceId }) => {
   const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
@@ -18,7 +22,7 @@ export const NewThreadGroupDrawer: FC = () => {
   const form = useForm<NewThreadGroupFormSchema>();
 
   const handleOnSubmit = async (data: NewThreadGroupFormSchema) => {
-    await createThreadGroup(data);
+    await createThreadGroup({ ...data, spaceId });
     showSnack('success', 'Thread group created successfully');
     closeDrawer();
   };
