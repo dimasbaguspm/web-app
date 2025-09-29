@@ -56,8 +56,12 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.MANAGE_THREAD_GROUPS) && hasParam('spaceId') && (
         <ManageThreadGroupDrawer spaceId={params.spaceId!} />
       )}
-      {is(DRAWER_ROUTES.DETAIL_THREAD) && hasParam('threadId') && <DetailThreadDrawer threadId={params.threadId!} />}
-      {is(DRAWER_ROUTES.EDIT_THREAD) && hasParam('threadId') && <EditThreadDrawer threadId={params.threadId!} />}
+      {is(DRAWER_ROUTES.DETAIL_THREAD) && hasParam('spaceId') && hasParam('threadId') && (
+        <DetailThreadDrawer threadId={params.threadId!} spaceId={params.spaceId!} />
+      )}
+      {is(DRAWER_ROUTES.EDIT_THREAD) && hasParam('spaceId') && hasParam('threadId') && (
+        <EditThreadDrawer threadId={params.threadId!} spaceId={params.spaceId!} />
+      )}
 
       {is(DRAWER_ROUTES.NEW_THREAD_GROUP) && hasParam('spaceId') && <NewThreadGroupDrawer spaceId={params.spaceId!} />}
       {is(DRAWER_ROUTES.DETAIL_THREAD_GROUP) && hasParam('threadGroupId') && (

@@ -27,15 +27,15 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
   };
 
   const handleEditClick = () => {
-    openDrawer(DRAWER_ROUTES.EDIT_THREAD, { threadId: thread.id });
+    openDrawer(DRAWER_ROUTES.EDIT_THREAD, { threadId: thread.id, spaceId: thread.spaceId });
   };
 
   const handleDeleteClick = () => {
-    openModal(MODAL_ROUTES.DELETE_THREAD, { threadId: thread.id });
+    openModal(MODAL_ROUTES.DELETE_THREAD, { threadId: thread.id, spaceId: thread.spaceId });
   };
 
   const handleReplyClick = () => {
-    openDrawer(DRAWER_ROUTES.DETAIL_THREAD, { threadId: thread.id });
+    openDrawer(DRAWER_ROUTES.DETAIL_THREAD, { threadId: thread.id, spaceId: thread.spaceId });
   };
 
   const sortedGroups = sortBy(thread.groups, (group) => group.id);

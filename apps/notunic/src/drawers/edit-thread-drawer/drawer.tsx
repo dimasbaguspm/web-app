@@ -15,16 +15,19 @@ import { EditThreadForm } from './form';
 import { EditThreadFormSchema } from './types';
 
 interface EditThreadDrawerProps {
+  spaceId: number;
   threadId: number;
 }
 
-export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId }) => {
+export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId, spaceId }) => {
   const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
 
   const [thread, , { isLoading: isLoadingThread }] = useApiNotunicThreadQuery(threadId);
-  const [threadGroups, , { isLoading: isLoadingThreadGroup }] = useApiNotunicThreadGroupsInfiniteQuery({});
+  const [threadGroups, , { isLoading: isLoadingThreadGroup }] = useApiNotunicThreadGroupsInfiniteQuery({
+    spaceId: [spaceId],
+  });
 
   const [updateThread, , { isPending }] = useApiNotunicUpdateThread();
 

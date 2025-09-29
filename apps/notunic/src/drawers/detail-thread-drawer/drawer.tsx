@@ -15,6 +15,7 @@ import { CommentCard } from '../../components/comment-card';
 
 interface DetailThreadDrawerProps {
   threadId: number;
+  spaceId: number;
 }
 
 export const DetailThreadDrawer: FC<DetailThreadDrawerProps> = ({ threadId }) => {
