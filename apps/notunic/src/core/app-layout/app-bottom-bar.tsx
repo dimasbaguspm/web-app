@@ -4,7 +4,7 @@ import { PortalShifter } from '@dimasbaguspm/providers/portal-provider';
 import { BottomBar, Icon } from '@dimasbaguspm/versaur';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { FC } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { BOTTOM_SHEET_ROUTES } from '../../constants/bottom-sheet-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
@@ -15,7 +15,6 @@ import { LINKS } from './constants';
 export const AppBottomBar: FC = () => {
   const { isDesktop } = useWindowResize();
   const { openBottomSheet } = useBottomSheetRoute();
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const handleNavigation = (path: string) => () => {
@@ -30,12 +29,10 @@ export const AppBottomBar: FC = () => {
     return location.pathname.startsWith(path);
   };
 
-  const isThreadPage = location.pathname === DEEP_LINKS.SPACES_DETAIL.path(id ?? '');
-
   // Hide bottom bar on thread detail page due to show the chat input at the bottom
   return (
     <PortalShifter id={PORTAL_ROUTES.BOTTOM_BAR}>
-      {!isThreadPage && !isDesktop && (
+      {!isDesktop && (
         <BottomBar>
           {LINKS.map((link) => {
             const isActiveLink = isActive(link.path);
