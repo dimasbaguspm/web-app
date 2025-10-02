@@ -23,6 +23,7 @@ interface DrawerParams {
   threadGroupId?: number;
   threadGroupTagId?: number;
   commentId?: number;
+  parentCommentId?: number;
   actionId?: number;
   actionLinkId?: number;
   payloadId?: string;
@@ -57,7 +58,11 @@ export const DrawerRoutes: FC = () => {
         <ManageThreadGroupDrawer spaceId={params.spaceId!} />
       )}
       {is(DRAWER_ROUTES.DETAIL_THREAD) && hasParam('spaceId') && hasParam('threadId') && (
-        <DetailThreadDrawer threadId={params.threadId!} spaceId={params.spaceId!} />
+        <DetailThreadDrawer
+          threadId={params.threadId!}
+          spaceId={params.spaceId!}
+          parentCommentId={params?.parentCommentId ?? null}
+        />
       )}
       {is(DRAWER_ROUTES.EDIT_THREAD) && hasParam('spaceId') && hasParam('threadId') && (
         <EditThreadDrawer threadId={params.threadId!} spaceId={params.spaceId!} />

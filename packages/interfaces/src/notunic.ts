@@ -39,6 +39,26 @@ export type UpdateCommentModel = operations['patchCommentsById']['requestBody'][
   operations['patchCommentsById']['parameters']['path'];
 export type CommentModel = operations['getCommentsById']['responses']['200']['content']['application/json'];
 
+export type SearchCommentCategoriesModel = NonNullable<operations['getComment-category']['parameters']['query']>;
+export type CommentCategoriesPageModel =
+  operations['getComment-category']['responses']['200']['content']['application/json'];
+export type CreateCommentCategoryModel =
+  operations['postComment-category']['requestBody']['content']['application/json'];
+export type UpdateCommentCategoryModel =
+  operations['patchComment-categoryById']['requestBody']['content']['application/json'] &
+    operations['patchComment-categoryById']['parameters']['path'];
+export type CommentCategoryModel =
+  operations['getComment-categoryById']['responses']['200']['content']['application/json'];
+
+export type SearchCommentCategoryMembersModel = NonNullable<
+  operations['getComment-category-members']['parameters']['query']
+>;
+export type CommentCategoryMembersPageModel =
+  operations['getComment-category-members']['responses']['200']['content']['application/json'];
+export type CreateCommentCategoryMemberModel =
+  operations['postComment-category-members']['requestBody']['content']['application/json'];
+export type CommentCategoryMemberModel = CommentCategoryMembersPageModel['items'][number];
+
 export type SearchActionsModel = NonNullable<operations['getActions']['parameters']['query']>;
 export type ActionsPageModel = operations['getActions']['responses']['200']['content']['application/json'];
 export type CreateActionModel = operations['postActions']['requestBody']['content']['application/json'];

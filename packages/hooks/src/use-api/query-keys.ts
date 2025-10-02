@@ -315,6 +315,38 @@ export const QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  NOTUNIC_COMMENT_CATEGORIES_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_COMMENT_CATEGORIES_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_COMMENT_CATEGORIES_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_COMMENT_CATEGORY_MEMBERS_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENT_CATEGORY_MEMBERS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_COMMENT_CATEGORY_MEMBERS_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENT_CATEGORY_MEMBERS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  NOTUNIC_COMMENT_CATEGORY_MEMBERS_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_COMMENT_CATEGORY_MEMBERS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
   NOTUNIC_ACTIONS_INFINITE: (params: object = {}) => [
     ...BASE_QUERY_KEYS.NOTUNIC_ACTIONS,
     'infinite',

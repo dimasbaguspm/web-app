@@ -98,6 +98,14 @@ export const NOTUNIC_URL = {
     PAGINATED: '/comments',
     BY_ID: (id: number) => `/comments/${id}`,
   },
+  COMMENT_CATEGORIES: {
+    PAGINATED: '/comment-category',
+    BY_ID: (id: number) => `/comment-category/${id}`,
+  },
+  COMMENT_CATEGORY_MEMBERS: {
+    PAGINATED: '/comment-category-members',
+    BY_ID: (id: number) => `/comment-category-members/${id}`,
+  },
   ACTIONS: {
     PAGINATED: '/actions',
     BY_ID: (id: number) => `/actions/${id}`,

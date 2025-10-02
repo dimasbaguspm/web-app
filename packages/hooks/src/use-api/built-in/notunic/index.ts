@@ -3,5 +3,7 @@ export * from './threads';
 export * from './thread-groups';
 export * from './thread-group-tags';
 export * from './comments';
+export * from './comment-categories';
+export * from './comment-category-members';
 export * from './actions';
 export * from './action-links';

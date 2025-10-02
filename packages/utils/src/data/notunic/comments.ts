@@ -8,11 +8,20 @@ export const formatNotunicComment = (comment?: CommentModel | null) => {
   const trimmedDescription = description ? `${description.slice(0, 25) + (description.length > 25 ? '...' : '')}` : '';
 
   const senderName = comment?.sender?.name || 'Unknown User';
+
+  const repliesCount = comment?.repliesCommentIds?.length || 0;
+  const repliesText = repliesCount > 0 ? `${repliesCount} repl${repliesCount > 1 ? 'ies' : 'y'}` : 'No reply';
+
+  const isParent = !comment?.parentCommentId;
+
   return {
     senderName,
     senderInitial: nameToInitials(senderName),
     description,
     trimmedDescription,
+    repliesCount,
+    isParent,
+    repliesText,
     createdDateTime: comment?.createdAt ? formatDate(comment.createdAt, DateFormat.MEDIUM_DATETIME) : undefined,
     updatedDateTime: comment?.updatedAt ? formatDate(comment.updatedAt, DateFormat.MEDIUM_DATETIME) : undefined,
   } as const;

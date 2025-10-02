@@ -164,6 +164,70 @@ export interface paths {
     patch: operations['patchThread-group-tagById'];
     trace?: never;
   };
+  '/comment-category/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getComment-category'];
+    put?: never;
+    post: operations['postComment-category'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/comment-category/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getComment-categoryById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteComment-categoryById'];
+    options?: never;
+    head?: never;
+    patch: operations['patchComment-categoryById'];
+    trace?: never;
+  };
+  '/comment-category-members/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getComment-category-members'];
+    put?: never;
+    post: operations['postComment-category-members'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/comment-category-members/{commentId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getComment-category-membersByCommentId'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteComment-category-membersByCommentId'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/comments/': {
     parameters: {
       query?: never;
@@ -1656,12 +1720,521 @@ export interface operations {
       };
     };
   };
+  'getComment-category': {
+    parameters: {
+      query?: {
+        id?: number[];
+        search?: string;
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'name';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              description?: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              description?: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              description?: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postComment-category': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name: string;
+          description?: string;
+        };
+        'multipart/form-data': {
+          name: string;
+          description?: string;
+        };
+        'text/plain': {
+          name: string;
+          description?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getComment-categoryById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteComment-categoryById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'patchComment-categoryById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name?: string;
+          description?: string;
+        };
+        'multipart/form-data': {
+          name?: string;
+          description?: string;
+        };
+        'text/plain': {
+          name?: string;
+          description?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getComment-category-members': {
+    parameters: {
+      query?: {
+        commentId?: number[];
+        commentCategoryId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              commentId: number;
+              commentCategoryId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              commentId: number;
+              commentCategoryId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              commentId: number;
+              commentCategoryId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postComment-category-members': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          commentId: number;
+          commentCategoryId: number | number[];
+        };
+        'multipart/form-data': {
+          commentId: number;
+          commentCategoryId: number | number[];
+        };
+        'text/plain': {
+          commentId: number;
+          commentCategoryId: number | number[];
+        };
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json':
+            | {
+                commentId: number;
+                commentCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }
+            | {
+                commentId: number;
+                commentCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+          'multipart/form-data':
+            | {
+                commentId: number;
+                commentCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }
+            | {
+                commentId: number;
+                commentCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+          'text/plain':
+            | {
+                commentId: number;
+                commentCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }
+            | {
+                commentId: number;
+                commentCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+        };
+      };
+    };
+  };
+  'getComment-category-membersByCommentId': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        commentId: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            commentId: number;
+            commentCategoryId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+          'multipart/form-data': {
+            commentId: number;
+            commentCategoryId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+          'text/plain': {
+            commentId: number;
+            commentCategoryId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+        };
+      };
+    };
+  };
+  'deleteComment-category-membersByCommentId': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        commentId: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          commentCategoryId: number | number[];
+        };
+        'multipart/form-data': {
+          commentCategoryId: number | number[];
+        };
+        'text/plain': {
+          commentCategoryId: number | number[];
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   getComments: {
     parameters: {
       query?: {
         id?: number[];
         threadId?: number;
         parentCommentId?: number | null;
+        categoryIds?: number[];
         content?: string;
         createdFrom?: string;
         createdTo?: string;
@@ -1689,6 +2262,8 @@ export interface operations {
               profileId: number;
               threadId: number;
               parentCommentId: number | null;
+              repliesCommentIds: number[];
+              categoryIds: number[];
               content: string;
               sender: {
                 id: number;
@@ -1711,6 +2286,8 @@ export interface operations {
               profileId: number;
               threadId: number;
               parentCommentId: number | null;
+              repliesCommentIds: number[];
+              categoryIds: number[];
               content: string;
               sender: {
                 id: number;
@@ -1733,6 +2310,8 @@ export interface operations {
               profileId: number;
               threadId: number;
               parentCommentId: number | null;
+              repliesCommentIds: number[];
+              categoryIds: number[];
               content: string;
               sender: {
                 id: number;
@@ -1767,18 +2346,21 @@ export interface operations {
           parentCommentId?: number | null;
           userId: number;
           content: string;
+          categoryIds?: number[];
         };
         'multipart/form-data': {
           threadId: number;
           parentCommentId?: number | null;
           userId: number;
           content: string;
+          categoryIds?: number[];
         };
         'text/plain': {
           threadId: number;
           parentCommentId?: number | null;
           userId: number;
           content: string;
+          categoryIds?: number[];
         };
       };
     };
@@ -1793,6 +2375,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;
@@ -1809,6 +2393,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;
@@ -1825,6 +2411,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;
@@ -1861,6 +2449,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;
@@ -1877,6 +2467,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;
@@ -1893,6 +2485,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;
@@ -1941,14 +2535,17 @@ export interface operations {
         'application/json': {
           parentCommentId?: number | null;
           content?: string;
+          categoryIds?: number[];
         };
         'multipart/form-data': {
           parentCommentId?: number | null;
           content?: string;
+          categoryIds?: number[];
         };
         'text/plain': {
           parentCommentId?: number | null;
           content?: string;
+          categoryIds?: number[];
         };
       };
     };
@@ -1963,6 +2560,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;
@@ -1979,6 +2578,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;
@@ -1995,6 +2596,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             parentCommentId: number | null;
+            repliesCommentIds: number[];
+            categoryIds: number[];
             content: string;
             sender: {
               id: number;

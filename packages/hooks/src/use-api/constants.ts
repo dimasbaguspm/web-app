@@ -30,6 +30,8 @@ export const BASE_QUERY_KEYS = {
   NOTUNIC_THREAD_GROUPS: ['notunic', 'thread-groups'],
   NOTUNIC_THREAD_GROUP_TAGS: ['notunic', 'thread-group-tags'],
   NOTUNIC_COMMENTS: ['notunic', 'comments'],
+  NOTUNIC_COMMENT_CATEGORIES: ['notunic', 'comment-categories'],
+  NOTUNIC_COMMENT_CATEGORY_MEMBERS: ['notunic', 'comment-category-members'],
   NOTUNIC_ACTIONS: ['notunic', 'actions'],
   NOTUNIC_ACTION_LINKS: ['notunic', 'action-links'],
 };
