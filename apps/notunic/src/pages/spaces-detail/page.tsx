@@ -103,7 +103,7 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
             <ButtonIcon as={PlusIcon} aria-label="New Thread" onClick={handleOnPlusClick} />
             <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
               <ButtonMenuIcon.Item onClick={() => {}}>Search</ButtonMenuIcon.Item>
-              <ButtonMenuIcon.Item onClick={handleOnThreadGroupsClick}>Summarize</ButtonMenuIcon.Item>
+              <ButtonMenuIcon.Item onClick={handleOnThreadGroupsClick}>Thread Groups</ButtonMenuIcon.Item>
               <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit</ButtonMenuIcon.Item>
             </ButtonMenuIcon>
           </ButtonGroup>

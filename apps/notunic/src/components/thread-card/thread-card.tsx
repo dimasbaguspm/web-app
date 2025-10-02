@@ -3,7 +3,7 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { formatNotunicThread } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { Badge, BadgeGroup, ButtonIcon, ButtonMenuIcon, CardProps, Heading, Text } from '@dimasbaguspm/versaur';
+import { Badge, BadgeGroup, ButtonIcon, ButtonMenuIcon, CardProps, Text } from '@dimasbaguspm/versaur';
 import { sortBy } from 'lodash';
 import { Edit2Icon, EllipsisVerticalIcon, ReplyIcon } from 'lucide-react';
 import { FC } from 'react';
@@ -45,7 +45,9 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
       <div className="mb-2">
         <div className="flex justify-between w-full">
           <div className="w-full flex items-start gap-3">
-            <Heading level={4}>{title}</Heading>
+            <Text fontWeight="medium" fontSize="base">
+              {title}
+            </Text>
             <div className="flex-grow flex justify-end gap-1">
               <ButtonIcon
                 as={ReplyIcon}
@@ -65,7 +67,7 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
 
       <div className="w-full">
         <div className="mb-4">
-          <Text color="gray" fontWeight="normal" fontSize="base">
+          <Text color="gray" fontWeight="normal" fontSize="sm">
             {description}
           </Text>
         </div>
