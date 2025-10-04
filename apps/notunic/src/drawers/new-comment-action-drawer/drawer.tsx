@@ -1,8 +1,12 @@
-import { useApiNotunicCommentQuery, useApiNotunicCreateCommentAction } from '@dimasbaguspm/hooks/use-api';
+import {
+  useApiNotunicCommentQuery,
+  useApiNotunicCommentsInfiniteQuery,
+  useApiNotunicCreateCommentAction,
+} from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, NoResults, PageLoader, useSnackbars } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, Hr, NoResults, PageLoader, useSnackbars } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -23,9 +27,17 @@ export const NewCommentActionDrawer: FC<NewCommentActionDrawerProps> = ({ thread
   const { showSnack } = useSnackbars();
 
   const [comment, , { isLoading: isLoadingComment }] = useApiNotunicCommentQuery(commentId);
-  const [parentComment] = useApiNotunicCommentQuery(comment?.parentCommentId ?? 0, {
-    enabled: (comment?.parentCommentId ?? 0) > 0,
-  });
+  const [repliedComments, , { isLoading: isLoadingParentMainComment }] = useApiNotunicCommentsInfiniteQuery(
+    {
+      id: comment?.conversationCommentIds || [],
+      sortBy: 'createdAt',
+      sortOrder: 'asc',
+      pageSize: 100,
+    },
+    {
+      enabled: !!comment?.conversationCommentIds?.length,
+    },
+  );
 
   const [createCommentAction, , { isPending }] = useApiNotunicCreateCommentAction();
 
@@ -53,17 +65,21 @@ export const NewCommentActionDrawer: FC<NewCommentActionDrawerProps> = ({ thread
         <Drawer.Title>New Comment Action</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
-      <If condition={[isLoadingComment]}>
+      <If condition={[isLoadingComment, isLoadingParentMainComment]}>
         <Drawer.Body>
           <PageLoader />
         </Drawer.Body>
       </If>
 
-      <If condition={[!isLoadingComment]}>
+      <If condition={[!isLoadingComment, !isLoadingParentMainComment]}>
         <Drawer.Body>
           <If condition={Boolean(comment)}>
-            <div className="mb-4">
-              <CommentCard comment={comment!} parentComment={parentComment} hideActions />
+            <div className="flex flex-col mb-4">
+              {repliedComments.map((comment) => (
+                <CommentCard key={comment.id} comment={comment} hideActions />
+              ))}
+
+              <Hr />
             </div>
 
             <form id="new-comment-action-form" onSubmit={form.handleSubmit(handleOnSubmit)}>

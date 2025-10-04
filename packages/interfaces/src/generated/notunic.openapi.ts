@@ -430,8 +430,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt' | 'name';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
       };
       header?: never;
       path?: never;
@@ -696,15 +696,15 @@ export interface operations {
   getThreads: {
     parameters: {
       query?: {
-        id?: number[];
-        spaceId?: number[];
+        id?: (number | string)[];
+        spaceId?: (number | string)[];
         title?: string;
         content?: string;
         createdFrom?: string;
         createdTo?: string;
         updatedFrom?: string;
         updatedTo?: string;
-        categoryId?: number[];
+        categoryId?: (number | string)[];
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
         pageNumber?: string | number;
@@ -2798,11 +2798,12 @@ export interface operations {
   getComments: {
     parameters: {
       query?: {
-        id?: number[];
-        threadId?: number;
-        parentCommentId?: number | null;
-        categoryIds?: number[];
-        hasReplies?: boolean;
+        id?: (number | string)[];
+        threadId?: string | number;
+        parentCommentId?: string | number;
+        isMainComment?: boolean | string;
+        categoryIds?: (number | string)[];
+        hasReplies?: boolean | string;
         actionStatus?: 'todo' | 'done';
         content?: string;
         createdFrom?: string;
@@ -2830,6 +2831,7 @@ export interface operations {
               id: number;
               profileId: number;
               threadId: number;
+              conversationCommentIds: number[] | null;
               parentCommentId: number | null;
               repliesCommentIds: number[];
               categoryIds: number[];
@@ -2840,7 +2842,9 @@ export interface operations {
               };
               action: {
                 id: number;
-                dueDate: string | null;
+                /** Format: date-time */
+                dueDate: string;
+                followedUpDate: string | null;
                 status: 'todo' | 'done';
               } | null;
               /** Format: date-time */
@@ -2859,6 +2863,7 @@ export interface operations {
               id: number;
               profileId: number;
               threadId: number;
+              conversationCommentIds: number[] | null;
               parentCommentId: number | null;
               repliesCommentIds: number[];
               categoryIds: number[];
@@ -2869,7 +2874,9 @@ export interface operations {
               };
               action: {
                 id: number;
-                dueDate: string | null;
+                /** Format: date-time */
+                dueDate: string;
+                followedUpDate: string | null;
                 status: 'todo' | 'done';
               } | null;
               /** Format: date-time */
@@ -2888,6 +2895,7 @@ export interface operations {
               id: number;
               profileId: number;
               threadId: number;
+              conversationCommentIds: number[] | null;
               parentCommentId: number | null;
               repliesCommentIds: number[];
               categoryIds: number[];
@@ -2898,7 +2906,9 @@ export interface operations {
               };
               action: {
                 id: number;
-                dueDate: string | null;
+                /** Format: date-time */
+                dueDate: string;
+                followedUpDate: string | null;
                 status: 'todo' | 'done';
               } | null;
               /** Format: date-time */
@@ -2958,6 +2968,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -2968,7 +2979,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -2981,6 +2994,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -2991,7 +3005,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -3004,6 +3020,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -3014,7 +3031,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -3047,6 +3066,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -3057,7 +3077,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -3070,6 +3092,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -3080,7 +3103,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -3093,6 +3118,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -3103,7 +3129,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -3173,6 +3201,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -3183,7 +3212,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -3196,6 +3227,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -3206,7 +3238,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -3219,6 +3253,7 @@ export interface operations {
             id: number;
             profileId: number;
             threadId: number;
+            conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
             categoryIds: number[];
@@ -3229,7 +3264,9 @@ export interface operations {
             };
             action: {
               id: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
+              followedUpDate: string | null;
               status: 'todo' | 'done';
             } | null;
             /** Format: date-time */
@@ -3279,7 +3316,8 @@ export interface operations {
               profileId: number;
               threadId: number;
               commentId: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
               followUpNote: string | null;
               followedUpDate: string | null;
               /** Format: date-time */
@@ -3299,7 +3337,8 @@ export interface operations {
               profileId: number;
               threadId: number;
               commentId: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
               followUpNote: string | null;
               followedUpDate: string | null;
               /** Format: date-time */
@@ -3319,7 +3358,8 @@ export interface operations {
               profileId: number;
               threadId: number;
               commentId: number;
-              dueDate: string | null;
+              /** Format: date-time */
+              dueDate: string;
               followUpNote: string | null;
               followedUpDate: string | null;
               /** Format: date-time */
@@ -3349,21 +3389,24 @@ export interface operations {
         'application/json': {
           threadId: number;
           commentId: number;
-          dueDate?: string | null;
+          /** Format: date-time */
+          dueDate: string;
           followUpNote?: string | null;
           followedUpDate?: string | null;
         };
         'multipart/form-data': {
           threadId: number;
           commentId: number;
-          dueDate?: string | null;
+          /** Format: date-time */
+          dueDate: string;
           followUpNote?: string | null;
           followedUpDate?: string | null;
         };
         'text/plain': {
           threadId: number;
           commentId: number;
-          dueDate?: string | null;
+          /** Format: date-time */
+          dueDate: string;
           followUpNote?: string | null;
           followedUpDate?: string | null;
         };
@@ -3380,7 +3423,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */
@@ -3394,7 +3438,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */
@@ -3408,7 +3453,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */
@@ -3426,7 +3472,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -3442,7 +3488,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */
@@ -3456,7 +3503,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */
@@ -3470,7 +3518,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */
@@ -3495,17 +3544,20 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          dueDate?: string | null;
+          /** Format: date-time */
+          dueDate?: string;
           followUpNote?: string | null;
           followedUpDate?: string | null;
         };
         'multipart/form-data': {
-          dueDate?: string | null;
+          /** Format: date-time */
+          dueDate?: string;
           followUpNote?: string | null;
           followedUpDate?: string | null;
         };
         'text/plain': {
-          dueDate?: string | null;
+          /** Format: date-time */
+          dueDate?: string;
           followUpNote?: string | null;
           followedUpDate?: string | null;
         };
@@ -3522,7 +3574,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */
@@ -3536,7 +3589,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */
@@ -3550,7 +3604,8 @@ export interface operations {
             profileId: number;
             threadId: number;
             commentId: number;
-            dueDate: string | null;
+            /** Format: date-time */
+            dueDate: string;
             followUpNote: string | null;
             followedUpDate: string | null;
             /** Format: date-time */

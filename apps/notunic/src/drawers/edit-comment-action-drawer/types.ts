@@ -1,6 +1,6 @@
 export interface EditCommentActionFormSchema {
   commentActionId: number;
-  dueDate: string | undefined;
+  dueDate: string;
   followedUpDate: string;
   followedUpNote: string;
 }

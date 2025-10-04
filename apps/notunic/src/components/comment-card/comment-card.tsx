@@ -14,11 +14,13 @@ interface CommentCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bo
   onAssignActionClick?: (comment: CommentModel) => void;
   onFollowUpActionClick?: (comment: CommentModel) => void;
   hideActions?: boolean;
+  hideHorizontalLine?: boolean;
 }
 
 export const CommentCard: FC<CommentCardProps> = (props) => {
   const {
     hideActions,
+    hideHorizontalLine = false,
     comment,
     parentComment,
     onReplyClick,
@@ -69,13 +71,14 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
   return (
     <div className="flex justify-between w-full">
       <div className="w-full flex items-start gap-3 relative">
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex flex-col items-center h-full">
           <Avatar shape="circle" size="md">
             {senderInitial}
           </Avatar>
+          {!hideHorizontalLine && <div className="flex-grow border border-border" />}
         </div>
 
-        <div className="w-full">
+        <div className="w-full mb-4">
           <div className="flex justify-between mb-2">
             <div className="flex items-center gap-2">
               <Text fontWeight="semibold" fontSize="base">

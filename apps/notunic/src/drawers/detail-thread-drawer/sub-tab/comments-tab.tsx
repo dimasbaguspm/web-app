@@ -33,10 +33,16 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
   const [mainComment, , { isLoading: isLoadingMainComment }] = useApiNotunicCommentQuery(parentCommentId ?? 0, {
     enabled: (parentCommentId ?? 0) > 0,
   });
-  const [parentMainComment, , { isLoading: isLoadingParentMainComment }] = useApiNotunicCommentQuery(
-    mainComment?.parentCommentId ?? 0,
+
+  const [repliedComments, , { isLoading: isLoadingParentMainComment }] = useApiNotunicCommentsInfiniteQuery(
     {
-      enabled: (mainComment?.parentCommentId ?? 0) > 0,
+      id: mainComment?.conversationCommentIds || [],
+      sortBy: 'createdAt',
+      sortOrder: 'asc',
+      pageSize: 100,
+    },
+    {
+      enabled: !!mainComment?.conversationCommentIds?.length,
     },
   );
 
@@ -50,7 +56,8 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
   const [comments, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiNotunicCommentsInfiniteQuery({
       threadId: thread.id,
-      parentCommentId: parentCommentId || null,
+      isMainComment: parentCommentId ? false : true,
+      parentCommentId: parentCommentId || undefined,
       sortBy: 'createdAt',
       sortOrder: 'asc',
     });
@@ -129,8 +136,16 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
           </If>
 
           <If condition={!!mainComment}>
-            <div className="flex flex-col space-y-4 mb-4">
-              <CommentCard comment={mainComment!} parentComment={parentMainComment} hideActions />
+            <div className="flex flex-col mb-4">
+              {repliedComments.map((comment) => (
+                <CommentCard
+                  key={comment.id}
+                  comment={comment}
+                  onAssignActionClick={handleOnAssignActionClick}
+                  onFollowUpActionClick={handleOnFollowUpActionClick}
+                />
+              ))}
+
               <Hr />
             </div>
           </If>
@@ -143,21 +158,22 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
             </If>
 
             <If condition={[comments.length]}>
-              <ul className={`mb-4 flex flex-col gap-4 ${mainComment ? 'ml-4' : ''}`}>
+              <ul className="mb-4 flex flex-col">
                 {comments.map((comment, index) => {
                   const isLastItem = index === comments.length - 1;
 
                   return (
-                    <li key={comment.id} className="flex flex-col space-y-4">
+                    <li key={comment.id} className="flex flex-col">
                       <CommentCard
                         comment={comment}
+                        hideHorizontalLine
                         onEditClick={handleOnEditClick}
                         onReplyClick={handleOnReplyClick}
                         onDeleteClick={handleOnDeleteClick}
                         onAssignActionClick={handleOnAssignActionClick}
                         onFollowUpActionClick={handleOnFollowUpActionClick}
                       />
-                      {!isLastItem && <Hr />}
+                      {!isLastItem && <Hr hasMargin />}
                     </li>
                   );
                 })}
