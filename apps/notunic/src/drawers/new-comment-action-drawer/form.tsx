@@ -13,6 +13,12 @@ export const NewCommentActionForm: FC = () => {
         <Controller
           control={control}
           name="dueDate"
+          rules={{
+            validate: (value) => {
+              if (!value) return 'Due date is required';
+              return true;
+            },
+          }}
           render={({ field, fieldState }) => (
             <DateSinglePickerInput
               {...field}

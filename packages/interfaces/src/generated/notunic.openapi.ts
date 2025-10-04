@@ -430,8 +430,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt' | 'name';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;
@@ -564,7 +564,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -707,8 +707,8 @@ export interface operations {
         categoryId?: number[];
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;
@@ -955,7 +955,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -2802,6 +2802,8 @@ export interface operations {
         threadId?: number;
         parentCommentId?: number | null;
         categoryIds?: number[];
+        hasReplies?: boolean;
+        actionStatus?: 'todo' | 'done';
         content?: string;
         createdFrom?: string;
         createdTo?: string;
@@ -2809,8 +2811,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;
@@ -3030,7 +3032,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -3424,7 +3426,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };

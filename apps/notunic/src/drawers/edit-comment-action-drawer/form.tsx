@@ -15,6 +15,12 @@ export const EditCommentActionForm: FC = () => {
         <Controller
           control={control}
           name="dueDate"
+          rules={{
+            validate: (value) => {
+              if (!value) return 'Due date is required';
+              return true;
+            },
+          }}
           render={({ field, fieldState }) => (
             <DateSinglePickerInput
               {...field}
@@ -47,6 +53,12 @@ export const EditCommentActionForm: FC = () => {
         <Controller
           control={control}
           name="followedUpNote"
+          rules={{
+            validate: (value) => {
+              if (!value) return 'Followed Up Note is required';
+              return true;
+            },
+          }}
           render={({ field, fieldState }) => (
             <TextAreaInput
               {...field}

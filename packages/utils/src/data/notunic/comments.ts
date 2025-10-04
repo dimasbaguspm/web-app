@@ -16,6 +16,9 @@ export const formatNotunicComment = (comment?: CommentModel | null) => {
 
   const hasAction = Boolean(comment?.action);
   const isActionDone = comment?.action?.status === 'done';
+  const actionDueDateTime = comment?.action?.dueDate
+    ? formatDate(comment.action.dueDate, DateFormat.MEDIUM_DATETIME)
+    : '';
 
   return {
     senderName,
@@ -27,6 +30,7 @@ export const formatNotunicComment = (comment?: CommentModel | null) => {
     hasAction,
     isActionDone,
     repliesText,
+    actionDueDateTime,
     createdDateTime: comment?.createdAt
       ? formatDate(comment.createdAt, DateFormat.TIME_24H) + ' ' + formatDate(comment.createdAt, DateFormat.MEDIUM_DATE)
       : undefined,

@@ -1,0 +1,50 @@
+import { CommentModel } from '@dimasbaguspm/interfaces/notunic-api';
+import { formatNotunicComment } from '@dimasbaguspm/utils/data';
+import { Anchor, Avatar, Card, CardProps, Text } from '@dimasbaguspm/versaur';
+import { FC } from 'react';
+
+export interface CommentActionCardProps
+  extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
+  comment: CommentModel;
+  onClick?: (comment: CommentModel) => void;
+}
+
+export const CommentActionCard: FC<CommentActionCardProps> = ({ comment, ...rest }) => {
+  const { description, senderInitial, isActionDone, senderName, actionDueDateTime } = formatNotunicComment(comment);
+
+  const handleOnClick = () => {
+    rest.onClick?.(comment);
+  };
+
+  return (
+    <button type="button" className="w-full flex flex-row items-start gap-2" onClick={handleOnClick}>
+      <div className="flex-shrink-0">
+        <Avatar shape="circle" size="md">
+          {senderInitial}
+        </Avatar>
+      </div>
+      <div className="flex-grow flex flex-col gap-2 text-left">
+        <div className="flex items-center gap-2">
+          <Text fontWeight="semibold" fontSize="base">
+            {senderName}
+          </Text>
+          <Text color="gray" fontWeight="normal" fontSize="xs">
+            {actionDueDateTime ? `Due ${actionDueDateTime}` : 'No due date'}
+          </Text>
+        </div>
+        <div>
+          <Text color="gray" fontWeight="normal" fontSize="sm">
+            {description}
+          </Text>
+        </div>
+        <Card.List>
+          <Card.ListItem>
+            <Anchor color="ghost" fontWeight="normal" fontSize="sm" onClick={handleOnClick}>
+              {isActionDone ? 'View' : 'Add'} Follow-up
+            </Anchor>
+          </Card.ListItem>
+        </Card.List>
+      </div>
+    </button>
+  );
+};
