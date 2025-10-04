@@ -14,6 +14,9 @@ export const formatNotunicComment = (comment?: CommentModel | null) => {
 
   const isParent = !comment?.parentCommentId;
 
+  const hasAction = Boolean(comment?.action);
+  const isActionDone = comment?.action?.status === 'done';
+
   return {
     senderName,
     senderInitial: nameToInitials(senderName),
@@ -21,8 +24,14 @@ export const formatNotunicComment = (comment?: CommentModel | null) => {
     trimmedDescription,
     repliesCount,
     isParent,
+    hasAction,
+    isActionDone,
     repliesText,
-    createdDateTime: comment?.createdAt ? formatDate(comment.createdAt, DateFormat.MEDIUM_DATETIME) : undefined,
-    updatedDateTime: comment?.updatedAt ? formatDate(comment.updatedAt, DateFormat.MEDIUM_DATETIME) : undefined,
+    createdDateTime: comment?.createdAt
+      ? formatDate(comment.createdAt, DateFormat.TIME_24H) + ' ' + formatDate(comment.createdAt, DateFormat.MEDIUM_DATE)
+      : undefined,
+    updatedDateTime: comment?.updatedAt
+      ? formatDate(comment.updatedAt, DateFormat.TIME_24H) + ' ' + formatDate(comment.updatedAt, DateFormat.MEDIUM_DATE)
+      : undefined,
   } as const;
 };

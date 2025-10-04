@@ -8,3 +8,8 @@ export interface DetailThreadFormSchema {
   commentId?: number;
   mode: DetailThreadDrawerMode;
 }
+
+export enum DetailThreadSubTab {
+  Comments = 'comments',
+  Actions = 'actions',
+}

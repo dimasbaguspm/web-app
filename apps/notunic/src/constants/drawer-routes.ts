@@ -13,4 +13,7 @@ export const DRAWER_ROUTES = {
 
   NEW_THREAD_GROUP_TAG: 'new-thread-group-tag',
   EDIT_THREAD_GROUP_TAG: 'edit-thread-group-tag',
+
+  NEW_COMMENT_ACTION: 'new-comment-action',
+  EDIT_COMMENT_ACTION: 'edit-comment-action',
 } as const;

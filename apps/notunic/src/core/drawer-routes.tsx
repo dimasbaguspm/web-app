@@ -6,11 +6,13 @@ import { FC } from 'react';
 import { DRAWER_ROUTES } from '../constants/drawer-routes';
 import { DetailThreadDrawer } from '../drawers/detail-thread-drawer/drawer';
 import { DetailThreadGroupDrawer } from '../drawers/detail-thread-group-drawer/drawer';
+import { EditCommentActionDrawer } from '../drawers/edit-comment-action-drawer/drawer';
 import { EditSpaceDrawer } from '../drawers/edit-space-drawer/drawer';
 import { EditThreadDrawer } from '../drawers/edit-thread-drawer/drawer';
 import { EditThreadGroupDrawer } from '../drawers/edit-thread-group/drawer';
 import { EditThreadGroupTagDrawer } from '../drawers/edit-thread-group-tag-drawer/drawer';
 import { ManageThreadGroupDrawer } from '../drawers/manage-thread-groups-drawer/drawer';
+import { NewCommentActionDrawer } from '../drawers/new-comment-action-drawer/drawer';
 import { NewSpaceDrawer } from '../drawers/new-space-drawer/drawer';
 import { NewThreadDrawer } from '../drawers/new-thread-drawer/drawer';
 import { NewThreadGroupDrawer } from '../drawers/new-thread-group/drawer';
@@ -23,6 +25,7 @@ interface DrawerParams {
   threadGroupId?: number;
   threadGroupTagId?: number;
   commentId?: number;
+  commentActionId?: number;
   parentCommentId?: number;
   actionId?: number;
   actionLinkId?: number;
@@ -62,6 +65,7 @@ export const DrawerRoutes: FC = () => {
           threadId={params.threadId!}
           spaceId={params.spaceId!}
           parentCommentId={params?.parentCommentId ?? null}
+          tabId={params?.tabId}
         />
       )}
       {is(DRAWER_ROUTES.EDIT_THREAD) && hasParam('spaceId') && hasParam('threadId') && (
@@ -80,6 +84,12 @@ export const DrawerRoutes: FC = () => {
       )}
       {is(DRAWER_ROUTES.EDIT_THREAD_GROUP_TAG) && hasParam('threadGroupId') && hasParam('threadGroupTagId') && (
         <EditThreadGroupTagDrawer threadGroupId={params.threadGroupId!} threadGroupTagId={params.threadGroupTagId!} />
+      )}
+      {is(DRAWER_ROUTES.NEW_COMMENT_ACTION) && hasParam('threadId') && hasParam('commentId') && (
+        <NewCommentActionDrawer threadId={params.threadId!} commentId={params.commentId!} />
+      )}
+      {is(DRAWER_ROUTES.EDIT_COMMENT_ACTION) && hasParam('commentId') && hasParam('commentActionId') && (
+        <EditCommentActionDrawer commentId={params.commentId!} commentActionId={params.commentActionId!} />
       )}
     </Drawer>
   );
