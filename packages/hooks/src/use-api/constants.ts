@@ -27,9 +27,12 @@ export const BASE_QUERY_KEYS = {
 
   NOTUNIC_SPACES: ['notunic', 'spaces'],
   NOTUNIC_THREADS: ['notunic', 'threads'],
+  NOTUNIC_THREAD_CATEGORIES: ['notunic', 'thread-categories'],
+  NOTUNIC_THREAD_CATEGORY_MEMBERS: ['notunic', 'thread-category-members'],
   NOTUNIC_THREAD_GROUPS: ['notunic', 'thread-groups'],
   NOTUNIC_THREAD_GROUP_TAGS: ['notunic', 'thread-group-tags'],
   NOTUNIC_COMMENTS: ['notunic', 'comments'],
+  NOTUNIC_COMMENT_ACTIONS: ['notunic', 'comment-actions'],
   NOTUNIC_COMMENT_CATEGORIES: ['notunic', 'comment-categories'],
   NOTUNIC_COMMENT_CATEGORY_MEMBERS: ['notunic', 'comment-category-members'],
   NOTUNIC_ACTIONS: ['notunic', 'actions'],

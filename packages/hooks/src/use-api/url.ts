@@ -86,6 +86,14 @@ export const NOTUNIC_URL = {
     PAGINATED: '/threads',
     BY_ID: (id: number) => `/threads/${id}`,
   },
+  THREAD_CATEGORIES: {
+    PAGINATED: '/thread-category',
+    BY_ID: (id: number) => `/thread-category/${id}`,
+  },
+  THREAD_CATEGORY_MEMBERS: {
+    PAGINATED: '/thread-category-members',
+    BY_ID: (id: number) => `/thread-category-members/${id}`,
+  },
   THREAD_GROUPS: {
     PAGINATED: '/thread-group',
     BY_ID: (id: number) => `/thread-group/${id}`,
@@ -98,6 +106,10 @@ export const NOTUNIC_URL = {
     PAGINATED: '/comments',
     BY_ID: (id: number) => `/comments/${id}`,
   },
+  COMMENT_ACTIONS: {
+    PAGINATED: '/comment-actions',
+    BY_ID: (id: number) => `/comment-actions/${id}`,
+  },
   COMMENT_CATEGORIES: {
     PAGINATED: '/comment-category',
     BY_ID: (id: number) => `/comment-category/${id}`,
@@ -105,12 +117,5 @@ export const NOTUNIC_URL = {
   COMMENT_CATEGORY_MEMBERS: {
     PAGINATED: '/comment-category-members',
     BY_ID: (id: number) => `/comment-category-members/${id}`,
-  },
-  ACTIONS: {
-    PAGINATED: '/actions',
-    BY_ID: (id: number) => `/actions/${id}`,
-  },
-  ACTION_LINKS: {
-    BY_ID: (id: number) => `/action-links/${id}`,
   },
 };

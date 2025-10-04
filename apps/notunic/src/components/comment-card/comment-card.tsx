@@ -47,7 +47,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
       <div className="flex justify-between w-full">
         <div className="w-full flex items-start gap-3 relative">
           <div className="flex-shrink-0">
-            <Avatar shape={isCompact ? 'circle' : 'rounded'} size={isCompact ? 'sm' : 'md'}>
+            <Avatar shape={isCompact ? 'circle' : 'rounded'} size="sm">
               {senderInitial}
             </Avatar>
           </div>
@@ -92,6 +92,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
             <div className="absolute right-0 flex justify-end">
               <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
                 {onEditClick && <ButtonMenuIcon.Item onClick={handleEditClick}>Edit</ButtonMenuIcon.Item>}
+                <ButtonMenuIcon.Item>Create Task</ButtonMenuIcon.Item>
                 {!hideDelete && <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>}
               </ButtonMenuIcon>
             </div>

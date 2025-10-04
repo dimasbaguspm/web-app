@@ -164,6 +164,70 @@ export interface paths {
     patch: operations['patchThread-group-tagById'];
     trace?: never;
   };
+  '/thread-category/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-category'];
+    put?: never;
+    post: operations['postThread-category'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/thread-category/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-categoryById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteThread-categoryById'];
+    options?: never;
+    head?: never;
+    patch: operations['patchThread-categoryById'];
+    trace?: never;
+  };
+  '/thread-category-members/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-category-members'];
+    put?: never;
+    post: operations['postThread-category-members'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/thread-category-members/{threadId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThread-category-membersByThreadId'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteThread-category-membersByThreadId'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/comment-category/': {
     parameters: {
       query?: never;
@@ -260,84 +324,36 @@ export interface paths {
     patch: operations['patchCommentsById'];
     trace?: never;
   };
-  '/action-links/': {
+  '/comment-actions/': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get?: never;
+    get: operations['getComment-actions'];
     put?: never;
-    post: operations['postAction-links'];
+    post: operations['postComment-actions'];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/action-links/action/{actionId}': {
+  '/comment-actions/{id}': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['getAction-linksActionByActionId'];
+    get: operations['getComment-actionsById'];
     put?: never;
     post?: never;
     delete?: never;
     options?: never;
     head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/action-links/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['getAction-linksById'];
-    put?: never;
-    post?: never;
-    delete: operations['deleteAction-linksById'];
-    options?: never;
-    head?: never;
-    patch: operations['patchAction-linksById'];
-    trace?: never;
-  };
-  '/actions/': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['getActions'];
-    put?: never;
-    post: operations['postActions'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/actions/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['getActionsById'];
-    put?: never;
-    post?: never;
-    delete: operations['deleteActionsById'];
-    options?: never;
-    head?: never;
-    patch: operations['patchActionsById'];
+    patch: operations['patchComment-actionsById'];
     trace?: never;
   };
   '/': {
@@ -688,6 +704,7 @@ export interface operations {
         createdTo?: string;
         updatedFrom?: string;
         updatedTo?: string;
+        categoryId?: number[];
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
         pageNumber?: number;
@@ -709,7 +726,6 @@ export interface operations {
               id: number;
               profileId: number;
               spaceId: number;
-              parentThreadId?: number | null;
               sender: {
                 id: number;
                 name: string;
@@ -721,6 +737,10 @@ export interface operations {
                 name: string;
                 tagId: number;
                 tagName: string;
+              }[];
+              categories: {
+                id: number;
+                name: string;
               }[];
               commentCount: number;
               /** Format: date-time */
@@ -739,7 +759,6 @@ export interface operations {
               id: number;
               profileId: number;
               spaceId: number;
-              parentThreadId?: number | null;
               sender: {
                 id: number;
                 name: string;
@@ -751,6 +770,10 @@ export interface operations {
                 name: string;
                 tagId: number;
                 tagName: string;
+              }[];
+              categories: {
+                id: number;
+                name: string;
               }[];
               commentCount: number;
               /** Format: date-time */
@@ -769,7 +792,6 @@ export interface operations {
               id: number;
               profileId: number;
               spaceId: number;
-              parentThreadId?: number | null;
               sender: {
                 id: number;
                 name: string;
@@ -781,6 +803,10 @@ export interface operations {
                 name: string;
                 tagId: number;
                 tagName: string;
+              }[];
+              categories: {
+                id: number;
+                name: string;
               }[];
               commentCount: number;
               /** Format: date-time */
@@ -813,6 +839,7 @@ export interface operations {
           title: string;
           content: string;
           tagIds?: number[];
+          categoryIds?: number[];
         };
         'multipart/form-data': {
           userId: number;
@@ -820,6 +847,7 @@ export interface operations {
           title: string;
           content: string;
           tagIds?: number[];
+          categoryIds?: number[];
         };
         'text/plain': {
           userId: number;
@@ -827,6 +855,7 @@ export interface operations {
           title: string;
           content: string;
           tagIds?: number[];
+          categoryIds?: number[];
         };
       };
     };
@@ -840,7 +869,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -852,6 +880,10 @@ export interface operations {
               name: string;
               tagId: number;
               tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
             }[];
             commentCount: number;
             /** Format: date-time */
@@ -864,7 +896,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -877,6 +908,10 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             commentCount: number;
             /** Format: date-time */
             createdAt: string;
@@ -888,7 +923,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -900,6 +934,10 @@ export interface operations {
               name: string;
               tagId: number;
               tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
             }[];
             commentCount: number;
             /** Format: date-time */
@@ -932,7 +970,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -944,6 +981,10 @@ export interface operations {
               name: string;
               tagId: number;
               tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
             }[];
             commentCount: number;
             /** Format: date-time */
@@ -956,7 +997,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -969,6 +1009,10 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             commentCount: number;
             /** Format: date-time */
             createdAt: string;
@@ -980,7 +1024,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -992,6 +1035,10 @@ export interface operations {
               name: string;
               tagId: number;
               tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
             }[];
             commentCount: number;
             /** Format: date-time */
@@ -1038,16 +1085,19 @@ export interface operations {
           title?: string;
           content?: string;
           tagIds?: number[];
+          categoryIds?: number[];
         };
         'multipart/form-data': {
           title?: string;
           content?: string;
           tagIds?: number[];
+          categoryIds?: number[];
         };
         'text/plain': {
           title?: string;
           content?: string;
           tagIds?: number[];
+          categoryIds?: number[];
         };
       };
     };
@@ -1061,7 +1111,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -1073,6 +1122,10 @@ export interface operations {
               name: string;
               tagId: number;
               tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
             }[];
             commentCount: number;
             /** Format: date-time */
@@ -1085,7 +1138,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -1098,6 +1150,10 @@ export interface operations {
               tagId: number;
               tagName: string;
             }[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             commentCount: number;
             /** Format: date-time */
             createdAt: string;
@@ -1109,7 +1165,6 @@ export interface operations {
             id: number;
             profileId: number;
             spaceId: number;
-            parentThreadId?: number | null;
             sender: {
               id: number;
               name: string;
@@ -1121,6 +1176,10 @@ export interface operations {
               name: string;
               tagId: number;
               tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
             }[];
             commentCount: number;
             /** Format: date-time */
@@ -1720,6 +1779,514 @@ export interface operations {
       };
     };
   };
+  'getThread-category': {
+    parameters: {
+      query?: {
+        id?: number[];
+        search?: string;
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'name';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              description?: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              description?: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              name: string;
+              description?: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postThread-category': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name: string;
+          description?: string;
+        };
+        'multipart/form-data': {
+          name: string;
+          description?: string;
+        };
+        'text/plain': {
+          name: string;
+          description?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getThread-categoryById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteThread-categoryById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'patchThread-categoryById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name?: string;
+          description?: string;
+        };
+        'multipart/form-data': {
+          name?: string;
+          description?: string;
+        };
+        'text/plain': {
+          name?: string;
+          description?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getThread-category-members': {
+    parameters: {
+      query?: {
+        threadId?: number[];
+        threadCategoryId?: number[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              threadId: number;
+              threadCategoryId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              threadId: number;
+              threadCategoryId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              threadId: number;
+              threadCategoryId: number;
+              profileId: number;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postThread-category-members': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          threadId: number;
+          threadCategoryId: number | number[];
+        };
+        'multipart/form-data': {
+          threadId: number;
+          threadCategoryId: number | number[];
+        };
+        'text/plain': {
+          threadId: number;
+          threadCategoryId: number | number[];
+        };
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json':
+            | {
+                threadId: number;
+                threadCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }
+            | {
+                threadId: number;
+                threadCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+          'multipart/form-data':
+            | {
+                threadId: number;
+                threadCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }
+            | {
+                threadId: number;
+                threadCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+          'text/plain':
+            | {
+                threadId: number;
+                threadCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }
+            | {
+                threadId: number;
+                threadCategoryId: number;
+                profileId: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+        };
+      };
+    };
+  };
+  'getThread-category-membersByThreadId': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        threadId: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            threadId: number;
+            threadCategoryId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+          'multipart/form-data': {
+            threadId: number;
+            threadCategoryId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+          'text/plain': {
+            threadId: number;
+            threadCategoryId: number;
+            profileId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          }[];
+        };
+      };
+    };
+  };
+  'deleteThread-category-membersByThreadId': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        threadId: string | number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          threadCategoryId: number | number[];
+        };
+        'multipart/form-data': {
+          threadCategoryId: number | number[];
+        };
+        'text/plain': {
+          threadCategoryId: number | number[];
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   'getComment-category': {
     parameters: {
       query?: {
@@ -2269,6 +2836,11 @@ export interface operations {
                 id: number;
                 name: string;
               };
+              action: {
+                id: number;
+                dueDate: string | null;
+                status: 'todo' | 'done';
+              } | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2293,6 +2865,11 @@ export interface operations {
                 id: number;
                 name: string;
               };
+              action: {
+                id: number;
+                dueDate: string | null;
+                status: 'todo' | 'done';
+              } | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2317,6 +2894,11 @@ export interface operations {
                 id: number;
                 name: string;
               };
+              action: {
+                id: number;
+                dueDate: string | null;
+                status: 'todo' | 'done';
+              } | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2382,6 +2964,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2400,6 +2987,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2418,6 +3010,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2456,6 +3053,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2474,6 +3076,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2492,6 +3099,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2567,6 +3179,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2585,6 +3202,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2603,6 +3225,11 @@ export interface operations {
               id: number;
               name: string;
             };
+            action: {
+              id: number;
+              dueDate: string | null;
+              status: 'todo' | 'done';
+            } | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2613,258 +3240,22 @@ export interface operations {
       };
     };
   };
-  'postAction-links': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          actionId: number;
-          targetType: 'thread' | 'comment';
-          targetId: number;
-        };
-        'multipart/form-data': {
-          actionId: number;
-          targetType: 'thread' | 'comment';
-          targetId: number;
-        };
-        'text/plain': {
-          actionId: number;
-          targetType: 'thread' | 'comment';
-          targetId: number;
-        };
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-          'multipart/form-data': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-          'text/plain': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-        };
-      };
-    };
-  };
-  'getAction-linksActionByActionId': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        actionId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          }[];
-          'multipart/form-data': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          }[];
-          'text/plain': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          }[];
-        };
-      };
-    };
-  };
-  'getAction-linksById': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-          'multipart/form-data': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-          'text/plain': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-        };
-      };
-    };
-  };
-  'deleteAction-linksById': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  'patchAction-linksById': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          targetType?: 'thread' | 'comment';
-          targetId?: number;
-        };
-        'multipart/form-data': {
-          targetType?: 'thread' | 'comment';
-          targetId?: number;
-        };
-        'text/plain': {
-          targetType?: 'thread' | 'comment';
-          targetId?: number;
-        };
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-          'multipart/form-data': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-          'text/plain': {
-            id: number;
-            profileId: number;
-            actionId: number;
-            targetType: 'thread' | 'comment';
-            targetId: number;
-            /** Format: date-time */
-            createdAt: string;
-          };
-        };
-      };
-    };
-  };
-  getActions: {
+  'getComment-actions': {
     parameters: {
       query?: {
         id?: number[];
-        spaceId?: number;
-        title?: string;
-        state?: 'todo' | 'completed';
+        threadId?: number;
+        commentId?: number;
+        status?: 'todo' | 'done';
         dueDateFrom?: string;
         dueDateTo?: string;
         createdFrom?: string;
         createdTo?: string;
         updatedFrom?: string;
         updatedTo?: string;
-        sortBy?: 'createdAt' | 'updatedAt' | 'dueDate';
+        followedUpFrom?: string;
+        followedUpTo?: string;
+        sortBy?: 'createdAt' | 'updatedAt' | 'dueDate' | 'followedUpDate';
         sortOrder?: 'asc' | 'desc';
         pageNumber?: number;
         pageSize?: number;
@@ -2884,16 +3275,16 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
-              spaceId: number;
-              title: string;
-              description: string | null;
-              state: 'todo' | 'completed';
-              dueDate?: string | null;
+              threadId: number;
+              commentId: number;
+              dueDate: string | null;
+              followUpNote: string | null;
+              followedUpDate: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
-              deletedAt?: string | null;
+              status: 'todo' | 'done';
             }[];
             pageNumber: number;
             pageSize: number;
@@ -2904,16 +3295,16 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
-              spaceId: number;
-              title: string;
-              description: string | null;
-              state: 'todo' | 'completed';
-              dueDate?: string | null;
+              threadId: number;
+              commentId: number;
+              dueDate: string | null;
+              followUpNote: string | null;
+              followedUpDate: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
-              deletedAt?: string | null;
+              status: 'todo' | 'done';
             }[];
             pageNumber: number;
             pageSize: number;
@@ -2924,16 +3315,16 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
-              spaceId: number;
-              title: string;
-              description: string | null;
-              state: 'todo' | 'completed';
-              dueDate?: string | null;
+              threadId: number;
+              commentId: number;
+              dueDate: string | null;
+              followUpNote: string | null;
+              followedUpDate: string | null;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
-              deletedAt?: string | null;
+              status: 'todo' | 'done';
             }[];
             pageNumber: number;
             pageSize: number;
@@ -2944,7 +3335,7 @@ export interface operations {
       };
     };
   };
-  postActions: {
+  'postComment-actions': {
     parameters: {
       query?: never;
       header?: never;
@@ -2954,25 +3345,25 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          spaceId: number;
-          title: string;
-          description?: string | null;
-          state?: 'todo' | 'completed';
+          threadId: number;
+          commentId: number;
           dueDate?: string | null;
+          followUpNote?: string | null;
+          followedUpDate?: string | null;
         };
         'multipart/form-data': {
-          spaceId: number;
-          title: string;
-          description?: string | null;
-          state?: 'todo' | 'completed';
+          threadId: number;
+          commentId: number;
           dueDate?: string | null;
+          followUpNote?: string | null;
+          followedUpDate?: string | null;
         };
         'text/plain': {
-          spaceId: number;
-          title: string;
-          description?: string | null;
-          state?: 'todo' | 'completed';
+          threadId: number;
+          commentId: number;
           dueDate?: string | null;
+          followUpNote?: string | null;
+          followedUpDate?: string | null;
         };
       };
     };
@@ -2985,50 +3376,50 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
           'multipart/form-data': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
           'text/plain': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
         };
       };
     };
   };
-  getActionsById: {
+  'getComment-actionsById': {
     parameters: {
       query?: never;
       header?: never;
@@ -3047,69 +3438,50 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
           'multipart/form-data': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
           'text/plain': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
         };
       };
     };
   };
-  deleteActionsById: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  patchActionsById: {
+  'patchComment-actionsById': {
     parameters: {
       query?: never;
       header?: never;
@@ -3121,22 +3493,19 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          title?: string;
-          description?: string | null;
-          state?: 'todo' | 'completed';
           dueDate?: string | null;
+          followUpNote?: string | null;
+          followedUpDate?: string | null;
         };
         'multipart/form-data': {
-          title?: string;
-          description?: string | null;
-          state?: 'todo' | 'completed';
           dueDate?: string | null;
+          followUpNote?: string | null;
+          followedUpDate?: string | null;
         };
         'text/plain': {
-          title?: string;
-          description?: string | null;
-          state?: 'todo' | 'completed';
           dueDate?: string | null;
+          followUpNote?: string | null;
+          followedUpDate?: string | null;
         };
       };
     };
@@ -3149,44 +3518,44 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
           'multipart/form-data': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
           'text/plain': {
             id: number;
             profileId: number;
-            spaceId: number;
-            title: string;
-            description: string | null;
-            state: 'todo' | 'completed';
-            dueDate?: string | null;
+            threadId: number;
+            commentId: number;
+            dueDate: string | null;
+            followUpNote: string | null;
+            followedUpDate: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            deletedAt?: string | null;
+            status: 'todo' | 'done';
           };
         };
       };

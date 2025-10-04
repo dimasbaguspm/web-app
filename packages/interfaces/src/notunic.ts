@@ -39,6 +39,16 @@ export type UpdateCommentModel = operations['patchCommentsById']['requestBody'][
   operations['patchCommentsById']['parameters']['path'];
 export type CommentModel = operations['getCommentsById']['responses']['200']['content']['application/json'];
 
+export type SearchCommentActionsModel = NonNullable<operations['getComment-actions']['parameters']['query']>;
+export type CommentActionsPageModel =
+  operations['getComment-actions']['responses']['200']['content']['application/json'];
+export type CreateCommentActionModel = operations['postComment-actions']['requestBody']['content']['application/json'];
+export type UpdateCommentActionModel =
+  operations['patchComment-actionsById']['requestBody']['content']['application/json'] &
+    operations['patchComment-actionsById']['parameters']['path'];
+export type CommentActionModel =
+  operations['getComment-actionsById']['responses']['200']['content']['application/json'];
+
 export type SearchCommentCategoriesModel = NonNullable<operations['getComment-category']['parameters']['query']>;
 export type CommentCategoriesPageModel =
   operations['getComment-category']['responses']['200']['content']['application/json'];
@@ -59,14 +69,21 @@ export type CreateCommentCategoryMemberModel =
   operations['postComment-category-members']['requestBody']['content']['application/json'];
 export type CommentCategoryMemberModel = CommentCategoryMembersPageModel['items'][number];
 
-export type SearchActionsModel = NonNullable<operations['getActions']['parameters']['query']>;
-export type ActionsPageModel = operations['getActions']['responses']['200']['content']['application/json'];
-export type CreateActionModel = operations['postActions']['requestBody']['content']['application/json'];
-export type UpdateActionModel = operations['patchActionsById']['requestBody']['content']['application/json'] &
-  operations['patchActionsById']['parameters']['path'];
-export type ActionModel = operations['getActionsById']['responses']['200']['content']['application/json'];
+export type SearchThreadCategoriesModel = NonNullable<operations['getThread-category']['parameters']['query']>;
+export type ThreadCategoriesPageModel =
+  operations['getThread-category']['responses']['200']['content']['application/json'];
+export type CreateThreadCategoryModel = operations['postThread-category']['requestBody']['content']['application/json'];
+export type UpdateThreadCategoryModel =
+  operations['patchThread-categoryById']['requestBody']['content']['application/json'] &
+    operations['patchThread-categoryById']['parameters']['path'];
+export type ThreadCategoryModel =
+  operations['getThread-categoryById']['responses']['200']['content']['application/json'];
 
-export type CreateActionLinkModel = operations['postAction-links']['requestBody']['content']['application/json'];
-export type UpdateActionLinkModel = operations['patchAction-linksById']['requestBody']['content']['application/json'] &
-  operations['patchAction-linksById']['parameters']['path'];
-export type ActionLinkModel = operations['getAction-linksById']['responses']['200']['content']['application/json'];
+export type SearchThreadCategoryMembersModel = NonNullable<
+  operations['getThread-category-members']['parameters']['query']
+>;
+export type ThreadCategoryMembersPageModel =
+  operations['getThread-category-members']['responses']['200']['content']['application/json'];
+export type CreateThreadCategoryMemberModel =
+  operations['postThread-category-members']['requestBody']['content']['application/json'];
+export type ThreadCategoryMemberModel = ThreadCategoryMembersPageModel['items'][number];
