@@ -55,7 +55,9 @@ export const DetailThreadDrawer: FC<DetailThreadDrawerProps> = ({
   return (
     <>
       <Drawer.Header hasTab>
-        <Drawer.Title>{formattedThreadGroup.title ?? 'Thread Details'}</Drawer.Title>
+        <Drawer.Title>
+          {parentCommentId ? 'Replying to comment' : (formattedThreadGroup.title ?? 'Thread Details')}
+        </Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
       <Drawer.Tab>

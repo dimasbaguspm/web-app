@@ -14,6 +14,7 @@ import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { CommentCard } from '../../../components/comment-card';
+import { ThreadCard } from '../../../components/thread-card';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 import { MODAL_ROUTES } from '../../../constants/modal-routes';
 import { ReplyBar } from '../components/reply-bar';
@@ -134,6 +135,7 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
 
           <If condition={!!mainComment}>
             <div className="flex flex-col">
+              <ThreadCard thread={thread!} hideAction hideCommentsBadge />
               {repliedComments.map((comment, index) => (
                 <CommentCard
                   key={comment.id}
