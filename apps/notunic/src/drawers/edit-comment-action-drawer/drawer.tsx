@@ -88,8 +88,13 @@ export const EditCommentActionDrawer: FC<EditCommentActionDrawerProps> = ({ comm
       <If condition={[!isPending]}>
         <Drawer.Body>
           <div className="flex flex-col mb-4">
-            {repliedComments.map((comment) => (
-              <CommentCard key={comment.id} comment={comment} hideActions />
+            {repliedComments.map((comment, index) => (
+              <CommentCard
+                key={comment.id}
+                comment={comment}
+                hideActions
+                hideHorizontalLine={index === repliedComments.length - 1}
+              />
             ))}
 
             <Hr />

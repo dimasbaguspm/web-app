@@ -19,6 +19,9 @@ export const formatNotunicComment = (comment?: CommentModel | null) => {
   const actionDueDateTime = comment?.action?.dueDate
     ? formatDate(comment.action.dueDate, DateFormat.MEDIUM_DATETIME)
     : '';
+  const actionFollowUpDateTime = comment?.action?.followedUpDate
+    ? formatDate(comment.action.followedUpDate, DateFormat.MEDIUM_DATETIME)
+    : '';
 
   return {
     senderName,
@@ -31,6 +34,7 @@ export const formatNotunicComment = (comment?: CommentModel | null) => {
     isActionDone,
     repliesText,
     actionDueDateTime,
+    actionFollowUpDateTime,
     createdDateTime: comment?.createdAt
       ? formatDate(comment.createdAt, DateFormat.TIME_24H) + ' ' + formatDate(comment.createdAt, DateFormat.MEDIUM_DATE)
       : undefined,

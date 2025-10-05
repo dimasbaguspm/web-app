@@ -1,4 +1,5 @@
 import { DateSinglePickerInput, FormLayout } from '@dimasbaguspm/versaur';
+import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -22,6 +23,7 @@ export const NewCommentActionForm: FC = () => {
           render={({ field, fieldState }) => (
             <DateSinglePickerInput
               {...field}
+              min={dayjs().toISOString()}
               value={field.value ?? ''}
               label="Due Date"
               placeholder="Select due date"

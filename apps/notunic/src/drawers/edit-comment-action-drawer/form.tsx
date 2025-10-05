@@ -1,4 +1,5 @@
 import { DateSinglePickerInput, FormLayout, TextAreaInput } from '@dimasbaguspm/versaur';
+import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -24,6 +25,7 @@ export const EditCommentActionForm: FC = () => {
           render={({ field, fieldState }) => (
             <DateSinglePickerInput
               {...field}
+              min={dayjs().toISOString()}
               value={field.value ?? ''}
               label="Due Date"
               placeholder="Select due date"
@@ -40,6 +42,7 @@ export const EditCommentActionForm: FC = () => {
             render={({ field, fieldState }) => (
               <DateSinglePickerInput
                 {...field}
+                min={field.value}
                 value={field.value ?? ''}
                 label="Followed Up Date"
                 placeholder="Select followed up date"

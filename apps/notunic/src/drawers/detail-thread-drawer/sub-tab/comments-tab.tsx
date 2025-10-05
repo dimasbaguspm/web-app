@@ -9,7 +9,7 @@ import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, FormLayout, Hr, NoResults, PageLoader, TextInput } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, FormLayout, NoResults, PageLoader, TextInput } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
@@ -136,17 +136,16 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
           </If>
 
           <If condition={!!mainComment}>
-            <div className="flex flex-col mb-4">
-              {repliedComments.map((comment) => (
+            <div className="flex flex-col">
+              {repliedComments.map((comment, index) => (
                 <CommentCard
                   key={comment.id}
                   comment={comment}
                   onAssignActionClick={handleOnAssignActionClick}
                   onFollowUpActionClick={handleOnFollowUpActionClick}
+                  hideHorizontalLine={index === repliedComments.length - 1}
                 />
               ))}
-
-              <Hr />
             </div>
           </If>
           <If condition={isInitialFetching}>
@@ -158,10 +157,8 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
             </If>
 
             <If condition={[comments.length]}>
-              <ul className="mb-4 flex flex-col">
-                {comments.map((comment, index) => {
-                  const isLastItem = index === comments.length - 1;
-
+              <ul className={`mb-4 flex flex-col ${mainComment ? 'ml-12' : ''} `}>
+                {comments.map((comment) => {
                   return (
                     <li key={comment.id} className="flex flex-col">
                       <CommentCard
@@ -173,7 +170,6 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
                         onAssignActionClick={handleOnAssignActionClick}
                         onFollowUpActionClick={handleOnFollowUpActionClick}
                       />
-                      {!isLastItem && <Hr hasMargin />}
                     </li>
                   );
                 })}

@@ -16,6 +16,12 @@ export const CommentActionCard: FC<CommentActionCardProps> = ({ comment, ...rest
     rest.onClick?.(comment);
   };
 
+  const time = isActionDone
+    ? `Done in ${actionDueDateTime}`
+    : actionDueDateTime
+      ? `Due ${actionDueDateTime}`
+      : 'No due date';
+
   return (
     <button type="button" className="w-full flex flex-row items-start gap-2" onClick={handleOnClick}>
       <div className="flex-shrink-0">
@@ -23,20 +29,18 @@ export const CommentActionCard: FC<CommentActionCardProps> = ({ comment, ...rest
           {senderInitial}
         </Avatar>
       </div>
-      <div className="flex-grow flex flex-col gap-2 text-left">
+      <div className="flex-grow flex flex-col text-left">
         <div className="flex items-center gap-2">
-          <Text fontWeight="semibold" fontSize="base">
+          <Text fontWeight="semibold" fontSize="sm">
             {senderName}
           </Text>
           <Text color="gray" fontWeight="normal" fontSize="xs">
-            {actionDueDateTime ? `Due ${actionDueDateTime}` : 'No due date'}
+            {time}
           </Text>
         </div>
-        <div>
-          <Text color="gray" fontWeight="normal" fontSize="sm">
-            {description}
-          </Text>
-        </div>
+        <Text color="gray" fontWeight="normal" fontSize="base" className="mb-2">
+          {description}
+        </Text>
         <Card.List>
           <Card.ListItem>
             <Anchor color="ghost" fontWeight="normal" fontSize="sm" onClick={handleOnClick}>

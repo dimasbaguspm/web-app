@@ -7,7 +7,6 @@ import { FC, MouseEvent } from 'react';
 
 interface CommentCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
   comment: CommentModel;
-  parentComment?: CommentModel | null;
   onReplyClick?: (comment: CommentModel) => void;
   onEditClick?: (comment: CommentModel) => void;
   onDeleteClick?: (comment: CommentModel) => void;
@@ -15,14 +14,15 @@ interface CommentCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bo
   onFollowUpActionClick?: (comment: CommentModel) => void;
   hideActions?: boolean;
   hideHorizontalLine?: boolean;
+  className?: string;
 }
 
 export const CommentCard: FC<CommentCardProps> = (props) => {
   const {
+    className,
     hideActions,
     hideHorizontalLine = false,
     comment,
-    parentComment,
     onReplyClick,
     onDeleteClick,
     onEditClick,
@@ -40,8 +40,6 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
     hasAction,
     isActionDone,
   } = formatNotunicComment(comment);
-
-  const { trimmedDescription } = formatNotunicComment(parentComment);
 
   const handleReplyClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.stopPropagation();
@@ -69,19 +67,19 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
 
   const showMoreButton = Boolean(onEditClick || onDeleteClick || onAssignActionClick);
   return (
-    <div className="flex justify-between w-full">
+    <div className={`flex justify-between w-full ${className}`}>
       <div className="w-full flex items-start gap-3 relative">
         <div className="flex-shrink-0 flex flex-col items-center h-full">
           <Avatar shape="circle" size="md">
             {senderInitial}
           </Avatar>
-          {!hideHorizontalLine && <div className="flex-grow border border-border" />}
+          {!hideHorizontalLine && <div className="flex-grow border-l border-border" />}
         </div>
 
         <div className="w-full mb-4">
-          <div className="flex justify-between mb-2">
+          <div className="flex justify-between">
             <div className="flex items-center gap-2">
-              <Text fontWeight="semibold" fontSize="base">
+              <Text fontWeight="semibold" fontSize="sm">
                 {senderName}
               </Text>
               <Text color="gray" fontWeight="normal" fontSize="xs">
@@ -97,15 +95,8 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
               </ButtonGroup>
             )}
           </div>
-          <div className="flex flex-col gap-2 mb-4">
-            {parentComment && comment?.parentCommentId && (
-              <div className="border border-border rounded-lg p-1.5 flex items-center">
-                <Text color="gray" fontWeight="normal" fontSize="xs">
-                  &gt; Replying {trimmedDescription}
-                </Text>
-              </div>
-            )}
-            <Text color="gray" fontWeight="normal" fontSize="sm">
+          <div className="flex flex-col gap-2 mb-2">
+            <Text color="gray" fontWeight="normal" fontSize="base">
               {description}
             </Text>
           </div>
