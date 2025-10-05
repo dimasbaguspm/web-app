@@ -37,7 +37,7 @@ export const App: FC<AppProps> = ({ appId }) => {
                   <PageRouter />
                 </ActiveAppProfileProvider>
               </AuthProvider>
-              <ReactQueryDevtools />
+              <ReactQueryDevtools buttonPosition="bottom-left" />
             </QueryClientProvider>
           </SnackbarsProvider>
         </GlobalProvider>

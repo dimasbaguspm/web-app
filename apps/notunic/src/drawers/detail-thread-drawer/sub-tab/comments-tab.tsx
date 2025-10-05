@@ -9,14 +9,15 @@ import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, FormLayout, NoResults, PageLoader, TextInput } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, NoResults, PageLoader } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { CommentCard } from '../../../components/comment-card';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 import { MODAL_ROUTES } from '../../../constants/modal-routes';
+import { ReplyBar } from '../components/reply-bar';
 import { DetailThreadDrawerMode, DetailThreadFormSchema } from '../types';
 
 interface CommentsTabProps {
@@ -46,7 +47,7 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
     },
   );
 
-  const { register, handleSubmit, reset } = useForm<DetailThreadFormSchema>({
+  const form = useForm<DetailThreadFormSchema>({
     defaultValues: { mode: DetailThreadDrawerMode.CREATE },
   });
 
@@ -85,15 +86,15 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
         break;
     }
 
-    reset({ content: '', mode: DetailThreadDrawerMode.CREATE });
+    form.reset({ content: '', mode: DetailThreadDrawerMode.CREATE });
   };
 
   const handleOnEditClick = (comment: CommentModel) => {
-    reset({ content: comment.content, commentId: comment.id, mode: DetailThreadDrawerMode.EDIT });
+    form.reset({ content: comment.content, commentId: comment.id, mode: DetailThreadDrawerMode.EDIT });
   };
 
   const handleOnReplyClick = (comment: CommentModel) => {
-    reset({
+    form.reset({
       content: '',
       mode: DetailThreadDrawerMode.CREATE,
     });
@@ -105,7 +106,7 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
   };
 
   const handleOnDeleteClick = (comment: CommentModel) => {
-    reset({
+    form.reset({
       content: '',
       mode: DetailThreadDrawerMode.CREATE,
     });
@@ -141,9 +142,11 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
                 <CommentCard
                   key={comment.id}
                   comment={comment}
+                  onEditClick={handleOnEditClick}
                   onAssignActionClick={handleOnAssignActionClick}
                   onFollowUpActionClick={handleOnFollowUpActionClick}
                   hideHorizontalLine={index === repliedComments.length - 1}
+                  hideActions
                 />
               ))}
             </div>
@@ -187,18 +190,10 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
       </Drawer.Body>
 
       <Drawer.Footer>
-        <form onSubmit={handleSubmit(handleOnSubmit)}>
-          <FormLayout>
-            <FormLayout.Column span={12}>
-              <TextInput
-                placeholder={mainComment ? 'Write reply' : 'Add a comment'}
-                {...register('content')}
-                autoComplete="off"
-                autoCapitalize="sentences"
-              />
-              <TextInput type="submit" className="hidden" />
-            </FormLayout.Column>
-          </FormLayout>
+        <form onSubmit={form.handleSubmit(handleOnSubmit)}>
+          <FormProvider {...form}>
+            <ReplyBar isReplying={!!parentCommentId} />
+          </FormProvider>
         </form>
       </Drawer.Footer>
     </>

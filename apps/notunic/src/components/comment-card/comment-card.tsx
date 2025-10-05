@@ -65,7 +65,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
     onFollowUpActionClick?.(comment);
   };
 
-  const showMoreButton = Boolean(onEditClick || onDeleteClick || onAssignActionClick);
+  const showMoreButton = Boolean(onEditClick || onDeleteClick);
   return (
     <div className={`flex justify-between w-full ${className}`}>
       <div className="w-full flex items-start gap-3 relative">
@@ -96,7 +96,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
             )}
           </div>
           <div className="flex flex-col gap-2 mb-2">
-            <Text color="gray" fontWeight="normal" fontSize="base">
+            <Text color="gray" fontWeight="normal" fontSize="base" className="whitespace-pre-wrap">
               {description}
             </Text>
           </div>

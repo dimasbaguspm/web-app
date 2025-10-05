@@ -38,7 +38,7 @@ export const CommentActionCard: FC<CommentActionCardProps> = ({ comment, ...rest
             {time}
           </Text>
         </div>
-        <Text color="gray" fontWeight="normal" fontSize="base" className="mb-2">
+        <Text color="gray" fontWeight="normal" fontSize="base" className="mb-2 whitespace-pre-wrap">
           {description}
         </Text>
         <Card.List>
