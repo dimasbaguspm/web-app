@@ -4,7 +4,7 @@ import { DateFormat, formatDate } from '../../date';
 import { nameToInitials } from '../../initial';
 
 export const formatNotunicThread = (thread?: ThreadModel | null) => {
-  const title = thread?.title || 'No Title';
+  const title = thread?.title || 'Untitled Thread';
 
   const description = thread?.content;
   const trimmedDescription = description ? `${description.slice(0, 25) + (description.length > 25 ? '...' : '')}` : '';

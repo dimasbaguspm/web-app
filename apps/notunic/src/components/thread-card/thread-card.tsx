@@ -15,12 +15,13 @@ interface ThreadCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bor
   thread: ThreadModel;
   onClick?: (thread: ThreadModel) => void;
   hideAction?: boolean;
+  hideDescription?: boolean;
   hideCommentsBadge?: boolean;
   hideGroupsBadge?: boolean;
 }
 
 export const ThreadCard: FC<ThreadCardProps> = (props) => {
-  const { thread, hideAction, hideCommentsBadge, hideGroupsBadge, onClick } = props;
+  const { thread, hideDescription, hideAction, hideCommentsBadge, hideGroupsBadge, onClick } = props;
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
   const { description, createdDateTime, title, hasComments, commentsText } = formatNotunicThread(thread);
@@ -77,11 +78,13 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
       </div>
 
       <div className="w-full">
-        <div className="mb-4">
-          <Text color="gray" fontWeight="normal" fontSize="sm">
-            {description}
-          </Text>
-        </div>
+        <If condition={!hideDescription}>
+          <div className="mb-4">
+            <Text color="gray" fontWeight="normal" fontSize="sm">
+              {description}
+            </Text>
+          </div>
+        </If>
 
         <div className="flex flex-col sm:flex-row justify-between">
           <BadgeGroup className="mb-2 sm:mb-0" aria-label="Thread groups">

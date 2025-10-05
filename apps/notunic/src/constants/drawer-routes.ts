@@ -16,4 +16,9 @@ export const DRAWER_ROUTES = {
 
   NEW_COMMENT_ACTION: 'new-comment-action',
   EDIT_COMMENT_ACTION: 'edit-comment-action',
+
+  NEW_THREAD_CATEGORY: 'new-thread-category',
+  EDIT_THREAD_CATEGORY: 'edit-thread-category',
+  MANAGE_THREAD_CATEGORIES: 'manage-thread-categories',
+  MANAGE_THREAD_CATEGORY_MEMBERS: 'manage-thread-category-members',
 } as const;

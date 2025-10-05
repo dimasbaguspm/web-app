@@ -4,19 +4,26 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
 import { Button, ButtonGroup, Hr, NoResults, PageContent, PageLoader } from '@dimasbaguspm/versaur';
 import { SearchXIcon } from 'lucide-react';
+import { FC } from 'react';
+import { useParams } from 'react-router';
 
 import { CommentActionCard } from '../../components/comment-action-card';
 import { CommentActionFiltersControl } from '../../components/comment-action-filter-control';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { useCommentActionFilter } from '../../hooks/use-comment-action-filter';
 
-const SpacesDetailActionsPage = () => {
+interface SpacesDetailActionsPageProps {
+  spaceId: number;
+}
+
+const SpacesDetailActionsPage: FC<SpacesDetailActionsPageProps> = ({ spaceId }) => {
   const { openDrawer } = useDrawerRoute();
   const config = useCommentActionFilter({ adapter: 'url' });
 
   const [comments, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiNotunicCommentsInfiniteQuery({
       actionStatus: config.appliedFilters.status,
+      spaceId: [spaceId],
     });
 
   const handleOnCommentClick = (comment: CommentModel) => {
@@ -61,4 +68,8 @@ const SpacesDetailActionsPage = () => {
   );
 };
 
-export default SpacesDetailActionsPage;
+export default function () {
+  const { id } = useParams<{ id: string }>();
+
+  return <SpacesDetailActionsPage spaceId={Number(id)} />;
+}

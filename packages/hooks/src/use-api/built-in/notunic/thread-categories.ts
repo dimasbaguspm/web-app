@@ -76,11 +76,11 @@ export const useApiNotunicCreateThreadCategory = () => {
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.NOTUNIC_THREADS_BY_ID(data.id), data);
@@ -104,11 +104,11 @@ export const useApiNotunicUpdateThreadCategory = () => {
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.NOTUNIC_THREADS_BY_ID(data.id), data);
@@ -132,11 +132,11 @@ export const useApiNotunicDeleteThreadCategory = () => {
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_PAGINATED().slice(0, 3),
         exact: false,
       });
     },

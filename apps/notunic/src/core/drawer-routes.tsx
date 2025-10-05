@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Drawer } from '@dimasbaguspm/versaur';
@@ -8,12 +9,16 @@ import { DetailThreadDrawer } from '../drawers/detail-thread-drawer/drawer';
 import { DetailThreadGroupDrawer } from '../drawers/detail-thread-group-drawer/drawer';
 import { EditCommentActionDrawer } from '../drawers/edit-comment-action-drawer/drawer';
 import { EditSpaceDrawer } from '../drawers/edit-space-drawer/drawer';
+import { EditThreadCategoryDrawer } from '../drawers/edit-thread-category-drawer/drawer';
 import { EditThreadDrawer } from '../drawers/edit-thread-drawer/drawer';
 import { EditThreadGroupDrawer } from '../drawers/edit-thread-group/drawer';
 import { EditThreadGroupTagDrawer } from '../drawers/edit-thread-group-tag-drawer/drawer';
+import { ManageThreadCategoryDrawer } from '../drawers/manage-thread-category-drawer/drawer';
+import { ManageThreadCategoryMembersDrawer } from '../drawers/manage-thread-category-members-drawer/drawer';
 import { ManageThreadGroupDrawer } from '../drawers/manage-thread-groups-drawer/drawer';
 import { NewCommentActionDrawer } from '../drawers/new-comment-action-drawer/drawer';
 import { NewSpaceDrawer } from '../drawers/new-space-drawer/drawer';
+import { NewThreadCategoryDrawer } from '../drawers/new-thread-category-drawer/drawer';
 import { NewThreadDrawer } from '../drawers/new-thread-drawer/drawer';
 import { NewThreadGroupDrawer } from '../drawers/new-thread-group/drawer';
 import { NewThreadGroupTagDrawer } from '../drawers/new-thread-group-tag-drawer/drawer';
@@ -24,6 +29,7 @@ interface DrawerParams {
   threadId?: number;
   threadGroupId?: number;
   threadGroupTagId?: number;
+  threadCategoryId?: number;
   commentId?: number;
   commentActionId?: number;
   parentCommentId?: number;
@@ -90,6 +96,16 @@ export const DrawerRoutes: FC = () => {
       )}
       {is(DRAWER_ROUTES.EDIT_COMMENT_ACTION) && hasParam('commentId') && hasParam('commentActionId') && (
         <EditCommentActionDrawer commentId={params.commentId!} commentActionId={params.commentActionId!} />
+      )}
+      {is(DRAWER_ROUTES.NEW_THREAD_CATEGORY) && <NewThreadCategoryDrawer />}
+      {is(DRAWER_ROUTES.EDIT_THREAD_CATEGORY) && hasParam('threadCategoryId') && (
+        <EditThreadCategoryDrawer threadCategoryId={params.threadCategoryId!} />
+      )}
+      {is(DRAWER_ROUTES.MANAGE_THREAD_CATEGORIES) && hasParam('threadCategoryId') && (
+        <ManageThreadCategoryDrawer threadCategoryId={params.threadCategoryId!} />
+      )}
+      {is(DRAWER_ROUTES.MANAGE_THREAD_CATEGORY_MEMBERS) && hasParam('threadCategoryId') && (
+        <ManageThreadCategoryMembersDrawer threadCategoryId={params.threadCategoryId!} />
       )}
     </Drawer>
   );

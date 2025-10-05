@@ -1,4 +1,4 @@
-import { GalleryVerticalEndIcon, KanbanSquareIcon } from 'lucide-react';
+import { BoltIcon, GalleryVerticalEndIcon, KanbanSquareIcon } from 'lucide-react';
 
 export const ROUTES = {
   SPACES: '/',
@@ -7,6 +7,8 @@ export const ROUTES = {
   SPACES_DETAIL_THREADS: 'threads',
   SPACES_DETAIL_ACTIONS: 'actions',
   MY_ACTIONS: '/my-actions',
+  SETTINGS: '/settings',
+  SETTINGS_THREAD_CATEGORIES: 'thread-categories',
 } as const;
 
 export const DEEP_LINKS = {
@@ -39,6 +41,16 @@ export const DEEP_LINKS = {
     path: ROUTES.MY_ACTIONS,
     title: 'My Actions',
     icon: KanbanSquareIcon,
+  },
+  SETTINGS: {
+    path: ROUTES.SETTINGS,
+    title: 'Settings',
+    icon: BoltIcon,
+  },
+  SETTINGS_THREAD_CATEGORIES: {
+    path: ROUTES.SETTINGS_THREAD_CATEGORIES,
+    title: 'Thread Categories',
+    icon: BoltIcon,
   },
 } as const;
 
