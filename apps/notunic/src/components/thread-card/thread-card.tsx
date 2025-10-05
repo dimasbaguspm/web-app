@@ -17,11 +17,11 @@ interface ThreadCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bor
   hideAction?: boolean;
   hideDescription?: boolean;
   hideCommentsBadge?: boolean;
-  hideGroupsBadge?: boolean;
+  hideCategories?: boolean;
 }
 
 export const ThreadCard: FC<ThreadCardProps> = (props) => {
-  const { thread, hideDescription, hideAction, hideCommentsBadge, hideGroupsBadge, onClick } = props;
+  const { thread, hideDescription, hideAction, hideCommentsBadge, hideCategories, onClick } = props;
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
   const { description, createdDateTime, title, hasComments, commentsText } = formatNotunicThread(thread);
@@ -42,7 +42,7 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
     openDrawer(DRAWER_ROUTES.DETAIL_THREAD, { threadId: thread.id, spaceId: thread.spaceId });
   };
 
-  const sortedGroups = sortBy(thread.groups, (group) => group.id);
+  const sortedCategories = sortBy(thread.categories, (category) => category.id);
 
   return (
     <div className="py-4" onClick={handleClick}>
@@ -87,11 +87,11 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
         </If>
 
         <div className="flex flex-col sm:flex-row justify-between">
-          <BadgeGroup className="mb-2 sm:mb-0" aria-label="Thread groups">
-            <If condition={!hideGroupsBadge}>
-              {sortedGroups?.map((group) => (
-                <Badge key={group.id} color="accent_1" shape="square" size="sm">
-                  {group.tagName}
+          <BadgeGroup className="mb-2 sm:mb-0" aria-label="Thread categories">
+            <If condition={!hideCategories}>
+              {sortedCategories?.map((category) => (
+                <Badge key={category.id} color="accent_1" shape="square" size="sm">
+                  {category.name}
                 </Badge>
               ))}
             </If>

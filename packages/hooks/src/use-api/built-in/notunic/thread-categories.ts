@@ -4,6 +4,7 @@ import {
   ThreadCategoryModel,
   CreateThreadCategoryModel,
   UpdateThreadCategoryModel,
+  UpdateThreadCategoryMemberModel,
 } from '@dimasbaguspm/interfaces/notunic-api';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -137,6 +138,33 @@ export const useApiNotunicDeleteThreadCategory = () => {
       });
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+    },
+  });
+};
+
+export const useApiNotunicUpdateThreadCategoryMember = () => {
+  const queryClient = useQueryClient();
+  return useApiMutate<ThreadCategoryModel, UpdateThreadCategoryMemberModel>({
+    path: '/thread-category/:id/members',
+    method: 'PUT',
+    base: 'NOTUNIC',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
         exact: false,
       });
     },

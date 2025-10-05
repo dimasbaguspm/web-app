@@ -1,51 +1,54 @@
-import { useApiNotunicCreateThread, useApiNotunicThreadGroupsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import { useApiNotunicCreateThread, useApiNotunicThreadCategoriesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { If } from '@dimasbaguspm/utils/if';
 import { Button, ButtonGroup, Drawer, useSnackbars } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { NewThreadForm } from './form';
+import { formatDefaultValues } from './helpers';
 import { NewThreadFormSchema } from './types';
 
 interface NewThreadDrawerProps {
   spaceId: number;
+  payload?: Record<string, string>;
 }
 
-export const NewThreadDrawer: FC<NewThreadDrawerProps> = ({ spaceId }) => {
+export const NewThreadDrawer: FC<NewThreadDrawerProps> = ({ spaceId, payload }) => {
   const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
   const { user } = useAuthProvider();
 
-  const [threadGroups, , { isLoading: isLoadingThreadGroup }] = useApiNotunicThreadGroupsInfiniteQuery({
-    spaceId: [spaceId],
-  });
-
   const [createThread, , { isPending }] = useApiNotunicCreateThread();
 
   const form = useForm<NewThreadFormSchema>({
-    defaultValues: {
-      content: '',
-      tags: [],
-    },
+    defaultValues: formatDefaultValues({ ...payload, spaceId }),
   });
 
   const handleOnSubmit = async (data: NewThreadFormSchema) => {
-    console.log(data);
-    // return;
     await createThread({
       spaceId: spaceId,
       userId: user?.id,
       title: data.title,
       content: data.content,
-      tagIds: data.tags,
+      categoryIds: data.categoryIds,
+      tagIds: [],
     });
     showSnack('success', 'Thread created successfully');
     closeDrawer();
   };
+
+  const selectedCategoryIds = form.watch('categoryIds');
+
+  const [threadCategories] = useApiNotunicThreadCategoriesInfiniteQuery(
+    {
+      id: selectedCategoryIds,
+      pageSize: selectedCategoryIds?.length || 1,
+    },
+    { enabled: !!selectedCategoryIds?.length },
+  );
 
   return (
     <>
@@ -54,25 +57,23 @@ export const NewThreadDrawer: FC<NewThreadDrawerProps> = ({ spaceId }) => {
         <Drawer.CloseButton />
       </Drawer.Header>
 
-      <If condition={[!isLoadingThreadGroup]}>
-        <Drawer.Body>
-          <form id="edit-thread-form" onSubmit={form.handleSubmit(handleOnSubmit)}>
-            <FormProvider {...form}>
-              <NewThreadForm threadGroups={threadGroups} />
-            </FormProvider>
-          </form>
-        </Drawer.Body>
-        <Drawer.Footer>
-          <ButtonGroup fluid={!isDesktop} alignment="end">
-            <Button variant="ghost" disabled={isPending} onClick={closeDrawer}>
-              Cancel
-            </Button>
-            <Button variant="primary" type="submit" form="edit-thread-form" disabled={isPending}>
-              Update
-            </Button>
-          </ButtonGroup>
-        </Drawer.Footer>
-      </If>
+      <Drawer.Body>
+        <form id="new-thread-form" onSubmit={form.handleSubmit(handleOnSubmit)}>
+          <FormProvider {...form}>
+            <NewThreadForm selectedCategories={threadCategories} />
+          </FormProvider>
+        </form>
+      </Drawer.Body>
+      <Drawer.Footer>
+        <ButtonGroup fluid={!isDesktop} alignment="end">
+          <Button variant="ghost" disabled={isPending} onClick={closeDrawer}>
+            Cancel
+          </Button>
+          <Button variant="primary" type="submit" form="new-thread-form" disabled={isPending}>
+            Create
+          </Button>
+        </ButtonGroup>
+      </Drawer.Footer>
     </>
   );
 };

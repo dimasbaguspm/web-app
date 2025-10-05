@@ -78,6 +78,8 @@ export type UpdateThreadCategoryModel =
     operations['patchThread-categoryById']['parameters']['path'];
 export type ThreadCategoryModel =
   operations['getThread-categoryById']['responses']['200']['content']['application/json'];
+export type UpdateThreadCategoryMemberModel = operations['putThread-categoryByIdMembers']['parameters']['path'] &
+  operations['putThread-categoryByIdMembers']['requestBody']['content']['application/json'];
 
 export type SearchThreadCategoryMembersModel = NonNullable<
   operations['getThread-category-members']['parameters']['query']

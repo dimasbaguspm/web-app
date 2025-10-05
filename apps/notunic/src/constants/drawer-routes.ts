@@ -21,4 +21,7 @@ export const DRAWER_ROUTES = {
   EDIT_THREAD_CATEGORY: 'edit-thread-category',
   MANAGE_THREAD_CATEGORIES: 'manage-thread-categories',
   MANAGE_THREAD_CATEGORY_MEMBERS: 'manage-thread-category-members',
+
+  SELECT_SINGLE_THREAD_CATEGORY: 'select-single-thread-category',
+  SELECT_MULTIPLE_THREAD_CATEGORIES: 'select-multiple-thread-categories',
 } as const;

@@ -22,6 +22,8 @@ import { NewThreadCategoryDrawer } from '../drawers/new-thread-category-drawer/d
 import { NewThreadDrawer } from '../drawers/new-thread-drawer/drawer';
 import { NewThreadGroupDrawer } from '../drawers/new-thread-group/drawer';
 import { NewThreadGroupTagDrawer } from '../drawers/new-thread-group-tag-drawer/drawer';
+import { SelectMultipleThreadCategoryDrawer } from '../drawers/select-multiple-thread-category-drawer/drawer';
+import { SelectSingleThreadCategoryDrawer } from '../drawers/select-single-thread-category-drawer/drawer';
 
 interface DrawerParams {
   appId?: string;
@@ -47,11 +49,11 @@ interface DrawerState {
 
 export const DrawerRoutes: FC = () => {
   const { isDesktop } = useWindowResize();
-  const { isOpen, drawerId, params, closeDrawer } = useDrawerRoute<DrawerParams, DrawerState>();
+  const { isOpen, drawerId, params, state, closeDrawer } = useDrawerRoute<DrawerParams, DrawerState>();
 
   const is = (id: string) => drawerId === id;
   const hasParam = (param: keyof typeof params) => (params && typeof params === 'object' ? param in params : false);
-  // const hasState = (stateKey: keyof typeof state) => (state && typeof state === 'object' ? stateKey in state : false);
+  const hasState = (stateKey: keyof typeof state) => (state && typeof state === 'object' ? stateKey in state : false);
 
   return (
     <Drawer
@@ -62,7 +64,9 @@ export const DrawerRoutes: FC = () => {
     >
       {is(DRAWER_ROUTES.NEW_SPACE) && <NewSpaceDrawer />}
       {is(DRAWER_ROUTES.EDIT_SPACE) && hasParam('spaceId') && <EditSpaceDrawer spaceId={params.spaceId!} />}
-      {is(DRAWER_ROUTES.NEW_THREAD) && hasParam('spaceId') && <NewThreadDrawer spaceId={params.spaceId!} />}
+      {is(DRAWER_ROUTES.NEW_THREAD) && hasParam('spaceId') && (
+        <NewThreadDrawer spaceId={params.spaceId!} payload={state?.payload} />
+      )}
       {is(DRAWER_ROUTES.MANAGE_THREAD_GROUPS) && hasParam('spaceId') && (
         <ManageThreadGroupDrawer spaceId={params.spaceId!} />
       )}
@@ -75,7 +79,7 @@ export const DrawerRoutes: FC = () => {
         />
       )}
       {is(DRAWER_ROUTES.EDIT_THREAD) && hasParam('spaceId') && hasParam('threadId') && (
-        <EditThreadDrawer threadId={params.threadId!} spaceId={params.spaceId!} />
+        <EditThreadDrawer threadId={params.threadId!} spaceId={params.spaceId!} payload={state?.payload} />
       )}
 
       {is(DRAWER_ROUTES.NEW_THREAD_GROUP) && hasParam('spaceId') && <NewThreadGroupDrawer spaceId={params.spaceId!} />}
@@ -107,6 +111,28 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.MANAGE_THREAD_CATEGORY_MEMBERS) && hasParam('threadCategoryId') && (
         <ManageThreadCategoryMembersDrawer threadCategoryId={params.threadCategoryId!} />
       )}
+      {is(DRAWER_ROUTES.SELECT_SINGLE_THREAD_CATEGORY) &&
+        hasState('payload') &&
+        hasState('returnToDrawer') &&
+        hasParam('payloadId') && (
+          <SelectSingleThreadCategoryDrawer
+            payloadId={params.payloadId!}
+            payload={state.payload!}
+            returnToDrawer={state.returnToDrawer!}
+            returnToDrawerId={state.returnToDrawerId!}
+          />
+        )}
+      {is(DRAWER_ROUTES.SELECT_MULTIPLE_THREAD_CATEGORIES) &&
+        hasState('payload') &&
+        hasState('returnToDrawer') &&
+        hasParam('payloadId') && (
+          <SelectMultipleThreadCategoryDrawer
+            payloadId={params.payloadId!}
+            payload={state.payload!}
+            returnToDrawer={state.returnToDrawer!}
+            returnToDrawerId={state.returnToDrawerId!}
+          />
+        )}
     </Drawer>
   );
 };

@@ -1,5 +1,6 @@
 export interface NewThreadFormSchema {
+  spaceId: number;
   title: string;
   content: string;
-  tags: number[];
+  categoryIds: number[];
 }

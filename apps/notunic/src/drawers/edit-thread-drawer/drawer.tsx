@@ -1,5 +1,5 @@
 import {
-  useApiNotunicThreadGroupsInfiniteQuery,
+  useApiNotunicThreadCategoriesInfiniteQuery,
   useApiNotunicThreadQuery,
   useApiNotunicUpdateThread,
 } from '@dimasbaguspm/hooks/use-api';
@@ -12,30 +12,26 @@ import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { EditThreadForm } from './form';
+import { formatDefaultValues } from './helpers';
 import { EditThreadFormSchema } from './types';
 
 interface EditThreadDrawerProps {
   spaceId: number;
   threadId: number;
+  payload?: Record<string, unknown>;
 }
 
-export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId, spaceId }) => {
+export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId, spaceId, payload }) => {
   const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
 
   const [thread, , { isLoading: isLoadingThread }] = useApiNotunicThreadQuery(threadId);
-  const [threadGroups, , { isLoading: isLoadingThreadGroup }] = useApiNotunicThreadGroupsInfiniteQuery({
-    spaceId: [spaceId],
-  });
 
   const [updateThread, , { isPending }] = useApiNotunicUpdateThread();
 
   const form = useForm<EditThreadFormSchema>({
-    defaultValues: {
-      content: '',
-      tags: [],
-    },
+    defaultValues: formatDefaultValues(thread, { ...payload, spaceId, threadId }),
   });
 
   const handleOnSubmit = async (data: EditThreadFormSchema) => {
@@ -43,7 +39,7 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId, spaceId 
       id: threadId,
       title: data.title,
       content: data.content,
-      tagIds: data.tags,
+      categoryIds: data.categoryIds,
     });
     showSnack('success', 'Thread updated successfully');
     closeDrawer();
@@ -51,13 +47,19 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId, spaceId 
 
   useEffect(() => {
     if (thread) {
-      form.reset({
-        title: thread.title,
-        content: thread.content,
-        tags: thread.groups?.map((tag) => tag.tagId) ?? [],
-      });
+      form.reset(formatDefaultValues(thread, { ...payload, spaceId, threadId }));
     }
-  }, [thread]);
+  }, [thread, payload, spaceId, threadId]);
+
+  const selectedCategoryIds = form.watch('categoryIds');
+
+  const [threadCategories] = useApiNotunicThreadCategoriesInfiniteQuery(
+    {
+      id: selectedCategoryIds,
+      pageSize: selectedCategoryIds?.length || 1,
+    },
+    { enabled: !!selectedCategoryIds?.length },
+  );
 
   return (
     <>
@@ -65,16 +67,16 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId, spaceId 
         <Drawer.Title>Edit Thread</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
-      <If condition={[isLoadingThread, isLoadingThreadGroup]}>
+      <If condition={[isLoadingThread]}>
         <Drawer.Body>
           <PageLoader />
         </Drawer.Body>
       </If>
-      <If condition={[!isLoadingThread, !isLoadingThreadGroup, !!thread]}>
+      <If condition={[!isLoadingThread, !!thread]}>
         <Drawer.Body>
           <form id="edit-thread-form" onSubmit={form.handleSubmit(handleOnSubmit)}>
             <FormProvider {...form}>
-              <EditThreadForm threadGroups={threadGroups} />
+              <EditThreadForm selectedCategories={threadCategories} />
             </FormProvider>
           </form>
         </Drawer.Body>
@@ -90,11 +92,11 @@ export const EditThreadDrawer: FC<EditThreadDrawerProps> = ({ threadId, spaceId 
         </Drawer.Footer>
       </If>
 
-      <If condition={[!isLoadingThread, !isLoadingThreadGroup, !thread]}>
+      <If condition={[!isLoadingThread, !thread]}>
         <Drawer.Body>
           <NoResults
             icon={SearchXIcon}
-            title="Thread Group Not Found"
+            title="Thread Not Found"
             subtitle="The thread you are looking for does not exist."
           />
         </Drawer.Body>

@@ -196,6 +196,22 @@ export interface paths {
     patch: operations['patchThread-categoryById'];
     trace?: never;
   };
+  '/thread-category/{id}/members': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['putThread-categoryByIdMembers'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/thread-category-members/': {
     parameters: {
       query?: never;
@@ -1806,6 +1822,7 @@ export interface operations {
               profileId: number;
               name: string;
               description?: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1822,6 +1839,7 @@ export interface operations {
               profileId: number;
               name: string;
               description?: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1838,6 +1856,7 @@ export interface operations {
               profileId: number;
               name: string;
               description?: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -1886,6 +1905,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1896,6 +1916,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1906,6 +1927,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1936,6 +1958,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1946,6 +1969,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1956,6 +1980,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2020,6 +2045,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2030,6 +2056,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2040,6 +2067,72 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'putThread-categoryByIdMembers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          threadIds: (string | number)[];
+        };
+        'multipart/form-data': {
+          threadIds: (string | number)[];
+        };
+        'text/plain': {
+          threadIds: (string | number)[];
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            memberIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            memberIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */

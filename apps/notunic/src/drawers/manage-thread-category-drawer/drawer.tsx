@@ -1,7 +1,4 @@
-import {
-  useApiNotunicThreadCategoryMembersInfiniteQuery,
-  useApiNotunicThreadCategoryQuery,
-} from '@dimasbaguspm/hooks/use-api';
+import { useApiNotunicThreadCategoryQuery, useApiNotunicThreadsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatNotunicThreadCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
@@ -9,6 +6,7 @@ import { Button, ButtonGroup, Drawer, Icon, NoResults, PageLoader } from '@dimas
 import { BoltIcon, Edit2Icon, SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
+import { ThreadCard } from '../../components/thread-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 interface ManageThreadCategoryDrawerProps {
@@ -19,11 +17,16 @@ export const ManageThreadCategoryDrawer: FC<ManageThreadCategoryDrawerProps> = (
   const { openDrawer } = useDrawerRoute();
   const [threadCategory, , { isLoading: isThreadCategoryLoading }] = useApiNotunicThreadCategoryQuery(threadCategoryId);
 
-  // TODO: it should return the meaningful data
-  const [threadCategoryMembers, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
-    useApiNotunicThreadCategoryMembersInfiniteQuery({
-      threadCategoryId: [threadCategoryId],
-    });
+  const [threads, , { isInitialFetching, isFetchingNextPage, hasNextPage }, { fetchNextPage }] =
+    useApiNotunicThreadsInfiniteQuery(
+      {
+        id: threadCategory?.memberIds || [],
+        pageSize: threadCategory?.memberIds.length || 15,
+      },
+      {
+        enabled: Boolean(threadCategory?.memberIds.length),
+      },
+    );
 
   const handleOnEditClick = () => {
     openDrawer(DRAWER_ROUTES.EDIT_THREAD_CATEGORY, { threadCategoryId });
@@ -65,17 +68,19 @@ export const ManageThreadCategoryDrawer: FC<ManageThreadCategoryDrawerProps> = (
                 Manage Members
               </Button>
             </ButtonGroup>
-            <If condition={threadCategoryMembers.length === 0}>
+            <If condition={threads.length === 0}>
               <NoResults
                 icon={SearchXIcon}
                 title="No members"
                 subtitle="There are no members in this thread category"
               />
             </If>
-            <If condition={threadCategoryMembers.length > 0}>
+            <If condition={threads.length > 0}>
               <ul className="mb-4">
-                {threadCategoryMembers.map((member) => (
-                  <li key={member.threadId}>{member.threadId}</li>
+                {threads.map((thread) => (
+                  <li key={thread.id}>
+                    <ThreadCard thread={thread} hideAction hideCommentsBadge />
+                  </li>
                 ))}
               </ul>
               <If condition={hasNextPage}>

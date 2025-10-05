@@ -1,12 +1,24 @@
-import { useApiNotunicThreadCategoryQuery, useApiNotunicThreadsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
+import {
+  useApiNotunicThreadCategoryQuery,
+  useApiNotunicThreadsInfiniteQuery,
+  useApiNotunicUpdateThreadCategoryMember,
+} from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatNotunicThread } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, NoResults, PageLoader, SelectableSingleInput } from '@dimasbaguspm/versaur';
+import {
+  Button,
+  ButtonGroup,
+  Drawer,
+  NoResults,
+  PageLoader,
+  SelectableSingleInput,
+  useSnackbars,
+} from '@dimasbaguspm/versaur';
 import { noop } from 'lodash';
 import { SearchXIcon } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { ManageThreadCategoryMembersFormSchema } from './types';
@@ -18,8 +30,8 @@ export interface ManageThreadCategoryMembersDrawerProps {
 export const ManageThreadCategoryMembersDrawer: FC<ManageThreadCategoryMembersDrawerProps> = ({ threadCategoryId }) => {
   const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
+  const { showSnack } = useSnackbars();
 
-  // TODO: thread category should list the meaningful data such members
   const [threadCategory, , { isLoading: isThreadCategoryQueryLoading }] =
     useApiNotunicThreadCategoryQuery(threadCategoryId);
 
@@ -31,12 +43,27 @@ export const ManageThreadCategoryMembersDrawer: FC<ManageThreadCategoryMembersDr
     },
   });
 
+  useEffect(() => {
+    if (threadCategory) {
+      form.reset({
+        threadIds: threadCategory.memberIds.map((id) => id.toString()),
+      });
+    }
+  }, [threadCategory]);
+
+  const [updateThreadCategoryMember, , { isPending: isUpdateThreadCategoryMember }] =
+    useApiNotunicUpdateThreadCategoryMember();
+
   const isLoading = isThreadCategoryQueryLoading || isThreadQueryLoading;
   const selectedThreadIds = form.watch('threadIds');
 
-  // TODO: it should patch on bulk update endpoint
-  const handleOnSubmit = (data: ManageThreadCategoryMembersFormSchema) => {
-    console.log(data);
+  const handleOnSubmit = async (data: ManageThreadCategoryMembersFormSchema) => {
+    await updateThreadCategoryMember({
+      id: threadCategoryId,
+      threadIds: data.threadIds,
+    });
+    showSnack('success', 'Thread category members updated successfully');
+    closeDrawer();
   };
 
   return (
@@ -101,10 +128,14 @@ export const ManageThreadCategoryMembersDrawer: FC<ManageThreadCategoryMembersDr
           </Drawer.Body>
           <Drawer.Footer>
             <ButtonGroup alignment="end" fluid={!isDesktop}>
-              <Button variant="ghost" onClick={closeDrawer}>
+              <Button variant="ghost" onClick={closeDrawer} disabled={isUpdateThreadCategoryMember}>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={form.handleSubmit(handleOnSubmit)}>
+              <Button
+                variant="primary"
+                onClick={form.handleSubmit(handleOnSubmit)}
+                disabled={isUpdateThreadCategoryMember}
+              >
                 Save
               </Button>
             </ButtonGroup>
