@@ -131,7 +131,7 @@ const SpaceDetailPageWrapper = () => {
           subtitle="The space you are looking for does not exist."
         />
       </If>
-      <If condition={[!isLoading, space]}>
+      <If condition={[!isLoading, Boolean(space)]}>
         <SpacesDetailPage space={space!} />
       </If>
     </>

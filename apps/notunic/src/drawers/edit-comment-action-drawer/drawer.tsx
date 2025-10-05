@@ -2,6 +2,7 @@ import {
   useApiNotunicCommentActionQuery,
   useApiNotunicCommentQuery,
   useApiNotunicCommentsInfiniteQuery,
+  useApiNotunicThreadQuery,
   useApiNotunicUpdateCommentAction,
 } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
@@ -13,6 +14,7 @@ import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { CommentCard } from '../../components/comment-card';
+import { ThreadCard } from '../../components/thread-card';
 
 import { EditCommentActionForm } from './form';
 import { formatDefaultValues } from './helpers';
@@ -47,6 +49,10 @@ export const EditCommentActionDrawer: FC<EditCommentActionDrawerProps> = ({ comm
       enabled: commentActionId > 0,
     },
   );
+  const [thread, , { isLoading: isLoadingThread }] = useApiNotunicThreadQuery(comment?.threadId || 0, {
+    enabled: (comment?.threadId || 0) > 0,
+  });
+
   const [updateCommentAction, , { isPending: isUpdateCommentActionPending }] = useApiNotunicUpdateCommentAction();
 
   const form = useForm<EditCommentActionFormSchema>({
@@ -71,12 +77,16 @@ export const EditCommentActionDrawer: FC<EditCommentActionDrawerProps> = ({ comm
   }, [commentAction]);
 
   const isPending =
-    isQueryCommentActionPending || isUpdateCommentActionPending || isCommentLoading || isLoadingParentMainComment;
+    isQueryCommentActionPending ||
+    isUpdateCommentActionPending ||
+    isCommentLoading ||
+    isLoadingParentMainComment ||
+    isLoadingThread;
 
   return (
     <>
       <Drawer.Header>
-        <Drawer.Title>Edit Comment Action</Drawer.Title>
+        <Drawer.Title>Edit Action</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
       <If condition={[isPending]}>
@@ -88,6 +98,7 @@ export const EditCommentActionDrawer: FC<EditCommentActionDrawerProps> = ({ comm
       <If condition={[!isPending]}>
         <Drawer.Body>
           <div className="flex flex-col mb-4">
+            <ThreadCard thread={thread!} hideAction hideCommentsBadge />
             {repliedComments.map((comment, index) => (
               <CommentCard
                 key={comment.id}

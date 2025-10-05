@@ -5,7 +5,6 @@ import {
   useApiNotunicUpdateComment,
 } from '@dimasbaguspm/hooks/use-api';
 import { CommentModel, ThreadModel } from '@dimasbaguspm/interfaces/notunic-api';
-import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
@@ -28,8 +27,6 @@ interface CommentsTabProps {
 export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = null }) => {
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
-
-  const { user } = useAuthProvider();
 
   const [mainComment, , { isLoading: isLoadingMainComment }] = useApiNotunicCommentQuery(parentCommentId ?? 0, {
     enabled: (parentCommentId ?? 0) > 0,
@@ -56,7 +53,7 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
 
   const [comments, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiNotunicCommentsInfiniteQuery({
-      threadId: thread.id,
+      threadId: [thread.id],
       isMainComment: parentCommentId ? false : true,
       parentCommentId: parentCommentId || undefined,
       sortBy: 'createdAt',
@@ -76,7 +73,6 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
         break;
       case DetailThreadDrawerMode.CREATE:
         await createComment({
-          userId: user.id,
           threadId: thread.id,
           content: data.content,
           parentCommentId: parentCommentId || null,

@@ -14,10 +14,13 @@ import { MODAL_ROUTES } from '../../constants/modal-routes';
 interface ThreadCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
   thread: ThreadModel;
   onClick?: (thread: ThreadModel) => void;
+  hideAction?: boolean;
+  hideCommentsBadge?: boolean;
+  hideGroupsBadge?: boolean;
 }
 
 export const ThreadCard: FC<ThreadCardProps> = (props) => {
-  const { thread, onClick } = props;
+  const { thread, hideAction, hideCommentsBadge, hideGroupsBadge, onClick } = props;
   const { openDrawer } = useDrawerRoute();
   const { openModal } = useModalRoute();
   const { description, createdDateTime, title, hasComments, commentsText } = formatNotunicThread(thread);
@@ -48,19 +51,27 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
             <Text fontWeight="medium" fontSize="base">
               {title}
             </Text>
-            <div className="flex-grow flex justify-end gap-1">
-              <ButtonIcon
-                as={ReplyIcon}
-                size="xs"
-                variant="ghost"
-                aria-label="Reply to thread"
-                onClick={handleReplyClick}
-              />
-              <ButtonIcon as={Edit2Icon} size="xs" variant="ghost" aria-label="Edit thread" onClick={handleEditClick} />
-              <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
-                <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>
-              </ButtonMenuIcon>
-            </div>
+            <If condition={!hideAction}>
+              <div className="flex-grow flex justify-end gap-1">
+                <ButtonIcon
+                  as={ReplyIcon}
+                  size="xs"
+                  variant="ghost"
+                  aria-label="Reply to thread"
+                  onClick={handleReplyClick}
+                />
+                <ButtonIcon
+                  as={Edit2Icon}
+                  size="xs"
+                  variant="ghost"
+                  aria-label="Edit thread"
+                  onClick={handleEditClick}
+                />
+                <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
+                  <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>
+                </ButtonMenuIcon>
+              </div>
+            </If>
           </div>
         </div>
       </div>
@@ -74,12 +85,14 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
 
         <div className="flex flex-col sm:flex-row justify-between">
           <BadgeGroup className="mb-2 sm:mb-0" aria-label="Thread groups">
-            {sortedGroups?.map((group) => (
-              <Badge key={group.id} color="accent_1" shape="square" size="sm">
-                {group.tagName}
-              </Badge>
-            ))}
-            <If condition={hasComments}>
+            <If condition={!hideGroupsBadge}>
+              {sortedGroups?.map((group) => (
+                <Badge key={group.id} color="accent_1" shape="square" size="sm">
+                  {group.tagName}
+                </Badge>
+              ))}
+            </If>
+            <If condition={[hasComments, !hideCommentsBadge]}>
               <Badge color="accent_2" shape="square" size="sm">
                 {commentsText}
               </Badge>

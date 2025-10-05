@@ -2,6 +2,7 @@ import {
   useApiNotunicCommentQuery,
   useApiNotunicCommentsInfiniteQuery,
   useApiNotunicCreateCommentAction,
+  useApiNotunicThreadQuery,
 } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
@@ -12,6 +13,7 @@ import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { CommentCard } from '../../components/comment-card';
+import { ThreadCard } from '../../components/thread-card';
 
 import { NewCommentActionForm } from './form';
 import { NewCommentActionFormSchema } from './types';
@@ -38,6 +40,9 @@ export const NewCommentActionDrawer: FC<NewCommentActionDrawerProps> = ({ thread
       enabled: !!comment?.conversationCommentIds?.length,
     },
   );
+  const [thread, , { isLoading: isLoadingThread }] = useApiNotunicThreadQuery(comment?.threadId || 0, {
+    enabled: (comment?.threadId || 0) > 0,
+  });
 
   const [createCommentAction, , { isPending }] = useApiNotunicCreateCommentAction();
 
@@ -62,19 +67,21 @@ export const NewCommentActionDrawer: FC<NewCommentActionDrawerProps> = ({ thread
   return (
     <>
       <Drawer.Header>
-        <Drawer.Title>New Comment Action</Drawer.Title>
+        <Drawer.Title>New Action</Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>
-      <If condition={[isLoadingComment, isLoadingParentMainComment]}>
+      <If condition={[isLoadingComment, isLoadingParentMainComment, isLoadingThread]}>
         <Drawer.Body>
           <PageLoader />
         </Drawer.Body>
       </If>
 
-      <If condition={[!isLoadingComment, !isLoadingParentMainComment]}>
+      <If condition={[!isLoadingComment, !isLoadingParentMainComment, !isLoadingThread]}>
         <Drawer.Body>
           <If condition={Boolean(comment)}>
             <div className="flex flex-col mb-4">
+              <ThreadCard thread={thread!} hideAction hideCommentsBadge />
+
               {repliedComments.map((comment, index) => (
                 <CommentCard
                   key={comment.id}

@@ -1,8 +1,8 @@
 import { CommentModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { formatNotunicComment } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { Anchor, Avatar, ButtonGroup, ButtonMenuIcon, Card, CardProps, Text } from '@dimasbaguspm/versaur';
-import { EllipsisVerticalIcon } from 'lucide-react';
+import { Anchor, Avatar, ButtonGroup, ButtonMenuIcon, Card, CardProps, Icon, Text } from '@dimasbaguspm/versaur';
+import { ClockAlertIcon, EllipsisVerticalIcon, ForwardIcon } from 'lucide-react';
 import { FC, MouseEvent } from 'react';
 
 interface CommentCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
@@ -39,6 +39,8 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
     repliesText,
     hasAction,
     isActionDone,
+    isActionNearDue,
+    isActionOverdue,
   } = formatNotunicComment(comment);
 
   const handleReplyClick = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -55,17 +57,17 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
     onEditClick?.(comment);
   };
 
-  const handleAssignActionClick = (e: MouseEvent<HTMLAnchorElement>) => {
+  const handleAssignActionClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     onAssignActionClick?.(comment);
   };
 
-  const handleFollowUpActionClick = (e: MouseEvent<HTMLAnchorElement>) => {
+  const handleFollowUpActionClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     onFollowUpActionClick?.(comment);
   };
 
-  const showMoreButton = Boolean(onEditClick || onDeleteClick);
+  const showMoreButton = Boolean(onEditClick || onDeleteClick || onFollowUpActionClick || onAssignActionClick);
   return (
     <div className={`flex justify-between w-full ${className}`}>
       <div className="w-full flex items-start gap-3 relative">
@@ -82,6 +84,13 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
               <Text fontWeight="semibold" fontSize="sm">
                 {senderName}
               </Text>
+              {hasAction && (
+                <Icon
+                  as={isActionDone ? ForwardIcon : ClockAlertIcon}
+                  size="sm"
+                  color={isActionOverdue ? 'danger' : isActionNearDue ? 'warning' : 'ghost'}
+                />
+              )}
               <Text color="gray" fontWeight="normal" fontSize="xs">
                 {createdDateTime}
               </Text>
@@ -90,6 +99,9 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
               <ButtonGroup gap="xs">
                 <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
                   {onEditClick && <ButtonMenuIcon.Item onClick={handleEditClick}>Edit</ButtonMenuIcon.Item>}
+                  <ButtonMenuIcon.Item onClick={hasAction ? handleFollowUpActionClick : handleAssignActionClick}>
+                    {hasAction ? (isActionDone ? 'View' : 'Add') : 'Create'} Follow-up
+                  </ButtonMenuIcon.Item>
                   {onDeleteClick && <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>}
                 </ButtonMenuIcon>
               </ButtonGroup>
@@ -116,16 +128,6 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
                     </Anchor>
                   </Card.ListItem>
                 </If>
-                <Card.ListItem>
-                  <Anchor
-                    color="ghost"
-                    fontWeight="normal"
-                    fontSize="sm"
-                    onClick={hasAction ? handleFollowUpActionClick : handleAssignActionClick}
-                  >
-                    {hasAction ? (isActionDone ? 'View' : 'Add') : 'Create'} Follow-up
-                  </Anchor>
-                </Card.ListItem>
               </Card.List>
             </div>
           </If>

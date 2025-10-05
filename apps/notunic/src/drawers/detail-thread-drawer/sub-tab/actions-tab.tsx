@@ -1,24 +1,15 @@
 import { useApiNotunicCommentsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
-import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
-import { CommentModel, SearchCommentsModel, ThreadModel } from '@dimasbaguspm/interfaces/notunic-api';
+import { CommentModel, ThreadModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Button,
-  ButtonGroup,
-  ButtonMenu,
-  ChipSingleInput,
-  Drawer,
-  Hr,
-  Icon,
-  NoResults,
-  PageLoader,
-} from '@dimasbaguspm/versaur';
-import { ChevronDownIcon, FileCheckIcon, FileClockIcon, SearchXIcon } from 'lucide-react';
+import { Button, ButtonGroup, Drawer, Hr, NoResults, PageLoader } from '@dimasbaguspm/versaur';
+import { SearchXIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { CommentActionCard } from '../../../components/comment-action-card';
+import { CommentActionFiltersControl } from '../../../components/comment-action-filter-control';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
+import { useCommentActionFilter } from '../../../hooks/use-comment-action-filter';
 
 interface ActionsTabProps {
   thread: ThreadModel;
@@ -26,14 +17,12 @@ interface ActionsTabProps {
 
 export const ActionsTab: FC<ActionsTabProps> = ({ thread }) => {
   const { openDrawer } = useDrawerRoute();
-  const [actionStatus, setActionStatus] = useDebouncedState<SearchCommentsModel['actionStatus']>({
-    defaultValue: 'todo',
-    debounceTime: 0,
-  });
+  const config = useCommentActionFilter({ adapter: 'state' });
+
   const [comments, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiNotunicCommentsInfiniteQuery({
-      threadId: thread.id,
-      actionStatus,
+      threadId: [thread.id],
+      actionStatus: config.appliedFilters.status,
     });
 
   const handleOnCommentClick = (comment: CommentModel) => {
@@ -44,39 +33,7 @@ export const ActionsTab: FC<ActionsTabProps> = ({ thread }) => {
   return (
     <>
       <Drawer.Body>
-        <ButtonGroup hasMargin alignment="between">
-          <ButtonMenu
-            label={
-              <>
-                <Icon as={ChevronDownIcon} size="sm" color="inherit" />
-                All the time
-              </>
-            }
-            variant="outline"
-            size="sm"
-          >
-            <ButtonMenu.Item>All the time</ButtonMenu.Item>
-            <ButtonMenu.Item>Overdue</ButtonMenu.Item>
-            <ButtonMenu.Item>Last 7 days</ButtonMenu.Item>
-            <ButtonMenu.Item>Last 30 days</ButtonMenu.Item>
-          </ButtonMenu>
-          <ChipSingleInput
-            className="w-auto"
-            name="actionStatus"
-            value={actionStatus}
-            onChange={(value) => setActionStatus(value as SearchCommentsModel['actionStatus'])}
-            size="sm"
-          >
-            <ChipSingleInput.Option value="todo">
-              <Icon as={FileClockIcon} size="sm" color="inherit" />
-              To Do
-            </ChipSingleInput.Option>
-            <ChipSingleInput.Option value="done">
-              <Icon as={FileCheckIcon} size="sm" color="inherit" />
-              Done
-            </ChipSingleInput.Option>
-          </ChipSingleInput>
-        </ButtonGroup>
+        <CommentActionFiltersControl config={config} />
 
         <If condition={isInitialFetching}>
           <PageLoader />

@@ -68,6 +68,14 @@ export const useApiNotunicCreateCommentAction = () => {
     base: 'NOTUNIC',
     onSuccess: (data) => {
       queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.NOTUNIC_COMMENT_ACTIONS_PAGINATED().slice(0, 3),
         exact: false,
       });
@@ -95,6 +103,14 @@ export const useApiNotunicUpdateCommentAction = () => {
     method: 'PATCH',
     base: 'NOTUNIC',
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.NOTUNIC_COMMENT_ACTIONS_PAGINATED().slice(0, 3),
         exact: false,

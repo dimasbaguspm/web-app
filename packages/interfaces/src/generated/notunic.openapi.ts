@@ -564,7 +564,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -696,19 +696,19 @@ export interface operations {
   getThreads: {
     parameters: {
       query?: {
-        id?: (number | string)[];
-        spaceId?: (number | string)[];
+        id?: number[];
+        spaceId?: number[];
         title?: string;
         content?: string;
         createdFrom?: string;
         createdTo?: string;
         updatedFrom?: string;
         updatedTo?: string;
-        categoryId?: (number | string)[];
+        categoryId?: number[];
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
       };
       header?: never;
       path?: never;
@@ -955,7 +955,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -2798,13 +2798,16 @@ export interface operations {
   getComments: {
     parameters: {
       query?: {
-        id?: (number | string)[];
-        threadId?: string | number;
-        parentCommentId?: string | number;
-        isMainComment?: boolean | string;
-        categoryIds?: (number | string)[];
-        hasReplies?: boolean | string;
+        id?: number[];
+        spaceId?: number[];
+        threadId?: number[];
+        parentCommentId?: number;
+        isMainComment?: boolean;
+        categoryIds?: number[];
+        hasReplies?: boolean;
         actionStatus?: 'todo' | 'done';
+        actionDueFrom?: string;
+        actionDueTo?: string;
         content?: string;
         createdFrom?: string;
         createdTo?: string;
@@ -2812,8 +2815,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
       };
       header?: never;
       path?: never;
@@ -2830,6 +2833,7 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              spaceId: number;
               threadId: number;
               conversationCommentIds: number[] | null;
               parentCommentId: number | null;
@@ -2862,6 +2866,7 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              spaceId: number;
               threadId: number;
               conversationCommentIds: number[] | null;
               parentCommentId: number | null;
@@ -2894,6 +2899,7 @@ export interface operations {
             items: {
               id: number;
               profileId: number;
+              spaceId: number;
               threadId: number;
               conversationCommentIds: number[] | null;
               parentCommentId: number | null;
@@ -2938,21 +2944,18 @@ export interface operations {
         'application/json': {
           threadId: number;
           parentCommentId?: number | null;
-          userId: number;
           content: string;
           categoryIds?: number[];
         };
         'multipart/form-data': {
           threadId: number;
           parentCommentId?: number | null;
-          userId: number;
           content: string;
           categoryIds?: number[];
         };
         'text/plain': {
           threadId: number;
           parentCommentId?: number | null;
-          userId: number;
           content: string;
           categoryIds?: number[];
         };
@@ -2967,6 +2970,7 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
@@ -2993,6 +2997,7 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
@@ -3019,6 +3024,7 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
@@ -3051,7 +3057,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: string | number;
+        id: number;
       };
       cookie?: never;
     };
@@ -3065,6 +3071,7 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
@@ -3091,6 +3098,7 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
@@ -3117,6 +3125,7 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
@@ -3200,6 +3209,7 @@ export interface operations {
           'application/json': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
@@ -3226,6 +3236,7 @@ export interface operations {
           'multipart/form-data': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
@@ -3252,6 +3263,7 @@ export interface operations {
           'text/plain': {
             id: number;
             profileId: number;
+            spaceId: number;
             threadId: number;
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;

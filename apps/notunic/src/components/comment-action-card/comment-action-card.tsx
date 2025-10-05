@@ -1,6 +1,6 @@
 import { CommentModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { formatNotunicComment } from '@dimasbaguspm/utils/data';
-import { Anchor, Avatar, Card, CardProps, Text } from '@dimasbaguspm/versaur';
+import { Avatar, CardProps, Text } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 export interface CommentActionCardProps
@@ -10,20 +10,29 @@ export interface CommentActionCardProps
 }
 
 export const CommentActionCard: FC<CommentActionCardProps> = ({ comment, ...rest }) => {
-  const { description, senderInitial, isActionDone, senderName, actionDueDateTime } = formatNotunicComment(comment);
+  const {
+    description,
+    senderInitial,
+    isActionDone,
+    senderName,
+    actionDueDate,
+    actionFollowUpDate,
+    isActionOverdue,
+    isActionNearDue,
+  } = formatNotunicComment(comment);
 
   const handleOnClick = () => {
     rest.onClick?.(comment);
   };
 
-  const time = isActionDone
-    ? `Done in ${actionDueDateTime}`
-    : actionDueDateTime
-      ? `Due ${actionDueDateTime}`
-      : 'No due date';
+  const time = isActionDone ? `Done in ${actionFollowUpDate}` : actionDueDate ? `Due ${actionDueDate}` : 'No due date';
 
   return (
-    <button type="button" className="w-full flex flex-row items-start gap-2" onClick={handleOnClick}>
+    <button
+      type="button"
+      className="w-full flex flex-row items-start gap-2 focus:outline-none focus:ring-2 focus:ring-primary-light cursor-pointer "
+      onClick={handleOnClick}
+    >
       <div className="flex-shrink-0">
         <Avatar shape="circle" size="md">
           {senderInitial}
@@ -34,20 +43,17 @@ export const CommentActionCard: FC<CommentActionCardProps> = ({ comment, ...rest
           <Text fontWeight="semibold" fontSize="sm">
             {senderName}
           </Text>
-          <Text color="gray" fontWeight="normal" fontSize="xs">
+          <Text
+            color={isActionOverdue ? 'danger' : isActionNearDue ? 'warning' : 'ghost'}
+            fontWeight="normal"
+            fontSize="xs"
+          >
             {time}
           </Text>
         </div>
         <Text color="gray" fontWeight="normal" fontSize="base" className="mb-2 whitespace-pre-wrap">
           {description}
         </Text>
-        <Card.List>
-          <Card.ListItem>
-            <Anchor color="ghost" fontWeight="normal" fontSize="sm" onClick={handleOnClick}>
-              {isActionDone ? 'View' : 'Add'} Follow-up
-            </Anchor>
-          </Card.ListItem>
-        </Card.List>
       </div>
     </button>
   );
