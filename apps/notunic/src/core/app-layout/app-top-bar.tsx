@@ -4,19 +4,23 @@ import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, Brand, ButtonMenuIcon, Hr, Icon, Text, TopBar } from '@dimasbaguspm/versaur';
-import { ChevronsLeftRightEllipsisIcon, EllipsisIcon, LogOutIcon, NotebookPenIcon, OrbitIcon } from 'lucide-react';
+import {
+  BoltIcon,
+  ChevronsLeftRightEllipsisIcon,
+  EllipsisIcon,
+  LogOutIcon,
+  NotebookPenIcon,
+  OrbitIcon,
+} from 'lucide-react';
 import { FC } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { MODAL_ROUTES } from '../../constants/modal-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
 
-import { LINKS } from './constants';
-
 export const AppTopBar: FC = () => {
   const { profile } = useActiveAppProfile();
   const { isDesktop } = useWindowResize();
-  const location = useLocation();
 
   const { openModal } = useModalRoute();
   const navigate = useNavigate();
@@ -27,14 +31,6 @@ export const AppTopBar: FC = () => {
 
   const handleNavigateToMarketplace = () => {
     window.open(HUB_BASE_URL, '_blank');
-  };
-
-  const isActive = (path: string) => {
-    if (path === DEEP_LINKS.SPACES.path) {
-      return location.pathname === DEEP_LINKS.SPACES.path;
-    }
-
-    return location.pathname.startsWith(path);
   };
 
   if (!isDesktop) return null;
@@ -49,17 +45,6 @@ export const AppTopBar: FC = () => {
           aria-label="Notunic Logo"
           onClick={handleNavigation(DEEP_LINKS.SPACES.path)}
         />
-        <TopBar.Nav>
-          {LINKS.map((link) => {
-            const isActiveLink = isActive(link.path);
-
-            return (
-              <TopBar.NavItem key={link.path} active={isActiveLink} onClick={handleNavigation(link.path)}>
-                {link.title}
-              </TopBar.NavItem>
-            );
-          })}
-        </TopBar.Nav>
       </TopBar.Leading>
       <TopBar.Trailing>
         <Avatar size="md">{nameToInitials(profile.name)}</Avatar>
@@ -68,6 +53,7 @@ export const AppTopBar: FC = () => {
             <Icon as={ChevronsLeftRightEllipsisIcon} size="sm" color="inherit" />
             Switch Profile
           </ButtonMenuIcon.Item>
+
           <ButtonMenuIcon.Item onClick={handleNavigateToMarketplace}>
             <Icon as={OrbitIcon} size="sm" color="inherit" />
             Marketplace
@@ -75,6 +61,10 @@ export const AppTopBar: FC = () => {
           <ButtonMenuIcon.Item>
             <Icon as={NotebookPenIcon} size="sm" color="inherit" />
             Feedback
+          </ButtonMenuIcon.Item>
+          <ButtonMenuIcon.Item onClick={() => handleNavigation(DEEP_LINKS.SETTINGS.path)()}>
+            <Icon as={BoltIcon} size="sm" color="inherit" />
+            Settings
           </ButtonMenuIcon.Item>
           <Hr />
           <ButtonMenuIcon.Item onClick={() => openModal(MODAL_ROUTES.LOGOUT_CONFIRMATION)}>

@@ -4,14 +4,17 @@ import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, BottomSheet, Button, ButtonIcon, Hr, Icon, Text } from '@dimasbaguspm/versaur';
-import { ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon, OrbitIcon } from 'lucide-react';
+import { BoltIcon, ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon, OrbitIcon } from 'lucide-react';
 import { FC } from 'react';
+import { useNavigate } from 'react-router';
 
 import { MODAL_ROUTES } from '../../constants/modal-routes';
+import { ROUTES } from '../../constants/page-routes';
 
 export const MenuBottomSheet: FC = () => {
   const { openModal } = useModalRoute();
   const { profile } = useActiveAppProfile();
+  const navigate = useNavigate();
 
   const handleChangeProfileClick = () => {
     openModal(MODAL_ROUTES.PROFILE_SWITCHER);
@@ -19,6 +22,10 @@ export const MenuBottomSheet: FC = () => {
 
   const handleOnLogoutClick = () => {
     openModal(MODAL_ROUTES.LOGOUT_CONFIRMATION);
+  };
+
+  const handleOnSettingsClick = () => {
+    navigate(ROUTES.SETTINGS);
   };
 
   const handleNavigateToMarketplace = () => {
@@ -67,6 +74,16 @@ export const MenuBottomSheet: FC = () => {
             <Button variant="ghost" className="w-full justify-start" onClick={handleNavigateToMarketplace}>
               <Icon as={OrbitIcon} size="sm" color="inherit" />
               Marketplace
+            </Button>
+          </li>
+          <li>
+            <Hr />
+          </li>
+
+          <li>
+            <Button variant="ghost" className="w-full justify-start" onClick={handleOnSettingsClick}>
+              <Icon as={BoltIcon} size="sm" color="inherit" />
+              Settings
             </Button>
           </li>
           <li>

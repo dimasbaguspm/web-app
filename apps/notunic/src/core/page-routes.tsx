@@ -54,10 +54,6 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: ROUTES.MY_ACTIONS,
-        Component: lazyLoad(() => import('../pages/my-actions/page')),
-      },
-      {
         path: ROUTES.SETTINGS,
         children: [
           {
