@@ -1,11 +1,13 @@
+import { useApiNotunicGetThreadSummary, useApiNotunicSpaceQuery } from '@dimasbaguspm/hooks/use-api';
 import { ThreadModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { formatNotunicThread } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { Badge, BadgeGroup, ButtonIcon, ButtonMenuIcon, CardProps, Text } from '@dimasbaguspm/versaur';
-import { sortBy } from 'lodash';
-import { Edit2Icon, EllipsisVerticalIcon, ReplyIcon } from 'lucide-react';
+import dayjs from 'dayjs';
+import { kebabCase, sortBy } from 'lodash';
+import { DownloadCloudIcon, EllipsisVerticalIcon, ReplyIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -26,6 +28,9 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
   const { openModal } = useModalRoute();
   const { description, createdDateTime, title, hasComments, commentsText } = formatNotunicThread(thread);
 
+  const [getThreadSummary, , { isPending: isDownloadPending }] = useApiNotunicGetThreadSummary();
+  const [space] = useApiNotunicSpaceQuery(thread.spaceId);
+
   const handleClick = () => {
     onClick?.(thread);
   };
@@ -40,6 +45,31 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
 
   const handleReplyClick = () => {
     openDrawer(DRAWER_ROUTES.DETAIL_THREAD, { threadId: thread.id, spaceId: thread.spaceId });
+  };
+
+  const handleDownloadClick = async () => {
+    const summary = await getThreadSummary({ id: thread.id });
+
+    if (!summary || !space) {
+      console.error('Failed to fetch thread summary or space data.');
+      return;
+    }
+
+    const date = dayjs(thread.createdAt).format('DDMMYYYY');
+    const formattedSpaceTitle = kebabCase(space.name || 'space');
+    const formattedThreadTitle = kebabCase(thread.title || 'thread');
+    const filename = `${formattedSpaceTitle}-${formattedThreadTitle}-${date}.json`;
+
+    // Create and download the file
+    const blob = new Blob([JSON.stringify(summary, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const sortedCategories = sortBy(thread.categories, (category) => category.id);
@@ -62,13 +92,15 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
                   onClick={handleReplyClick}
                 />
                 <ButtonIcon
-                  as={Edit2Icon}
+                  as={DownloadCloudIcon}
                   size="xs"
                   variant="ghost"
-                  aria-label="Edit thread"
-                  onClick={handleEditClick}
+                  aria-label="Download"
+                  disabled={isDownloadPending}
+                  onClick={handleDownloadClick}
                 />
                 <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
+                  <ButtonMenuIcon.Item onClick={handleEditClick}>Edit</ButtonMenuIcon.Item>
                   <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>
                 </ButtonMenuIcon>
               </div>

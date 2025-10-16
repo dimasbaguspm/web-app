@@ -33,6 +33,13 @@ export const NOTUNIC_QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  NOTUNIC_THREADS_BY_ID_SUMMARY: (id: number, params = {}) => [
+    ...BASE_QUERY_KEYS.NOTUNIC_THREADS,
+    'by-id',
+    id,
+    'summary',
+    JSON.stringify(params ?? {}),
+  ],
   NOTUNIC_THREAD_GROUPS_INFINITE: (params: object = {}) => [
     ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUPS,
     'infinite',

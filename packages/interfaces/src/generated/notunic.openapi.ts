@@ -100,6 +100,22 @@ export interface paths {
     patch: operations['patchThreadsById'];
     trace?: never;
   };
+  '/threads/{id}/summary': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getThreadsByIdSummary'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/thread-group/': {
     parameters: {
       query?: never;
@@ -850,7 +866,6 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          userId: number;
           spaceId: number;
           title: string;
           content: string;
@@ -858,7 +873,6 @@ export interface operations {
           categoryIds?: number[];
         };
         'multipart/form-data': {
-          userId: number;
           spaceId: number;
           title: string;
           content: string;
@@ -866,7 +880,6 @@ export interface operations {
           categoryIds?: number[];
         };
         'text/plain': {
-          userId: number;
           spaceId: number;
           title: string;
           content: string;
@@ -1203,6 +1216,188 @@ export interface operations {
             /** Format: date-time */
             updatedAt: string;
             deletedAt?: string | null;
+          };
+        };
+      };
+    };
+  };
+  getThreadsByIdSummary: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            spaceId: number;
+            sender: {
+              id: number;
+              name: string;
+            };
+            title: string;
+            content: string;
+            groups: {
+              id: number;
+              name: string;
+              tagId: number;
+              tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
+            commentCount: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            deletedAt?: string | null;
+            conversations: {
+              commentId: number;
+              comment: string;
+              sender: {
+                id: number;
+                name: string;
+              };
+              followUpDate: string | null;
+              followedUpDate: string | null;
+              followUpNote: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              replies: {
+                commentId: number;
+                comment: string;
+                sender: {
+                  id: number;
+                  name: string;
+                };
+                followUpDate: string | null;
+                followedUpDate: string | null;
+                followUpNote: string | null;
+                /** Format: date-time */
+                createdAt: string;
+                replies: unknown[];
+              }[];
+            }[];
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            spaceId: number;
+            sender: {
+              id: number;
+              name: string;
+            };
+            title: string;
+            content: string;
+            groups: {
+              id: number;
+              name: string;
+              tagId: number;
+              tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
+            commentCount: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            deletedAt?: string | null;
+            conversations: {
+              commentId: number;
+              comment: string;
+              sender: {
+                id: number;
+                name: string;
+              };
+              followUpDate: string | null;
+              followedUpDate: string | null;
+              followUpNote: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              replies: {
+                commentId: number;
+                comment: string;
+                sender: {
+                  id: number;
+                  name: string;
+                };
+                followUpDate: string | null;
+                followedUpDate: string | null;
+                followUpNote: string | null;
+                /** Format: date-time */
+                createdAt: string;
+                replies: unknown[];
+              }[];
+            }[];
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            spaceId: number;
+            sender: {
+              id: number;
+              name: string;
+            };
+            title: string;
+            content: string;
+            groups: {
+              id: number;
+              name: string;
+              tagId: number;
+              tagName: string;
+            }[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
+            commentCount: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            deletedAt?: string | null;
+            conversations: {
+              commentId: number;
+              comment: string;
+              sender: {
+                id: number;
+                name: string;
+              };
+              followUpDate: string | null;
+              followedUpDate: string | null;
+              followUpNote: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              replies: {
+                commentId: number;
+                comment: string;
+                sender: {
+                  id: number;
+                  name: string;
+                };
+                followUpDate: string | null;
+                followedUpDate: string | null;
+                followUpNote: string | null;
+                /** Format: date-time */
+                createdAt: string;
+                replies: unknown[];
+              }[];
+            }[];
           };
         };
       };
@@ -2891,13 +3086,13 @@ export interface operations {
   getComments: {
     parameters: {
       query?: {
-        id?: number[];
-        spaceId?: number[];
-        threadId?: number[];
-        parentCommentId?: number;
-        isMainComment?: boolean;
-        categoryIds?: number[];
-        hasReplies?: boolean;
+        id?: (number | string)[];
+        spaceId?: (number | string)[];
+        threadId?: (number | string)[];
+        parentCommentId?: string | number;
+        isMainComment?: boolean | string;
+        categoryIds?: (number | string)[];
+        hasReplies?: boolean | string;
         actionStatus?: 'todo' | 'done';
         actionDueFrom?: string;
         actionDueTo?: string;
@@ -2908,8 +3103,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;

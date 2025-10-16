@@ -13,6 +13,7 @@ export type CreateThreadModel = operations['postThreads']['requestBody']['conten
 export type UpdateThreadModel = operations['patchThreadsById']['requestBody']['content']['application/json'] &
   operations['patchThreadsById']['parameters']['path'];
 export type ThreadModel = operations['getThreadsById']['responses']['200']['content']['application/json'];
+export type ThreadSummaryModel = operations['getThreadsByIdSummary']['responses']['200']['content']['application/json'];
 
 export type SearchThreadGroupsModel = NonNullable<operations['getThread-group']['parameters']['query']>;
 export type ThreadGroupsPageModel = operations['getThread-group']['responses']['200']['content']['application/json'];

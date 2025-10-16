@@ -4,6 +4,7 @@ import {
   ThreadModel,
   CreateThreadModel,
   UpdateThreadModel,
+  ThreadSummaryModel,
 } from '@dimasbaguspm/interfaces/notunic-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { uniqBy } from 'lodash';
@@ -58,6 +59,14 @@ export const useApiNotunicThreadQuery = (
         ?.items.find((t) => t.id === id);
     },
     initialDataUpdatedAt: queryClient.getQueryState(QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3))?.dataUpdatedAt,
+  });
+};
+
+export const useApiNotunicGetThreadSummary = () => {
+  return useApiMutate<ThreadSummaryModel, { id: number }>({
+    path: '/threads/:id/summary',
+    method: 'GET',
+    base: 'NOTUNIC',
   });
 };
 
