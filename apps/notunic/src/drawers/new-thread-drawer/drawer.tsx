@@ -1,6 +1,5 @@
 import { useApiNotunicCreateThread, useApiNotunicThreadCategoriesInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Button, ButtonGroup, Drawer, useSnackbars } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
@@ -19,7 +18,6 @@ export const NewThreadDrawer: FC<NewThreadDrawerProps> = ({ spaceId, payload }) 
   const { isDesktop } = useWindowResize();
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
-  const { user } = useAuthProvider();
 
   const [createThread, , { isPending }] = useApiNotunicCreateThread();
 
@@ -30,7 +28,6 @@ export const NewThreadDrawer: FC<NewThreadDrawerProps> = ({ spaceId, payload }) 
   const handleOnSubmit = async (data: NewThreadFormSchema) => {
     await createThread({
       spaceId: spaceId,
-      userId: user?.id,
       title: data.title,
       content: data.content,
       categoryIds: data.categoryIds,
