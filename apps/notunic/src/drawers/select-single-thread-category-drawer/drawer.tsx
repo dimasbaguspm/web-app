@@ -75,12 +75,13 @@ export const SelectSingleThreadCategoryDrawer: FC<SelectThreadCategoryDrawerProp
               {threadCategories.map((category) => (
                 <li key={category.id}>
                   <SelectableSingleInput
-                    label={category.name}
                     value={category.id.toString()}
                     name="thread-category"
                     checked={category.id === selectedCategoryIds}
                     onChange={() => setSelectedCategoryIds(category.id)}
-                  />
+                  >
+                    {category.name}
+                  </SelectableSingleInput>
                 </li>
               ))}
             </ul>

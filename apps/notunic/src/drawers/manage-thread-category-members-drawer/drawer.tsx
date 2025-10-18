@@ -105,7 +105,6 @@ export const ManageThreadCategoryMembersDrawer: FC<ManageThreadCategoryMembersDr
                   <li key={thread.id}>
                     <SelectableSingleInput
                       value={thread.id.toString()}
-                      label={formatNotunicThread(thread).title}
                       name="threads"
                       checked={selectedThreadIds.includes(thread.id.toString())}
                       onChange={noop}
@@ -120,7 +119,9 @@ export const ManageThreadCategoryMembersDrawer: FC<ManageThreadCategoryMembersDr
                           form.setValue('threadIds', [...currentValues, thread.id.toString()]);
                         }
                       }}
-                    />
+                    >
+                      {formatNotunicThread(thread).title}
+                    </SelectableSingleInput>
                   </li>
                 ))}
               </ul>

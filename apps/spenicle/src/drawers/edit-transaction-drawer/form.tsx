@@ -31,7 +31,7 @@ interface EditTransactionFormProps {
 export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction, defaultValues, onSubmit }) => {
   const { openDrawer } = useDrawerRoute();
 
-  const { register, handleSubmit, control, getValues, watch } = useForm<EditTransactionFormSchema>({
+  const { handleSubmit, control, getValues, watch } = useForm<EditTransactionFormSchema>({
     defaultValues,
   });
 
@@ -137,7 +137,7 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                     required: 'Type is required',
                   }}
                   render={({ field }) => (
-                    <ChipSingleInput {...field} variant="primary" label="Type">
+                    <ChipSingleInput {...field} label="Type">
                       <ChipSingleInput.Option value="expense">
                         <Icon as={TrendingDownIcon} color="inherit" size="sm" />
                         Expense
@@ -309,7 +309,11 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                 />
               </FormLayout.Column>
               <FormLayout.Column span={12}>
-                <TextAreaInput label="Notes" fieldSizing="fixed" minRows={4} maxRows={4} {...register('notes')} />
+                <Controller
+                  name="notes"
+                  control={control}
+                  render={({ field }) => <TextAreaInput label="Notes" row={6} {...field} />}
+                />
               </FormLayout.Column>
             </FormLayout>
           </form>

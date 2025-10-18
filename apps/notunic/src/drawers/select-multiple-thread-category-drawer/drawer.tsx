@@ -79,7 +79,6 @@ export const SelectMultipleThreadCategoryDrawer: FC<SelectMultipleThreadCategory
               {threadCategories.map((category) => (
                 <li key={category.id}>
                   <SelectableSingleInput
-                    label={category.name}
                     value={category.id.toString()}
                     name="thread-category"
                     checked={selectedCategoryIds.includes(category.id)}
@@ -90,7 +89,9 @@ export const SelectMultipleThreadCategoryDrawer: FC<SelectMultipleThreadCategory
                         setSelectedCategoryIds(selectedCategoryIds.filter((id) => id !== category.id));
                       }
                     }}
-                  />
+                  >
+                    {category.name}
+                  </SelectableSingleInput>
                 </li>
               ))}
             </ul>

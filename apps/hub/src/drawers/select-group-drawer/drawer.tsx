@@ -84,11 +84,12 @@ export const SelectGroupDrawer: FC<SelectGroupDrawerProps> = ({
             {groups?.map((group) => (
               <li key={group.id}>
                 <SelectableSingleInput
-                  label={<GroupCard group={group} size="none" as="div" />}
                   value={group.id.toString()}
                   checked={group.id === selectedGroupId}
                   onChange={() => setSelectedGroupId(group.id)}
-                />
+                >
+                  <GroupCard group={group} size="none" as="div" />
+                </SelectableSingleInput>
               </li>
             ))}
           </ul>

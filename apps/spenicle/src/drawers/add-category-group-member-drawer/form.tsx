@@ -35,12 +35,7 @@ export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategoryS
   return (
     <>
       <div className="mb-4">
-        <SearchInput
-          variant="neutral"
-          defaultValue={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search"
-        />
+        <SearchInput defaultValue={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" />
       </div>
       <CategoryFiltersControl config={filter} hideGroupFilter />
 
@@ -68,7 +63,6 @@ export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategoryS
             return (
               <li key={category.id}>
                 <SelectableMultipleInput
-                  label={<CategoryCard category={category} as="div" size="none" />}
                   checked={categoryIds.includes(category.id)}
                   value={category.id.toString()}
                   onChange={() => {
@@ -78,7 +72,9 @@ export const Form: FC<FormProps> = ({ handleCreateNewCategory, handleOnCategoryS
                       handleOnCategorySelect([...categoryIds, category.id]);
                     }
                   }}
-                />
+                >
+                  <CategoryCard category={category} as="div" size="none" />
+                </SelectableMultipleInput>
               </li>
             );
           })}

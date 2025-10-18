@@ -21,7 +21,7 @@ const SpacesDetailThreadsPage: FC<SpacesDetailThreadsPageProps> = ({ spaceId }) 
 
   return (
     <>
-      <PageContent>
+      <PageContent size="wide">
         <If condition={isInitialFetching}>
           <PageLoader />
         </If>

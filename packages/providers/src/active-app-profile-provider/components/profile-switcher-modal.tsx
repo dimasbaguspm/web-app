@@ -65,24 +65,19 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ onSubmit }
 
               return (
                 <li key={appProfile.id}>
-                  <SelectableSingleInput
-                    value={appProfile.id.toString()}
-                    onChange={handleOnClick}
-                    checked={isChecked}
-                    label={
-                      <Card
-                        as="div"
-                        size="none"
-                        title={name}
-                        avatar={<Avatar>{initial}</Avatar>}
-                        badge={
-                          <BadgeGroup>
-                            <Badge color={groupRelatedVariant}>{type}</Badge>
-                          </BadgeGroup>
-                        }
-                      />
-                    }
-                  />
+                  <SelectableSingleInput value={appProfile.id.toString()} onChange={handleOnClick} checked={isChecked}>
+                    <Card
+                      as="div"
+                      size="none"
+                      title={name}
+                      avatar={<Avatar>{initial}</Avatar>}
+                      badge={
+                        <BadgeGroup>
+                          <Badge color={groupRelatedVariant}>{type}</Badge>
+                        </BadgeGroup>
+                      }
+                    />
+                  </SelectableSingleInput>
                 </li>
               );
             })}

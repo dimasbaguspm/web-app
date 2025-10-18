@@ -76,20 +76,15 @@ export const ProfileSwitcherModal: FC<ProfileSwitcherModalProps> = ({ isSessionC
 
               return (
                 <li key={appProfile.id}>
-                  <SelectableSingleInput
-                    value={appProfile.id.toString()}
-                    onChange={handleOnClick}
-                    checked={isChecked}
-                    label={
-                      <div className="flex gap-2 items-center">
-                        <Avatar>{initial}</Avatar>
-                        <Text>{name}</Text>
-                        <BadgeGroup>
-                          <Badge color={groupRelatedVariant}>{type}</Badge>
-                        </BadgeGroup>
-                      </div>
-                    }
-                  />
+                  <SelectableSingleInput value={appProfile.id.toString()} onChange={handleOnClick} checked={isChecked}>
+                    <div className="flex gap-2 items-center">
+                      <Avatar>{initial}</Avatar>
+                      <Text>{name}</Text>
+                      <BadgeGroup>
+                        <Badge color={groupRelatedVariant}>{type}</Badge>
+                      </BadgeGroup>
+                    </div>
+                  </SelectableSingleInput>
                 </li>
               );
             })}

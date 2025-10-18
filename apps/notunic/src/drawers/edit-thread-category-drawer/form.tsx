@@ -33,7 +33,7 @@ export const EditThreadCategoryForm: FC = () => {
               label="Description"
               placeholder="Enter thread group description"
               error={fieldState.error?.message}
-              rows={4}
+              row={6}
             />
           )}
         />

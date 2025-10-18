@@ -91,7 +91,11 @@ export const EditAccountDrawer: FC<Props> = ({ accountId }) => {
               />
             </FormLayout.Column>
             <FormLayout.Column span={12}>
-              <TextAreaInput label="Notes" fieldSizing="content" minRows={4} rows={6} {...register('notes')} />
+              <Controller
+                name="notes"
+                control={control}
+                render={({ field }) => <TextAreaInput label="Notes" row={6} {...field} />}
+              />
             </FormLayout.Column>
           </FormLayout>
         </form>

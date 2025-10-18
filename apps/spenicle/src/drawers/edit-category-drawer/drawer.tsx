@@ -78,7 +78,7 @@ export const EditCategoryDrawer: FC<Props> = ({ categoryId }) => {
                   required: 'Type is required',
                 }}
                 render={({ field }) => (
-                  <ChipSingleInput {...field} variant="primary" label="Type">
+                  <ChipSingleInput {...field} label="Type">
                     <ChipSingleInput.Option value="expense">
                       <Icon as={TrendingDownIcon} color="inherit" size="sm" />
                       Expense
@@ -97,7 +97,11 @@ export const EditCategoryDrawer: FC<Props> = ({ categoryId }) => {
             </FormLayout.Column>
 
             <FormLayout.Column span={12}>
-              <TextAreaInput label="Notes" fieldSizing="content" minRows={4} rows={6} {...register('notes')} />
+              <Controller
+                name="notes"
+                control={control}
+                render={({ field }) => <TextAreaInput label="Notes" row={6} {...field} />}
+              />
             </FormLayout.Column>
           </FormLayout>
         </form>

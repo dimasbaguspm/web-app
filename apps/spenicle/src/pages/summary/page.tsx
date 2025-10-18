@@ -35,6 +35,7 @@ const SummaryLayout = () => {
       <PageHeader
         title="Summary"
         subtitle="Manage your summary transactions"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button disabled={isPrinting} onClick={handleOnPrintClick}>
@@ -54,7 +55,7 @@ const SummaryLayout = () => {
           </ButtonGroup>
         }
       />
-      <PageContent>
+      <PageContent size="wide">
         <ActionHeader />
         <Outlet />
       </PageContent>

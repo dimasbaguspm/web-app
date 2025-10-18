@@ -104,11 +104,12 @@ export const SelectCategoryDrawer: FC<SelectCategoryDrawerProps> = ({
               return (
                 <li key={category.id}>
                   <SelectableSingleInput
-                    label={<CategoryCard as="div" size="none" category={category} />}
                     value={category.id.toString()}
                     checked={category.id === selectedCategoryId}
                     onChange={() => setSelectedCategoryId(category.id)}
-                  />
+                  >
+                    <CategoryCard as="div" size="none" category={category} />
+                  </SelectableSingleInput>
                 </li>
               );
             })}

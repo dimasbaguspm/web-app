@@ -52,6 +52,7 @@ const GroupPage: FC = () => {
       <PageHeader
         title="My Groups"
         subtitle="Manage your groups and their members"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button onClick={handleOnNewGroupClick}>
@@ -67,12 +68,11 @@ const GroupPage: FC = () => {
         }
       />
 
-      <PageContent>
+      <PageContent size="wide">
         <FormLayout className="mb-4">
           <FormLayout.Column span={isDesktop ? 4 : 12}>
             <SearchInput
               placeholder="Search"
-              variant="neutral"
               defaultValue={searchTerm}
               onChange={(ev) => setSearchTerm(ev.target.value)}
             />

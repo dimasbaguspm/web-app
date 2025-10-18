@@ -57,7 +57,7 @@ export const NewThreadForm: FC<NewThreadFormProps> = ({ selectedCategories }) =>
               label="Description"
               placeholder="Type description"
               error={fieldState.error?.message}
-              fieldSizing="content"
+              row={6}
             />
           )}
         />

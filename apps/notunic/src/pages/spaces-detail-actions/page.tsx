@@ -32,7 +32,7 @@ const SpacesDetailActionsPage: FC<SpacesDetailActionsPageProps> = ({ spaceId }) 
   };
 
   return (
-    <PageContent>
+    <PageContent size="wide">
       <CommentActionFiltersControl config={config} />
 
       <If condition={isInitialFetching}>

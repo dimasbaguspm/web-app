@@ -13,8 +13,8 @@ const SettingsPage = () => {
 
   return (
     <>
-      <PageHeader title="Settings" subtitle="Manage profile preferences and application settings" />
-      <PageContent>
+      <PageHeader title="Settings" subtitle="Manage profile preferences and application settings" size="wide" />
+      <PageContent size="wide">
         <ActionCard.Group>
           <ActionCard
             icon={<Icon as={FoldersIcon} size="md" color="inherit" />}

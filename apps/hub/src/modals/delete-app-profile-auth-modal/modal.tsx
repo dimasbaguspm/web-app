@@ -54,9 +54,7 @@ export const DeleteAppProfileAuthModal: FC<DeleteAppProfileAuthModalProps> = ({ 
                     return true;
                   },
                 }}
-                render={({ field, fieldState }) => (
-                  <PinField {...field} secure error={fieldState.error?.message} autoSubmit />
-                )}
+                render={({ field, fieldState }) => <PinField {...field} secure error={fieldState.error?.message} />}
               />
             </FormLayout.Column>
           </FormLayout>

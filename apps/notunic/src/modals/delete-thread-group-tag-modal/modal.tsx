@@ -32,10 +32,10 @@ export const DeleteThreadGroupTagModal: FC<DeleteThreadGroupModalTagProps> = ({ 
       <Modal.Body>Are you sure you want to delete this thread group tag?</Modal.Body>
       <Modal.Footer>
         <ButtonGroup>
-          <Button variant="ghost" onClick={closeModal} disabled={isPending}>
+          <Button variant="ghost" onClick={closeModal} busy={isPending}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleDelete} disabled={isPending}>
+          <Button variant="destructive" onClick={handleDelete} busy={isPending}>
             Delete
           </Button>
         </ButtonGroup>

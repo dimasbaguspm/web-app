@@ -59,7 +59,7 @@ export const DetailsTab: FC<DetailsTabProps> = ({ accountGroup }) => {
         </ButtonGroup>
         <ButtonIcon
           as={TrashIcon}
-          variant="danger-outline"
+          variant="destructive"
           aria-label="Delete Account Group"
           onClick={handleDeleteClick}
         />

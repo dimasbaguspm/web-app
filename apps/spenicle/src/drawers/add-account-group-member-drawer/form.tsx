@@ -36,12 +36,7 @@ export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSel
   return (
     <>
       <div className="mb-4">
-        <SearchInput
-          variant="neutral"
-          defaultValue={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search"
-        />
+        <SearchInput defaultValue={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" />
       </div>
       <AccountFiltersControl config={filter} hideGroupFilter />
 
@@ -69,7 +64,6 @@ export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSel
             return (
               <li key={account.id}>
                 <SelectableMultipleInput
-                  label={<AccountCard account={account} as="div" size="none" />}
                   checked={accountIds.includes(account.id)}
                   value={account.id.toString()}
                   onChange={(e) => {
@@ -79,7 +73,9 @@ export const Form: FC<FormProps> = ({ handleCreateNewAccount, handleOnAccountSel
                       handleOnAccountSelect(accountIds.filter((id) => id !== account.id));
                     }
                   }}
-                />
+                >
+                  <AccountCard account={account} as="div" size="none" />
+                </SelectableMultipleInput>
               </li>
             );
           })}

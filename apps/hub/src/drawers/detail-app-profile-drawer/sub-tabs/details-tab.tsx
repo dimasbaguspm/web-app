@@ -36,7 +36,7 @@ export const DetailsTab: FC<DetailsTabProps> = ({ app, appProfile }) => {
           <Icon as={Edit2Icon} size="sm" color="inherit" />
           Edit
         </Button>
-        <ButtonIcon as={TrashIcon} variant="danger-outline" aria-label="Delete Profile" onClick={handleOnDeleteClick} />
+        <ButtonIcon as={TrashIcon} variant="destructive" aria-label="Delete Profile" onClick={handleOnDeleteClick} />
       </ButtonGroup>
       <AttributeList columns={2}>
         <AttributeList.Item title="App Related">{formattedApp.name}</AttributeList.Item>

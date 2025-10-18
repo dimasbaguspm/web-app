@@ -79,6 +79,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
     <>
       <PageHeader
         title="Transactions"
+        size="wide"
         subtitle={formatDate(startDate, DateFormat.MONTH_YEAR)}
         actions={
           <ButtonGroup>
@@ -106,7 +107,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
         tabs={<TabsDate date={startDate} onDateChange={handleOnDateChange} />}
       />
 
-      <PageContent {...containerHandlers} className="min-h-[calc(100dvh-25dvh)]">
+      <PageContent {...containerHandlers} size="wide" className="min-h-[calc(100dvh-25dvh)]">
         <ActionsControl
           date={startDate}
           onFilterClick={handleOnFilterClick}

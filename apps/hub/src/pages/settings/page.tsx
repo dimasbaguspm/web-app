@@ -19,8 +19,8 @@ const SettingPage = () => {
 
   return (
     <>
-      <PageHeader title="Settings" />
-      <PageContent>
+      <PageHeader title="Settings" size="wide" />
+      <PageContent size="wide">
         <div className="flex flex-row items-center gap-2 mb-4">
           <Text fontSize="lg" fontWeight="semibold">
             General

@@ -72,7 +72,7 @@ export const DetailThreadGroupDrawer: FC<DetailThreadGroupDrawerProps> = ({ thre
               </Button>
             </ButtonGroup>
             <ButtonGroup>
-              <ButtonIcon variant="danger-outline" as={TrashIcon} onClick={handleOnDeleteClick} aria-label="Delete" />
+              <ButtonIcon variant="destructive" as={TrashIcon} onClick={handleOnDeleteClick} aria-label="Delete" />
             </ButtonGroup>
           </ButtonGroup>
           <If condition={isInitialFetching}>

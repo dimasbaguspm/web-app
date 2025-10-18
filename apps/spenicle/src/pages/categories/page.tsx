@@ -60,6 +60,7 @@ const CategoriesPage = () => {
       <PageHeader
         title="Categories"
         subtitle="Manage your categories"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
@@ -84,14 +85,10 @@ const CategoriesPage = () => {
           </ButtonGroup>
         }
       />
-      <PageContent>
+      <PageContent size="wide">
         <FormLayout>
           <FormLayout.Column span={isDesktop ? 4 : 12}>
-            <SearchInput
-              variant="neutral"
-              defaultValue={debouncedSearch}
-              onChange={(ev) => setDebouncedSearch(ev.target.value)}
-            />
+            <SearchInput defaultValue={debouncedSearch} onChange={(ev) => setDebouncedSearch(ev.target.value)} />
           </FormLayout.Column>
           <FormLayout.Column span={isDesktop ? 8 : 12}>
             <CategoryFiltersControl config={categoryFilter} />

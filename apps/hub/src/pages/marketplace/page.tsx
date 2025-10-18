@@ -49,6 +49,7 @@ const MarketplacePage: FC = () => {
       <PageHeader
         title="Marketplace"
         subtitle="Discover the available apps"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button>
@@ -64,12 +65,11 @@ const MarketplacePage: FC = () => {
         }
       />
 
-      <PageContent>
+      <PageContent size="wide">
         <FormLayout className="mb-4">
           <FormLayout.Column span={isDesktop ? 4 : 12}>
             <SearchInput
               placeholder="Search"
-              variant="neutral"
               defaultValue={searchTerm}
               onChange={(ev) => setSearchTerm(ev.target.value)}
             />

@@ -86,20 +86,20 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
               <div className="flex-grow flex justify-end gap-1">
                 <ButtonIcon
                   as={ReplyIcon}
-                  size="xs"
+                  size="sm"
                   variant="ghost"
                   aria-label="Reply to thread"
                   onClick={handleReplyClick}
                 />
                 <ButtonIcon
                   as={DownloadCloudIcon}
-                  size="xs"
+                  size="sm"
                   variant="ghost"
                   aria-label="Download"
                   disabled={isDownloadPending}
                   onClick={handleDownloadClick}
                 />
-                <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
+                <ButtonMenuIcon as={EllipsisVerticalIcon} size="sm" variant="ghost" aria-label="More options">
                   <ButtonMenuIcon.Item onClick={handleEditClick}>Edit</ButtonMenuIcon.Item>
                   <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>
                 </ButtonMenuIcon>

@@ -97,7 +97,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
             </div>
             {showMoreButton && (
               <ButtonGroup gap="xs">
-                <ButtonMenuIcon as={EllipsisVerticalIcon} size="xs" variant="ghost" aria-label="More options">
+                <ButtonMenuIcon as={EllipsisVerticalIcon} size="sm" variant="ghost" aria-label="More options">
                   {onEditClick && <ButtonMenuIcon.Item onClick={handleEditClick}>Edit</ButtonMenuIcon.Item>}
                   <ButtonMenuIcon.Item onClick={hasAction ? handleFollowUpActionClick : handleAssignActionClick}>
                     {hasAction ? (isActionDone ? 'View' : 'Add') : 'Create'} Follow-up

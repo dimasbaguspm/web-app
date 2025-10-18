@@ -82,7 +82,7 @@ export const NewScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit })
               required: 'Type is required',
             }}
             render={({ field }) => (
-              <ChipSingleInput {...field} variant="primary" label="Type">
+              <ChipSingleInput {...field} label="Type">
                 <ChipSingleInput.Option value="expense">
                   <Icon as={TrendingDownIcon} color="inherit" size="sm" />
                   Expense
@@ -314,7 +314,7 @@ export const NewScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit })
                 {...field}
                 label="Create first payment immediately?"
                 checked={field.value || false}
-                onCheckedChange={(value) => field.onChange(value)}
+                onChange={(value) => field.onChange(value)}
               />
             )}
           />

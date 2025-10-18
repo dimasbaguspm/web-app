@@ -29,7 +29,7 @@ export const LogoutConfirmationModal: FC = () => {
           <Button variant="ghost" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleLogout}>
+          <Button variant="primary" onClick={handleLogout}>
             Logout
           </Button>
         </ButtonGroup>

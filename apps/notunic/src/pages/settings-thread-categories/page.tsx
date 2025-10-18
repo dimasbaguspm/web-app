@@ -37,6 +37,7 @@ const SettingsThreadCategoriesPage = () => {
       <PageHeader
         title="Thread Categories"
         subtitle="Manage categories for organizing threads"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button variant="primary" onClick={handleOnNewCategoryClick}>
@@ -51,7 +52,7 @@ const SettingsThreadCategoriesPage = () => {
           </ButtonGroup>
         }
       />
-      <PageContent>
+      <PageContent size="wide">
         <If condition={isInitialFetching}>
           <PageLoader />
         </If>

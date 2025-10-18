@@ -40,9 +40,7 @@ export const FilterCategoryDrawer: FC = () => {
               <Controller
                 name="search"
                 control={control}
-                render={({ field }) => (
-                  <TextInput {...field} variant="primary" label="Search" placeholder="Search categories..." />
-                )}
+                render={({ field }) => <TextInput {...field} label="Search" placeholder="Search categories..." />}
               />
             </FormLayout.Column>
           </FormLayout>

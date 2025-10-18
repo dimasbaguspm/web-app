@@ -57,7 +57,7 @@ export const EditThreadForm: FC<EditThreadFormProps> = ({ selectedCategories }) 
               label="Message"
               placeholder="Type message"
               error={fieldState.error?.message}
-              fieldSizing="content"
+              row={6}
             />
           )}
         />

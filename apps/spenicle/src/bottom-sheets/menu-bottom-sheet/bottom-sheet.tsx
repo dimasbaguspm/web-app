@@ -6,7 +6,7 @@ import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { Avatar, BottomSheet, Button, ButtonIcon, Hr, Icon, Text } from '@dimasbaguspm/versaur';
 import { BoltIcon, ChevronsLeftRightEllipsisIcon, LogOutIcon, NotebookPenIcon, OrbitIcon } from 'lucide-react';
 import { FC } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { MODAL_ROUTES } from '../../constants/modal-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
@@ -15,12 +15,9 @@ export const MenuBottomSheet: FC = () => {
   const { openModal } = useModalRoute();
   const { profile } = useActiveAppProfile();
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   const curriedNavigate = (path: string) => () => navigate(path);
-
-  const isActive = (path: string) => location.pathname === path;
 
   const handleChangeProfileClick = () => {
     openModal(MODAL_ROUTES.PROFILE_SWITCHER);
@@ -62,7 +59,7 @@ export const MenuBottomSheet: FC = () => {
         <ul className="flex flex-col gap-1">
           <li>
             <Button
-              variant={isActive(DEEP_LINKS.SETTINGS.path) ? 'primary-ghost' : 'ghost'}
+              variant="ghost"
               className="w-full justify-start"
               onClick={curriedNavigate(DEEP_LINKS.SETTINGS.path)}
             >

@@ -87,7 +87,7 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({ tran
               as={TrashIcon}
               onClick={handleDeleteClick}
               className="ml-auto"
-              variant="danger-outline"
+              variant="destructive"
               aria-label="Delete transaction"
             />
           </ButtonGroup>

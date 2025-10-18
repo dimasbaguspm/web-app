@@ -99,7 +99,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                   required: 'Type is required',
                 }}
                 render={({ field }) => (
-                  <ChipSingleInput {...field} variant="primary" label="Type">
+                  <ChipSingleInput {...field} label="Type">
                     <ChipSingleInput.Option value="expense">
                       <Icon as={TrendingDownIcon} color="inherit" size="sm" />
                       Expense
@@ -277,9 +277,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                 render={({ field, fieldState }) => (
                   <TextAreaInput
                     label="Notes"
-                    fieldSizing="fixed"
-                    minRows={4}
-                    maxRows={4}
+                    row={4}
                     error={fieldState.error?.message}
                     helperText={
                       <>

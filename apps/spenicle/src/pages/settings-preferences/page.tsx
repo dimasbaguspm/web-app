@@ -15,8 +15,8 @@ const SettingsPreferencesPage = () => {
 
   return (
     <>
-      <PageHeader title="Preferences" subtitle="Configure settings and streamline your app preferences" />
-      <PageContent>
+      <PageHeader title="Preferences" subtitle="Configure settings and streamline your app preferences" size="wide" />
+      <PageContent size="wide">
         <div className="space-y-8">
           {settingsGroups.map((group, groupIndex) => (
             <div key={groupIndex} className="space-y-3">

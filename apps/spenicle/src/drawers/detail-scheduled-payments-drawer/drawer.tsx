@@ -72,7 +72,7 @@ export const DetailScheduledPaymentsDrawer: FC<DetailScheduledPaymentsDrawerProp
             Edit
           </Button>
           <ButtonIcon
-            variant="danger-outline"
+            variant="destructive"
             as={TrashIcon}
             aria-label="Delete Scheduled Payment"
             onClick={handleOnDeleteClick}

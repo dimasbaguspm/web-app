@@ -79,6 +79,7 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
       <PageHeader
         title={name}
         subtitle={trimmedDescription}
+        size="wide"
         tabs={
           <Tabs value={currentTab} onValueChange={handleTabChange}>
             <Tabs.Trigger value={SpaceDetailTab.Threads}>Threads</Tabs.Trigger>

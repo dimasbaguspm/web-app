@@ -105,7 +105,6 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
           <ul className="mb-4">
             <li>
               <SelectableMultipleInput
-                label="Select All Visible"
                 checked={selectedAccountIds.length === accounts.length && selectedAccountIds.length > 0}
                 value="all"
                 onChange={() => {
@@ -115,13 +114,14 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
                     setSelectedAccountIds(accounts.map((account) => account.id));
                   }
                 }}
-              />
+              >
+                Select All Visible
+              </SelectableMultipleInput>
             </li>
             {accounts?.map((account) => {
               return (
                 <li key={account.id}>
                   <SelectableMultipleInput
-                    label={<AccountCard as="div" size="none" account={account} supplementaryInfo="" />}
                     checked={selectedAccountIds.includes(account.id)}
                     value={account.id.toString()}
                     onChange={(e) => {
@@ -131,7 +131,9 @@ export const SelectMultipleAccountDrawer: FC<SelectMultipleAccountDrawerProps> =
                         setSelectedAccountIds(selectedAccountIds.filter((id) => id !== account.id));
                       }
                     }}
-                  />
+                  >
+                    <AccountCard as="div" size="none" account={account} supplementaryInfo="" />
+                  </SelectableMultipleInput>
                 </li>
               );
             })}

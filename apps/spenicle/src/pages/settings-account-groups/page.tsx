@@ -44,6 +44,7 @@ const SettingsAccountGroupsPage = () => {
       <PageHeader
         title="Account Groups"
         subtitle="Manage your account groups to organize your accounts"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button onClick={handleNewAccountGroup}>
@@ -59,7 +60,7 @@ const SettingsAccountGroupsPage = () => {
         }
       />
 
-      <PageContent>
+      <PageContent size="wide">
         <SearchInput
           placeholder="Search account groups..."
           value={accountGroupSearch}

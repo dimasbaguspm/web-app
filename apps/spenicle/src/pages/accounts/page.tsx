@@ -62,6 +62,7 @@ const AccountsPage = () => {
       <PageHeader
         title="Accounts"
         subtitle="Manage your accounts"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
@@ -86,11 +87,10 @@ const AccountsPage = () => {
           </ButtonGroup>
         }
       />
-      <PageContent>
+      <PageContent size="wide">
         <FormLayout>
           <FormLayout.Column span={isDesktop ? 4 : 12}>
             <SearchInput
-              variant="neutral"
               defaultValue={debouncedAccountFilter}
               onChange={(ev) => setDebouncedAccountFilter(ev.target.value)}
             />

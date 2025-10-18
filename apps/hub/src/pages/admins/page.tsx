@@ -5,8 +5,8 @@ import { FC } from 'react';
 const AdminsPage: FC = () => {
   return (
     <>
-      <PageHeader title="Admins" subtitle="Panel to manage core functions and settings." />
-      <PageContent>Admins Page</PageContent>
+      <PageHeader title="Admins" subtitle="Panel to manage core functions and settings." size="wide" />
+      <PageContent size="wide">Admins Page</PageContent>
     </>
   );
 };

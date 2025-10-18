@@ -79,6 +79,7 @@ const SettingsBackupPage = () => {
       <PageHeader
         title="Backup Requests"
         subtitle="Manage your backup requests and restore data"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button onClick={handleOnRestoreBackupClick} variant="outline">
@@ -103,7 +104,7 @@ const SettingsBackupPage = () => {
           </ButtonGroup>
         }
       />
-      <PageContent>
+      <PageContent size="wide">
         <If condition={isInitialFetching}>
           <PageLoader />
         </If>

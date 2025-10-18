@@ -44,6 +44,7 @@ const SettingsCategoryGroupsPage = () => {
       <PageHeader
         title="Category Groups"
         subtitle="Manage your category groups to organize your categories"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button onClick={handleNewCategoryGroup}>
@@ -59,7 +60,7 @@ const SettingsCategoryGroupsPage = () => {
         }
       />
 
-      <PageContent>
+      <PageContent size="wide">
         <SearchInput
           placeholder="Search category groups..."
           value={categoryGroupSearch}

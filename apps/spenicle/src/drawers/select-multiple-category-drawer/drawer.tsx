@@ -103,7 +103,6 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
           <ul className="mb-4">
             <li>
               <SelectableMultipleInput
-                label="Select All Visible"
                 checked={selectedCategoryIds.length === categories.length && selectedCategoryIds.length > 0}
                 value="all"
                 onChange={() => {
@@ -113,14 +112,15 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
                     setSelectedCategoryIds(categories.map((category) => category.id));
                   }
                 }}
-              />
+              >
+                Select All Visible
+              </SelectableMultipleInput>
             </li>
 
             {categories?.map((category) => {
               return (
                 <li key={category.id}>
                   <SelectableMultipleInput
-                    label={<CategoryCard as="div" size="none" category={category} />}
                     value={category.id.toString()}
                     checked={selectedCategoryIds.includes(category.id)}
                     onChange={(e) => {
@@ -130,7 +130,9 @@ export const SelectMultipleCategoryDrawer: FC<SelectMultipleCategoryDrawerProps>
                         setSelectedCategoryIds(selectedCategoryIds.filter((id) => id !== category.id));
                       }
                     }}
-                  />
+                  >
+                    <CategoryCard as="div" size="none" category={category} />
+                  </SelectableMultipleInput>
                 </li>
               );
             })}

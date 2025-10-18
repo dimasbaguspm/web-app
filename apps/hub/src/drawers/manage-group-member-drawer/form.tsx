@@ -34,7 +34,6 @@ export const Form: FC<FormProps> = ({ handleOnUserSelect, userIds }) => {
           {users.map((user) => (
             <li key={user.id}>
               <SelectableMultipleInput
-                label={<UserCard as="div" size="none" user={user} />}
                 checked={userIds.includes(user.id)}
                 value={user.id.toString()}
                 onChange={(e) => {
@@ -44,7 +43,9 @@ export const Form: FC<FormProps> = ({ handleOnUserSelect, userIds }) => {
                     handleOnUserSelect(userIds.filter((id) => id !== user.id));
                   }
                 }}
-              />
+              >
+                <UserCard as="div" size="none" user={user} />
+              </SelectableMultipleInput>
             </li>
           ))}
         </ul>

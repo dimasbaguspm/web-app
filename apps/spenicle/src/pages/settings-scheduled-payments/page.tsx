@@ -35,6 +35,7 @@ const SettingsScheduledPaymentPage = () => {
       <PageHeader
         title="Scheduled Payments"
         subtitle="Manage your payment schedules and recurring transactions"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button onClick={handleOnNewScheduleClick}>
@@ -50,7 +51,7 @@ const SettingsScheduledPaymentPage = () => {
         }
       />
 
-      <PageContent>
+      <PageContent size="wide">
         <ButtonGroup alignment="between" hasMargin>
           <Button variant="outline">
             <Icon as={FilterIcon} color="inherit" size="sm" />

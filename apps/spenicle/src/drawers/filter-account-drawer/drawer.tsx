@@ -39,9 +39,7 @@ export const FilterAccountDrawer: FC = () => {
               <Controller
                 name="search"
                 control={control}
-                render={({ field }) => (
-                  <TextInput {...field} variant="primary" label="Search" placeholder="Search accounts..." />
-                )}
+                render={({ field }) => <TextInput {...field} label="Search" placeholder="Search accounts..." />}
               />
             </FormLayout.Column>
           </FormLayout>

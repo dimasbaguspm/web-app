@@ -50,6 +50,7 @@ const SpacePage = () => {
       <PageHeader
         title="Spaces"
         subtitle="All your spaces in one place"
+        size="wide"
         actions={
           <ButtonGroup>
             <Button onClick={handleOpenNewSpace}>
@@ -64,13 +65,12 @@ const SpacePage = () => {
           </ButtonGroup>
         }
       />
-      <PageContent>
+      <PageContent size="wide">
         <FormLayout className="mb-4">
           <FormLayout.Column span={isDesktop ? 4 : 12}>
             <SearchInput
               defaultValue={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              variant="neutral"
               placeholder="Search spaces..."
             />
           </FormLayout.Column>
