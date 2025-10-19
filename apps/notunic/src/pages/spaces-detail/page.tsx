@@ -70,10 +70,6 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
     openDrawer(DRAWER_ROUTES.NEW_THREAD, { spaceId: space.id });
   };
 
-  const handleOnThreadGroupsClick = () => {
-    openDrawer(DRAWER_ROUTES.MANAGE_THREAD_GROUPS, { spaceId: space.id });
-  };
-
   return (
     <>
       <PageHeader
@@ -93,8 +89,6 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
               New Thread
             </Button>
             <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
-              <ButtonMenuIcon.Item onClick={() => {}}>Search</ButtonMenuIcon.Item>
-              <ButtonMenuIcon.Item onClick={handleOnThreadGroupsClick}>Thread Groups</ButtonMenuIcon.Item>
               <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit Space</ButtonMenuIcon.Item>
             </ButtonMenuIcon>
           </ButtonGroup>
@@ -103,8 +97,6 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
           <ButtonGroup>
             <ButtonIcon as={PlusIcon} aria-label="New Thread" onClick={handleOnPlusClick} />
             <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
-              <ButtonMenuIcon.Item onClick={() => {}}>Search</ButtonMenuIcon.Item>
-              <ButtonMenuIcon.Item onClick={handleOnThreadGroupsClick}>Thread Groups</ButtonMenuIcon.Item>
               <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit</ButtonMenuIcon.Item>
             </ButtonMenuIcon>
           </ButtonGroup>
