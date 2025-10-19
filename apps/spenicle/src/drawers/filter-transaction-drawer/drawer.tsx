@@ -5,7 +5,7 @@ import {
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, Drawer, FormLayout, PageLoader, TextInput } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, Drawer, FormLayout, PageLoader, TextInputAsButton } from '@dimasbaguspm/versaur';
 import { noop } from 'lodash';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -116,18 +116,15 @@ export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payl
                   name="accountId"
                   control={control}
                   render={({ field, fieldState }) => (
-                    <>
-                      <TextInput
-                        label="Accounts"
-                        placeholder="Select Accounts"
-                        value={field.value ? accounts?.items?.map((acc) => acc.name).join(', ') : ''}
-                        onChange={noop}
-                        readOnly
-                        onClick={handleOnAccountClick}
-                        error={fieldState.error?.message}
-                      />
-                      <input type="hidden" {...field} value={field.value.map(String)} />
-                    </>
+                    <TextInputAsButton
+                      label="Accounts"
+                      placeholder="Select Accounts"
+                      displayValue={field.value ? accounts?.items?.map((acc) => acc.name).join(', ') : ''}
+                      onChange={noop}
+                      onClick={handleOnAccountClick}
+                      error={fieldState.error?.message}
+                      value={field.value}
+                    />
                   )}
                 />
               </FormLayout.Column>
@@ -138,16 +135,15 @@ export const FilterTransactionDrawer: FC<FilterTransactionDrawerProps> = ({ payl
                   control={control}
                   render={({ field, fieldState }) => (
                     <>
-                      <TextInput
+                      <TextInputAsButton
                         label="Categories"
                         placeholder="Select Categories"
-                        value={field.value ? categories?.items?.map((cat) => cat.name).join(', ') : ''}
+                        displayValue={field.value ? categories?.items?.map((cat) => cat.name).join(', ') : ''}
                         onChange={noop}
-                        readOnly
+                        value={field.value}
                         onClick={handleOnCategoryClick}
                         error={fieldState.error?.message}
                       />
-                      <input type="hidden" {...field} value={field.value.map(String)} />
                     </>
                   )}
                 />

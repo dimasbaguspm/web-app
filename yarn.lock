@@ -1446,7 +1446,7 @@ __metadata:
     "@dimasbaguspm/providers": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.53"
+    "@dimasbaguspm/versaur": "npm:0.0.56"
     "@dimasbaguspm/vite-plugin": "workspace:*"
     "@tailwindcss/vite": "npm:4.1.14"
     "@tanstack/react-query": "npm:5.90.5"
@@ -1500,7 +1500,7 @@ __metadata:
     "@dimasbaguspm/providers": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.53"
+    "@dimasbaguspm/versaur": "npm:0.0.56"
     "@dimasbaguspm/vite-plugin": "workspace:*"
     "@tailwindcss/vite": "npm:4.1.14"
     "@tanstack/react-query": "npm:5.90.5"
@@ -1567,7 +1567,7 @@ __metadata:
     "@dimasbaguspm/providers": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": "npm:0.0.53"
+    "@dimasbaguspm/versaur": "npm:0.0.56"
     "@dimasbaguspm/vite-plugin": "workspace:*"
     "@tailwindcss/vite": "npm:4.1.14"
     "@tanstack/react-query": "npm:5.90.5"
@@ -1634,14 +1634,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dimasbaguspm/versaur@npm:0.0.53":
-  version: 0.0.53
-  resolution: "@dimasbaguspm/versaur@npm:0.0.53"
+"@dimasbaguspm/versaur@npm:0.0.56":
+  version: 0.0.56
+  resolution: "@dimasbaguspm/versaur@npm:0.0.56"
   peerDependencies:
     lucide-react: ">=0.525.0"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10/b81ef88e7dcfc8924406018bbf6944b41a92c28218f6feecf2ff7208e83ed59b3cd1c9d1d6a91f9929d0194df12433a2299ff9212d2e740f764a33a2cd96ee87
+  checksum: 10/61404ee261535085177c70ef6a557f94cb883268e45611a1c8b2f4b3616c94e7ebf1f914691c39c47fcb75e710312229318d8c96b7600d638c43b04d4f893bb6
   languageName: node
   linkType: hard
 

@@ -2,7 +2,15 @@ import { useApiHiGroupQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
-import { Button, ButtonGroup, ChipSingleInput, Drawer, FormLayout, TextInput } from '@dimasbaguspm/versaur';
+import {
+  Button,
+  ButtonGroup,
+  ChipSingleInput,
+  Drawer,
+  FormLayout,
+  TextInput,
+  TextInputAsButton,
+} from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -92,17 +100,14 @@ export const NewAppProfileForm: FC<NewAppProfileFormProps> = ({ defaultValues, o
                   },
                 }}
                 render={({ field, fieldState }) => (
-                  <>
-                    <TextInput
-                      readOnly
-                      defaultValue={group?.name || ''}
-                      label="Related ID"
-                      placeholder="Select Group"
-                      onClick={handleOnSelectGroupClick}
-                      error={fieldState.error?.message}
-                    />
-                    <input type="hidden" {...field} />
-                  </>
+                  <TextInputAsButton
+                    label="Related ID"
+                    placeholder="Select Group"
+                    onClick={handleOnSelectGroupClick}
+                    error={fieldState.error?.message}
+                    displayValue={field.value.toString() && group ? group.name : ''}
+                    {...field}
+                  />
                 )}
               />
             </FormLayout.Column>

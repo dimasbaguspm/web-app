@@ -10,6 +10,7 @@ import {
   SelectInput,
   TextAreaInput,
   TextInput,
+  TextInputAsButton,
 } from '@dimasbaguspm/versaur';
 import { TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
 import { FC } from 'react';
@@ -137,17 +138,14 @@ export const EditScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit }
               },
             }}
             render={({ field, fieldState }) => (
-              <>
-                <TextInput
-                  readOnly
-                  onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'accountId')}
-                  label="Source"
-                  placeholder="Select account"
-                  value={accountData?.name ?? ''}
-                  error={fieldState.error?.message}
-                />
-                <input type="hidden" {...field} />
-              </>
+              <TextInputAsButton
+                onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'accountId')}
+                label="Source"
+                placeholder="Select account"
+                displayValue={accountData?.name ?? ''}
+                error={fieldState.error?.message}
+                {...field}
+              />
             )}
           />
         </FormLayout.Column>
@@ -164,17 +162,14 @@ export const EditScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit }
               },
             }}
             render={({ field, fieldState }) => (
-              <>
-                <TextInput
-                  readOnly
-                  label="Category"
-                  onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_CATEGORY, 'categoryId')}
-                  placeholder="Select category"
-                  value={categoryData?.name ?? ''}
-                  error={fieldState.error?.message}
-                />
-                <input type="hidden" {...field} />
-              </>
+              <TextInputAsButton
+                label="Category"
+                onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_CATEGORY, 'categoryId')}
+                placeholder="Select category"
+                displayValue={categoryData?.name ?? ''}
+                error={fieldState.error?.message}
+                {...field}
+              />
             )}
           />
         </FormLayout.Column>
@@ -204,10 +199,10 @@ export const EditScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit }
                 {...field}
                 error={fieldState.error?.message}
               >
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="yearly">Yearly</option>
+                <SelectInput.Option value="daily">Daily</SelectInput.Option>
+                <SelectInput.Option value="weekly">Weekly</SelectInput.Option>
+                <SelectInput.Option value="monthly">Monthly</SelectInput.Option>
+                <SelectInput.Option value="yearly">Yearly</SelectInput.Option>
               </SelectInput>
             )}
           />

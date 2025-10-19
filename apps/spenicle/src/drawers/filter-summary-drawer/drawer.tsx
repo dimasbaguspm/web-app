@@ -14,10 +14,9 @@ import {
   FormLayout,
   PageLoader,
   SelectInput,
-  TextInput,
+  TextInputAsButton,
 } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
-import { noop } from 'lodash';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -181,9 +180,9 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                       placeholder="Select frequency"
                     >
                       {Object.entries(FREQUENCY_LABELS).map(([key, label], index) => (
-                        <option key={index} value={key}>
+                        <SelectInput.Option key={index} value={key}>
                           {label}
-                        </option>
+                        </SelectInput.Option>
                       ))}
                     </SelectInput>
                   )}
@@ -194,18 +193,14 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                   name="accountIds"
                   control={control}
                   render={({ field, fieldState }) => (
-                    <>
-                      <TextInput
-                        label="Accounts"
-                        placeholder="Select Accounts"
-                        value={field.value ? accounts?.items?.map((acc) => acc.name).join(', ') : ''}
-                        onChange={noop}
-                        readOnly
-                        onClick={handleOnAccountClick}
-                        error={fieldState.error?.message}
-                      />
-                      <input type="hidden" {...field} value={field.value?.map(String)} />
-                    </>
+                    <TextInputAsButton
+                      label="Accounts"
+                      placeholder="Select Accounts"
+                      displayValue={field.value ? accounts?.items?.map((acc) => acc.name).join(', ') : ''}
+                      value={field.value}
+                      onClick={handleOnAccountClick}
+                      error={fieldState.error?.message}
+                    />
                   )}
                 />
               </FormLayout.Column>
@@ -214,18 +209,14 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                   name="categoryIds"
                   control={control}
                   render={({ field, fieldState }) => (
-                    <>
-                      <TextInput
-                        label="Categories"
-                        placeholder="Select Categories"
-                        value={field.value ? categories?.items?.map((cat) => cat.name).join(', ') : ''}
-                        onChange={noop}
-                        readOnly
-                        onClick={handleOnCategoryClick}
-                        error={fieldState.error?.message}
-                      />
-                      <input type="hidden" {...field} value={field.value?.map(String)} />
-                    </>
+                    <TextInputAsButton
+                      label="Categories"
+                      placeholder="Select Categories"
+                      displayValue={field.value ? categories?.items?.map((cat) => cat.name).join(', ') : ''}
+                      value={field.value}
+                      onClick={handleOnCategoryClick}
+                      error={fieldState.error?.message}
+                    />
                   )}
                 />
               </FormLayout.Column>

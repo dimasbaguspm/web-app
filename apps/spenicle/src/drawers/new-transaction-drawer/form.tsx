@@ -11,7 +11,7 @@ import {
   PriceInput,
   Text,
   TextAreaInput,
-  TextInput,
+  TextInputAsButton,
   TimePickerInput,
 } from '@dimasbaguspm/versaur';
 import { TrendingDownIcon, TrendingUpDownIcon, TrendingUpIcon, Wand2Icon } from 'lucide-react';
@@ -159,17 +159,14 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                     },
                   }}
                   render={({ field, fieldState }) => (
-                    <>
-                      <TextInput
-                        readOnly
-                        onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'accountId')}
-                        label="Source"
-                        placeholder="Select account"
-                        value={accountData?.name ?? ''}
-                        error={fieldState.error?.message}
-                      />
-                      <input type="hidden" {...field} />
-                    </>
+                    <TextInputAsButton
+                      onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'accountId')}
+                      label="Source"
+                      placeholder="Select account"
+                      displayValue={accountData?.name ?? ''}
+                      error={fieldState.error?.message}
+                      {...field}
+                    />
                   )}
                 />
               </FormLayout.Column>
@@ -195,17 +192,14 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                     },
                   }}
                   render={({ field, fieldState }) => (
-                    <>
-                      <TextInput
-                        readOnly
-                        onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'accountId')}
-                        label="Source"
-                        placeholder="Select account"
-                        value={accountData?.name ?? ''}
-                        error={fieldState.error?.message}
-                      />
-                      <input type="hidden" {...field} />
-                    </>
+                    <TextInputAsButton
+                      onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'accountId')}
+                      label="Source"
+                      placeholder="Select account"
+                      displayValue={accountData?.name ?? ''}
+                      error={fieldState.error?.message}
+                      {...field}
+                    />
                   )}
                 />
               </FormLayout.Column>
@@ -227,17 +221,14 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                     },
                   }}
                   render={({ field, fieldState }) => (
-                    <>
-                      <TextInput
-                        readOnly
-                        onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'destinationAccountId')}
-                        label="Destination"
-                        placeholder="Select account"
-                        value={destinationAccountData?.name ?? ''}
-                        error={fieldState.error?.message}
-                      />
-                      <input type="hidden" {...field} />
-                    </>
+                    <TextInputAsButton
+                      onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_ACCOUNT, 'destinationAccountId')}
+                      label="Destination"
+                      placeholder="Select account"
+                      displayValue={destinationAccountData?.name ?? ''}
+                      error={fieldState.error?.message}
+                      {...field}
+                    />
                   )}
                 />
               </FormLayout.Column>
@@ -256,17 +247,14 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                   },
                 }}
                 render={({ field, fieldState }) => (
-                  <>
-                    <TextInput
-                      readOnly
-                      label="Category"
-                      onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_CATEGORY, 'categoryId')}
-                      placeholder="Select category"
-                      value={categoryData?.name ?? ''}
-                      error={fieldState.error?.message}
-                    />
-                    <input type="hidden" {...field} />
-                  </>
+                  <TextInputAsButton
+                    label="Category"
+                    onClick={handleOnOpenSelectDrawer(DRAWER_ROUTES.SELECT_CATEGORY, 'categoryId')}
+                    placeholder="Select category"
+                    displayValue={categoryData?.name ?? ''}
+                    error={fieldState.error?.message}
+                    {...field}
+                  />
                 )}
               />
             </FormLayout.Column>

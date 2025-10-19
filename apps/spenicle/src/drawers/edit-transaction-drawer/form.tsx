@@ -11,7 +11,7 @@ import {
   PageLoader,
   PriceInput,
   TextAreaInput,
-  TextInput,
+  TextInputAsButton,
   TimePickerInput,
 } from '@dimasbaguspm/versaur';
 import { TrendingDownIcon, TrendingUpDownIcon, TrendingUpIcon } from 'lucide-react';
@@ -198,17 +198,14 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                       },
                     }}
                     render={({ field, fieldState }) => (
-                      <>
-                        <TextInput
-                          readOnly
-                          onClick={handleOnAccountSelect('accountId')}
-                          label="Source"
-                          placeholder="Select account"
-                          value={accountData?.name ?? ''}
-                          error={fieldState.error?.message}
-                        />
-                        <input type="hidden" {...field} />
-                      </>
+                      <TextInputAsButton
+                        onClick={handleOnAccountSelect('accountId')}
+                        label="Source"
+                        placeholder="Select account"
+                        displayValue={accountData?.name ?? ''}
+                        error={fieldState.error?.message}
+                        {...field}
+                      />
                     )}
                   />
                 </FormLayout.Column>
@@ -233,17 +230,14 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                       },
                     }}
                     render={({ field, fieldState }) => (
-                      <>
-                        <TextInput
-                          readOnly
-                          onClick={handleOnAccountSelect('accountId')}
-                          label="Source"
-                          placeholder="Select account"
-                          value={accountData?.name ?? ''}
-                          error={fieldState.error?.message}
-                        />
-                        <input type="hidden" {...field} />
-                      </>
+                      <TextInputAsButton
+                        onClick={handleOnAccountSelect('accountId')}
+                        label="Source"
+                        placeholder="Select account"
+                        displayValue={accountData?.name ?? ''}
+                        error={fieldState.error?.message}
+                        {...field}
+                      />
                     )}
                   />
                 </FormLayout.Column>
@@ -265,17 +259,14 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                       },
                     }}
                     render={({ field, fieldState }) => (
-                      <>
-                        <TextInput
-                          readOnly
-                          onClick={handleOnAccountSelect('destinationAccountId')}
-                          label="Destination"
-                          placeholder="Select account"
-                          value={destinationAccountData?.name ?? ''}
-                          error={fieldState.error?.message}
-                        />
-                        <input type="hidden" {...field} />
-                      </>
+                      <TextInputAsButton
+                        onClick={handleOnAccountSelect('destinationAccountId')}
+                        label="Destination"
+                        placeholder="Select account"
+                        displayValue={destinationAccountData?.name ?? ''}
+                        {...field}
+                        error={fieldState.error?.message}
+                      />
                     )}
                   />
                 </FormLayout.Column>
@@ -294,17 +285,14 @@ export const EditTransactionForm: FC<EditTransactionFormProps> = ({ transaction,
                     },
                   }}
                   render={({ field, fieldState }) => (
-                    <>
-                      <TextInput
-                        readOnly
-                        label="Category"
-                        onClick={handleOnCategorySelect('categoryId')}
-                        placeholder="Select category"
-                        value={categoryData?.name ?? ''}
-                        error={fieldState.error?.message}
-                      />
-                      <input type="hidden" {...field} />
-                    </>
+                    <TextInputAsButton
+                      label="Category"
+                      onClick={handleOnCategorySelect('categoryId')}
+                      placeholder="Select category"
+                      displayValue={categoryData?.name ?? ''}
+                      error={fieldState.error?.message}
+                      {...field}
+                    />
                   )}
                 />
               </FormLayout.Column>

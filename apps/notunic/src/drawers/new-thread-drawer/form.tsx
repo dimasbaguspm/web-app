@@ -1,6 +1,6 @@
 import { ThreadCategoryModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { FormLayout, TextAreaInput, TextInput } from '@dimasbaguspm/versaur';
+import { FormLayout, TextAreaInput, TextInput, TextInputAsButton } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -67,21 +67,14 @@ export const NewThreadForm: FC<NewThreadFormProps> = ({ selectedCategories }) =>
           control={control}
           name="categoryIds"
           render={({ field, fieldState }) => (
-            <>
-              <TextInput
-                label="Categories"
-                placeholder="Select categories"
-                error={fieldState.error?.message}
-                onClick={handleOnCategoryInputFocus}
-                readOnly
-                value={selectedCategories.map((category) => category.name).join(', ')}
-              />
-              <input
-                type="hidden"
-                {...field}
-                value={Array.isArray(field.value) ? field.value.join(',') : field.value}
-              />
-            </>
+            <TextInputAsButton
+              label="Categories"
+              placeholder="Select categories"
+              error={fieldState.error?.message}
+              onClick={handleOnCategoryInputFocus}
+              displayValue={selectedCategories.map((category) => category.name).join(', ')}
+              {...field}
+            />
           )}
         />
       </FormLayout.Column>
