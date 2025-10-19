@@ -1,4 +1,4 @@
-import { SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
+import { SearchSummaryTransactionsModel, SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
 import { Heading, Text } from '@dimasbaguspm/versaur';
@@ -8,9 +8,10 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 interface TrendsChartProps {
   transactions: SummaryTransactionsModel;
   metric: 'net' | 'income' | 'expense';
+  frequency: NonNullable<SearchSummaryTransactionsModel['frequency']>;
 }
 
-export const TrendsChart: FC<TrendsChartProps> = ({ transactions, metric }) => {
+export const TrendsChart: FC<TrendsChartProps> = ({ transactions, metric, frequency }) => {
   const getDataKey = () => {
     return metric;
   };
@@ -27,10 +28,55 @@ export const TrendsChart: FC<TrendsChartProps> = ({ transactions, metric }) => {
     }
   };
 
+  const getChartTitle = () => {
+    switch (frequency) {
+      case 'daily':
+        return 'Daily Trends';
+      case 'weekly':
+        return 'Weekly Trends';
+      case 'monthly':
+        return 'Monthly Trends';
+      case 'yearly':
+        return 'Yearly Trends';
+      default:
+        return 'Trends';
+    }
+  };
+
+  const getXAxisDateFormat = () => {
+    switch (frequency) {
+      case 'daily':
+        return DateFormat.DAY_MONTH; // "15 Jan"
+      case 'weekly':
+        return DateFormat.DAY_MONTH_YEAR; // "15 Jan 2024"
+      case 'monthly':
+        return DateFormat.SHORT_MONTH_YEAR; // "Jan 2024"
+      case 'yearly':
+        return DateFormat.YEAR; // "2024"
+      default:
+        return DateFormat.SHORT_MONTH_YEAR;
+    }
+  };
+
+  const getTooltipDateFormat = () => {
+    switch (frequency) {
+      case 'daily':
+        return DateFormat.LONG_DATE; // "January 15, 2024"
+      case 'weekly':
+        return DateFormat.LONG_DATE; // "January 15, 2024"
+      case 'monthly':
+        return DateFormat.MONTH_YEAR; // "January 2024"
+      case 'yearly':
+        return DateFormat.YEAR; // "2024"
+      default:
+        return DateFormat.MONTH_YEAR;
+    }
+  };
+
   return (
     <>
       <div className="mb-4">
-        <Heading level={3}>Monthly Trends</Heading>
+        <Heading level={3}>{getChartTitle()}</Heading>
       </div>
 
       <div className="w-full h-80">
@@ -50,7 +96,7 @@ export const TrendsChart: FC<TrendsChartProps> = ({ transactions, metric }) => {
               tickLine={false}
               className="text-xs text-border"
               tickFormatter={(value) => {
-                return formatDate(value, DateFormat.SHORT_MONTH_YEAR);
+                return formatDate(value, getXAxisDateFormat());
               }}
             />
             <YAxis
@@ -70,7 +116,7 @@ export const TrendsChart: FC<TrendsChartProps> = ({ transactions, metric }) => {
                   return (
                     <div className="bg-white p-2 border border-border rounded shadow-lg max-w-48">
                       <Text color="black" fontSize="sm">
-                        {formatDate((label ?? '').toString(), DateFormat.MONTH_YEAR)}
+                        {formatDate((label ?? '').toString(), getTooltipDateFormat())}
                       </Text>
                       <div className="flex flex-col gap-1 mt-1">
                         {payload.map((entry) => (

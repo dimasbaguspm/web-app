@@ -2,7 +2,6 @@ import { useApiSpenicleSummaryTransactionsQuery } from '@dimasbaguspm/hooks/use-
 import { CategoryGroupModel } from '@dimasbaguspm/interfaces';
 import { If } from '@dimasbaguspm/utils/if';
 import { PageLoader } from '@dimasbaguspm/versaur';
-import dayjs from 'dayjs';
 import { FC } from 'react';
 
 import { TransactionTrends } from '../../../components/transaction-trends';
@@ -17,22 +16,27 @@ export const TrendsTab: FC<TrendsTabProps> = ({ categoryGroup }) => {
   const filters = useTransactionTrendsFilter({ adapter: 'state' });
 
   const [transactions, , { isLoading }] = useApiSpenicleSummaryTransactionsQuery({
-    from: dayjs().startOf('year').add(1, 'day').toISOString(),
-    to: dayjs().endOf('month').toISOString(),
     categoryId: categoryGroup.memberIds,
+    from: filters.appliedFilters.startDate,
+    to: filters.appliedFilters.endDate,
+    frequency: filters.appliedFilters.frequency,
     sortBy: 'date',
-    frequency: 'monthly',
   });
 
   return (
     <>
+      <TransactionTrendsFiltersControl config={filters} />
+
       <If condition={[isLoading]}>
         <PageLoader />
       </If>
 
       <If condition={[!isLoading, !!transactions]}>
-        <TransactionTrendsFiltersControl config={filters} />
-        <TransactionTrends transactions={transactions!} metric={filters.appliedFilters.metric} />
+        <TransactionTrends
+          transactions={transactions ?? []}
+          metric={filters.appliedFilters.metric}
+          frequency={filters.appliedFilters.frequency}
+        />
       </If>
     </>
   );

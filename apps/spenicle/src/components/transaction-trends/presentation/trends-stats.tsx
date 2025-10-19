@@ -1,4 +1,4 @@
-import { SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
+import { SearchSummaryTransactionsModel, SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
 import { Heading, Icon, Text, Tile } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
@@ -8,13 +8,44 @@ import { useGrowthSummaryStats } from '../../../hooks/use-growth-summary-stats';
 
 interface TrendsStatsProps {
   transactions: SummaryTransactionsModel;
+  frequency: NonNullable<SearchSummaryTransactionsModel['frequency']>;
   metric: 'net' | 'income' | 'expense';
 }
 
-export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric }) => {
+export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric, frequency }) => {
+  const getPeriodGranularity = (): 'day' | 'week' | 'month' | 'year' => {
+    switch (frequency) {
+      case 'daily':
+        return 'day';
+      case 'weekly':
+        return 'week';
+      case 'monthly':
+        return 'month';
+      case 'yearly':
+        return 'year';
+      default:
+        return 'month';
+    }
+  };
+
+  const getPeakLabel = () => {
+    switch (frequency) {
+      case 'daily':
+        return 'Peak Day';
+      case 'weekly':
+        return 'Peak Week';
+      case 'monthly':
+        return 'Peak Month';
+      case 'yearly':
+        return 'Peak Year';
+      default:
+        return 'Peak Period';
+    }
+  };
+
   const generalStats = useGeneralSummaryStats(transactions, {
     metric: metric,
-    periodGranularity: 'month',
+    periodGranularity: getPeriodGranularity(),
   });
   const growthStats = useGrowthSummaryStats(transactions, {
     metric: metric,
@@ -92,7 +123,7 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric }) => {
 
         <Tile size="sm" className="flex flex-col gap-1">
           <Text fontWeight="medium" fontSize="sm" color="gray">
-            Peak Month
+            {getPeakLabel()}
           </Text>
           <Text fontWeight="semibold" fontSize="lg">
             {generalStats.peakPeriodFormatted}
