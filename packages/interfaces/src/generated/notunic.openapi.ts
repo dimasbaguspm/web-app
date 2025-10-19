@@ -292,6 +292,22 @@ export interface paths {
     patch: operations['patchComment-categoryById'];
     trace?: never;
   };
+  '/comment-category/{id}/members': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['putComment-categoryByIdMembers'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/comment-category-members/': {
     parameters: {
       query?: never;
@@ -2602,6 +2618,7 @@ export interface operations {
               profileId: number;
               name: string;
               description?: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2618,6 +2635,7 @@ export interface operations {
               profileId: number;
               name: string;
               description?: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2634,6 +2652,7 @@ export interface operations {
               profileId: number;
               name: string;
               description?: string;
+              memberIds: number[];
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -2682,6 +2701,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2692,6 +2712,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2702,6 +2723,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2732,6 +2754,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2742,6 +2765,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2752,6 +2776,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2816,6 +2841,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2826,6 +2852,7 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -2836,6 +2863,72 @@ export interface operations {
             profileId: number;
             name: string;
             description?: string;
+            memberIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'putComment-categoryByIdMembers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          commentIds: (string | number)[];
+        };
+        'multipart/form-data': {
+          commentIds: (string | number)[];
+        };
+        'text/plain': {
+          commentIds: (string | number)[];
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            memberIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            memberIds: number[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            name: string;
+            description?: string;
+            memberIds: number[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -3086,13 +3179,13 @@ export interface operations {
   getComments: {
     parameters: {
       query?: {
-        id?: (number | string)[];
-        spaceId?: (number | string)[];
-        threadId?: (number | string)[];
-        parentCommentId?: string | number;
-        isMainComment?: boolean | string;
-        categoryIds?: (number | string)[];
-        hasReplies?: boolean | string;
+        id?: number[];
+        spaceId?: number[];
+        threadId?: number[];
+        parentCommentId?: number;
+        isMainComment?: boolean;
+        categoryIds?: number[];
+        hasReplies?: boolean;
         actionStatus?: 'todo' | 'done';
         actionDueFrom?: string;
         actionDueTo?: string;
@@ -3103,8 +3196,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: string | number;
-        pageSize?: string | number;
+        pageNumber?: number;
+        pageSize?: number;
       };
       header?: never;
       path?: never;

@@ -60,6 +60,8 @@ export type UpdateCommentCategoryModel =
     operations['patchComment-categoryById']['parameters']['path'];
 export type CommentCategoryModel =
   operations['getComment-categoryById']['responses']['200']['content']['application/json'];
+export type UpdateCommentCategoryMemberModel = operations['putComment-categoryByIdMembers']['parameters']['path'] &
+  operations['putComment-categoryByIdMembers']['requestBody']['content']['application/json'];
 
 export type SearchCommentCategoryMembersModel = NonNullable<
   operations['getComment-category-members']['parameters']['query']

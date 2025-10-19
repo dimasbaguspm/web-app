@@ -5,7 +5,6 @@ import { FC } from 'react';
 import { MODAL_ROUTES } from '../constants/modal-routes';
 import { DeleteCommentModal } from '../modals/delete-comment-modal/modal';
 import { DeleteThreadGroupModal } from '../modals/delete-thread-group-modal/modal';
-import { DeleteThreadGroupTagModal } from '../modals/delete-thread-group-tag-modal/modal';
 import { DeleteThreadModal } from '../modals/delete-thread-modal/modal';
 import { LogoutConfirmationModal } from '../modals/logout-confirmation-modal/modal';
 import { ProfileSwitcherModal } from '../modals/profile-switcher-modal/modal';
@@ -15,7 +14,6 @@ interface ModalParams {
   spaceId?: number;
   threadId?: number;
   threadGroupId?: number;
-  threadGroupTagId?: number;
   commentId?: number;
   actionId?: number;
   actionLinkId?: number;
@@ -42,9 +40,6 @@ export const ModalRoutes: FC = () => {
       {is(MODAL_ROUTES.DELETE_THREAD) && hasParam('threadId') && <DeleteThreadModal threadId={params.threadId!} />}
       {is(MODAL_ROUTES.DELETE_THREAD_GROUP) && hasParam('threadGroupId') && (
         <DeleteThreadGroupModal threadGroupId={params.threadGroupId!} />
-      )}
-      {is(MODAL_ROUTES.DELETE_THREAD_GROUP_TAG) && hasParam('threadGroupTagId') && (
-        <DeleteThreadGroupTagModal threadGroupTagId={params.threadGroupTagId!} />
       )}
       {is(MODAL_ROUTES.DELETE_COMMENT) && hasParam('commentId') && <DeleteCommentModal commentId={params.commentId!} />}
       {is(MODAL_ROUTES.PROFILE_SWITCHER) && <ProfileSwitcherModal />}

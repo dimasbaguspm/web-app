@@ -8,6 +8,7 @@ export const ROUTES = {
   SPACES_DETAIL_ACTIONS: 'actions',
   SETTINGS: '/settings',
   SETTINGS_THREAD_CATEGORIES: 'thread-categories',
+  SETTINGS_COMMENT_CATEGORIES: 'comment-categories',
 } as const;
 
 export const DEEP_LINKS = {
@@ -44,6 +45,11 @@ export const DEEP_LINKS = {
   SETTINGS_THREAD_CATEGORIES: {
     path: ROUTES.SETTINGS_THREAD_CATEGORIES,
     title: 'Thread Categories',
+    icon: BoltIcon,
+  },
+  SETTINGS_COMMENT_CATEGORIES: {
+    path: ROUTES.SETTINGS_COMMENT_CATEGORIES,
+    title: 'Comment Categories',
     icon: BoltIcon,
   },
 } as const;

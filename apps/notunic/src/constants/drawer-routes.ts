@@ -14,6 +14,11 @@ export const DRAWER_ROUTES = {
   MANAGE_THREAD_CATEGORIES: 'manage-thread-categories',
   MANAGE_THREAD_CATEGORY_MEMBERS: 'manage-thread-category-members',
 
+  NEW_COMMENT_CATEGORY: 'new-comment-category',
+  EDIT_COMMENT_CATEGORY: 'edit-comment-category',
+  MANAGE_COMMENT_CATEGORIES: 'manage-comment-categories',
+  MANAGE_COMMENT_CATEGORY_MEMBERS: 'manage-comment-category-members',
+
   SELECT_SINGLE_THREAD_CATEGORY: 'select-single-thread-category',
   SELECT_MULTIPLE_THREAD_CATEGORIES: 'select-multiple-thread-categories',
 } as const;

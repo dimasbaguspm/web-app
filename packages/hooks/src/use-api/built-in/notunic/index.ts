@@ -3,7 +3,6 @@ export * from './threads';
 export * from './thread-categories';
 export * from './thread-category-members';
 export * from './thread-groups';
-export * from './thread-group-tags';
 export * from './comments';
 export * from './comment-actions';
 export * from './comment-categories';

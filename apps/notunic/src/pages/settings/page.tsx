@@ -1,6 +1,6 @@
 import { ActionCard, Icon, PageContent, PageHeader } from '@dimasbaguspm/versaur';
 import { FoldersIcon } from 'lucide-react';
-import { Outlet, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { DEEP_LINKS } from '../../constants/page-routes';
 
@@ -9,6 +9,10 @@ const SettingsPage = () => {
 
   const handleOnThreadCategoriesClick = () => {
     navigate(DEEP_LINKS.SETTINGS_THREAD_CATEGORIES.path);
+  };
+
+  const handleOnCommentCategoriesClick = () => {
+    navigate(DEEP_LINKS.SETTINGS_COMMENT_CATEGORIES.path);
   };
 
   return (
@@ -22,7 +26,12 @@ const SettingsPage = () => {
             subtitle="Manage categories for organizing threads"
             onClick={handleOnThreadCategoriesClick}
           />
-          <Outlet />
+          <ActionCard
+            icon={<Icon as={FoldersIcon} size="md" color="inherit" />}
+            title="Comment Categories"
+            subtitle="Manage categories for organizing comments"
+            onClick={handleOnCommentCategoriesClick}
+          />
         </ActionCard.Group>
       </PageContent>
     </>

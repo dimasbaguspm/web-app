@@ -56,22 +56,6 @@ export const NOTUNIC_QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
-  NOTUNIC_THREAD_GROUP_TAGS_INFINITE: (params: object = {}) => [
-    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUP_TAGS,
-    'infinite',
-    JSON.stringify(params ?? {}),
-  ],
-  NOTUNIC_THREAD_GROUP_TAGS_PAGINATED: (params: object = {}) => [
-    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUP_TAGS,
-    'paginated',
-    JSON.stringify(params ?? {}),
-  ],
-  NOTUNIC_THREAD_GROUP_TAGS_BY_ID: (id: number, params: object = {}) => [
-    ...BASE_QUERY_KEYS.NOTUNIC_THREAD_GROUP_TAGS,
-    'by-id',
-    id,
-    JSON.stringify(params ?? {}),
-  ],
   NOTUNIC_THREAD_CATEGORIES_INFINITE: (params: object = {}) => [
     ...BASE_QUERY_KEYS.NOTUNIC_THREAD_CATEGORIES,
     'infinite',

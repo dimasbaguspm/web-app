@@ -4,6 +4,7 @@ import {
   CommentCategoryModel,
   CreateCommentCategoryModel,
   UpdateCommentCategoryModel,
+  UpdateCommentCategoryMemberModel,
 } from '@dimasbaguspm/interfaces/notunic-api';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -76,11 +77,11 @@ export const useApiNotunicCreateCommentCategory = () => {
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.NOTUNIC_COMMENTS_BY_ID(data.id), data);
@@ -104,11 +105,11 @@ export const useApiNotunicUpdateCommentCategory = () => {
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES_PAGINATED().slice(0, 3),
         exact: false,
       });
       queryClient.setQueryData(QUERY_KEYS.NOTUNIC_COMMENTS_BY_ID(data.id), data);
@@ -132,11 +133,38 @@ export const useApiNotunicDeleteCommentCategory = () => {
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_PAGINATED().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES_INFINITE().slice(0, 3),
         exact: false,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.NOTUNIC_THREADS_INFINITE().slice(0, 3),
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+    },
+  });
+};
+
+export const useApiNotunicUpdateCommentCategoryMember = () => {
+  const queryClient = useQueryClient();
+  return useApiMutate<CommentCategoryModel, UpdateCommentCategoryMemberModel>({
+    path: '/comment-category/:id/members',
+    method: 'PUT',
+    base: 'NOTUNIC',
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_PAGINATED().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENTS_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES_INFINITE().slice(0, 3),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.NOTUNIC_COMMENT_CATEGORIES_PAGINATED().slice(0, 3),
         exact: false,
       });
     },

@@ -64,6 +64,10 @@ const router = createBrowserRouter([
             path: ROUTES.SETTINGS_THREAD_CATEGORIES,
             Component: lazyLoad(() => import('../pages/settings-thread-categories/page')),
           },
+          {
+            path: ROUTES.SETTINGS_COMMENT_CATEGORIES,
+            Component: lazyLoad(() => import('../pages/settings-comment-categories/page')),
+          },
         ],
       },
     ],
