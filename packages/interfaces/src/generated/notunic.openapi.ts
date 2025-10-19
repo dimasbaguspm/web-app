@@ -1280,24 +1280,24 @@ export interface operations {
             updatedAt: string;
             deletedAt?: string | null;
             conversations: {
-              commentId: number;
               comment: string;
               sender: {
                 id: number;
                 name: string;
               };
+              categories: string[];
               followUpDate: string | null;
               followedUpDate: string | null;
               followUpNote: string | null;
               /** Format: date-time */
               createdAt: string;
               replies: {
-                commentId: number;
                 comment: string;
                 sender: {
                   id: number;
                   name: string;
                 };
+                categories: string[];
                 followUpDate: string | null;
                 followedUpDate: string | null;
                 followUpNote: string | null;
@@ -1334,24 +1334,24 @@ export interface operations {
             updatedAt: string;
             deletedAt?: string | null;
             conversations: {
-              commentId: number;
               comment: string;
               sender: {
                 id: number;
                 name: string;
               };
+              categories: string[];
               followUpDate: string | null;
               followedUpDate: string | null;
               followUpNote: string | null;
               /** Format: date-time */
               createdAt: string;
               replies: {
-                commentId: number;
                 comment: string;
                 sender: {
                   id: number;
                   name: string;
                 };
+                categories: string[];
                 followUpDate: string | null;
                 followedUpDate: string | null;
                 followUpNote: string | null;
@@ -1388,24 +1388,24 @@ export interface operations {
             updatedAt: string;
             deletedAt?: string | null;
             conversations: {
-              commentId: number;
               comment: string;
               sender: {
                 id: number;
                 name: string;
               };
+              categories: string[];
               followUpDate: string | null;
               followedUpDate: string | null;
               followUpNote: string | null;
               /** Format: date-time */
               createdAt: string;
               replies: {
-                commentId: number;
                 comment: string;
                 sender: {
                   id: number;
                   name: string;
                 };
+                categories: string[];
                 followUpDate: string | null;
                 followedUpDate: string | null;
                 followUpNote: string | null;
@@ -3219,7 +3219,10 @@ export interface operations {
               conversationCommentIds: number[] | null;
               parentCommentId: number | null;
               repliesCommentIds: number[];
-              categoryIds: number[];
+              categories: {
+                id: number;
+                name: string;
+              }[];
               content: string;
               sender: {
                 id: number;
@@ -3252,7 +3255,10 @@ export interface operations {
               conversationCommentIds: number[] | null;
               parentCommentId: number | null;
               repliesCommentIds: number[];
-              categoryIds: number[];
+              categories: {
+                id: number;
+                name: string;
+              }[];
               content: string;
               sender: {
                 id: number;
@@ -3285,7 +3291,10 @@ export interface operations {
               conversationCommentIds: number[] | null;
               parentCommentId: number | null;
               repliesCommentIds: number[];
-              categoryIds: number[];
+              categories: {
+                id: number;
+                name: string;
+              }[];
               content: string;
               sender: {
                 id: number;
@@ -3356,7 +3365,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;
@@ -3383,7 +3395,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;
@@ -3410,7 +3425,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;
@@ -3457,7 +3475,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;
@@ -3484,7 +3505,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;
@@ -3511,7 +3535,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;
@@ -3595,7 +3622,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;
@@ -3622,7 +3652,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;
@@ -3649,7 +3682,10 @@ export interface operations {
             conversationCommentIds: number[] | null;
             parentCommentId: number | null;
             repliesCommentIds: number[];
-            categoryIds: number[];
+            categories: {
+              id: number;
+              name: string;
+            }[];
             content: string;
             sender: {
               id: number;

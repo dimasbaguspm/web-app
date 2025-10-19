@@ -5,6 +5,7 @@ export enum DetailThreadDrawerMode {
 
 export interface DetailThreadFormSchema {
   content: string;
+  categoryId: number[];
   commentId?: number;
   mode: DetailThreadDrawerMode;
 }

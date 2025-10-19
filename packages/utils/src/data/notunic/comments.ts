@@ -30,6 +30,7 @@ export const formatNotunicComment = (comment?: CommentModel | null) => {
     senderInitial: nameToInitials(senderName),
     description,
     trimmedDescription,
+    categories: comment?.categories?.map((cat) => cat.name) || [],
     repliesCount,
     isParent,
     hasAction,

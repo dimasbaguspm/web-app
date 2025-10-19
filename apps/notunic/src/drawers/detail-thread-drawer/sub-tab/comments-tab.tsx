@@ -70,6 +70,7 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
         await updateComment({
           id: data.commentId,
           content: data.content,
+          categoryIds: data.categoryId ? data.categoryId : [],
         });
         break;
       case DetailThreadDrawerMode.CREATE:
@@ -77,22 +78,29 @@ export const CommentsTab: FC<CommentsTabProps> = ({ thread, parentCommentId = nu
           threadId: thread.id,
           content: data.content,
           parentCommentId: parentCommentId || null,
+          categoryIds: data.categoryId ? data.categoryId : [],
         });
         break;
       default:
         break;
     }
 
-    form.reset({ content: '', mode: DetailThreadDrawerMode.CREATE });
+    form.reset({ content: '', categoryId: [], mode: DetailThreadDrawerMode.CREATE });
   };
 
   const handleOnEditClick = (comment: CommentModel) => {
-    form.reset({ content: comment.content, commentId: comment.id, mode: DetailThreadDrawerMode.EDIT });
+    form.reset({
+      content: comment.content,
+      commentId: comment.id,
+      categoryId: comment.categories.map((cat) => cat.id),
+      mode: DetailThreadDrawerMode.EDIT,
+    });
   };
 
   const handleOnReplyClick = (comment: CommentModel) => {
     form.reset({
       content: '',
+      categoryId: [],
       mode: DetailThreadDrawerMode.CREATE,
     });
     openDrawer(DRAWER_ROUTES.DETAIL_THREAD, {

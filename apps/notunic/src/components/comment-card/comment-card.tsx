@@ -2,7 +2,7 @@ import { useApiNotunicCommentActionQuery } from '@dimasbaguspm/hooks/use-api';
 import { CommentModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { formatNotunicComment } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { Anchor, Avatar, ButtonGroup, ButtonMenuIcon, Card, CardProps, Icon, Text } from '@dimasbaguspm/versaur';
+import { Anchor, Avatar, Badge, ButtonGroup, ButtonMenuIcon, Card, CardProps, Icon, Text } from '@dimasbaguspm/versaur';
 import { ClockAlertIcon, EllipsisVerticalIcon } from 'lucide-react';
 import { FC, MouseEvent } from 'react';
 
@@ -34,6 +34,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
   const {
     description,
     createdDateTime,
+    categories,
     senderName,
     senderInitial,
     repliesCount,
@@ -73,6 +74,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
   };
 
   const showMoreButton = Boolean(onEditClick || onDeleteClick || onFollowUpActionClick || onAssignActionClick);
+
   return (
     <div className={`flex justify-between w-full ${className}`}>
       <div className="w-full flex items-start gap-3 relative">
@@ -141,6 +143,13 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
                     >
                       {repliesCount ? repliesText : 'Add reply'}
                     </Anchor>
+                  </Card.ListItem>
+                </If>
+                <If condition={[categories.length]}>
+                  <Card.ListItem>
+                    {categories.map((category) => (
+                      <Badge key={category}>{category}</Badge>
+                    ))}
                   </Card.ListItem>
                 </If>
               </Card.List>
