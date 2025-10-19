@@ -1,8 +1,9 @@
+import { useApiNotunicCommentActionQuery } from '@dimasbaguspm/hooks/use-api';
 import { CommentModel } from '@dimasbaguspm/interfaces/notunic-api';
 import { formatNotunicComment } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { Anchor, Avatar, ButtonGroup, ButtonMenuIcon, Card, CardProps, Icon, Text } from '@dimasbaguspm/versaur';
-import { ClockAlertIcon, EllipsisVerticalIcon, ForwardIcon } from 'lucide-react';
+import { ClockAlertIcon, EllipsisVerticalIcon } from 'lucide-react';
 import { FC, MouseEvent } from 'react';
 
 interface CommentCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
@@ -42,6 +43,10 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
     isActionNearDue,
     isActionOverdue,
   } = formatNotunicComment(comment);
+
+  const [commentAction] = useApiNotunicCommentActionQuery(comment.action?.id || 0, {
+    enabled: hasAction && isActionDone,
+  });
 
   const handleReplyClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.stopPropagation();
@@ -84,9 +89,9 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
               <Text fontWeight="semibold" fontSize="sm">
                 {senderName}
               </Text>
-              {hasAction && (
+              {hasAction && !isActionDone && (
                 <Icon
-                  as={isActionDone ? ForwardIcon : ClockAlertIcon}
+                  as={ClockAlertIcon}
                   size="sm"
                   color={isActionOverdue ? 'danger' : isActionNearDue ? 'warning' : 'ghost'}
                 />
@@ -100,17 +105,27 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
                 <ButtonMenuIcon as={EllipsisVerticalIcon} size="sm" variant="ghost" aria-label="More options">
                   {onEditClick && <ButtonMenuIcon.Item onClick={handleEditClick}>Edit</ButtonMenuIcon.Item>}
                   <ButtonMenuIcon.Item onClick={hasAction ? handleFollowUpActionClick : handleAssignActionClick}>
-                    {hasAction ? (isActionDone ? 'View' : 'Add') : 'Create'} Follow-up
+                    {hasAction ? (isActionDone ? 'Edit' : 'Add') : 'Create'} Follow-up
                   </ButtonMenuIcon.Item>
                   {onDeleteClick && <ButtonMenuIcon.Item onClick={handleDeleteClick}>Delete</ButtonMenuIcon.Item>}
                 </ButtonMenuIcon>
               </ButtonGroup>
             )}
           </div>
-          <div className="flex flex-col gap-2 mb-2">
-            <Text color="gray" fontWeight="normal" fontSize="base" className="whitespace-pre-wrap">
+          <div className="flex flex-col gap-3 mb-2">
+            {/* Main Comment Description */}
+            <Text color="gray" fontWeight="normal" fontSize="base">
               {description}
             </Text>
+
+            {/* Follow-up Note - Visually Distinct */}
+            {hasAction && isActionDone && (
+              <div className="flex flex-row gap-2.5 items-start pl-3 py-2 border-l-2 border-primary-light bg-primary-soft rounded-r-lg">
+                <Text color="gray" fontWeight="normal" fontSize="sm" className="whitespace-pre-wrap leading-relaxed">
+                  {commentAction?.followUpNote}
+                </Text>
+              </div>
+            )}
           </div>
           <If condition={!hideActions}>
             <div className="w-full flex items-end justify-between">
