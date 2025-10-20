@@ -1,7 +1,6 @@
 import { NewThreadFormSchema } from './types';
 
 export const formatDefaultValues = (payload?: Record<string, unknown>): NewThreadFormSchema => {
-  console.log('payload in formatDefaultValues', payload?.categoryIds);
   return {
     title: (payload?.title as string) || '',
     content: (payload?.content as string) || '',

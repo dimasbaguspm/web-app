@@ -27,11 +27,10 @@ export const NewThreadDrawer: FC<NewThreadDrawerProps> = ({ spaceId, payload }) 
 
   const handleOnSubmit = async (data: NewThreadFormSchema) => {
     await createThread({
-      spaceId: spaceId,
+      spaceId: +spaceId,
       title: data.title,
       content: data.content,
       categoryIds: data.categoryIds,
-      tagIds: [],
     });
     showSnack('success', 'Thread created successfully');
     closeDrawer();

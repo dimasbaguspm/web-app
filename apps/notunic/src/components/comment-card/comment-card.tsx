@@ -116,7 +116,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
           </div>
           <div className="flex flex-col gap-3 mb-2">
             {/* Main Comment Description */}
-            <Text color="gray" fontWeight="normal" fontSize="base">
+            <Text color="gray" fontWeight="normal" fontSize="base" className="whitespace-pre-wrap leading-relaxed">
               {description}
             </Text>
 
