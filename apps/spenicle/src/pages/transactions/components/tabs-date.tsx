@@ -21,11 +21,7 @@ export const TabsDate: FC<TabsDateProps> = ({ date, onDateChange }) => {
   };
 
   return (
-    <Tabs
-      value={formatDate(date.toDate(), DateFormat.ISO_DATE)}
-      onValueChange={handleTabChange}
-      className="justify-between overflow-x-hidden"
-    >
+    <Tabs value={formatDate(date.toDate(), DateFormat.ISO_DATE)} onValueChange={handleTabChange} fullWidth>
       {dates.map((mappedDate) => {
         const isActive = date.isSame(mappedDate, 'day');
 

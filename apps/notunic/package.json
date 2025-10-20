@@ -16,8 +16,8 @@
     "@dimasbaguspm/interfaces": "workspace:*",
     "@dimasbaguspm/providers": "workspace:*",
     "@dimasbaguspm/utils": "workspace:*",
-    "@dimasbaguspm/versaur": "0.0.56",
-    "@tailwindcss/vite": "4.1.14",
+    "@dimasbaguspm/versaur": "0.0.57",
+    "@tailwindcss/vite": "4.1.15",
     "@tanstack/react-query": "5.90.5",
     "@tanstack/react-query-devtools": "5.90.2",
     "@zumer/snapdom": "1.9.14",
@@ -35,9 +35,9 @@
     "react-swipeable": "7.0.2",
     "recharts": "3.3.0",
     "tailwind-merge": "3.3.1",
-    "tailwindcss": "4.1.14",
+    "tailwindcss": "4.1.15",
     "tailwindcss-animate": "1.0.7",
-    "vite": "7.1.10"
+    "vite": "7.1.11"
   },
   "devDependencies": {
     "@dimasbaguspm/eslint": "workspace:*",

@@ -41,7 +41,7 @@ export const TransactionTrendsFiltersControl = ({
   };
 
   return (
-    <ButtonGroup hasMargin>
+    <ButtonGroup hasMargin overlay>
       <ButtonMenu
         variant="outline"
         size="md"
@@ -69,9 +69,11 @@ export const TransactionTrendsFiltersControl = ({
         </ButtonMenu.Item>
       </ButtonMenu>
       <If condition={!hideDateRangeFilter}>
-        <Button variant="outline" onClick={() => handleOnDateClick(startDateRef)} className="relative">
+        <Button variant="outline" onClick={() => handleOnDateClick(startDateRef)} className="relative flex-shrink-0">
           <Icon as={ChevronDownIcon} color="inherit" size="sm" />
-          {appliedFilters.startDate ? formatDate(appliedFilters.startDate, DateFormat.COMPACT_DATE) : 'Start'}
+          {appliedFilters.startDate
+            ? 'Start ' + formatDate(appliedFilters.startDate, DateFormat.DAY_MONTH_YEAR)
+            : 'Start'}
           <input
             type="date"
             tabIndex={-1}
@@ -87,9 +89,9 @@ export const TransactionTrendsFiltersControl = ({
             ref={startDateRef}
           />
         </Button>
-        <Button variant="outline" onClick={() => handleOnDateClick(endDateRef)} className="relative">
+        <Button variant="outline" onClick={() => handleOnDateClick(endDateRef)} className="relative flex-shrink-0">
           <Icon as={ChevronDownIcon} color="inherit" size="sm" />
-          {appliedFilters.endDate ? formatDate(appliedFilters.endDate, DateFormat.COMPACT_DATE) : 'End'}
+          {appliedFilters.endDate ? 'End ' + formatDate(appliedFilters.endDate, DateFormat.DAY_MONTH_YEAR) : 'End'}
           <input
             type="date"
             tabIndex={-1}
@@ -114,7 +116,7 @@ export const TransactionTrendsFiltersControl = ({
           label={
             <>
               <Icon as={ChevronDownIcon} color="inherit" size="sm" />
-              {appliedFilters.frequency ? startCase(appliedFilters.frequency) : 'Frequency'}
+              {appliedFilters.frequency ? 'Freq. ' + startCase(appliedFilters.frequency) : 'Frequency'}
             </>
           }
         >
