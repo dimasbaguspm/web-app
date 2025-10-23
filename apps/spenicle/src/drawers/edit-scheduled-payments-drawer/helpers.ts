@@ -8,6 +8,7 @@ export const formatDefaultValues = (
   payload?: Record<string, string>,
 ): EditScheduledPaymentsFormSchema => {
   return {
+    id: data?.id || 0,
     type: payload?.type === 'expense' || payload?.type === 'income' ? payload.type : (data?.type ?? 'expense'),
     name: payload?.name ?? data?.name ?? '',
     startDate: payload?.startDate ?? data?.startDate ?? '',

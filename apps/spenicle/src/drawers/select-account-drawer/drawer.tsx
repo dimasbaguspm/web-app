@@ -54,6 +54,10 @@ export const SelectAccountDrawer: FC<SelectAccountDrawerProps> = ({
       pageSize: 15,
     });
 
+  console.log('returnToDrawerId', returnToDrawerId);
+  console.log('selectedAccountId', selectedAccountId);
+  console.log('payloadId', payloadId);
+  console.log('payload', payload);
   const handleOnSubmit = () => {
     openDrawer(returnToDrawer, returnToDrawerId, {
       replace: true,

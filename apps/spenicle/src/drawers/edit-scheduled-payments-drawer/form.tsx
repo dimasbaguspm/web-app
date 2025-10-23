@@ -43,6 +43,9 @@ export const EditScheduledPaymentsForm: FC<Props> = ({ defaultValues, onSubmit }
       {
         replace: true,
         state: {
+          returnToDrawerId: {
+            scheduledTransactionId: defaultValues?.id,
+          },
           payload: getValues(),
           returnToDrawer: DRAWER_ROUTES.EDIT_SCHEDULED_PAYMENTS,
         },
