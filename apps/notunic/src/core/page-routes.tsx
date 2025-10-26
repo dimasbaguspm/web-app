@@ -7,7 +7,7 @@ import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-rou
 
 import { ROUTES } from '../constants/page-routes';
 
-import { AppLayout } from './app-layout';
+import { Layout } from './app-layout';
 import { BottomSheetRoutes } from './bottom-sheet-routes';
 import { DrawerRoutes } from './drawer-routes';
 import { ModalRoutes } from './modal-routes';
@@ -19,9 +19,9 @@ const router = createBrowserRouter([
         <ModalRouteProvider>
           <BottomSheetRouteProvider>
             <ProfileAuthGuard>
-              <AppLayout>
+              <Layout>
                 <Outlet />
-              </AppLayout>
+              </Layout>
               <DrawerRoutes />
               <ModalRoutes />
               <BottomSheetRoutes />

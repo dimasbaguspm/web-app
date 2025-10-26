@@ -13,6 +13,7 @@ import {
   NoResults,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
@@ -58,86 +59,90 @@ const AccountsPage = () => {
   };
 
   return (
-    <>
-      <PageHeader
-        title="Accounts"
-        subtitle="Manage your accounts"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
-              <Icon as={FoldersIcon} color="inherit" size="sm" />
-              Manage Group
-            </Button>
-            <Button onClick={handleOpenDrawer}>
-              <Icon as={PlusIcon} color="inherit" size="sm" />
-              New Account
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon
-              as={FoldersIcon}
-              variant="outline"
-              aria-label="Manage Groups"
-              onClick={handleManageGroupClick}
-            />
-            <ButtonIcon as={PlusIcon} aria-label="New Account" onClick={handleOpenDrawer} />
-          </ButtonGroup>
-        }
-      />
-      <PageContent size="wide">
-        <FormLayout>
-          <FormLayout.Column span={isDesktop ? 4 : 12}>
-            <SearchInput
-              defaultValue={debouncedAccountFilter}
-              onChange={(ev) => setDebouncedAccountFilter(ev.target.value)}
-            />
-          </FormLayout.Column>
-          <FormLayout.Column span={isDesktop ? 8 : 12}>
-            <AccountFiltersControl config={accountFilter} />
-          </FormLayout.Column>
-        </FormLayout>
-
-        <If condition={isInitialFetching}>
-          <PageLoader />
-        </If>
-
-        <If condition={[!isInitialFetching, accounts]}>
-          <ul className="mb-4">
-            {accounts?.map((account) => (
-              <li key={account.id} className="border-b border-border">
-                <AccountCard account={account} onClick={handleAccountClick} />
-              </li>
-            ))}
-          </ul>
-          <If condition={hasNextPage}>
-            <ButtonGroup alignment="center">
-              <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
-                Load More
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Accounts"
+          subtitle="Manage your accounts"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
+                <Icon as={FoldersIcon} color="inherit" size="sm" />
+                Manage Group
+              </Button>
+              <Button onClick={handleOpenDrawer}>
+                <Icon as={PlusIcon} color="inherit" size="sm" />
+                New Account
               </Button>
             </ButtonGroup>
-          </If>
-        </If>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon
+                as={FoldersIcon}
+                variant="outline"
+                aria-label="Manage Groups"
+                onClick={handleManageGroupClick}
+              />
+              <ButtonIcon as={PlusIcon} aria-label="New Account" onClick={handleOpenDrawer} />
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <FormLayout>
+            <FormLayout.Column span={isDesktop ? 4 : 12}>
+              <SearchInput
+                defaultValue={debouncedAccountFilter}
+                onChange={(ev) => setDebouncedAccountFilter(ev.target.value)}
+              />
+            </FormLayout.Column>
+            <FormLayout.Column span={isDesktop ? 8 : 12}>
+              <AccountFiltersControl config={accountFilter} />
+            </FormLayout.Column>
+          </FormLayout>
 
-        <If condition={[!isInitialFetching, accounts?.length === 0]}>
-          <NoResults
-            icon={SearchXIcon}
-            title="No accounts yet"
-            subtitle="Create your first account to start managing your finances"
-            action={
-              <ButtonGroup>
-                <Button onClick={handleOpenDrawer} variant="outline">
-                  <Icon as={PlusIcon} color="inherit" />
-                  Create Account
+          <If condition={isInitialFetching}>
+            <PageLoader />
+          </If>
+
+          <If condition={[!isInitialFetching, accounts]}>
+            <ul className="mb-4">
+              {accounts?.map((account) => (
+                <li key={account.id} className="border-b border-border">
+                  <AccountCard account={account} onClick={handleAccountClick} />
+                </li>
+              ))}
+            </ul>
+            <If condition={hasNextPage}>
+              <ButtonGroup alignment="center">
+                <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                  Load More
                 </Button>
               </ButtonGroup>
-            }
-          />
-        </If>
-      </PageContent>
-    </>
+            </If>
+          </If>
+
+          <If condition={[!isInitialFetching, accounts?.length === 0]}>
+            <NoResults
+              icon={SearchXIcon}
+              title="No accounts yet"
+              subtitle="Create your first account to start managing your finances"
+              action={
+                <ButtonGroup>
+                  <Button onClick={handleOpenDrawer} variant="outline">
+                    <Icon as={PlusIcon} color="inherit" />
+                    Create Account
+                  </Button>
+                </ButtonGroup>
+              }
+            />
+          </If>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

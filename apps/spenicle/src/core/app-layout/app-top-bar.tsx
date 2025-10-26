@@ -1,5 +1,4 @@
 import { HUB_BASE_URL } from '@dimasbaguspm/constants';
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
@@ -22,7 +21,6 @@ import { LINKS } from './constants';
 
 export const AppTopBar: FC = () => {
   const { profile } = useActiveAppProfile();
-  const { isDesktop } = useWindowResize();
   const location = useLocation();
 
   const { openModal } = useModalRoute();
@@ -39,8 +37,6 @@ export const AppTopBar: FC = () => {
   const isActive = (path: string) => {
     return location.pathname.startsWith(path);
   };
-
-  if (!isDesktop) return null;
 
   return (
     <TopBar>

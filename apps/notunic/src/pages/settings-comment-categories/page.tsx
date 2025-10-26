@@ -11,6 +11,7 @@ import {
   NoResults,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
 } from '@dimasbaguspm/versaur';
 import { PlusIcon, SearchXIcon } from 'lucide-react';
@@ -33,57 +34,66 @@ const SettingsCommentCategoriesPage = () => {
   };
 
   return (
-    <>
-      <PageHeader
-        title="Comment Categories"
-        subtitle="Manage categories for organizing comments"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button variant="primary" onClick={handleOnNewCategoryClick}>
-              <Icon as={PlusIcon} size="sm" color="inherit" />
-              New Category
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon as={PlusIcon} variant="primary" aria-label="New Category" onClick={handleOnNewCategoryClick} />
-          </ButtonGroup>
-        }
-      />
-      <PageContent size="wide">
-        <If condition={isInitialFetching}>
-          <PageLoader />
-        </If>
-        <If condition={!isInitialFetching}>
-          <If condition={commentCategories.length === 0}>
-            <NoResults
-              icon={SearchXIcon}
-              title="No Comment Categories"
-              subtitle="You have not created any comment categories yet."
-            />
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Comment Categories"
+          subtitle="Manage categories for organizing comments"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button variant="primary" onClick={handleOnNewCategoryClick}>
+                <Icon as={PlusIcon} size="sm" color="inherit" />
+                New Category
+              </Button>
+            </ButtonGroup>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon
+                as={PlusIcon}
+                variant="primary"
+                aria-label="New Category"
+                onClick={handleOnNewCategoryClick}
+              />
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <If condition={isInitialFetching}>
+            <PageLoader />
           </If>
-          <If condition={commentCategories.length > 0}>
-            <ul className="flex flex-col gap-4 mb-4">
-              {commentCategories.map((category, index) => (
-                <li key={category.id}>
-                  <CommentCategoryCard commentCategory={category} onClick={handleOnCategoryClick} />
-                  {index !== commentCategories.length - 1 && <Hr />}
-                </li>
-              ))}
-            </ul>
-            <If condition={hasNextPage}>
-              <ButtonGroup alignment="center">
-                <Button variant="outline" disabled={isFetchingNextPage} onClick={() => fetchNextPage()}>
-                  Load More
-                </Button>
-              </ButtonGroup>
+          <If condition={!isInitialFetching}>
+            <If condition={commentCategories.length === 0}>
+              <NoResults
+                icon={SearchXIcon}
+                title="No Comment Categories"
+                subtitle="You have not created any comment categories yet."
+              />
+            </If>
+            <If condition={commentCategories.length > 0}>
+              <ul className="flex flex-col gap-4 mb-4">
+                {commentCategories.map((category, index) => (
+                  <li key={category.id}>
+                    <CommentCategoryCard commentCategory={category} onClick={handleOnCategoryClick} />
+                    {index !== commentCategories.length - 1 && <Hr />}
+                  </li>
+                ))}
+              </ul>
+              <If condition={hasNextPage}>
+                <ButtonGroup alignment="center">
+                  <Button variant="outline" disabled={isFetchingNextPage} onClick={() => fetchNextPage()}>
+                    Load More
+                  </Button>
+                </ButtonGroup>
+              </If>
             </If>
           </If>
-        </If>
-      </PageContent>
-    </>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

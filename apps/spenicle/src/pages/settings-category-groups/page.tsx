@@ -11,6 +11,7 @@ import {
   NoResults,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
@@ -40,79 +41,83 @@ const SettingsCategoryGroupsPage = () => {
   };
 
   return (
-    <>
-      <PageHeader
-        title="Category Groups"
-        subtitle="Manage your category groups to organize your categories"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button onClick={handleNewCategoryGroup}>
-              <Icon as={PlusIcon} color="inherit" size="sm" />
-              New Group
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon as={PlusIcon} aria-label="Create category group" onClick={handleNewCategoryGroup} />
-          </ButtonGroup>
-        }
-      />
-
-      <PageContent size="wide">
-        <SearchInput
-          placeholder="Search category groups..."
-          value={categoryGroupSearch}
-          onChange={(e) => setCategoryGroupSearch(e.target.value)}
-          className="mb-4"
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Category Groups"
+          subtitle="Manage your category groups to organize your categories"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button onClick={handleNewCategoryGroup}>
+                <Icon as={PlusIcon} color="inherit" size="sm" />
+                New Group
+              </Button>
+            </ButtonGroup>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon as={PlusIcon} aria-label="Create category group" onClick={handleNewCategoryGroup} />
+            </ButtonGroup>
+          }
         />
+      </PageLayout.HeaderRegion>
 
-        <div className="space-y-4">
-          <If condition={isInitialFetching}>
-            <PageLoader />
-          </If>
-          <If condition={[!isInitialFetching, categoryGroups.length === 0]}>
-            <NoResults
-              icon={SearchXIcon}
-              title="No category groups found"
-              subtitle={
-                categoryGroupSearch
-                  ? 'Try adjusting your search terms'
-                  : 'Create your first category group to organize your categories'
-              }
-              action={
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <SearchInput
+            placeholder="Search category groups..."
+            value={categoryGroupSearch}
+            onChange={(e) => setCategoryGroupSearch(e.target.value)}
+            className="mb-4"
+          />
+
+          <div className="space-y-4">
+            <If condition={isInitialFetching}>
+              <PageLoader />
+            </If>
+            <If condition={[!isInitialFetching, categoryGroups.length === 0]}>
+              <NoResults
+                icon={SearchXIcon}
+                title="No category groups found"
+                subtitle={
+                  categoryGroupSearch
+                    ? 'Try adjusting your search terms'
+                    : 'Create your first category group to organize your categories'
+                }
+                action={
+                  <ButtonGroup>
+                    <Button variant="outline" onClick={handleNewCategoryGroup}>
+                      Create
+                    </Button>
+                  </ButtonGroup>
+                }
+              />
+            </If>
+            <If condition={[!isInitialFetching, categoryGroups.length > 0]}>
+              <ul>
+                {categoryGroups.map((categoryGroup, index) => {
+                  const isLastItem = index === categoryGroups.length - 1;
+                  return (
+                    <li key={categoryGroup.id}>
+                      <CategoryGroupCard categoryGroup={categoryGroup} onClick={handleCategoryGroupClick} />
+                      {!isLastItem && <Hr />}
+                    </li>
+                  );
+                })}
+              </ul>
+              <If condition={hasNextPage}>
                 <ButtonGroup>
-                  <Button variant="outline" onClick={handleNewCategoryGroup}>
-                    Create
+                  <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                    Load More
                   </Button>
                 </ButtonGroup>
-              }
-            />
-          </If>
-          <If condition={[!isInitialFetching, categoryGroups.length > 0]}>
-            <ul>
-              {categoryGroups.map((categoryGroup, index) => {
-                const isLastItem = index === categoryGroups.length - 1;
-                return (
-                  <li key={categoryGroup.id}>
-                    <CategoryGroupCard categoryGroup={categoryGroup} onClick={handleCategoryGroupClick} />
-                    {!isLastItem && <Hr />}
-                  </li>
-                );
-              })}
-            </ul>
-            <If condition={hasNextPage}>
-              <ButtonGroup>
-                <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-                  Load More
-                </Button>
-              </ButtonGroup>
+              </If>
             </If>
-          </If>
-        </div>
-      </PageContent>
-    </>
+          </div>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

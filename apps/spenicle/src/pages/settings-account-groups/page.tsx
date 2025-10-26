@@ -11,6 +11,7 @@ import {
   NoResults,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
@@ -40,79 +41,83 @@ const SettingsAccountGroupsPage = () => {
   };
 
   return (
-    <>
-      <PageHeader
-        title="Account Groups"
-        subtitle="Manage your account groups to organize your accounts"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button onClick={handleNewAccountGroup}>
-              <Icon as={PlusIcon} color="inherit" size="sm" />
-              New Group
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon as={PlusIcon} aria-label="Create account group" onClick={handleNewAccountGroup} />
-          </ButtonGroup>
-        }
-      />
-
-      <PageContent size="wide">
-        <SearchInput
-          placeholder="Search account groups..."
-          value={accountGroupSearch}
-          onChange={(e) => setAccountGroupSearch(e.target.value)}
-          className="mb-4"
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Account Groups"
+          subtitle="Manage your account groups to organize your accounts"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button onClick={handleNewAccountGroup}>
+                <Icon as={PlusIcon} color="inherit" size="sm" />
+                New Group
+              </Button>
+            </ButtonGroup>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon as={PlusIcon} aria-label="Create account group" onClick={handleNewAccountGroup} />
+            </ButtonGroup>
+          }
         />
+      </PageLayout.HeaderRegion>
 
-        <div className="space-y-4">
-          <If condition={isInitialFetching}>
-            <PageLoader />
-          </If>
-          <If condition={[!isInitialFetching, accountGroups.length === 0]}>
-            <NoResults
-              icon={SearchXIcon}
-              title="No account groups found"
-              subtitle={
-                accountGroupSearch
-                  ? 'Try adjusting your search terms'
-                  : 'Create your first account group to organize your accounts'
-              }
-              action={
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <SearchInput
+            placeholder="Search account groups..."
+            value={accountGroupSearch}
+            onChange={(e) => setAccountGroupSearch(e.target.value)}
+            className="mb-4"
+          />
+
+          <div className="space-y-4">
+            <If condition={isInitialFetching}>
+              <PageLoader />
+            </If>
+            <If condition={[!isInitialFetching, accountGroups.length === 0]}>
+              <NoResults
+                icon={SearchXIcon}
+                title="No account groups found"
+                subtitle={
+                  accountGroupSearch
+                    ? 'Try adjusting your search terms'
+                    : 'Create your first account group to organize your accounts'
+                }
+                action={
+                  <ButtonGroup>
+                    <Button variant="outline" onClick={handleNewAccountGroup}>
+                      Create
+                    </Button>
+                  </ButtonGroup>
+                }
+              />
+            </If>
+            <If condition={[!isInitialFetching, accountGroups.length > 0]}>
+              <ul>
+                {accountGroups.map((accountGroup, index) => {
+                  const isLastItem = index === accountGroups.length - 1;
+                  return (
+                    <li key={accountGroup.id}>
+                      <AccountGroupCard accountGroup={accountGroup} onClick={handleAccountGroupClick} />
+                      {!isLastItem && <Hr />}
+                    </li>
+                  );
+                })}
+              </ul>
+              <If condition={hasNextPage}>
                 <ButtonGroup>
-                  <Button variant="outline" onClick={handleNewAccountGroup}>
-                    Create
+                  <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                    Load More
                   </Button>
                 </ButtonGroup>
-              }
-            />
-          </If>
-          <If condition={[!isInitialFetching, accountGroups.length > 0]}>
-            <ul>
-              {accountGroups.map((accountGroup, index) => {
-                const isLastItem = index === accountGroups.length - 1;
-                return (
-                  <li key={accountGroup.id}>
-                    <AccountGroupCard accountGroup={accountGroup} onClick={handleAccountGroupClick} />
-                    {!isLastItem && <Hr />}
-                  </li>
-                );
-              })}
-            </ul>
-            <If condition={hasNextPage}>
-              <ButtonGroup>
-                <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-                  Load More
-                </Button>
-              </ButtonGroup>
+              </If>
             </If>
-          </If>
-        </div>
-      </PageContent>
-    </>
+          </div>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader } from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader, PageLayout } from '@dimasbaguspm/versaur';
 import { snapdom } from '@zumer/snapdom';
 import { ArrowBigDownDashIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
@@ -31,35 +31,39 @@ const SummaryLayout = () => {
   };
 
   return (
-    <div ref={ref} key={location.pathname}>
-      <PageHeader
-        title="Summary"
-        subtitle="Manage your summary transactions"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button disabled={isPrinting} onClick={handleOnPrintClick}>
-              <Icon as={ArrowBigDownDashIcon} color="inherit" size="sm" />
-              Download Report
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon
-              disabled={isPrinting}
-              onClick={handleOnPrintClick}
-              as={ArrowBigDownDashIcon}
-              aria-label="Download Report"
-            />
-          </ButtonGroup>
-        }
-      />
-      <PageContent size="wide">
-        <ActionHeader />
-        <Outlet />
-      </PageContent>
-    </div>
+    <PageLayout ref={ref} key={location.pathname}>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Summary"
+          subtitle="Manage your summary transactions"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button disabled={isPrinting} onClick={handleOnPrintClick}>
+                <Icon as={ArrowBigDownDashIcon} color="inherit" size="sm" />
+                Download Report
+              </Button>
+            </ButtonGroup>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon
+                disabled={isPrinting}
+                onClick={handleOnPrintClick}
+                as={ArrowBigDownDashIcon}
+                aria-label="Download Report"
+              />
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <ActionHeader />
+          <Outlet />
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

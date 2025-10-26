@@ -14,6 +14,7 @@ import {
   Icon,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
@@ -48,63 +49,67 @@ const GroupPage: FC = () => {
   };
 
   return (
-    <>
-      <PageHeader
-        title="My Groups"
-        subtitle="Manage your groups and their members"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button onClick={handleOnNewGroupClick}>
-              <Icon as={PlusIcon} color="inherit" />
-              New Group
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon as={PlusIcon} aria-label="New Group" onClick={handleOnNewGroupClick} />
-          </ButtonGroup>
-        }
-      />
-
-      <PageContent size="wide">
-        <FormLayout className="mb-4">
-          <FormLayout.Column span={isDesktop ? 4 : 12}>
-            <SearchInput
-              placeholder="Search"
-              defaultValue={searchTerm}
-              onChange={(ev) => setSearchTerm(ev.target.value)}
-            />
-          </FormLayout.Column>
-        </FormLayout>
-
-        <If condition={[isInitialFetching]}>
-          <PageLoader />
-        </If>
-        <If condition={[groups?.length, !isInitialFetching]}>
-          <ul className="mb-4">
-            {groups?.map((group, index) => {
-              const isLastItem = index === groups.length - 1;
-              return (
-                <li key={group.id}>
-                  <GroupCard group={group} onClick={handleOnCardClick} />
-                  {!isLastItem && <Hr />}
-                </li>
-              );
-            })}
-          </ul>
-
-          <If condition={hasNextPage}>
-            <ButtonGroup alignment="center">
-              <Button disabled={isFetchingNextPage} variant="outline" onClick={() => fetchNextPage()}>
-                Load More
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="My Groups"
+          subtitle="Manage your groups and their members"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button onClick={handleOnNewGroupClick}>
+                <Icon as={PlusIcon} color="inherit" />
+                New Group
               </Button>
             </ButtonGroup>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon as={PlusIcon} aria-label="New Group" onClick={handleOnNewGroupClick} />
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <FormLayout className="mb-4">
+            <FormLayout.Column span={isDesktop ? 4 : 12}>
+              <SearchInput
+                placeholder="Search"
+                defaultValue={searchTerm}
+                onChange={(ev) => setSearchTerm(ev.target.value)}
+              />
+            </FormLayout.Column>
+          </FormLayout>
+
+          <If condition={[isInitialFetching]}>
+            <PageLoader />
           </If>
-        </If>
-      </PageContent>
-    </>
+          <If condition={[groups?.length, !isInitialFetching]}>
+            <ul className="mb-4">
+              {groups?.map((group, index) => {
+                const isLastItem = index === groups.length - 1;
+                return (
+                  <li key={group.id}>
+                    <GroupCard group={group} onClick={handleOnCardClick} />
+                    {!isLastItem && <Hr />}
+                  </li>
+                );
+              })}
+            </ul>
+
+            <If condition={hasNextPage}>
+              <ButtonGroup alignment="center">
+                <Button disabled={isFetchingNextPage} variant="outline" onClick={() => fetchNextPage()}>
+                  Load More
+                </Button>
+              </ButtonGroup>
+            </If>
+          </If>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

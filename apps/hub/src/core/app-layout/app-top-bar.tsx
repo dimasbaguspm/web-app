@@ -1,4 +1,3 @@
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useAuthProvider } from '@dimasbaguspm/providers/auth-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
@@ -14,7 +13,6 @@ import { getNavigationLinks } from './helpers';
 
 export const AppTopBar: FC = () => {
   const { user, isAdmin } = useAuthProvider();
-  const { isDesktop } = useWindowResize();
   const location = useLocation();
 
   const { openModal } = useModalRoute();
@@ -27,8 +25,6 @@ export const AppTopBar: FC = () => {
   const isActive = (path: string) => {
     return location.pathname.startsWith(path);
   };
-
-  if (!isDesktop) return null;
 
   const navLinks = getNavigationLinks(isAdmin);
 

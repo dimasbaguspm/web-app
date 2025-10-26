@@ -18,6 +18,7 @@ import {
   NoResults,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
@@ -75,121 +76,125 @@ const SettingsBackupPage = () => {
   };
 
   return (
-    <>
-      <PageHeader
-        title="Backup Requests"
-        subtitle="Manage your backup requests and restore data"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button onClick={handleOnRestoreBackupClick} variant="outline">
-              <Icon as={DatabaseBackupIcon} size="sm" color="inherit" />
-              Restore Backup
-            </Button>
-            <Button onClick={handleOnCreateBackupClick}>
-              <Icon as={PlusIcon} size="sm" color="inherit" />
-              New Backup
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon
-              variant="outline"
-              onClick={handleOnRestoreBackupClick}
-              as={DatabaseBackupIcon}
-              aria-label="Restore Backup"
-            />
-            <ButtonIcon onClick={handleOnCreateBackupClick} as={PlusIcon} aria-label="Create Backup" />
-          </ButtonGroup>
-        }
-      />
-      <PageContent size="wide">
-        <If condition={isInitialFetching}>
-          <PageLoader />
-        </If>
-
-        <If condition={!isInitialFetching && !backupRequest.length}>
-          <NoResults
-            icon={SearchXIcon}
-            title="No backup requests yet"
-            subtitle="You haven't created any backup requests. Start by creating a new backup to preserve your data."
-          />
-        </If>
-
-        <If condition={!isInitialFetching && !!backupRequest.length}>
-          <ul className="mb-4">
-            {backupRequest.map((item, index) => {
-              const {
-                status,
-                variant,
-                dateRange,
-                requestedDateTime,
-                finishedDateTime,
-                isReady,
-                isFailed,
-                errorMessage,
-              } = formatSpenicleBackupRequest(item);
-
-              const isLastItem = index === backupRequest.length - 1;
-              return (
-                <li key={item.id}>
-                  <Card
-                    as="div"
-                    key={item.id}
-                    title={dateRange || 'Backup Request'}
-                    subtitle={
-                      <Card.List>
-                        <If condition={isReady}>
-                          <Card.ListItem>Requested on {requestedDateTime}</Card.ListItem>
-                          <Card.ListItem>Completed on {finishedDateTime}</Card.ListItem>
-                        </If>
-                        <If condition={[isFailed, errorMessage]}>
-                          <Card.ListItem>Failed: {errorMessage}</Card.ListItem>
-                        </If>
-                        <If condition={!isReady && !isFailed}>
-                          <Card.ListItem>Requested on {requestedDateTime}</Card.ListItem>
-                          <Card.ListItem>Processing in progress...</Card.ListItem>
-                        </If>
-                      </Card.List>
-                    }
-                    badge={
-                      <BadgeGroup>
-                        <Badge color={variant}>{status}</Badge>
-                      </BadgeGroup>
-                    }
-                    supplementaryInfo={
-                      <ButtonGroup alignment="end">
-                        <If condition={isReady}>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleOnDownloadClick(item)}
-                            disabled={downloadingId === item.id}
-                          >
-                            <Icon as={Download} size="sm" color="inherit" />
-                            {downloadingId === item.id ? 'Downloading...' : 'Download'}
-                          </Button>
-                        </If>
-                      </ButtonGroup>
-                    }
-                  />
-                  {!isLastItem && <Hr />}
-                </li>
-              );
-            })}
-          </ul>
-
-          <If condition={hasNextPage}>
-            <ButtonGroup alignment="center">
-              <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-                Load More
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Backup Requests"
+          subtitle="Manage your backup requests and restore data"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button onClick={handleOnRestoreBackupClick} variant="outline">
+                <Icon as={DatabaseBackupIcon} size="sm" color="inherit" />
+                Restore Backup
+              </Button>
+              <Button onClick={handleOnCreateBackupClick}>
+                <Icon as={PlusIcon} size="sm" color="inherit" />
+                New Backup
               </Button>
             </ButtonGroup>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon
+                variant="outline"
+                onClick={handleOnRestoreBackupClick}
+                as={DatabaseBackupIcon}
+                aria-label="Restore Backup"
+              />
+              <ButtonIcon onClick={handleOnCreateBackupClick} as={PlusIcon} aria-label="Create Backup" />
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <If condition={isInitialFetching}>
+            <PageLoader />
           </If>
-        </If>
-      </PageContent>
-    </>
+
+          <If condition={!isInitialFetching && !backupRequest.length}>
+            <NoResults
+              icon={SearchXIcon}
+              title="No backup requests yet"
+              subtitle="You haven't created any backup requests. Start by creating a new backup to preserve your data."
+            />
+          </If>
+
+          <If condition={!isInitialFetching && !!backupRequest.length}>
+            <ul className="mb-4">
+              {backupRequest.map((item, index) => {
+                const {
+                  status,
+                  variant,
+                  dateRange,
+                  requestedDateTime,
+                  finishedDateTime,
+                  isReady,
+                  isFailed,
+                  errorMessage,
+                } = formatSpenicleBackupRequest(item);
+
+                const isLastItem = index === backupRequest.length - 1;
+                return (
+                  <li key={item.id}>
+                    <Card
+                      as="div"
+                      key={item.id}
+                      title={dateRange || 'Backup Request'}
+                      subtitle={
+                        <Card.List>
+                          <If condition={isReady}>
+                            <Card.ListItem>Requested on {requestedDateTime}</Card.ListItem>
+                            <Card.ListItem>Completed on {finishedDateTime}</Card.ListItem>
+                          </If>
+                          <If condition={[isFailed, errorMessage]}>
+                            <Card.ListItem>Failed: {errorMessage}</Card.ListItem>
+                          </If>
+                          <If condition={!isReady && !isFailed}>
+                            <Card.ListItem>Requested on {requestedDateTime}</Card.ListItem>
+                            <Card.ListItem>Processing in progress...</Card.ListItem>
+                          </If>
+                        </Card.List>
+                      }
+                      badge={
+                        <BadgeGroup>
+                          <Badge color={variant}>{status}</Badge>
+                        </BadgeGroup>
+                      }
+                      supplementaryInfo={
+                        <ButtonGroup alignment="end">
+                          <If condition={isReady}>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleOnDownloadClick(item)}
+                              disabled={downloadingId === item.id}
+                            >
+                              <Icon as={Download} size="sm" color="inherit" />
+                              {downloadingId === item.id ? 'Downloading...' : 'Download'}
+                            </Button>
+                          </If>
+                        </ButtonGroup>
+                      }
+                    />
+                    {!isLastItem && <Hr />}
+                  </li>
+                );
+              })}
+            </ul>
+
+            <If condition={hasNextPage}>
+              <ButtonGroup alignment="center">
+                <Button variant="outline" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                  Load More
+                </Button>
+              </ButtonGroup>
+            </If>
+          </If>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

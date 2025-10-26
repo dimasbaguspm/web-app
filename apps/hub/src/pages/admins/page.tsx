@@ -1,13 +1,17 @@
 import { AdminGuard } from '@dimasbaguspm/utils/admin-guard';
-import { PageContent, PageHeader } from '@dimasbaguspm/versaur';
+import { PageContent, PageHeader, PageLayout } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 const AdminsPage: FC = () => {
   return (
-    <>
-      <PageHeader title="Admins" subtitle="Panel to manage core functions and settings." size="wide" />
-      <PageContent size="wide">Admins Page</PageContent>
-    </>
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader title="Admins" subtitle="Panel to manage core functions and settings." size="wide" />
+      </PageLayout.HeaderRegion>
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">Admins Page</PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

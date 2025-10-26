@@ -1,15 +1,25 @@
-import { FC, PropsWithChildren } from 'react';
+import { AppLayout, MatchMedia, MobileBreakpoint, PageLoader } from '@dimasbaguspm/versaur';
+import { FC, PropsWithChildren, Suspense } from 'react';
 
 import { AppBottomBar } from './app-bottom-bar';
-import { AppCenterContainer } from './app-center-container';
 import { AppTopBar } from './app-top-bar';
 
-export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
+export const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-dvh">
-      <AppTopBar />
-      <AppCenterContainer>{children}</AppCenterContainer>
-      <AppBottomBar />
-    </div>
+    <AppLayout>
+      <MatchMedia query="(min-width: 768px)">
+        <AppLayout.TopRegion>
+          <AppTopBar />
+        </AppLayout.TopRegion>
+      </MatchMedia>
+      <AppLayout.MainRegion>
+        <Suspense fallback={<PageLoader />}>{children}</Suspense>
+      </AppLayout.MainRegion>
+      <MobileBreakpoint>
+        <AppLayout.BottomRegion>
+          <AppBottomBar />
+        </AppLayout.BottomRegion>
+      </MobileBreakpoint>
+    </AppLayout>
   );
 };

@@ -14,6 +14,7 @@ import {
   NoResults,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
@@ -46,78 +47,82 @@ const SpacePage = () => {
   };
 
   return (
-    <>
-      <PageHeader
-        title="Spaces"
-        subtitle="All your spaces in one place"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button onClick={handleOpenNewSpace}>
-              <Icon as={PlusIcon} color="inherit" size="sm" />
-              New Space
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon as={PlusIcon} aria-label="New Space" onClick={handleOpenNewSpace} />
-          </ButtonGroup>
-        }
-      />
-      <PageContent size="wide">
-        <FormLayout className="mb-4">
-          <FormLayout.Column span={isDesktop ? 4 : 12}>
-            <SearchInput
-              defaultValue={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search spaces..."
-            />
-          </FormLayout.Column>
-        </FormLayout>
-
-        <If condition={isInitialFetching}>
-          <PageLoader />
-        </If>
-
-        <If condition={[!isInitialFetching, spaces.length]}>
-          <ul className="mb-4">
-            {spaces?.map((space, index) => {
-              const isLast = index === spaces.length - 1;
-              return (
-                <li key={space.id}>
-                  <SpaceCard space={space} onClick={handleOnSpaceCardClick} />
-                  {!isLast && <Hr />}
-                </li>
-              );
-            })}
-          </ul>
-          <If condition={hasNextPage}>
-            <ButtonGroup alignment="center">
-              <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
-                Load More
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Spaces"
+          subtitle="All your spaces in one place"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button onClick={handleOpenNewSpace}>
+                <Icon as={PlusIcon} color="inherit" size="sm" />
+                New Space
               </Button>
             </ButtonGroup>
-          </If>
-        </If>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon as={PlusIcon} aria-label="New Space" onClick={handleOpenNewSpace} />
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <FormLayout className="mb-4">
+            <FormLayout.Column span={isDesktop ? 4 : 12}>
+              <SearchInput
+                defaultValue={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search spaces..."
+              />
+            </FormLayout.Column>
+          </FormLayout>
 
-        <If condition={[!isInitialFetching, !spaces.length]}>
-          <NoResults
-            icon={SearchXIcon}
-            title="No spaces found"
-            subtitle="Create a new space to get started"
-            action={
-              <ButtonGroup>
-                <Button variant="outline" onClick={handleOpenNewSpace}>
-                  <Icon as={PlusIcon} color="inherit" size="sm" />
-                  New Space
+          <If condition={isInitialFetching}>
+            <PageLoader />
+          </If>
+
+          <If condition={[!isInitialFetching, spaces.length]}>
+            <ul className="mb-4">
+              {spaces?.map((space, index) => {
+                const isLast = index === spaces.length - 1;
+                return (
+                  <li key={space.id}>
+                    <SpaceCard space={space} onClick={handleOnSpaceCardClick} />
+                    {!isLast && <Hr />}
+                  </li>
+                );
+              })}
+            </ul>
+            <If condition={hasNextPage}>
+              <ButtonGroup alignment="center">
+                <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                  Load More
                 </Button>
               </ButtonGroup>
-            }
-          />
-        </If>
-      </PageContent>
-    </>
+            </If>
+          </If>
+
+          <If condition={[!isInitialFetching, !spaces.length]}>
+            <NoResults
+              icon={SearchXIcon}
+              title="No spaces found"
+              subtitle="Create a new space to get started"
+              action={
+                <ButtonGroup>
+                  <Button variant="outline" onClick={handleOpenNewSpace}>
+                    <Icon as={PlusIcon} color="inherit" size="sm" />
+                    New Space
+                  </Button>
+                </ButtonGroup>
+              }
+            />
+          </If>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

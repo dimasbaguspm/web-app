@@ -15,6 +15,7 @@ import {
   NoResults,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
@@ -45,85 +46,89 @@ const MarketplacePage: FC = () => {
   };
 
   return (
-    <>
-      <PageHeader
-        title="Marketplace"
-        subtitle="Discover the available apps"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button>
-              <Icon as={HelpCircleIcon} size="sm" color="inherit" />
-              Help
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon as={HelpCircleIcon} aria-label="Help" />
-          </ButtonGroup>
-        }
-      />
-
-      <PageContent size="wide">
-        <FormLayout className="mb-4">
-          <FormLayout.Column span={isDesktop ? 4 : 12}>
-            <SearchInput
-              placeholder="Search"
-              defaultValue={searchTerm}
-              onChange={(ev) => setSearchTerm(ev.target.value)}
-            />
-          </FormLayout.Column>
-          <FormLayout.Column span={isDesktop ? 8 : 12}>
-            <ButtonMenu
-              variant="outline"
-              label={
-                <>
-                  <Icon as={ChevronDown} size="sm" color="inherit" />
-                  Type
-                </>
-              }
-            >
-              <ButtonMenu.Item>All Types</ButtonMenu.Item>
-              <ButtonMenu.Item>Personal</ButtonMenu.Item>
-              <ButtonMenu.Item>Organization</ButtonMenu.Item>
-            </ButtonMenu>
-          </FormLayout.Column>
-        </FormLayout>
-
-        <If condition={isInitialFetching}>
-          <PageLoader />
-        </If>
-        <If condition={[!isInitialFetching, apps.length]}>
-          <ul className="mb-4">
-            {apps.map((app, index) => {
-              const isLastItem = index === apps.length - 1;
-
-              return (
-                <li key={app.id}>
-                  <AppCard app={app} onClick={handleOnCardClick} />
-                  {!isLastItem && <Hr />}
-                </li>
-              );
-            })}
-          </ul>
-          <If condition={hasNextPage}>
-            <ButtonGroup alignment="center">
-              <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} variant="outline">
-                Load More
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Marketplace"
+          subtitle="Discover the available apps"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button>
+                <Icon as={HelpCircleIcon} size="sm" color="inherit" />
+                Help
               </Button>
             </ButtonGroup>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon as={HelpCircleIcon} aria-label="Help" />
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <FormLayout className="mb-4">
+            <FormLayout.Column span={isDesktop ? 4 : 12}>
+              <SearchInput
+                placeholder="Search"
+                defaultValue={searchTerm}
+                onChange={(ev) => setSearchTerm(ev.target.value)}
+              />
+            </FormLayout.Column>
+            <FormLayout.Column span={isDesktop ? 8 : 12}>
+              <ButtonMenu
+                variant="outline"
+                label={
+                  <>
+                    <Icon as={ChevronDown} size="sm" color="inherit" />
+                    Type
+                  </>
+                }
+              >
+                <ButtonMenu.Item>All Types</ButtonMenu.Item>
+                <ButtonMenu.Item>Personal</ButtonMenu.Item>
+                <ButtonMenu.Item>Organization</ButtonMenu.Item>
+              </ButtonMenu>
+            </FormLayout.Column>
+          </FormLayout>
+
+          <If condition={isInitialFetching}>
+            <PageLoader />
           </If>
-        </If>
-        <If condition={[!isInitialFetching, !apps.length]}>
-          <NoResults
-            icon={SearchXIcon}
-            title="No apps found"
-            subtitle="Try adjusting your search criteria, or check back later for new apps"
-          />
-        </If>
-      </PageContent>
-    </>
+          <If condition={[!isInitialFetching, apps.length]}>
+            <ul className="mb-4">
+              {apps.map((app, index) => {
+                const isLastItem = index === apps.length - 1;
+
+                return (
+                  <li key={app.id}>
+                    <AppCard app={app} onClick={handleOnCardClick} />
+                    {!isLastItem && <Hr />}
+                  </li>
+                );
+              })}
+            </ul>
+            <If condition={hasNextPage}>
+              <ButtonGroup alignment="center">
+                <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} variant="outline">
+                  Load More
+                </Button>
+              </ButtonGroup>
+            </If>
+          </If>
+          <If condition={[!isInitialFetching, !apps.length]}>
+            <NoResults
+              icon={SearchXIcon}
+              title="No apps found"
+              subtitle="Try adjusting your search criteria, or check back later for new apps"
+            />
+          </If>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

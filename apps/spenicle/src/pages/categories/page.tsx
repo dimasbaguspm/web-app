@@ -13,6 +13,7 @@ import {
   NoResults,
   PageContent,
   PageHeader,
+  PageLayout,
   PageLoader,
   SearchInput,
 } from '@dimasbaguspm/versaur';
@@ -56,83 +57,87 @@ const CategoriesPage = () => {
     navigate(DEEP_LINKS.SETTINGS_CATEGORY_GROUPS.path);
   };
   return (
-    <>
-      <PageHeader
-        title="Categories"
-        subtitle="Manage your categories"
-        size="wide"
-        actions={
-          <ButtonGroup>
-            <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
-              <Icon as={FoldersIcon} color="inherit" size="sm" />
-              Manage Group
-            </Button>
-            <Button onClick={handleOpenDrawer}>
-              <Icon as={PlusIcon} color="inherit" size="sm" />
-              New Category
-            </Button>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon
-              as={FoldersIcon}
-              variant="outline"
-              aria-label="Manage Groups"
-              onClick={handleManageGroupClick}
-            />
-            <ButtonIcon as={PlusIcon} aria-label="New Category" onClick={handleOpenDrawer} />
-          </ButtonGroup>
-        }
-      />
-      <PageContent size="wide">
-        <FormLayout>
-          <FormLayout.Column span={isDesktop ? 4 : 12}>
-            <SearchInput defaultValue={debouncedSearch} onChange={(ev) => setDebouncedSearch(ev.target.value)} />
-          </FormLayout.Column>
-          <FormLayout.Column span={isDesktop ? 8 : 12}>
-            <CategoryFiltersControl config={categoryFilter} />
-          </FormLayout.Column>
-        </FormLayout>
-
-        <If condition={isInitialFetching}>
-          <PageLoader />
-        </If>
-
-        <If condition={[!isInitialFetching, categories]}>
-          <ul className="mb-4">
-            {categories?.map((category) => (
-              <li key={category.id} className="border-b border-border">
-                <CategoryCard category={category} onClick={handleCategoryClick} />
-              </li>
-            ))}
-          </ul>
-          <If condition={hasNextPage}>
-            <ButtonGroup alignment="center">
-              <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
-                Load More
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title="Categories"
+          subtitle="Manage your categories"
+          size="wide"
+          actions={
+            <ButtonGroup>
+              <Button variant="outline" aria-label="Manage Groups" onClick={handleManageGroupClick}>
+                <Icon as={FoldersIcon} color="inherit" size="sm" />
+                Manage Group
+              </Button>
+              <Button onClick={handleOpenDrawer}>
+                <Icon as={PlusIcon} color="inherit" size="sm" />
+                New Category
               </Button>
             </ButtonGroup>
-          </If>
-        </If>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon
+                as={FoldersIcon}
+                variant="outline"
+                aria-label="Manage Groups"
+                onClick={handleManageGroupClick}
+              />
+              <ButtonIcon as={PlusIcon} aria-label="New Category" onClick={handleOpenDrawer} />
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+      <PageLayout.ContentRegion>
+        <PageContent size="wide">
+          <FormLayout>
+            <FormLayout.Column span={isDesktop ? 4 : 12}>
+              <SearchInput defaultValue={debouncedSearch} onChange={(ev) => setDebouncedSearch(ev.target.value)} />
+            </FormLayout.Column>
+            <FormLayout.Column span={isDesktop ? 8 : 12}>
+              <CategoryFiltersControl config={categoryFilter} />
+            </FormLayout.Column>
+          </FormLayout>
 
-        <If condition={[!isInitialFetching, categories.length === 0]}>
-          <NoResults
-            icon={SearchXIcon}
-            title="No categories yet"
-            subtitle="Create your first category to start organizing your content"
-            action={
-              <ButtonGroup>
-                <Button onClick={handleOpenDrawer} variant="outline">
-                  <Icon as={PlusIcon} color="inherit" />
-                  Create Category
+          <If condition={isInitialFetching}>
+            <PageLoader />
+          </If>
+
+          <If condition={[!isInitialFetching, categories]}>
+            <ul className="mb-4">
+              {categories?.map((category) => (
+                <li key={category.id} className="border-b border-border">
+                  <CategoryCard category={category} onClick={handleCategoryClick} />
+                </li>
+              ))}
+            </ul>
+            <If condition={hasNextPage}>
+              <ButtonGroup alignment="center">
+                <Button onClick={() => fetchNextPage()} variant="outline" disabled={isFetchingNextPage}>
+                  Load More
                 </Button>
               </ButtonGroup>
-            }
-          />
-        </If>
-      </PageContent>
-    </>
+            </If>
+          </If>
+
+          <If condition={[!isInitialFetching, categories.length === 0]}>
+            <NoResults
+              icon={SearchXIcon}
+              title="No categories yet"
+              subtitle="Create your first category to start organizing your content"
+              action={
+                <ButtonGroup>
+                  <Button onClick={handleOpenDrawer} variant="outline">
+                    <Icon as={PlusIcon} color="inherit" />
+                    Create Category
+                  </Button>
+                </ButtonGroup>
+              }
+            />
+          </If>
+        </PageContent>
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 

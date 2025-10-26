@@ -1,5 +1,4 @@
 import { HUB_BASE_URL } from '@dimasbaguspm/constants';
-import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useActiveAppProfile } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
@@ -20,7 +19,6 @@ import { DEEP_LINKS } from '../../constants/page-routes';
 
 export const AppTopBar: FC = () => {
   const { profile } = useActiveAppProfile();
-  const { isDesktop } = useWindowResize();
 
   const { openModal } = useModalRoute();
   const navigate = useNavigate();
@@ -32,8 +30,6 @@ export const AppTopBar: FC = () => {
   const handleNavigateToMarketplace = () => {
     window.open(HUB_BASE_URL, '_blank');
   };
-
-  if (!isDesktop) return null;
 
   return (
     <TopBar>

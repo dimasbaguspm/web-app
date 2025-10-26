@@ -11,6 +11,7 @@ import {
   Icon,
   NoResults,
   PageHeader,
+  PageLayout,
   PageLoader,
   Tabs,
 } from '@dimasbaguspm/versaur';
@@ -71,39 +72,43 @@ const SpacesDetailPage: FC<SpacesDetailPageProps> = ({ space }) => {
   };
 
   return (
-    <>
-      <PageHeader
-        title={name}
-        subtitle={trimmedDescription}
-        size="wide"
-        tabs={
-          <Tabs value={currentTab} onValueChange={handleTabChange}>
-            <Tabs.Trigger value={SpaceDetailTab.Threads}>Threads</Tabs.Trigger>
-            <Tabs.Trigger value={SpaceDetailTab.Actions}>Actions</Tabs.Trigger>
-          </Tabs>
-        }
-        actions={
-          <ButtonGroup>
-            <Button onClick={handleOnPlusClick}>
-              <Icon as={PlusIcon} color="inherit" size="sm" />
-              New Thread
-            </Button>
-            <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
-              <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit Space</ButtonMenuIcon.Item>
-            </ButtonMenuIcon>
-          </ButtonGroup>
-        }
-        mobileActions={
-          <ButtonGroup>
-            <ButtonIcon as={PlusIcon} aria-label="New Thread" onClick={handleOnPlusClick} />
-            <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
-              <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit</ButtonMenuIcon.Item>
-            </ButtonMenuIcon>
-          </ButtonGroup>
-        }
-      />
-      <Outlet />
-    </>
+    <PageLayout>
+      <PageLayout.HeaderRegion>
+        <PageHeader
+          title={name}
+          subtitle={trimmedDescription}
+          size="wide"
+          tabs={
+            <Tabs value={currentTab} onValueChange={handleTabChange}>
+              <Tabs.Trigger value={SpaceDetailTab.Threads}>Threads</Tabs.Trigger>
+              <Tabs.Trigger value={SpaceDetailTab.Actions}>Actions</Tabs.Trigger>
+            </Tabs>
+          }
+          actions={
+            <ButtonGroup>
+              <Button onClick={handleOnPlusClick}>
+                <Icon as={PlusIcon} color="inherit" size="sm" />
+                New Thread
+              </Button>
+              <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
+                <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit Space</ButtonMenuIcon.Item>
+              </ButtonMenuIcon>
+            </ButtonGroup>
+          }
+          mobileActions={
+            <ButtonGroup>
+              <ButtonIcon as={PlusIcon} aria-label="New Thread" onClick={handleOnPlusClick} />
+              <ButtonMenuIcon as={BoltIcon} aria-label="More Options" variant="outline">
+                <ButtonMenuIcon.Item onClick={handleOnEditClick}>Edit</ButtonMenuIcon.Item>
+              </ButtonMenuIcon>
+            </ButtonGroup>
+          }
+        />
+      </PageLayout.HeaderRegion>
+      <PageLayout.ContentRegion>
+        <Outlet />
+      </PageLayout.ContentRegion>
+    </PageLayout>
   );
 };
 
