@@ -13,12 +13,6 @@ export interface SummaryFilterModel extends Record<string, unknown> {
 
 const FILTERS = ['dateFrom', 'dateTo', 'frequency', 'accountId', 'categoryId'] satisfies (keyof SummaryFilterModel)[];
 
-const HUMANIZED_FILTER_LABELS: Record<keyof SummaryFilterModel, string> = {
-  accountId: 'Account',
-  categoryId: 'Category',
-  frequency: 'Frequency',
-} as const;
-
 export enum FilterDateRangePresets {
   Last7Days = 'last_7_days',
   Last30Days = 'last_30_days',
@@ -159,28 +153,23 @@ export const useSummaryFilter = (opts?: UseFiltersOptions) => {
       switch (key) {
         case 'dateFrom':
         case 'dateTo':
-          // Use preset label if available, otherwise show "Custom Date Range"
-          if (appliedFilters.dateFrom || appliedFilters.dateTo) {
-            const label = currentDateRangePreset
-              ? DATE_RANGE_PRESET_LABELS[currentDateRangePreset]
-              : 'Custom Date Range';
-            acc.push([key, label]);
-          }
           break;
         case 'frequency':
           if (appliedFilters.frequency) {
             const frequencyLabel = FREQUENCY_LABELS[appliedFilters.frequency];
-            acc.push([key, frequencyLabel]);
+            acc.push([key, `Freq. ${frequencyLabel}`]);
           }
           break;
         case 'accountId':
           if (appliedFilters.accountId?.length) {
-            acc.push([key, HUMANIZED_FILTER_LABELS[key]]);
+            const label = appliedFilters.accountId.length === 1 ? 'Account' : 'Accounts';
+            acc.push([key, `${appliedFilters.accountId.length} ${label}`]);
           }
           break;
         case 'categoryId':
           if (appliedFilters.categoryId?.length) {
-            acc.push([key, HUMANIZED_FILTER_LABELS[key]]);
+            const label = appliedFilters.categoryId.length === 1 ? 'Category' : 'Categories';
+            acc.push([key, `${appliedFilters.categoryId.length} ${label}`]);
           }
           break;
       }

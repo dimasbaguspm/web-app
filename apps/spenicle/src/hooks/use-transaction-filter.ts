@@ -12,14 +12,6 @@ export interface TransactionFilterModel extends Record<string, unknown> {
 
 const FILTERS = ['type', 'accountId', 'categoryId', 'startDate', 'endDate'] satisfies (keyof TransactionFilterModel)[];
 
-const HUMANIZED_FILTER_LABELS: Record<keyof TransactionFilterModel, string> = {
-  type: 'Type',
-  accountId: 'Account',
-  categoryId: 'Category',
-  startDate: 'Start',
-  endDate: 'End',
-} as const;
-
 export const useTransactionFilter = (opts?: UseFiltersOptions) => {
   const filters = useFilters<TransactionFilterModel>(opts);
 
@@ -37,9 +29,6 @@ export const useTransactionFilter = (opts?: UseFiltersOptions) => {
     (acc, key) => {
       switch (key) {
         case 'type':
-          if (appliedFilters.type?.length) {
-            acc.push([key, HUMANIZED_FILTER_LABELS[key]]);
-          }
           break;
         case 'startDate':
           if (appliedFilters.startDate) {
@@ -53,12 +42,14 @@ export const useTransactionFilter = (opts?: UseFiltersOptions) => {
           break;
         case 'accountId':
           if (appliedFilters.accountId?.length) {
-            acc.push([key, HUMANIZED_FILTER_LABELS[key]]);
+            const label = appliedFilters.accountId.length === 1 ? 'Account' : 'Accounts';
+            acc.push([key, `${appliedFilters.accountId.length} ${label}`]);
           }
           break;
         case 'categoryId':
           if (appliedFilters.categoryId?.length) {
-            acc.push([key, HUMANIZED_FILTER_LABELS[key]]);
+            const label = appliedFilters.categoryId.length === 1 ? 'Category' : 'Categories';
+            acc.push([key, `${appliedFilters.categoryId.length} ${label}`]);
           }
           break;
       }

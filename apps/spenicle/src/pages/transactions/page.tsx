@@ -15,7 +15,7 @@ import {
 import { Dayjs } from 'dayjs';
 import { CalendarRangeIcon, PlusIcon } from 'lucide-react';
 import { FC } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { useSwipeable } from 'react-swipeable';
 
 import { TransactionCard } from '../../components/transaction-card';
@@ -35,12 +35,20 @@ interface TransactionsPageProps {
 const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
   const { openDrawer } = useDrawerRoute();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const { isLoading, transactions, accounts, categories, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useTransactionData({ date: startDate });
 
+  // Helper function to navigate while preserving search params
+  const navigateWithSearchParams = (path: string) => {
+    const currentParams = searchParams.toString();
+    const separator = currentParams ? '?' : '';
+    navigate(`${path}${separator}${currentParams}`);
+  };
+
   const handleOnDateChange = (date: Dayjs) => {
-    navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()));
+    navigateWithSearchParams(DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()));
   };
 
   const handleOnNewTransactionClick = () => {
@@ -65,7 +73,7 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
   };
 
   const handleOnCalendarDateChange = (date: Dayjs) => {
-    navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()));
+    navigateWithSearchParams(DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()));
   };
 
   const handleOnScheduledPaymentsClick = () => {
@@ -75,11 +83,13 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
   const containerHandlers = useSwipeable({
     onSwipedRight: () => {
       const previousDate = startDate.subtract(1, 'd');
-      navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(previousDate.year(), previousDate.month(), previousDate.date()));
+      navigateWithSearchParams(
+        DEEP_LINKS.TRANSACTIONS_DATE.path(previousDate.year(), previousDate.month(), previousDate.date()),
+      );
     },
     onSwipedLeft: () => {
       const nextDate = startDate.add(1, 'd');
-      navigate(DEEP_LINKS.TRANSACTIONS_DATE.path(nextDate.year(), nextDate.month(), nextDate.date()));
+      navigateWithSearchParams(DEEP_LINKS.TRANSACTIONS_DATE.path(nextDate.year(), nextDate.month(), nextDate.date()));
     },
     trackMouse: false,
   });

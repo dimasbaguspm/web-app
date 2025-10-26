@@ -1,5 +1,6 @@
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
-import { Button, ButtonGroup, Icon } from '@dimasbaguspm/versaur';
+import { If } from '@dimasbaguspm/utils/if';
+import { Button, ButtonGroup, FilterChip, FilterChipGroup, Icon } from '@dimasbaguspm/versaur';
 import dayjs, { Dayjs } from 'dayjs';
 import { CalendarCogIcon } from 'lucide-react';
 import { ChangeEvent, FC, useRef } from 'react';
@@ -54,6 +55,16 @@ export const ActionsControl: FC<ActionsControlProps> = ({ date, onFilterClick, o
           />
         </Button>
       </ButtonGroup>
+
+      <If condition={config.humanizedFilters.length > 0}>
+        <FilterChipGroup overlay hasMargin>
+          {config.humanizedFilters.map(([key, label]) => (
+            <FilterChip key={key} onClick={() => config.removeFilter(key)}>
+              {label}
+            </FilterChip>
+          ))}
+        </FilterChipGroup>
+      </If>
     </>
   );
 };
