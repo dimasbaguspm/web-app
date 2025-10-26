@@ -1,4 +1,4 @@
-import { AppLayout, MatchMedia, MobileBreakpoint, PageLoader } from '@dimasbaguspm/versaur';
+import { AppLayout, MobileBreakpoint, PageLoader, TabletAndDesktopBreakpoint } from '@dimasbaguspm/versaur';
 import { FC, PropsWithChildren, Suspense } from 'react';
 
 import { AppBottomBar } from './app-bottom-bar';
@@ -7,11 +7,11 @@ import { AppTopBar } from './app-top-bar';
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <AppLayout>
-      <MatchMedia query="(min-width: 768px)">
+      <TabletAndDesktopBreakpoint>
         <AppLayout.TopRegion>
           <AppTopBar />
         </AppLayout.TopRegion>
-      </MatchMedia>
+      </TabletAndDesktopBreakpoint>
       <AppLayout.MainRegion>
         <Suspense fallback={<PageLoader />}>{children}</Suspense>
       </AppLayout.MainRegion>
