@@ -165,4 +165,9 @@ export const SPENICLE_QUERY_KEYS = {
     'total',
     JSON.stringify(params ?? {}),
   ],
+  SPENICLE_REPORTS_SETTINGS: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_REPORTS_SETTINGS,
+    'settings',
+    JSON.stringify(params ?? {}),
+  ],
 };

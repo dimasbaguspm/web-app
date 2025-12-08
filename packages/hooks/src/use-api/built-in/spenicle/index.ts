@@ -9,3 +9,4 @@ export * from './transactions';
 export * from './scheduled-transactions';
 export * from './scheduled-transaction-queues';
 export * from './backup-requests';
+export * from './reports';

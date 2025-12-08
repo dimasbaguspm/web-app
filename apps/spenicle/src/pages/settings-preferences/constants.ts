@@ -53,4 +53,18 @@ export const settingsGroups = [
       },
     ],
   },
+  {
+    title: 'Others',
+    description: 'Additional settings to enhance your experience',
+    items: [
+      {
+        id: 'reports-daily-overview',
+        title: 'Reports',
+        description: 'Get a snapshot of your daily financial activities and balances',
+        icon: DEEP_LINKS.SETTINGS_REPORTS_DAILY_OVERVIEW.icon,
+        path: DEEP_LINKS.SETTINGS_REPORTS_DAILY_OVERVIEW.path,
+        badge: null,
+      },
+    ],
+  },
 ];

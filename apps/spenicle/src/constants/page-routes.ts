@@ -9,6 +9,7 @@ import {
   CalendarSyncIcon,
   CalendarRangeIcon,
   DatabaseZapIcon,
+  FileTextIcon,
 } from 'lucide-react';
 
 export const ROUTES = {
@@ -26,6 +27,7 @@ export const ROUTES = {
   SETTINGS_SCHEDULED_PAYMENTS: '/settings/scheduled-payments',
   SETTINGS_SCHEDULED_PAYMENTS_RECURRING: '/settings/scheduled-payments/recurring',
   SETTINGS_BACKUP: '/settings/backup',
+  SETTINGS_REPORTS_DAILY_OVERVIEW: '/settings/reports/daily-overview',
 } as const;
 
 export const DEEP_LINKS = {
@@ -98,6 +100,11 @@ export const DEEP_LINKS = {
     path: '/settings/backup',
     title: 'Backup',
     icon: DatabaseZapIcon,
+  },
+  SETTINGS_REPORTS_DAILY_OVERVIEW: {
+    path: '/settings/reports/daily-overview',
+    title: 'Daily Overview',
+    icon: FileTextIcon,
   },
 } as const;
 

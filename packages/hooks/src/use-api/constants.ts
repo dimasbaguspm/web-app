@@ -24,6 +24,7 @@ export const BASE_QUERY_KEYS = {
   SPENICLE_TRANSACTIONS: ['spenicle', 'transactions'],
   SPENICLE_SCHEDULED_TRANSACTIONS: ['spenicle', 'scheduled-transactions'],
   SPENICLE_SUMMARY: ['spenicle', 'summary'],
+  SPENICLE_REPORTS_SETTINGS: ['spenicle', 'reports', 'settings'],
 
   NOTUNIC_SPACES: ['notunic', 'spaces'],
   NOTUNIC_THREADS: ['notunic', 'threads'],

@@ -75,6 +75,9 @@ export const SPENICLE_URL = {
     CATEGORIES: '/summary/category',
     TOTAL: '/summary/total',
   },
+  REPORTS: {
+    SETTINGS: '/reports/settings',
+  },
 };
 
 export const NOTUNIC_URL = {

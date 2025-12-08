@@ -60,7 +60,7 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
     base,
     queryParams,
     enabled = true,
-    retry = true,
+    retry = false,
     silentError = false,
     headers = {},
     gcTime,
@@ -102,11 +102,15 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
             window.location.href = BASE_URL.LOGIN + '/sign-in?redirectTo=' + currentUrl + '&clientId=' + clientId;
           }
 
-          return err.response?.data;
+          const errorPayload = (err.response?.data ?? err) as TError | null;
+          const errorToThrow = (errorPayload ?? ({ message: 'Unknown error' } as TError)) as TError;
+          onError?.(errorToThrow);
+          return Promise.reject(errorToThrow);
         }
 
-        onError?.(err as TError);
-        return err;
+        const fallbackError = err as TError;
+        onError?.(fallbackError);
+        return Promise.reject(fallbackError);
       }
     },
     enabled: isEnable,
@@ -139,5 +143,5 @@ export const useApiQuery = <TData, TQuery, TError = { message: string }>(
     isRefetchError: query.isRefetchError,
   };
 
-  return [data || null, error, state, refetch];
+  return [data ?? null, (error ?? null) as TError | null, state, refetch];
 };

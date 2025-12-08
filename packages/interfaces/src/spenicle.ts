@@ -103,3 +103,8 @@ export type CreateRestoreBackupRequestModel =
   operations['postBackup-requestsRestore']['requestBody']['content']['application/json'];
 export type RestoreBackupRequestModel =
   operations['postBackup-requestsRestore']['responses']['200']['content']['application/json'];
+
+export type ReportRequestsModel = operations['getReportsSettings']['responses']['200']['content']['application/json'];
+export type UpdateReportRequestsModel =
+  operations['patchReportsSettings']['requestBody']['content']['application/json'];
+export type CreateReportGenerateModel = operations['postReportsSettings']['requestBody']['content']['application/json'];

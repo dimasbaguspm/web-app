@@ -1,5 +1,4 @@
 /* eslint-disable import/max-dependencies */
-import { ProfileAuthGuard } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { BottomSheetRouteProvider } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { DrawerRouteProvider } from '@dimasbaguspm/providers/drawer-route-provider';
 import { ModalRouteProvider } from '@dimasbaguspm/providers/modal-route-provider';
@@ -20,14 +19,12 @@ const router = createBrowserRouter([
       <DrawerRouteProvider>
         <ModalRouteProvider>
           <BottomSheetRouteProvider>
-            <ProfileAuthGuard>
-              <Layout>
-                <Outlet />
-              </Layout>
-              <DrawerRoutes />
-              <ModalRoutes />
-              <BottomSheetRoutes />
-            </ProfileAuthGuard>
+            <Layout>
+              <Outlet />
+            </Layout>
+            <DrawerRoutes />
+            <ModalRoutes />
+            <BottomSheetRoutes />
           </BottomSheetRouteProvider>
         </ModalRouteProvider>
       </DrawerRouteProvider>
@@ -105,6 +102,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.SETTINGS_BACKUP,
         Component: lazyLoad(() => import('../pages/settings-backup/page')),
+      },
+      {
+        path: ROUTES.SETTINGS_REPORTS_DAILY_OVERVIEW,
+        Component: lazyLoad(() => import('../pages/settings-reports-daily-overview/page')),
       },
     ],
   },
