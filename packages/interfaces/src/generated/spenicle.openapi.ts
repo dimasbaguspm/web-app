@@ -416,6 +416,22 @@ export interface paths {
     patch: operations['patchTransactionById'];
     trace?: never;
   };
+  '/reports/settings': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getReportsSettings'];
+    put?: never;
+    post: operations['postReportsSettings'];
+    delete: operations['deleteReportsSettings'];
+    options?: never;
+    head?: never;
+    patch: operations['patchReportsSettings'];
+    trace?: never;
+  };
   '/summary/transactions': {
     parameters: {
       query?: never;
@@ -546,7 +562,8 @@ export interface operations {
     parameters: {
       query?: {
         id?: number[];
-        type?: ('expense' | 'income')[];
+        type?: ('income' | 'expense')[];
+        subType?: ('general' | 'revenue' | 'asset' | 'liability')[];
         search?: string;
         userId?: number[];
         groupId?: number[];
@@ -576,7 +593,8 @@ export interface operations {
               groupId: number | null;
               accountGroupIds: number[] | null;
               name: string;
-              type: 'expense' | 'income';
+              type: 'income' | 'expense';
+              subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
               note: string | null;
               amount: string | number;
               metadata?: unknown;
@@ -609,7 +627,8 @@ export interface operations {
               groupId: number | null;
               accountGroupIds: number[] | null;
               name: string;
-              type: 'expense' | 'income';
+              type: 'income' | 'expense';
+              subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
               note: string | null;
               amount: string | number;
               metadata?: unknown;
@@ -642,7 +661,8 @@ export interface operations {
               groupId: number | null;
               accountGroupIds: number[] | null;
               name: string;
-              type: 'expense' | 'income';
+              type: 'income' | 'expense';
+              subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
               note: string | null;
               amount: string | number;
               metadata?: unknown;
@@ -682,21 +702,24 @@ export interface operations {
       content: {
         'application/json': {
           name: string;
-          type: 'expense' | 'income';
+          type: 'income' | 'expense';
+          subType?: ('general' | 'revenue' | 'asset' | 'liability') | null;
           note: string | null;
           amount: string | number;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name: string;
-          type: 'expense' | 'income';
+          type: 'income' | 'expense';
+          subType?: ('general' | 'revenue' | 'asset' | 'liability') | null;
           note: string | null;
           amount: string | number;
           metadata?: unknown;
         };
         'text/plain': {
           name: string;
-          type: 'expense' | 'income';
+          type: 'income' | 'expense';
+          subType?: ('general' | 'revenue' | 'asset' | 'liability') | null;
           note: string | null;
           amount: string | number;
           metadata?: unknown;
@@ -716,7 +739,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -743,7 +767,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -770,7 +795,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -817,7 +843,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -844,7 +871,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -871,7 +899,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -927,21 +956,24 @@ export interface operations {
       content: {
         'application/json': {
           name?: string;
-          type?: 'expense' | 'income';
+          type?: 'income' | 'expense';
+          subType?: ('general' | 'revenue' | 'asset' | 'liability') | null;
           note?: string | null;
           amount?: string | number;
           metadata?: unknown;
         };
         'multipart/form-data': {
           name?: string;
-          type?: 'expense' | 'income';
+          type?: 'income' | 'expense';
+          subType?: ('general' | 'revenue' | 'asset' | 'liability') | null;
           note?: string | null;
           amount?: string | number;
           metadata?: unknown;
         };
         'text/plain': {
           name?: string;
-          type?: 'expense' | 'income';
+          type?: 'income' | 'expense';
+          subType?: ('general' | 'revenue' | 'asset' | 'liability') | null;
           note?: string | null;
           amount?: string | number;
           metadata?: unknown;
@@ -961,7 +993,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -988,7 +1021,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -1015,7 +1049,8 @@ export interface operations {
             groupId: number | null;
             accountGroupIds: number[] | null;
             name: string;
-            type: 'expense' | 'income';
+            type: 'income' | 'expense';
+            subType: ('general' | 'revenue' | 'asset' | 'liability') | null;
             note: string | null;
             amount: string | number;
             metadata?: unknown;
@@ -3935,11 +3970,223 @@ export interface operations {
       };
     };
   };
+  getReportsSettings: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  postReportsSettings: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: email */
+          email: string;
+          frequency?: 'daily' | 'weekly' | 'monthly';
+          enabled?: boolean;
+        };
+        'multipart/form-data': {
+          /** Format: email */
+          email: string;
+          frequency?: 'daily' | 'weekly' | 'monthly';
+          enabled?: boolean;
+        };
+        'text/plain': {
+          /** Format: email */
+          email: string;
+          frequency?: 'daily' | 'weekly' | 'monthly';
+          enabled?: boolean;
+        };
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  deleteReportsSettings: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  patchReportsSettings: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          enabled?: boolean;
+          frequency?: 'daily' | 'weekly' | 'monthly';
+          /** Format: email */
+          email?: string;
+        };
+        'multipart/form-data': {
+          enabled?: boolean;
+          frequency?: 'daily' | 'weekly' | 'monthly';
+          /** Format: email */
+          email?: string;
+        };
+        'text/plain': {
+          enabled?: boolean;
+          frequency?: 'daily' | 'weekly' | 'monthly';
+          /** Format: email */
+          email?: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            enabled: boolean;
+            frequency: 'daily' | 'weekly' | 'monthly';
+            /** Format: email */
+            email: string;
+            lastSentAt: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
   getSummaryTransactions: {
     parameters: {
-      query: {
-        from: string;
-        to: string;
+      query?: {
+        from?: string;
+        to?: string;
         search?: string;
         frequency?: 'hourly' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly';
         categoryId?: number[];
@@ -3992,9 +4239,9 @@ export interface operations {
   };
   getSummaryAccount: {
     parameters: {
-      query: {
-        from: string;
-        to: string;
+      query?: {
+        from?: string;
+        to?: string;
         id?: number[];
         type?: 'income' | 'expense';
         sortBy?: 'accountName' | 'net' | 'income' | 'expense' | 'totalTransactions';
@@ -4041,9 +4288,9 @@ export interface operations {
   };
   getSummaryCategory: {
     parameters: {
-      query: {
-        from: string;
-        to: string;
+      query?: {
+        from?: string;
+        to?: string;
         id?: number[];
         type?: ('income' | 'expense' | 'transfer')[];
         sortBy?: 'categoryName' | 'net' | 'income' | 'expense' | 'totalTransactions';
@@ -4090,9 +4337,9 @@ export interface operations {
   };
   getSummaryTotal: {
     parameters: {
-      query: {
-        from: string;
-        to: string;
+      query?: {
+        from?: string;
+        to?: string;
         search?: string;
         type?: ('income' | 'expense' | 'transfer')[];
         categoryId?: number[];

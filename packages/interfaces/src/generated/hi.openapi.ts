@@ -926,7 +926,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -2642,11 +2642,11 @@ export interface operations {
   getUser: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         email?: string[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at';
         sortOrder?: 'asc' | 'desc';
       };
