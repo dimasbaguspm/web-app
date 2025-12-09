@@ -14,7 +14,6 @@ import {
   PageHeader,
   PageLayout,
   PageLoader,
-  SelectInput,
   SwitchInput,
   useSnackbars,
 } from '@dimasbaguspm/versaur';
@@ -39,14 +38,12 @@ const SettingsReportsDailyOverviewPage = () => {
     await createReports({
       email: user.email,
       enabled: true,
-      frequency: 'daily',
     });
   };
 
   const handleOnFormSubmit = async (data: SettingsReportsDailyOverviewForm) => {
     await updateReports({
       enabled: data.enabled,
-      frequency: data.frequency,
     });
     showSnack('success', 'Settings updated successfully');
   };
@@ -70,20 +67,6 @@ const SettingsReportsDailyOverviewPage = () => {
                       control={control}
                       defaultValue={reportsSettings?.enabled}
                       render={({ field }) => <SwitchInput label="Enable Daily Overview Reports" {...field} />}
-                    />
-                  </FormLayout.Column>
-                  <FormLayout.Column span={12}>
-                    <Controller
-                      name="frequency"
-                      control={control}
-                      defaultValue={reportsSettings?.frequency}
-                      render={({ field }) => (
-                        <SelectInput label="Report Frequency" {...field}>
-                          <SelectInput.Option value="daily">Daily</SelectInput.Option>
-                          <SelectInput.Option value="weekly">Weekly</SelectInput.Option>
-                          <SelectInput.Option value="monthly">Monthly</SelectInput.Option>
-                        </SelectInput>
-                      )}
                     />
                   </FormLayout.Column>
                 </FormLayout>

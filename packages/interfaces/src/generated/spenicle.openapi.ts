@@ -416,6 +416,22 @@ export interface paths {
     patch: operations['patchTransactionById'];
     trace?: never;
   };
+  '/reports/send': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['postReportsSend'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/reports/settings': {
     parameters: {
       query?: never;
@@ -3970,6 +3986,33 @@ export interface operations {
       };
     };
   };
+  postReportsSend: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      202: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            messageId: string | null;
+          };
+          'multipart/form-data': {
+            messageId: string | null;
+          };
+          'text/plain': {
+            messageId: string | null;
+          };
+        };
+      };
+    };
+  };
   getReportsSettings: {
     parameters: {
       query?: never;
@@ -3986,10 +4029,8 @@ export interface operations {
         content: {
           'application/json': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -3997,10 +4038,8 @@ export interface operations {
           };
           'multipart/form-data': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -4008,10 +4047,8 @@ export interface operations {
           };
           'text/plain': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -4033,19 +4070,16 @@ export interface operations {
         'application/json': {
           /** Format: email */
           email: string;
-          frequency?: 'daily' | 'weekly' | 'monthly';
           enabled?: boolean;
         };
         'multipart/form-data': {
           /** Format: email */
           email: string;
-          frequency?: 'daily' | 'weekly' | 'monthly';
           enabled?: boolean;
         };
         'text/plain': {
           /** Format: email */
           email: string;
-          frequency?: 'daily' | 'weekly' | 'monthly';
           enabled?: boolean;
         };
       };
@@ -4058,10 +4092,8 @@ export interface operations {
         content: {
           'application/json': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -4069,10 +4101,8 @@ export interface operations {
           };
           'multipart/form-data': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -4080,10 +4110,8 @@ export interface operations {
           };
           'text/plain': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -4121,19 +4149,16 @@ export interface operations {
       content: {
         'application/json': {
           enabled?: boolean;
-          frequency?: 'daily' | 'weekly' | 'monthly';
           /** Format: email */
           email?: string;
         };
         'multipart/form-data': {
           enabled?: boolean;
-          frequency?: 'daily' | 'weekly' | 'monthly';
           /** Format: email */
           email?: string;
         };
         'text/plain': {
           enabled?: boolean;
-          frequency?: 'daily' | 'weekly' | 'monthly';
           /** Format: email */
           email?: string;
         };
@@ -4147,10 +4172,8 @@ export interface operations {
         content: {
           'application/json': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -4158,10 +4181,8 @@ export interface operations {
           };
           'multipart/form-data': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -4169,10 +4190,8 @@ export interface operations {
           };
           'text/plain': {
             enabled: boolean;
-            frequency: 'daily' | 'weekly' | 'monthly';
             /** Format: email */
             email: string;
-            lastSentAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */

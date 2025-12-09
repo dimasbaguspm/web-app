@@ -469,7 +469,7 @@ export interface operations {
   getSpaces: {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         name?: string;
         description?: string | null;
         createdFrom?: string;
@@ -478,8 +478,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt' | 'name';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;
@@ -612,7 +612,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -744,19 +744,19 @@ export interface operations {
   getThreads: {
     parameters: {
       query?: {
-        id?: number[];
-        spaceId?: number[];
+        id?: (number | string)[];
+        spaceId?: (number | string)[];
         title?: string;
         content?: string;
         createdFrom?: string;
         createdTo?: string;
         updatedFrom?: string;
         updatedTo?: string;
-        categoryId?: number[];
+        categoryId?: (number | string)[];
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;
@@ -1000,7 +1000,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        id: number;
+        id: string | number;
       };
       cookie?: never;
     };
@@ -2594,10 +2594,10 @@ export interface operations {
   'getComment-category': {
     parameters: {
       query?: {
-        id?: number[];
+        id?: (number | string)[];
         search?: string;
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
         sortBy?: 'created_at' | 'updated_at' | 'name';
         sortOrder?: 'asc' | 'desc';
       };
@@ -3179,13 +3179,13 @@ export interface operations {
   getComments: {
     parameters: {
       query?: {
-        id?: number[];
-        spaceId?: number[];
-        threadId?: number[];
-        parentCommentId?: number;
-        isMainComment?: boolean;
-        categoryIds?: number[];
-        hasReplies?: boolean;
+        id?: (number | string)[];
+        spaceId?: (number | string)[];
+        threadId?: (number | string)[];
+        parentCommentId?: string | number;
+        isMainComment?: boolean | string;
+        categoryIds?: (number | string)[];
+        hasReplies?: boolean | string;
         actionStatus?: 'todo' | 'done';
         actionDueFrom?: string;
         actionDueTo?: string;
@@ -3196,8 +3196,8 @@ export interface operations {
         updatedTo?: string;
         sortBy?: 'createdAt' | 'updatedAt';
         sortOrder?: 'asc' | 'desc';
-        pageNumber?: number;
-        pageSize?: number;
+        pageNumber?: string | number;
+        pageSize?: string | number;
       };
       header?: never;
       path?: never;
