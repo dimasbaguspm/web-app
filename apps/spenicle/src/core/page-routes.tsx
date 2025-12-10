@@ -1,4 +1,5 @@
 /* eslint-disable import/max-dependencies */
+import { ProfileAuthGuard } from '@dimasbaguspm/providers/active-app-profile-provider';
 import { BottomSheetRouteProvider } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { DrawerRouteProvider } from '@dimasbaguspm/providers/drawer-route-provider';
 import { ModalRouteProvider } from '@dimasbaguspm/providers/modal-route-provider';
@@ -19,12 +20,14 @@ const router = createBrowserRouter([
       <DrawerRouteProvider>
         <ModalRouteProvider>
           <BottomSheetRouteProvider>
-            <Layout>
-              <Outlet />
-            </Layout>
-            <DrawerRoutes />
-            <ModalRoutes />
-            <BottomSheetRoutes />
+            <ProfileAuthGuard disableProfileVerification>
+              <Layout>
+                <Outlet />
+              </Layout>
+              <DrawerRoutes />
+              <ModalRoutes />
+              <BottomSheetRoutes />
+            </ProfileAuthGuard>
           </BottomSheetRouteProvider>
         </ModalRouteProvider>
       </DrawerRouteProvider>
