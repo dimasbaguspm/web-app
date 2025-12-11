@@ -1,6 +1,7 @@
 import { AccountModel, CategoryModel, TransactionModel } from '@dimasbaguspm/interfaces';
 import { formatSpenicleAccount, formatSpenicleCategory, formatSpenicleTransaction } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
+import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { formatPrice } from '@dimasbaguspm/utils/price';
 import { Avatar, Badge, BadgeGroup, Card, CardProps, Icon } from '@dimasbaguspm/versaur';
 import { RefreshCwIcon } from 'lucide-react';
@@ -57,19 +58,20 @@ export const TransactionCard: FC<TransactionCardProps> = ({
         </div>
       }
       onClick={() => onClick(transaction)}
-      avatar={<Avatar shape="rounded">{accountInitialName}</Avatar>}
+      avatar={<Avatar shape="rounded">{accountInitialName || nameToInitials(transaction.account.name)}</Avatar>}
       subtitle={
         <Card.List>
           <If condition={[isTransfer, !hideAccountSubtitle]}>
             <Card.ListItem>
-              {accountName} to {destinationAccountName}
+              {accountName || transaction.account.name} to{' '}
+              {destinationAccountName || transaction.destinationAccount?.name}
             </Card.ListItem>
           </If>
           <If condition={[!isTransfer, !hideAccountSubtitle]}>
-            <Card.ListItem>{accountName}</Card.ListItem>
+            <Card.ListItem>{accountName || transaction.account.name}</Card.ListItem>
           </If>
           <If condition={[!hideCategorySubtitle]}>
-            <Card.ListItem>{categoryName}</Card.ListItem>
+            <Card.ListItem>{categoryName || transaction.category.name}</Card.ListItem>
           </If>
           <If condition={[!!trimmedNotes.length, !hideNotesSubtitle]}>
             <Card.ListItem>{trimmedNotes}</Card.ListItem>

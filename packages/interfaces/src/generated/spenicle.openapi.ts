@@ -3464,8 +3464,21 @@ export interface operations {
                   groupId: number | null;
                   isScheduledPayment: boolean;
                   accountId: number;
+                  account: {
+                    id: number;
+                    name: string;
+                  };
                   destinationAccountId: number | null;
+                  destinationAccount: {
+                    id: number;
+                    name: string;
+                  } | null;
                   categoryId: number;
+                  category: {
+                    id: number;
+                    name: string;
+                    type: 'income' | 'expense' | 'transfer';
+                  };
                   amount: string | number;
                   type: 'income' | 'expense' | 'transfer';
                   /** Format: date-time */
@@ -3502,8 +3515,21 @@ export interface operations {
                   groupId: number | null;
                   isScheduledPayment: boolean;
                   accountId: number;
+                  account: {
+                    id: number;
+                    name: string;
+                  };
                   destinationAccountId: number | null;
+                  destinationAccount: {
+                    id: number;
+                    name: string;
+                  } | null;
                   categoryId: number;
+                  category: {
+                    id: number;
+                    name: string;
+                    type: 'income' | 'expense' | 'transfer';
+                  };
                   amount: string | number;
                   type: 'income' | 'expense' | 'transfer';
                   /** Format: date-time */
@@ -3540,8 +3566,21 @@ export interface operations {
                   groupId: number | null;
                   isScheduledPayment: boolean;
                   accountId: number;
+                  account: {
+                    id: number;
+                    name: string;
+                  };
                   destinationAccountId: number | null;
+                  destinationAccount: {
+                    id: number;
+                    name: string;
+                  } | null;
                   categoryId: number;
+                  category: {
+                    id: number;
+                    name: string;
+                    type: 'income' | 'expense' | 'transfer';
+                  };
                   amount: string | number;
                   type: 'income' | 'expense' | 'transfer';
                   /** Format: date-time */
@@ -3601,8 +3640,21 @@ export interface operations {
               groupId: number | null;
               isScheduledPayment: boolean;
               accountId: number;
+              account: {
+                id: number;
+                name: string;
+              };
               destinationAccountId: number | null;
+              destinationAccount: {
+                id: number;
+                name: string;
+              } | null;
               categoryId: number;
+              category: {
+                id: number;
+                name: string;
+                type: 'income' | 'expense' | 'transfer';
+              };
               amount: string | number;
               type: 'income' | 'expense' | 'transfer';
               /** Format: date-time */
@@ -3626,8 +3678,21 @@ export interface operations {
               groupId: number | null;
               isScheduledPayment: boolean;
               accountId: number;
+              account: {
+                id: number;
+                name: string;
+              };
               destinationAccountId: number | null;
+              destinationAccount: {
+                id: number;
+                name: string;
+              } | null;
               categoryId: number;
+              category: {
+                id: number;
+                name: string;
+                type: 'income' | 'expense' | 'transfer';
+              };
               amount: string | number;
               type: 'income' | 'expense' | 'transfer';
               /** Format: date-time */
@@ -3651,8 +3716,21 @@ export interface operations {
               groupId: number | null;
               isScheduledPayment: boolean;
               accountId: number;
+              account: {
+                id: number;
+                name: string;
+              };
               destinationAccountId: number | null;
+              destinationAccount: {
+                id: number;
+                name: string;
+              } | null;
               categoryId: number;
+              category: {
+                id: number;
+                name: string;
+                type: 'income' | 'expense' | 'transfer';
+              };
               amount: string | number;
               type: 'income' | 'expense' | 'transfer';
               /** Format: date-time */
@@ -3726,8 +3804,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
@@ -3745,8 +3836,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
@@ -3764,8 +3868,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
@@ -3803,8 +3920,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
@@ -3822,8 +3952,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
@@ -3841,8 +3984,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
@@ -3932,8 +4088,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
@@ -3951,8 +4120,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
@@ -3970,8 +4152,21 @@ export interface operations {
             groupId: number | null;
             isScheduledPayment: boolean;
             accountId: number;
+            account: {
+              id: number;
+              name: string;
+            };
             destinationAccountId: number | null;
+            destinationAccount: {
+              id: number;
+              name: string;
+            } | null;
             categoryId: number;
+            category: {
+              id: number;
+              name: string;
+              type: 'income' | 'expense' | 'transfer';
+            };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
             /** Format: date-time */
