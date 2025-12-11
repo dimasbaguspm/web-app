@@ -10,10 +10,11 @@ import {
   CalendarRangeIcon,
   DatabaseZapIcon,
   FileTextIcon,
+  HomeIcon,
 } from 'lucide-react';
 
 export const ROUTES = {
-  TRANSACTIONS: '/',
+  DASHBOARD: '/',
   TRANSACTIONS_ALT: '/transactions',
   TRANSACTIONS_DATE: ':year/:month/:day',
   ACCOUNTS: '/accounts',
@@ -31,10 +32,10 @@ export const ROUTES = {
 } as const;
 
 export const DEEP_LINKS = {
-  TRANSACTIONS: {
+  DASHBOARD: {
     path: '/',
-    title: 'Transactions',
-    icon: FileText,
+    title: 'Dashboard',
+    icon: HomeIcon,
   },
   TRANSACTIONS_ALT: {
     path: '/transactions',

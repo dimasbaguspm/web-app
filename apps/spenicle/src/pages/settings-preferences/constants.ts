@@ -6,12 +6,26 @@ export const settingsGroups = [
     description: 'Organize your financial data with custom groups',
     items: [
       {
+        id: 'accounts',
+        title: 'Accounts',
+        description: 'Manage your financial accounts and view their details',
+        icon: DEEP_LINKS.ACCOUNTS.icon,
+        path: DEEP_LINKS.ACCOUNTS.path,
+      },
+      {
         id: 'account-groups',
         title: 'Account Groups',
         description: 'Create and manage groups for your accounts to better organize your finances',
         icon: DEEP_LINKS.SETTINGS_ACCOUNT_GROUPS.icon,
         path: DEEP_LINKS.SETTINGS_ACCOUNT_GROUPS.path,
         badge: 'Popular',
+      },
+      {
+        id: 'categories',
+        title: 'Categories',
+        description: 'Customize and manage your expense and income categories',
+        icon: DEEP_LINKS.CATEGORIES.icon,
+        path: DEEP_LINKS.CATEGORIES.path,
       },
       {
         id: 'category-groups',

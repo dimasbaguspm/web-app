@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import { BOTTOM_SHEET_ROUTES } from '../../constants/bottom-sheet-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
 
-import { LINKS } from './constants';
+import { BOTTOM_BAR_LINKS } from './constants';
 
 export const AppBottomBar: FC = () => {
   const navigate = useNavigate();
@@ -23,12 +23,13 @@ export const AppBottomBar: FC = () => {
 
   return (
     <BottomBar>
-      {LINKS.map((link) => {
+      {BOTTOM_BAR_LINKS.map((link) => {
         const isActiveLink =
           link.path === DEEP_LINKS.TRANSACTIONS_ALT.path
-            ? DEEP_LINKS.TRANSACTIONS.path === location.pathname ||
-              location.pathname.startsWith(DEEP_LINKS.TRANSACTIONS_ALT.path)
-            : isActive(link.path);
+            ? location.pathname.startsWith(DEEP_LINKS.TRANSACTIONS_ALT.path)
+            : link.path === DEEP_LINKS.DASHBOARD.path
+              ? location.pathname === DEEP_LINKS.DASHBOARD.path
+              : isActive(link.path);
         return (
           <BottomBar.Item
             key={link.path}

@@ -34,8 +34,8 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: ROUTES.TRANSACTIONS,
-        Component: lazyLoad(() => import('../pages/transactions/page')),
+        path: ROUTES.DASHBOARD,
+        Component: lazyLoad(() => import('../pages/dashboard/page')),
       },
       {
         path: ROUTES.TRANSACTIONS_ALT,

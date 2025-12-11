@@ -17,7 +17,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { MODAL_ROUTES } from '../../constants/modal-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
 
-import { LINKS } from './constants';
+import { TOP_BAR_LINKS } from './constants';
 
 export const AppTopBar: FC = () => {
   const { profile } = useActiveAppProfile();
@@ -46,15 +46,14 @@ export const AppTopBar: FC = () => {
           size="lg"
           shape="rounded"
           aria-label="Spenicle Logo"
-          onClick={handleNavigation(DEEP_LINKS.TRANSACTIONS.path)}
+          className="cursor-pointer"
+          onClick={handleNavigation(DEEP_LINKS.DASHBOARD.path)}
         />
         <TopBar.Nav>
-          {LINKS.map((link) => {
+          {TOP_BAR_LINKS.map((link) => {
             const isActiveLink = isActive(link.path);
 
-            const isTransactionPageActive =
-              DEEP_LINKS.TRANSACTIONS.path === location.pathname ||
-              location.pathname.startsWith(DEEP_LINKS.TRANSACTIONS_ALT.path);
+            const isTransactionPageActive = location.pathname.startsWith(DEEP_LINKS.TRANSACTIONS_ALT.path);
 
             return (
               <TopBar.NavItem
