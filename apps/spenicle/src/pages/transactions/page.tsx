@@ -1,3 +1,4 @@
+import { useApiSpenicleTransactionsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
@@ -21,12 +22,12 @@ import { useSwipeable } from 'react-swipeable';
 import { TransactionCard } from '../../components/transaction-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
+import { useTransactionFilter } from '../../hooks/use-transaction-filter';
 
 import { ActionsControl } from './components/actions-control';
 import { NoResults } from './components/no-results';
 import { TabsDate } from './components/tabs-date';
 import { DateGuard } from './guards/date-guard';
-import { useTransactionData } from './hooks/use-transactions-data';
 
 interface TransactionsPageProps {
   startDate: Dayjs;
@@ -37,8 +38,18 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const { isLoading, transactions, accounts, categories, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useTransactionData({ date: startDate });
+  const { appliedFilters } = useTransactionFilter({ adapter: 'url' });
+
+  const [transactions, , { hasNextPage, isLoading, isFetchingNextPage }, { fetchNextPage }] =
+    useApiSpenicleTransactionsInfiniteQuery({
+      accountId: appliedFilters?.accountId ? appliedFilters.accountId : [],
+      categoryId: appliedFilters?.categoryId ? appliedFilters.categoryId : [],
+      type: appliedFilters?.type ? appliedFilters.type : [],
+      dateFrom: formatDate(startDate.startOf('day'), DateFormat.ISO_DATETIME),
+      dateTo: formatDate(startDate.endOf('day'), DateFormat.ISO_DATETIME),
+      pageSize: 15,
+      sortBy: 'date',
+    });
 
   // Helper function to navigate while preserving search params
   const navigateWithSearchParams = (path: string) => {
@@ -143,19 +154,9 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
           <If condition={[!isLoading, transactions.length !== 0]}>
             <ul className="flex flex-col mb-4">
               {transactions.map((transaction) => {
-                const account = accounts?.items.find((acc) => acc.id === transaction.accountId);
-                const destinationAccount = accounts?.items.find((acc) => acc.id === transaction.destinationAccountId);
-                const category = categories?.items.find((cat) => cat.id === transaction.categoryId);
-
                 return (
                   <li key={transaction.id} className="border-b border-border">
-                    <TransactionCard
-                      transaction={transaction}
-                      account={account}
-                      destinationAccount={destinationAccount}
-                      category={category}
-                      onClick={handleOnTransactionClick}
-                    />
+                    <TransactionCard transaction={transaction} onClick={handleOnTransactionClick} />
                   </li>
                 );
               })}

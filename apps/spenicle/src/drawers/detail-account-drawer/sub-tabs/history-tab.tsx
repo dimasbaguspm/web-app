@@ -1,3 +1,4 @@
+import { useApiSpenicleTransactionsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { useDebouncedState } from '@dimasbaguspm/hooks/use-debounced-state';
 import { AccountModel, TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
@@ -9,7 +10,6 @@ import { FC } from 'react';
 import { TransactionCard } from '../../../components/transaction-card';
 import { TransactionFiltersControl } from '../../../components/transaction-filter-control';
 import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
-import { useTransactionData } from '../../../hooks/use-transaction-data';
 import { useTransactionFilter } from '../../../hooks/use-transaction-filter';
 
 interface HistoryTabProps {
@@ -23,19 +23,16 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
   });
   const filters = useTransactionFilter({ adapter: 'state' });
 
-  const {
-    data: transactions,
-    isInitialLoading,
-    isFetchingNextPage,
-    hasNextPage,
-    fetchNextPage,
-  } = useTransactionData({
-    accountId: [data.id],
-    search: searchValue,
-    dateFrom: filters.appliedFilters.startDate,
-    dateTo: filters.appliedFilters.endDate,
-    type: filters.appliedFilters.type,
-  });
+  const [transactions, , { hasNextPage, isLoading, isFetchingNextPage }, { fetchNextPage }] =
+    useApiSpenicleTransactionsInfiniteQuery({
+      pageSize: 15,
+      sortBy: 'date',
+      accountId: [data.id],
+      search: searchValue,
+      dateFrom: filters.appliedFilters.startDate,
+      dateTo: filters.appliedFilters.endDate,
+      type: filters.appliedFilters.type,
+    });
 
   const handleOnTransactionClick = (transaction: TransactionModel) => {
     openDrawer(DRAWER_ROUTES.DETAIL_TRANSACTION, {
@@ -54,23 +51,20 @@ export const HistoryTab: FC<HistoryTabProps> = ({ data }) => {
         </FormLayout.Column>
       </FormLayout>
 
-      <If condition={[isInitialLoading]}>
+      <If condition={[isLoading]}>
         <PageLoader />
       </If>
 
-      <If condition={[!isInitialLoading]}>
+      <If condition={[!isLoading]}>
         <If condition={!transactions.length}>
           <NoResults icon={SearchXIcon} title="No history available" subtitle="Try adjusting your search criteria" />
         </If>
         <If condition={[transactions.length]}>
           <ul className="mb-4">
-            {transactions.map(({ transaction, account, destinationAccount, category }) => (
+            {transactions.map((transaction) => (
               <li key={transaction.id} className="border-b border-border">
                 <TransactionCard
                   transaction={transaction}
-                  account={account}
-                  destinationAccount={destinationAccount}
-                  category={category}
                   onClick={handleOnTransactionClick}
                   useDateTime
                   hideAccountSubtitle

@@ -1,3 +1,4 @@
+import { useApiSpenicleTransactionsInfiniteQuery } from '@dimasbaguspm/hooks/use-api';
 import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { If } from '@dimasbaguspm/utils/if';
@@ -6,12 +7,29 @@ import { SearchXIcon } from 'lucide-react';
 
 import { TransactionCard } from '../../components/transaction-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-
-import { useSummaryTimelineData } from './hooks/use-summary-timeline-data';
+import { useSummaryFilter } from '../../hooks/use-summary-filter';
 
 const SummaryTimeline = () => {
-  const { data, isInitialLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useSummaryTimelineData();
   const { openDrawer } = useDrawerRoute();
+
+  const { appliedFilters } = useSummaryFilter();
+
+  const dateFilters = {
+    from: appliedFilters.dateFrom,
+    to: appliedFilters.dateTo,
+    categoryIds: appliedFilters.categoryIds,
+    accountIds: appliedFilters.accountIds,
+  };
+
+  const [transactions, , { hasNextPage, isLoading, isFetchingNextPage }, { fetchNextPage }] =
+    useApiSpenicleTransactionsInfiniteQuery({
+      dateFrom: dateFilters.from,
+      dateTo: dateFilters.to,
+      categoryId: appliedFilters.categoryId,
+      accountId: appliedFilters.accountId,
+      pageSize: 15,
+      sortBy: 'date',
+    });
 
   const handleOnTransactionClick = (transaction: TransactionModel) => {
     openDrawer(DRAWER_ROUTES.DETAIL_TRANSACTION, {
@@ -21,23 +39,16 @@ const SummaryTimeline = () => {
 
   return (
     <>
-      <If condition={isInitialLoading}>
+      <If condition={isLoading}>
         <PageLoader />
       </If>
 
-      <If condition={[!isInitialLoading, data.length]}>
+      <If condition={[!isLoading, transactions.length]}>
         <ul className="mb-4">
-          {data.map(({ transaction, account, destinationAccount, category }) => {
+          {transactions.map((transaction) => {
             return (
               <li key={transaction.id} className="border-b border-border">
-                <TransactionCard
-                  transaction={transaction}
-                  category={category}
-                  account={account}
-                  destinationAccount={destinationAccount}
-                  onClick={handleOnTransactionClick}
-                  useDateTime
-                />
+                <TransactionCard transaction={transaction} onClick={handleOnTransactionClick} useDateTime />
               </li>
             );
           })}
@@ -52,7 +63,7 @@ const SummaryTimeline = () => {
         </If>
       </If>
 
-      <If condition={[!isInitialLoading, !data.length]}>
+      <If condition={[!isLoading, !transactions.length]}>
         <NoResults
           icon={SearchXIcon}
           title="No transactions found"

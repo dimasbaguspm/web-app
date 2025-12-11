@@ -3467,17 +3467,29 @@ export interface operations {
                   account: {
                     id: number;
                     name: string;
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   };
                   destinationAccountId: number | null;
                   destinationAccount: {
                     id: number;
                     name: string;
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   } | null;
                   categoryId: number;
                   category: {
                     id: number;
                     name: string;
                     type: 'income' | 'expense' | 'transfer';
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   };
                   amount: string | number;
                   type: 'income' | 'expense' | 'transfer';
@@ -3518,17 +3530,29 @@ export interface operations {
                   account: {
                     id: number;
                     name: string;
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   };
                   destinationAccountId: number | null;
                   destinationAccount: {
                     id: number;
                     name: string;
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   } | null;
                   categoryId: number;
                   category: {
                     id: number;
                     name: string;
                     type: 'income' | 'expense' | 'transfer';
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   };
                   amount: string | number;
                   type: 'income' | 'expense' | 'transfer';
@@ -3569,17 +3593,29 @@ export interface operations {
                   account: {
                     id: number;
                     name: string;
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   };
                   destinationAccountId: number | null;
                   destinationAccount: {
                     id: number;
                     name: string;
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   } | null;
                   categoryId: number;
                   category: {
                     id: number;
                     name: string;
                     type: 'income' | 'expense' | 'transfer';
+                    groups: {
+                      id: number;
+                      name: string;
+                    }[];
                   };
                   amount: string | number;
                   type: 'income' | 'expense' | 'transfer';
@@ -3643,17 +3679,29 @@ export interface operations {
               account: {
                 id: number;
                 name: string;
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               };
               destinationAccountId: number | null;
               destinationAccount: {
                 id: number;
                 name: string;
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               } | null;
               categoryId: number;
               category: {
                 id: number;
                 name: string;
                 type: 'income' | 'expense' | 'transfer';
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               };
               amount: string | number;
               type: 'income' | 'expense' | 'transfer';
@@ -3681,17 +3729,29 @@ export interface operations {
               account: {
                 id: number;
                 name: string;
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               };
               destinationAccountId: number | null;
               destinationAccount: {
                 id: number;
                 name: string;
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               } | null;
               categoryId: number;
               category: {
                 id: number;
                 name: string;
                 type: 'income' | 'expense' | 'transfer';
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               };
               amount: string | number;
               type: 'income' | 'expense' | 'transfer';
@@ -3719,17 +3779,29 @@ export interface operations {
               account: {
                 id: number;
                 name: string;
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               };
               destinationAccountId: number | null;
               destinationAccount: {
                 id: number;
                 name: string;
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               } | null;
               categoryId: number;
               category: {
                 id: number;
                 name: string;
                 type: 'income' | 'expense' | 'transfer';
+                groups: {
+                  id: number;
+                  name: string;
+                }[];
               };
               amount: string | number;
               type: 'income' | 'expense' | 'transfer';
@@ -3807,17 +3879,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
@@ -3839,17 +3923,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
@@ -3871,17 +3967,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
@@ -3923,17 +4031,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
@@ -3955,17 +4075,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
@@ -3987,17 +4119,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
@@ -4091,17 +4235,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
@@ -4123,17 +4279,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';
@@ -4155,17 +4323,29 @@ export interface operations {
             account: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             destinationAccountId: number | null;
             destinationAccount: {
               id: number;
               name: string;
+              groups: {
+                id: number;
+                name: string;
+              }[];
             } | null;
             categoryId: number;
             category: {
               id: number;
               name: string;
               type: 'income' | 'expense' | 'transfer';
+              groups: {
+                id: number;
+                name: string;
+              }[];
             };
             amount: string | number;
             type: 'income' | 'expense' | 'transfer';

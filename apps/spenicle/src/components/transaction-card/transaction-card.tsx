@@ -1,5 +1,5 @@
-import { AccountModel, CategoryModel, TransactionModel } from '@dimasbaguspm/interfaces';
-import { formatSpenicleAccount, formatSpenicleCategory, formatSpenicleTransaction } from '@dimasbaguspm/utils/data';
+import { TransactionModel } from '@dimasbaguspm/interfaces';
+import { formatSpenicleTransaction } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { nameToInitials } from '@dimasbaguspm/utils/initial';
 import { formatPrice } from '@dimasbaguspm/utils/price';
@@ -9,9 +9,6 @@ import { FC } from 'react';
 
 interface TransactionCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered'> {
   transaction: TransactionModel;
-  category: CategoryModel | undefined;
-  account: AccountModel | undefined;
-  destinationAccount?: AccountModel | undefined;
   onClick: (transaction: TransactionModel) => void;
   useDateTime?: boolean;
   hideAccountSubtitle?: boolean;
@@ -23,9 +20,6 @@ interface TransactionCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' |
 
 export const TransactionCard: FC<TransactionCardProps> = ({
   transaction,
-  category,
-  account,
-  destinationAccount,
   onClick,
   useDateTime,
   hideAccountSubtitle,
@@ -37,15 +31,13 @@ export const TransactionCard: FC<TransactionCardProps> = ({
 }) => {
   const { variant, capitalizedType, dateTime, time, trimmedNotes, isScheduled, isTransfer } =
     formatSpenicleTransaction(transaction);
-  const { name: categoryName, groups: categoryGroups, hasGroup: hasCategoryGroup } = formatSpenicleCategory(category);
-  const {
-    name: accountName,
-    groups: accountGroups,
-    hasGroup: hasAccountGroup,
-    initialName: accountInitialName,
-  } = formatSpenicleAccount(account);
-  const { name: destinationAccountName } = formatSpenicleAccount(destinationAccount);
 
+  const hasAccountGroup = Array.isArray(transaction.account.groups) && transaction.account.groups.length > 0;
+  const hasCategoryGroup =
+    transaction.category && Array.isArray(transaction.category.groups) && transaction.category.groups.length > 0;
+
+  const accountGroups = hasAccountGroup ? transaction.account.groups : [];
+  const categoryGroups = hasCategoryGroup ? transaction.category.groups : [];
   return (
     <Card
       {...props}
@@ -58,20 +50,19 @@ export const TransactionCard: FC<TransactionCardProps> = ({
         </div>
       }
       onClick={() => onClick(transaction)}
-      avatar={<Avatar shape="rounded">{accountInitialName || nameToInitials(transaction.account.name)}</Avatar>}
+      avatar={<Avatar shape="rounded">{nameToInitials(transaction.account.name)}</Avatar>}
       subtitle={
         <Card.List>
           <If condition={[isTransfer, !hideAccountSubtitle]}>
             <Card.ListItem>
-              {accountName || transaction.account.name} to{' '}
-              {destinationAccountName || transaction.destinationAccount?.name}
+              {transaction.account.name} to {transaction.destinationAccount?.name}
             </Card.ListItem>
           </If>
           <If condition={[!isTransfer, !hideAccountSubtitle]}>
-            <Card.ListItem>{accountName || transaction.account.name}</Card.ListItem>
+            <Card.ListItem>{transaction.account.name}</Card.ListItem>
           </If>
           <If condition={[!hideCategorySubtitle]}>
-            <Card.ListItem>{categoryName || transaction.category.name}</Card.ListItem>
+            <Card.ListItem>{transaction.category.name}</Card.ListItem>
           </If>
           <If condition={[!!trimmedNotes.length, !hideNotesSubtitle]}>
             <Card.ListItem>{trimmedNotes}</Card.ListItem>

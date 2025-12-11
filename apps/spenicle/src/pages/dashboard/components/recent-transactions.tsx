@@ -29,8 +29,6 @@ export const RecentTransactions = ({ transactions, onTransactionClick, onViewAll
             <li key={transaction.id}>
               <TransactionCard
                 transaction={transaction}
-                category={undefined}
-                account={undefined}
                 onClick={() => onTransactionClick?.(transaction)}
                 useDateTime
               />
