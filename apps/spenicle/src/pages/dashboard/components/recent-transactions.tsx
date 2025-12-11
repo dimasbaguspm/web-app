@@ -32,6 +32,7 @@ export const RecentTransactions = ({ transactions, onTransactionClick, onViewAll
                 category={undefined}
                 account={undefined}
                 onClick={() => onTransactionClick?.(transaction)}
+                useDateTime
               />
               <Hr hasMargin />
             </li>
