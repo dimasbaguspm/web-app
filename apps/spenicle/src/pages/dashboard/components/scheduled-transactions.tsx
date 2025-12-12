@@ -19,7 +19,7 @@ export const ScheduledTransactions = ({
     <div className="mt-4">
       {scheduledTransactions.length > 0 ? (
         <>
-          <ul>
+          <ul className="mb-4">
             {scheduledTransactions.map((scheduledTransaction) => {
               return (
                 <li key={scheduledTransaction.id}>
@@ -28,7 +28,7 @@ export const ScheduledTransactions = ({
                     onClick={() => onScheduledTransactionClick?.(scheduledTransaction)}
                     size="sm"
                   />
-                  <Hr hasMargin />
+                  <Hr />
                 </li>
               );
             })}

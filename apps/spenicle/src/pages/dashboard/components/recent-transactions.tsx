@@ -16,7 +16,7 @@ export const RecentTransactions = ({ transactions, onTransactionClick, onViewAll
     <div className="mt-4">
       {transactions.length > 0 ? (
         <>
-          <ul>
+          <ul className="mb-4">
             {transactions.map((transaction) => (
               <li key={transaction.id}>
                 <TransactionCard
@@ -24,7 +24,7 @@ export const RecentTransactions = ({ transactions, onTransactionClick, onViewAll
                   onClick={() => onTransactionClick?.(transaction)}
                   useDateTime
                 />
-                <Hr hasMargin />
+                <Hr />
               </li>
             ))}
           </ul>
