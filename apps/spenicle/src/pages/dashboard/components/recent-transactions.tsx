@@ -1,5 +1,5 @@
-import { Button, Hr } from '@dimasbaguspm/versaur';
-import { ArrowRightIcon } from 'lucide-react';
+import { Button, ButtonGroup, Hr, Icon, NoResults } from '@dimasbaguspm/versaur';
+import { ArrowRightIcon, SearchXIcon } from 'lucide-react';
 
 import { TransactionCard } from '../../../components/transaction-card';
 
@@ -13,35 +13,39 @@ interface RecentTransactionsProps {
 
 export const RecentTransactions = ({ transactions, onTransactionClick, onViewAll }: RecentTransactionsProps) => {
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold text-foreground">Recent Transactions</h2>
-
-        <Button variant="ghost" size="sm" onClick={onViewAll}>
-          More <ArrowRightIcon className="w-4 h-4" />
-        </Button>
-      </div>
-
-      {/* Recent Transaction Items using TransactionCard */}
-      <ul className="space-y-3">
-        {transactions.length > 0 ? (
-          transactions.map((transaction) => (
-            <li key={transaction.id}>
-              <TransactionCard
-                transaction={transaction}
-                onClick={() => onTransactionClick?.(transaction)}
-                useDateTime
-              />
-              <Hr hasMargin />
-            </li>
-          ))
-        ) : (
-          <div className="bg-background rounded-2xl p-8 shadow-md text-center border border-border">
-            <p className="text-foreground-light">No transactions yet</p>
-            <p className="text-sm text-foreground-light opacity-60 mt-1">Start tracking your finances</p>
-          </div>
-        )}
-      </ul>
+    <div className="mt-4">
+      {transactions.length > 0 ? (
+        <>
+          <ul>
+            {transactions.map((transaction) => (
+              <li key={transaction.id}>
+                <TransactionCard
+                  transaction={transaction}
+                  onClick={() => onTransactionClick?.(transaction)}
+                  useDateTime
+                />
+                <Hr hasMargin />
+              </li>
+            ))}
+          </ul>
+          <ButtonGroup alignment="end">
+            <Button variant="ghost" size="sm" onClick={onViewAll}>
+              More <Icon as={ArrowRightIcon} color="inherit" size="sm" />
+            </Button>
+          </ButtonGroup>
+        </>
+      ) : (
+        <NoResults
+          icon={SearchXIcon}
+          title="No transactions yet"
+          subtitle="Start tracking your finances"
+          action={
+            <Button variant="outline" onClick={onViewAll}>
+              Start Tracking
+            </Button>
+          }
+        />
+      )}
     </div>
   );
 };

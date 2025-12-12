@@ -1,4 +1,5 @@
 import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
+import { Badge } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
@@ -20,7 +21,7 @@ export const NetBalanceCard = ({
   summaryTransactions,
   isMobile,
 }: NetBalanceCardProps) => {
-  // Process chart data - mobile shows last 4 months (current + 3 previous), desktop shows 6 months
+  // Process chart data as cumulative balance - mobile shows last 4 months (current + 3 previous), desktop shows full range
   const chartData = useMemo(() => {
     if (!Array.isArray(summaryTransactions) || summaryTransactions.length === 0) return [];
 
@@ -34,14 +35,22 @@ export const NetBalanceCard = ({
       }))
       .sort((a, b) => dayjs(a.date).unix() - dayjs(b.date).unix());
 
+    // Build running balance so each month carries over previous net
+    let carry = 0;
+    const withRunningBalance = sorted.map((item) => {
+      const runningBalance = carry + (item.net ?? 0);
+      carry = runningBalance;
+      return { ...item, runningBalance };
+    });
+
     // On mobile, only show last 4 months (current month + 3 previous)
-    return isMobile ? sorted.slice(-4) : sorted;
+    return isMobile ? withRunningBalance.slice(-4) : withRunningBalance;
   }, [summaryTransactions, isMobile]);
 
   const percentageChange = useMemo(() => {
     if (chartData.length < 2) return 0;
-    const current = chartData[chartData.length - 1]?.net ?? 0;
-    const previous = chartData[chartData.length - 2]?.net ?? 0;
+    const current = chartData[chartData.length - 1]?.runningBalance ?? 0;
+    const previous = chartData[chartData.length - 2]?.runningBalance ?? 0;
     if (previous === 0) return 0;
     return ((current - previous) / Math.abs(previous)) * 100;
   }, [chartData]);
@@ -50,15 +59,13 @@ export const NetBalanceCard = ({
     <div className="bg-primary rounded-2xl p-6 text-white relative overflow-hidden">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <p className="text-primary-light text-sm font-medium">Net Balance</p>
+          <p className="text-primary-light text-sm font-medium">Balance</p>
           <p className="text-3xl font-bold mt-1">{formatPrice(balance)}</p>
           <div className="mt-2 flex items-center space-x-2 text-sm">
-            <span
-              className={`px-2 py-0.5 rounded-full text-xs font-semibold ${percentageChange >= 0 ? 'bg-success bg-opacity-30' : 'bg-danger bg-opacity-30'}`}
-            >
+            <Badge color={percentageChange >= 0 ? 'secondary' : 'primary'} shape="rounded">
               {percentageChange >= 0 ? '+' : ''}
               {percentageChange.toFixed(1)}%
-            </span>
+            </Badge>
             <span className="text-primary-light text-xs">vs last month</span>
           </div>
         </div>
@@ -84,7 +91,7 @@ export const NetBalanceCard = ({
 
             <Area
               type="monotone"
-              dataKey="net"
+              dataKey="runningBalance"
               stroke="#ffffff"
               strokeWidth={2}
               fillOpacity={1}
