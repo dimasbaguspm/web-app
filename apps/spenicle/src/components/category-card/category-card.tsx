@@ -59,7 +59,7 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGro
         <If condition={hasBudget}>
           <Text fontSize="sm" color="gray">
             <If condition={isSpendingBudget}>
-              {category.budget?.usage.isLimitExceeded
+              {category?.budget?.usage.isLimitExceeded
                 ? `Over by ${formatPrice(budgetOverByAmount)}`
                 : `${formatPrice(budgetRemainingAmount)} left`}
             </If>
