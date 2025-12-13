@@ -17,6 +17,7 @@ import {
   Icon,
   Text,
 } from '@dimasbaguspm/versaur';
+import { cx } from 'class-variance-authority';
 import dayjs from 'dayjs';
 import { ChartAreaIcon, EditIcon, TrashIcon } from 'lucide-react';
 import { FC } from 'react';
@@ -52,11 +53,13 @@ export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
     hasGroup,
     groups,
     hasBudget,
+    isSpendingBudget,
     budgetUsage,
     budgetPercentUsage,
     budgetPeriod,
     budgetSpentAmount,
     budgetMaxAmount,
+    budgetOverByAmount,
     budgetRemainingAmount,
   } = formatSpenicleCategory(data);
 
@@ -144,18 +147,33 @@ export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
                 <div className="text-lg font-semibold">{formatPrice(budgetSpentAmount)}</div>
                 <div className="text-sm text-neutral-600">of {formatPrice(budgetMaxAmount)} spent</div>
               </div>
-              <div className="text-sm font-semibold text-green-700">{formatPrice(budgetRemainingAmount)} left</div>
+              <If condition={isSpendingBudget}>
+                <If condition={!budgetUsage?.isLimitExceeded}>
+                  <div className="text-sm font-semibold text-secondary">{formatPrice(budgetRemainingAmount)} left</div>
+                </If>
+                <If condition={budgetUsage?.isLimitExceeded}>
+                  <div className="text-sm font-semibold text-primary">{formatPrice(budgetOverByAmount)} over</div>
+                </If>
+              </If>
+              <If condition={!isSpendingBudget}>
+                <div className="text-sm font-semibold text-secondary">
+                  {formatPrice(budgetRemainingAmount)} allocated
+                </div>
+              </If>
             </div>
 
             <div className="w-full h-3 rounded-full bg-neutral-100 overflow-hidden">
               <div
-                className={`h-full rounded-full ${budgetUsage?.isLimitExceeded ? 'bg-primary' : 'bg-secondary'}`}
+                className={cx(
+                  `h-full rounded-full`,
+                  isSpendingBudget ? (budgetUsage?.isLimitExceeded ? 'bg-primary' : 'bg-secondary') : 'bg-secondary',
+                )}
                 style={{ width: `${Math.min(budgetPercentUsage, 100)}%` }}
               />
             </div>
             <div className="flex justify-between">
               <Text fontSize="xs" color="gray">
-                {budgetPercentUsage.toFixed(0)}% of limit used
+                {budgetPercentUsage.toFixed(0)}% of {isSpendingBudget ? 'limit used' : 'budget allocated'}
               </Text>
               <Text fontSize="xs" color="gray">
                 {budgetPeriod}
