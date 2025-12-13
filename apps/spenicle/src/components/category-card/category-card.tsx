@@ -1,7 +1,6 @@
 import { CategoryModel } from '@dimasbaguspm/interfaces';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
-import { formatPrice } from '@dimasbaguspm/utils/price';
 import { Avatar, Badge, BadgeGroup, Card, CardProps } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
@@ -12,18 +11,8 @@ interface CategoryCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'b
 }
 
 export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGroup, ...rest }) => {
-  const {
-    variant,
-    name,
-    initialName,
-    type,
-    hasGroup,
-    groups,
-    budgetRemainingAmount,
-    budgetOverByAmount,
-    hasBudget,
-    isSpendingBudget,
-  } = formatSpenicleCategory(category);
+  const { variant, name, initialName, type, hasGroup, groups, hasBudget, budgetLabel } =
+    formatSpenicleCategory(category);
 
   const handleClick = () => {
     onClick?.(category);
@@ -46,15 +35,7 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGro
           </If>
         </BadgeGroup>
       }
-      supplementaryInfo={
-        hasBudget
-          ? isSpendingBudget
-            ? category?.budget?.usage.isLimitExceeded
-              ? `Over by ${formatPrice(budgetOverByAmount)}`
-              : `${formatPrice(budgetRemainingAmount)} left`
-            : `${formatPrice(budgetRemainingAmount)} allocated`
-          : null
-      }
+      supplementaryInfo={hasBudget ? budgetLabel : null}
       {...rest}
     />
   );

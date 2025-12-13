@@ -4,6 +4,7 @@ import { capitalize, startCase } from 'lodash';
 
 import { DateFormat, formatDate } from '../date';
 import { nameToInitials } from '../initial';
+import { formatPrice } from '../price';
 
 export const formatSpenicleCategory = (category: CategoryModel | null | undefined) => {
   const { categoryGroups } = category?.embed || {};
@@ -37,6 +38,14 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
   const budgetFrequency = startCase(category?.budget?.frequency);
   const budgetResetDay = dayjs(budgetUsage?.periodEnd);
 
+  const budgetLabel = hasBudget
+    ? isSpendingBudget
+      ? category?.budget?.usage.isLimitExceeded
+        ? `Over by ${formatPrice(budgetOverByAmount)}`
+        : `${formatPrice(budgetRemainingAmount)} left`
+      : `${formatPrice(budgetRemainingAmount)} allocated`
+    : '';
+
   return {
     initialName: nameToInitials(category?.name ?? ''),
     name: category?.name ?? '',
@@ -64,5 +73,6 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
     budgetRemainingAmount,
     budgetOverByAmount,
     budgetResetDay,
+    budgetLabel,
   } as const;
 };
