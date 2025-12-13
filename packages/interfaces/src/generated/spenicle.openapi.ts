@@ -216,6 +216,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/category-budget/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getCategory-budget'];
+    put?: never;
+    post: operations['postCategory-budget'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/category-budget/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getCategory-budgetById'];
+    put?: never;
+    post?: never;
+    delete: operations['deleteCategory-budgetById'];
+    options?: never;
+    head?: never;
+    patch: operations['patchCategory-budgetById'];
+    trace?: never;
+  };
   '/category/': {
     parameters: {
       query?: never;
@@ -1946,6 +1978,537 @@ export interface operations {
       };
     };
   };
+  'getCategory-budget': {
+    parameters: {
+      query?: {
+        categoryId?: number[];
+        type?: ('expense' | 'income')[];
+        frequency?: ('daily' | 'weekly' | 'monthly' | 'yearly')[];
+        pageNumber?: number;
+        pageSize?: number;
+        sortBy?: 'created_at' | 'updated_at' | 'max_amount';
+        sortOrder?: 'asc' | 'desc';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'multipart/form-data': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+          'text/plain': {
+            items: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            }[];
+            pageNumber: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+          };
+        };
+      };
+    };
+  };
+  'postCategory-budget': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          categoryId: number;
+          maxAmount: string | number;
+          type: 'expense' | 'income';
+          frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          note?: string | null;
+        };
+        'multipart/form-data': {
+          categoryId: number;
+          maxAmount: string | number;
+          type: 'expense' | 'income';
+          frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          note?: string | null;
+        };
+        'text/plain': {
+          categoryId: number;
+          maxAmount: string | number;
+          type: 'expense' | 'income';
+          frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          note?: string | null;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'getCategory-budgetById': {
+    parameters: {
+      query?: {
+        includeUsage?: boolean;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
+  'deleteCategory-budgetById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  'patchCategory-budgetById': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          categoryId?: number;
+          maxAmount?: string | number;
+          type?: 'expense' | 'income';
+          frequency?: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          note?: string | null;
+        };
+        'multipart/form-data': {
+          categoryId?: number;
+          maxAmount?: string | number;
+          type?: 'expense' | 'income';
+          frequency?: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          note?: string | null;
+        };
+        'text/plain': {
+          categoryId?: number;
+          maxAmount?: string | number;
+          type?: 'expense' | 'income';
+          frequency?: 'daily' | 'weekly' | 'monthly' | 'yearly';
+          note?: string | null;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'multipart/form-data': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+          'text/plain': {
+            id: number;
+            profileId: number;
+            userId: number;
+            groupId: number | null;
+            category: {
+              id: number;
+              name: string;
+              type: 'expense' | 'income' | 'transfer';
+            };
+            usage: {
+              /** Format: date-time */
+              periodStart: string;
+              /** Format: date-time */
+              periodEnd: string;
+              totalAmount: number;
+              remainingAmount: number;
+              percentage: number;
+              isLimitExceeded: boolean;
+              isGoalReached: boolean;
+            };
+            maxAmount: number;
+            type: 'expense' | 'income';
+            frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+            note: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+          };
+        };
+      };
+    };
+  };
   getCategory: {
     parameters: {
       query?: {
@@ -1982,6 +2545,36 @@ export interface operations {
               userId: number;
               groupId: number | null;
               categoryGroupIds: number[] | null;
+              budget: {
+                id: number;
+                profileId: number;
+                userId: number;
+                groupId: number | null;
+                category: {
+                  id: number;
+                  name: string;
+                  type: 'expense' | 'income' | 'transfer';
+                };
+                usage: {
+                  /** Format: date-time */
+                  periodStart: string;
+                  /** Format: date-time */
+                  periodEnd: string;
+                  totalAmount: number;
+                  remainingAmount: number;
+                  percentage: number;
+                  isLimitExceeded: boolean;
+                  isGoalReached: boolean;
+                };
+                maxAmount: number;
+                type: 'expense' | 'income';
+                frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+                note: string | null;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              } | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -2014,6 +2607,36 @@ export interface operations {
               userId: number;
               groupId: number | null;
               categoryGroupIds: number[] | null;
+              budget: {
+                id: number;
+                profileId: number;
+                userId: number;
+                groupId: number | null;
+                category: {
+                  id: number;
+                  name: string;
+                  type: 'expense' | 'income' | 'transfer';
+                };
+                usage: {
+                  /** Format: date-time */
+                  periodStart: string;
+                  /** Format: date-time */
+                  periodEnd: string;
+                  totalAmount: number;
+                  remainingAmount: number;
+                  percentage: number;
+                  isLimitExceeded: boolean;
+                  isGoalReached: boolean;
+                };
+                maxAmount: number;
+                type: 'expense' | 'income';
+                frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+                note: string | null;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              } | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -2046,6 +2669,36 @@ export interface operations {
               userId: number;
               groupId: number | null;
               categoryGroupIds: number[] | null;
+              budget: {
+                id: number;
+                profileId: number;
+                userId: number;
+                groupId: number | null;
+                category: {
+                  id: number;
+                  name: string;
+                  type: 'expense' | 'income' | 'transfer';
+                };
+                usage: {
+                  /** Format: date-time */
+                  periodStart: string;
+                  /** Format: date-time */
+                  periodEnd: string;
+                  totalAmount: number;
+                  remainingAmount: number;
+                  percentage: number;
+                  isLimitExceeded: boolean;
+                  isGoalReached: boolean;
+                };
+                maxAmount: number;
+                type: 'expense' | 'income';
+                frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+                note: string | null;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              } | null;
               metadata?: unknown;
               /** Format: date-time */
               createdAt: string;
@@ -2119,6 +2772,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -2145,6 +2828,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -2171,6 +2884,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -2217,6 +2960,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -2243,6 +3016,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -2269,6 +3072,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -2358,6 +3191,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -2384,6 +3247,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;
@@ -2410,6 +3303,36 @@ export interface operations {
             userId: number;
             groupId: number | null;
             categoryGroupIds: number[] | null;
+            budget: {
+              id: number;
+              profileId: number;
+              userId: number;
+              groupId: number | null;
+              category: {
+                id: number;
+                name: string;
+                type: 'expense' | 'income' | 'transfer';
+              };
+              usage: {
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                totalAmount: number;
+                remainingAmount: number;
+                percentage: number;
+                isLimitExceeded: boolean;
+                isGoalReached: boolean;
+              };
+              maxAmount: number;
+              type: 'expense' | 'income';
+              frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+              note: string | null;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            } | null;
             metadata?: unknown;
             /** Format: date-time */
             createdAt: string;

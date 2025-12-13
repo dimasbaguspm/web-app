@@ -52,6 +52,16 @@ export type DeleteCategoryGroupMemberModel =
   operations['deleteCategory-group-membersByCategoryGroupId']['requestBody']['content']['application/json'] &
     operations['deleteCategory-group-membersByCategoryGroupId']['parameters']['path'];
 
+export type SearchCategoryBudgetModel = NonNullable<operations['getCategory-budget']['parameters']['query']>;
+export type CategoryBudgetPageModel =
+  operations['getCategory-budget']['responses']['200']['content']['application/json'];
+export type CategoryBudgetModel =
+  operations['getCategory-budgetById']['responses']['200']['content']['application/json'];
+export type CreateCategoryBudgetModel = operations['postCategory-budget']['requestBody']['content']['application/json'];
+export type UpdateCategoryBudgetModel =
+  operations['patchCategory-budgetById']['requestBody']['content']['application/json'] &
+    operations['patchCategory-budgetById']['parameters']['path'];
+
 export type SearchTransactionsModel = NonNullable<operations['getTransaction']['parameters']['query']>;
 export type TransactionsPageModel = operations['getTransaction']['responses']['200']['content']['application/json'];
 export type CreateTransactionModel = operations['postTransaction']['requestBody']['content']['application/json'];

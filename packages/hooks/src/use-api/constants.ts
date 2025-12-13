@@ -21,6 +21,7 @@ export const BASE_QUERY_KEYS = {
   SPENICLE_CATEGORIES: ['spenicle', 'categories'],
   SPENICLE_CATEGORY_GROUPS: ['spenicle', 'category-groups'],
   SPENICLE_CATEGORY_GROUP_MEMBERS: ['spenicle', 'category-group-members'],
+  SPENICLE_CATEGORY_BUDGETS: ['spenicle', 'category-budgets'],
   SPENICLE_TRANSACTIONS: ['spenicle', 'transactions'],
   SPENICLE_SCHEDULED_TRANSACTIONS: ['spenicle', 'scheduled-transactions'],
   SPENICLE_SUMMARY: ['spenicle', 'summary'],

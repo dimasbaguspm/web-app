@@ -113,6 +113,22 @@ export const SPENICLE_QUERY_KEYS = {
     id,
     JSON.stringify(params ?? {}),
   ],
+  SPENICLE_CATEGORY_BUDGET_INFINITE: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_CATEGORY_BUDGETS,
+    'infinite',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_CATEGORY_BUDGET_PAGINATED: (params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_CATEGORY_BUDGETS,
+    'paginated',
+    JSON.stringify(params ?? {}),
+  ],
+  SPENICLE_CATEGORY_BUDGET_BY_ID: (id: number, params: object = {}) => [
+    ...BASE_QUERY_KEYS.SPENICLE_CATEGORY_BUDGETS,
+    'by-id',
+    id,
+    JSON.stringify(params ?? {}),
+  ],
   SPENICLE_TRANSACTION_INFINITE: (params: object = {}) => [
     ...BASE_QUERY_KEYS.SPENICLE_TRANSACTIONS,
     'infinite',

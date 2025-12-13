@@ -61,6 +61,10 @@ export const SPENICLE_URL = {
     PAGINATED: '/category-group-members',
     BY_ID: (id: number) => `/category-group-members/${id}`,
   },
+  CATEGORY_BUDGET: {
+    PAGINATED: '/category-budget',
+    BY_ID: (id: number) => `/category-budget/${id}`,
+  },
   TRANSACTION: {
     PAGINATED: '/transaction',
     BY_ID: (id: number) => `/transaction/${id}`,
