@@ -27,6 +27,7 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
   const budgetSpentAmount = budgetUsage?.totalAmount ?? 0;
   const budgetMaxAmount = category?.budget?.maxAmount ?? 0;
   const budgetRemainingAmount = budgetMaxAmount - budgetSpentAmount;
+  const budgetOverByAmount = budgetSpentAmount - budgetMaxAmount;
 
   const budgetPercentUsage = budgetUsage?.percentage ?? 0;
 
@@ -34,6 +35,7 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
     ? `${formatDate(dayjs(budgetUsage.periodStart).startOf('day'), DateFormat.SHORT_DATE)} - ${formatDate(dayjs(budgetUsage.periodEnd).endOf('day'), DateFormat.SHORT_DATE)}`
     : '';
   const budgetFrequency = startCase(category?.budget?.frequency);
+  const budgetResetDay = dayjs(budgetUsage?.periodEnd);
 
   return {
     initialName: nameToInitials(category?.name ?? ''),
@@ -60,5 +62,7 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
     budgetSpentAmount,
     budgetMaxAmount,
     budgetRemainingAmount,
+    budgetOverByAmount,
+    budgetResetDay,
   } as const;
 };
