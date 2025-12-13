@@ -2,8 +2,7 @@ import { CategoryModel } from '@dimasbaguspm/interfaces';
 import { formatSpenicleCategory } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { Avatar, Badge, BadgeGroup, Card, CardProps, Icon, Text } from '@dimasbaguspm/versaur';
-import { Wallet2Icon } from 'lucide-react';
+import { Avatar, Badge, BadgeGroup, Card, CardProps } from '@dimasbaguspm/versaur';
 import { FC } from 'react';
 
 interface CategoryCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'bordered' | 'supplementaryInfo'> {
@@ -24,7 +23,6 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGro
     budgetOverByAmount,
     hasBudget,
     isSpendingBudget,
-    budgetFrequency,
   } = formatSpenicleCategory(category);
 
   const handleClick = () => {
@@ -35,14 +33,7 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGro
     <Card
       onClick={handleClick}
       avatar={<Avatar shape="rounded">{initialName}</Avatar>}
-      title={
-        <div className="flex items-center">
-          {name}
-          <If condition={hasBudget}>
-            <Icon as={Wallet2Icon} size="sm" color="gray" className="ml-2" aria-label="Has budget" />
-          </If>
-        </div>
-      }
+      title={name}
       badge={
         <BadgeGroup>
           <Badge color={variant}>{type}</Badge>
@@ -56,17 +47,13 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGro
         </BadgeGroup>
       }
       supplementaryInfo={
-        <If condition={hasBudget}>
-          <Text fontSize="sm" color="gray">
-            <If condition={isSpendingBudget}>
-              {category?.budget?.usage.isLimitExceeded
-                ? `Over by ${formatPrice(budgetOverByAmount)}`
-                : `${formatPrice(budgetRemainingAmount)} left`}
-            </If>
-            <If condition={!isSpendingBudget}>{`${formatPrice(budgetRemainingAmount)} allocated`}</If> ·{' '}
-            {budgetFrequency} reset
-          </Text>
-        </If>
+        hasBudget
+          ? isSpendingBudget
+            ? category?.budget?.usage.isLimitExceeded
+              ? `Over by ${formatPrice(budgetOverByAmount)}`
+              : `${formatPrice(budgetRemainingAmount)} left`
+            : `${formatPrice(budgetRemainingAmount)} allocated`
+          : null
       }
       {...rest}
     />
