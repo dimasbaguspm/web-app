@@ -1,5 +1,6 @@
 import { Currency, formatPrice } from '@dimasbaguspm/utils/price';
 import { Badge } from '@dimasbaguspm/versaur';
+import { cx } from 'class-variance-authority';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
@@ -72,7 +73,7 @@ export const NetBalanceCard = ({
       </div>
 
       {/* Recharts Area Chart */}
-      <div className="relative h-48 mt-4">
+      <div className={cx('relative mt-4', isMobile ? 'h-52' : 'h-76')}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
             <defs>
