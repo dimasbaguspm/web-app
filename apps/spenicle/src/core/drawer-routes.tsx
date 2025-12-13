@@ -15,6 +15,7 @@ import { DetailScheduledPaymentsDrawer } from '../drawers/detail-scheduled-payme
 import { DetailTransactionDrawer } from '../drawers/detail-transaction-drawer/drawer';
 import { EditAccountDrawer } from '../drawers/edit-account-drawer/drawer';
 import { EditAccountGroupDrawer } from '../drawers/edit-account-group-drawer/drawer';
+import { EditCategoryBudgetDrawer } from '../drawers/edit-category-budget-drawer/drawer';
 import { EditCategoryDrawer } from '../drawers/edit-category-drawer/drawer';
 import { EditCategoryGroupDrawer } from '../drawers/edit-category-group-drawer/drawer';
 import { EditScheduledPaymentsDrawer } from '../drawers/edit-scheduled-payments-drawer/drawer';
@@ -26,6 +27,7 @@ import { FilterTransactionDrawer } from '../drawers/filter-transaction-drawer/dr
 import { NewAccountDrawer } from '../drawers/new-account-drawer/drawer';
 import { NewAccountGroupDrawer } from '../drawers/new-account-group-drawer/drawer';
 import { NewBackupRequestDrawer } from '../drawers/new-backup-request-drawer/drawer';
+import { NewCategoryBudgetDrawer } from '../drawers/new-category-budget-drawer/drawer';
 import { NewCategoryDrawer } from '../drawers/new-category-drawer/drawer';
 import { NewCategoryGroupDrawer } from '../drawers/new-category-group-drawer/drawer';
 import { NewRestoreBackupRequestDrawer } from '../drawers/new-restore-backup-request-drawer/drawer';
@@ -43,6 +45,7 @@ interface DrawerParams {
   transactionId?: number;
   accountGroupId?: number;
   categoryGroupId?: number;
+  categoryBudgetId?: number;
   scheduledTransactionId?: number;
   payloadId?: string;
   tabId?: string;
@@ -178,6 +181,12 @@ export const DrawerRoutes: FC = () => {
       )}
       {is(DRAWER_ROUTES.NEW_BACKUP_REQUEST) && <NewBackupRequestDrawer />}
       {is(DRAWER_ROUTES.RESTORE_BACKUP_REQUEST) && <NewRestoreBackupRequestDrawer />}
+      {is(DRAWER_ROUTES.NEW_CATEGORY_BUDGET) && hasParam('categoryId') && (
+        <NewCategoryBudgetDrawer categoryId={params.categoryId!} />
+      )}
+      {is(DRAWER_ROUTES.EDIT_CATEGORY_BUDGET) && hasParam('categoryId') && hasParam('categoryBudgetId') && (
+        <EditCategoryBudgetDrawer categoryId={params.categoryId!} categoryBudgetId={params.categoryBudgetId!} />
+      )}
     </Drawer>
   );
 };

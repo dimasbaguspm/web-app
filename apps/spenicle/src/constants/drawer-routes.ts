@@ -13,6 +13,9 @@ export const DRAWER_ROUTES = {
   SELECT_MULTIPLE_CATEGORY: 'select-multiple-category',
   FILTER_CATEGORY: 'filter-category',
 
+  NEW_CATEGORY_BUDGET: 'setup-category-budget',
+  EDIT_CATEGORY_BUDGET: 'edit-category-budget',
+
   NEW_TRANSACTION: 'new-transaction',
   DETAIL_TRANSACTION: 'transaction-detail',
   EDIT_TRANSACTION: 'edit-transaction',

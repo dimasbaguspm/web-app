@@ -1,5 +1,6 @@
 import { CategoryModel } from '@dimasbaguspm/interfaces';
-import { capitalize } from 'lodash';
+import dayjs from 'dayjs';
+import { capitalize, startCase } from 'lodash';
 
 import { DateFormat, formatDate } from '../date';
 import { nameToInitials } from '../initial';
@@ -19,6 +20,21 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
   const groups = categoryGroups || [];
   const hasGroup = !!groups?.length;
 
+  const hasBudget = !!category?.budget;
+
+  const isSpendingBudget = category?.budget?.type === 'expense';
+  const budgetUsage = category?.budget?.usage;
+  const budgetSpentAmount = budgetUsage?.totalAmount ?? 0;
+  const budgetMaxAmount = category?.budget?.maxAmount ?? 0;
+  const budgetRemainingAmount = budgetMaxAmount - budgetSpentAmount;
+
+  const budgetPercentUsage = budgetUsage?.percentage ?? 0;
+
+  const budgetPeriod = budgetUsage
+    ? `${formatDate(dayjs(budgetUsage.periodStart).startOf('day'), DateFormat.SHORT_DATE)} - ${formatDate(dayjs(budgetUsage.periodEnd).endOf('day'), DateFormat.SHORT_DATE)}`
+    : '';
+  const budgetFrequency = startCase(category?.budget?.frequency);
+
   return {
     initialName: nameToInitials(category?.name ?? ''),
     name: category?.name ?? '',
@@ -34,5 +50,15 @@ export const formatSpenicleCategory = (category: CategoryModel | null | undefine
     hasGroup,
     groups,
     note,
+    hasBudget,
+    isSpendingBudget,
+    budget: category?.budget,
+    budgetUsage,
+    budgetPercentUsage,
+    budgetPeriod,
+    budgetFrequency,
+    budgetSpentAmount,
+    budgetMaxAmount,
+    budgetRemainingAmount,
   } as const;
 };

@@ -10,7 +10,6 @@ import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 import { DetailsTab } from './sub-tabs/details-tab';
 import { HistoryTab } from './sub-tabs/history-tab';
-import { TrendsTab } from './sub-tabs/trends-tab';
 
 interface DetailCategoryDrawerProps {
   categoryId: number;
@@ -43,7 +42,6 @@ export const DetailCategoryDrawer: FC<DetailCategoryDrawerProps> = ({ categoryId
       <Drawer.Tab>
         <Tabs value={activeTab} onValueChange={handleOnTabChange}>
           <Tabs.Trigger value="details">Details</Tabs.Trigger>
-          <Tabs.Trigger value="trends">Trends</Tabs.Trigger>
           <Tabs.Trigger value="history">History</Tabs.Trigger>
         </Tabs>
       </Drawer.Tab>
@@ -59,7 +57,6 @@ export const DetailCategoryDrawer: FC<DetailCategoryDrawerProps> = ({ categoryId
       <If condition={[!isLoading, category]}>
         <Drawer.Body>
           {activeTab === 'details' && <DetailsTab data={category!} />}
-          {activeTab === 'trends' && <TrendsTab data={category!} />}
           {activeTab === 'history' && <HistoryTab data={category!} />}
         </Drawer.Body>
       </If>
