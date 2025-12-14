@@ -11,6 +11,7 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatHiUserData } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import { ChipSingleInput, PageContent, PageHeader, PageLayout } from '@dimasbaguspm/versaur';
+import { cx } from 'class-variance-authority';
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -108,7 +109,7 @@ const DashboardPage = () => {
         <PageHeader title={`Welcome, ${name}!`} size="wide" />
       </PageLayout.HeaderRegion>
       <PageLayout.ContentRegion>
-        <PageContent size={isMobile ? 'narrow' : 'wide'}>
+        <PageContent size={isMobile ? 'narrow' : 'wide'} className={cx(isMobile && 'pb-20')}>
           {/* Desktop: 2-column grid, Mobile: single column */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left Column - Main Content (2/3 width on desktop) */}

@@ -31,6 +31,14 @@ export const ROUTES = {
   SETTINGS_REPORTS_DAILY_OVERVIEW: '/settings/reports/daily-overview',
 } as const;
 
+/**
+ * Page handles to distinguish between drawer and page routes
+ */
+export const PAGE_HANDLES = {
+  DRAWER: 'drawer',
+  PAGE: 'page',
+} as const;
+
 export const DEEP_LINKS = {
   DASHBOARD: {
     path: '/',
