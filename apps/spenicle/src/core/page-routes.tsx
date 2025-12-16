@@ -89,12 +89,8 @@ const router = createBrowserRouter([
             Component: lazyLoad(() => import('../pages/summary-overview/page')),
           },
           {
-            path: ROUTES.SUMMARY_TRENDS,
-            Component: lazyLoad(() => import('../pages/summary-trends/page')),
-          },
-          {
-            path: ROUTES.SUMMARY_TIMELINE,
-            Component: lazyLoad(() => import('../pages/summary-timeline/page')),
+            path: ROUTES.SUMMARY_BREAKDOWN,
+            Component: lazyLoad(() => import('../pages/summary-breakdown/page')),
           },
         ],
       },

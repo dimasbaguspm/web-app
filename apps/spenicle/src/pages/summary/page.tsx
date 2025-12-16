@@ -1,64 +1,67 @@
-import { Button, ButtonGroup, ButtonIcon, Icon, PageContent, PageHeader, PageLayout } from '@dimasbaguspm/versaur';
-import { snapdom } from '@zumer/snapdom';
-import { ArrowBigDownDashIcon } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { Outlet, useLocation } from 'react-router';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
+import {
+  Badge,
+  Button,
+  ButtonGroup,
+  ButtonIcon,
+  Card,
+  Icon,
+  PageContent,
+  PageHeader,
+  PageLayout,
+  Text,
+} from '@dimasbaguspm/versaur';
+import { cx } from 'class-variance-authority';
+import { startCase } from 'lodash';
+import { FileTextIcon } from 'lucide-react';
+import { Outlet } from 'react-router';
+
+import { useSummaryFilter } from '../../hooks/use-summary-filter';
 
 import { ActionHeader } from './components/action-header';
 
 const SummaryLayout = () => {
-  const location = useLocation();
-  const [isPrinting, setIsPrinting] = useState(false);
+  const { isMobile } = useWindowResize();
+  const { appliedFilters } = useSummaryFilter();
 
-  const ref = useRef<HTMLDivElement>(null);
-
-  const handleOnPrintClick = async () => {
-    try {
-      setIsPrinting(true);
-      if (!ref.current) return;
-
-      const result = await snapdom(ref.current);
-
-      await result.download({
-        fast: false,
-        format: 'png',
-        filename: 'spenicle-exported-summary-' + new Date().toISOString(),
-        backgroundColor: '#ffffff',
-      });
-    } finally {
-      setIsPrinting(false);
-    }
-  };
+  const subTitleText = `${formatDate(appliedFilters.dateFrom, DateFormat.DAY_MONTH_YEAR)} until ${formatDate(appliedFilters.dateTo, DateFormat.DAY_MONTH_YEAR)}`;
 
   return (
-    <PageLayout ref={ref} key={location.pathname}>
+    <PageLayout>
       <PageLayout.HeaderRegion>
         <PageHeader
           title="Summary"
-          subtitle="Manage your summary transactions"
+          subtitle={
+            <Card.List>
+              <Card.ListItem>
+                <Badge shape="rounded">{startCase(appliedFilters.frequency)}</Badge>
+              </Card.ListItem>
+              <Card.ListItem>
+                <Text fontSize="sm" color="gray">
+                  {subTitleText}
+                </Text>
+              </Card.ListItem>
+            </Card.List>
+          }
           size="wide"
           actions={
             <ButtonGroup>
-              <Button disabled={isPrinting} onClick={handleOnPrintClick}>
-                <Icon as={ArrowBigDownDashIcon} color="inherit" size="sm" />
-                Download Report
+              <Button variant="outline">
+                <Icon as={FileTextIcon} color="inherit" size="sm" />
+                View Transactions
               </Button>
             </ButtonGroup>
           }
           mobileActions={
             <ButtonGroup>
-              <ButtonIcon
-                disabled={isPrinting}
-                onClick={handleOnPrintClick}
-                as={ArrowBigDownDashIcon}
-                aria-label="Download Report"
-              />
+              <ButtonIcon as={FileTextIcon} variant="outline" aria-label="View Transactions" />
             </ButtonGroup>
           }
         />
       </PageLayout.HeaderRegion>
       <PageLayout.ContentRegion>
-        <PageContent size="wide">
+        <PageContent size="wide" className={cx(isMobile && 'pb-20')}>
           <ActionHeader />
           <Outlet />
         </PageContent>

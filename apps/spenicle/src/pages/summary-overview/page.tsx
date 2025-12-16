@@ -1,107 +1,91 @@
-import {
-  useApiSpenicleSummaryAccountsQuery,
-  useApiSpenicleSummaryCategoriesQuery,
-  useApiSpenicleSummaryTotalQuery,
-  useApiSpenicleSummaryTransactionsQuery,
-} from '@dimasbaguspm/hooks/use-api';
-import { If } from '@dimasbaguspm/utils/if';
-import { PageLoader } from '@dimasbaguspm/versaur';
-import dayjs from 'dayjs';
+import { useApiSpenicleSummaryTotalQuery, useApiSpenicleSummaryTransactionsQuery } from '@dimasbaguspm/hooks/use-api';
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+import { Heading, PageLoader } from '@dimasbaguspm/versaur';
 
 import { useSummaryFilter } from '../../hooks/use-summary-filter';
 
-import { OverviewChart } from './components/overview-chart';
-import { TopTenExpenseAccounts } from './components/top-ten-expense-accounts';
-import { TopTenExpenseCategories } from './components/top-ten-expense-categories';
-import { TopTenIncomeAccounts } from './components/top-ten-income-accounts';
-import { TopTenIncomeCategories } from './components/top-ten-income-categories';
+import { AccountsListFilter } from './components/accounts-list-filter';
+import { AccountsSummaryTable } from './components/accounts-summary-table';
+import { NetBalanceChart } from './components/net-balance-chart';
 
-const SummaryPage = () => {
-  const { appliedFilters } = useSummaryFilter({ adapter: 'url' });
+const SummaryOverviewPage = () => {
+  const { isMobile } = useWindowResize();
+  const { appliedFilters, filters } = useSummaryFilter({ adapter: 'url' });
 
-  const dateFilters = {
-    from: dayjs(appliedFilters.dateFrom).toISOString(),
-    to: dayjs(appliedFilters.dateTo).toISOString(),
+  // Get total summary with date range and account filter
+  const [totalSummary] = useApiSpenicleSummaryTotalQuery({
+    from: appliedFilters.dateFrom,
+    to: appliedFilters.dateTo,
+    accountId: appliedFilters.accountId?.length > 0 ? appliedFilters.accountId : undefined,
+  });
+
+  // Get chart data with date range, frequency, and account filter
+  const [summaryTransactions, , { isLoading: isLoadingChart }] = useApiSpenicleSummaryTransactionsQuery({
+    frequency: appliedFilters.frequency,
+    from: appliedFilters.dateFrom,
+    to: appliedFilters.dateTo,
+    accountId: appliedFilters.accountId?.length > 0 ? appliedFilters.accountId : undefined,
+  });
+
+  const totalIncome = totalSummary?.income ?? 0;
+  const totalExpense = Math.abs(totalSummary?.expense ?? 0);
+  const netBalance = totalIncome - totalExpense;
+
+  const isLoading = isLoadingChart;
+
+  const handleAccountsChange = (accountIds: number[]) => {
+    filters.replaceAll({
+      ...appliedFilters,
+      accountId: accountIds,
+    });
   };
 
-  const [summaryTotal, , { isLoading: isFetchingSummaryTotal }] = useApiSpenicleSummaryTotalQuery({
-    ...dateFilters,
-    categoryId: appliedFilters.categoryId,
-    accountId: appliedFilters.accountId,
-  });
-
-  const [summaryTransactions, , { isLoading: isFetchingSummaryTransactions }] = useApiSpenicleSummaryTransactionsQuery({
-    ...dateFilters,
-    frequency: 'daily',
-    categoryId: appliedFilters.categoryId,
-    accountId: appliedFilters.accountId,
-  });
-
-  const [summaryExpenseCategories, , { isLoading: isFetchingSummaryExpenseCategories }] =
-    useApiSpenicleSummaryCategoriesQuery({
-      ...dateFilters,
-      id: appliedFilters.categoryId,
-      type: ['expense'],
-    });
-
-  const [summaryIncomeCategories, , { isLoading: isFetchingSummaryIncomeCategories }] =
-    useApiSpenicleSummaryCategoriesQuery({
-      ...dateFilters,
-      id: appliedFilters.categoryId,
-      type: ['income'],
-    });
-
-  const [summaryExpenseAccounts, , { isLoading: isFetchingSummaryExpenseAccounts }] =
-    useApiSpenicleSummaryAccountsQuery({
-      ...dateFilters,
-      id: appliedFilters.accountId,
-      type: 'expense',
-    });
-
-  const [summaryIncomeAccounts, , { isLoading: isFetchingSummaryIncomeAccounts }] = useApiSpenicleSummaryAccountsQuery({
-    ...dateFilters,
-    id: appliedFilters.accountId,
-    type: 'income',
-  });
-
-  const isLoading =
-    isFetchingSummaryTotal ||
-    isFetchingSummaryTransactions ||
-    isFetchingSummaryExpenseCategories ||
-    isFetchingSummaryIncomeCategories ||
-    isFetchingSummaryExpenseAccounts ||
-    isFetchingSummaryIncomeAccounts;
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
   return (
     <>
-      <If condition={isLoading}>
-        <PageLoader />
-      </If>
+      {/* Desktop: 3-column grid, Mobile: single column */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column - Main Content (2/3 width on desktop) */}
+        <div className="lg:col-span-2 space-y-6">
+          <NetBalanceChart
+            balance={netBalance}
+            totalIncome={totalIncome}
+            totalExpense={totalExpense}
+            summaryTransactions={summaryTransactions ?? []}
+            isMobile={isMobile}
+            hasAccountFilter={appliedFilters.accountId?.length > 0}
+            frequency={appliedFilters.frequency}
+          />
 
-      <If
-        condition={[
-          !isLoading,
-          summaryTotal,
-          summaryTransactions,
-          summaryExpenseCategories,
-          summaryIncomeCategories,
-          summaryExpenseAccounts,
-          summaryIncomeAccounts,
-        ]}
-      >
-        <div className="space-y-6">
-          <OverviewChart data={summaryTotal!} />
-
+          {/* Breakdown table - always visible to explain the chart */}
           <div>
-            <TopTenExpenseCategories data={summaryExpenseCategories!} />
-            <TopTenIncomeCategories data={summaryIncomeCategories!} />
-            <TopTenExpenseAccounts data={summaryExpenseAccounts!} />
-            <TopTenIncomeAccounts data={summaryIncomeAccounts!} />
+            <Heading level={3} hasMargin>
+              {appliedFilters.frequency === 'daily'
+                ? 'Daily Breakdown'
+                : appliedFilters.frequency === 'weekly'
+                  ? 'Weekly Breakdown'
+                  : appliedFilters.frequency === 'yearly'
+                    ? 'Yearly Breakdown'
+                    : 'Monthly Breakdown'}
+            </Heading>
+            <AccountsSummaryTable accountsSummary={summaryTransactions ?? []} frequency={appliedFilters.frequency} />
           </div>
         </div>
-      </If>
+
+        {!isMobile && (
+          <div className="lg:col-span-1">
+            <AccountsListFilter
+              selectedAccountIds={appliedFilters.accountId ?? []}
+              onAccountsChange={handleAccountsChange}
+            />
+          </div>
+        )}
+      </div>
     </>
   );
 };
 
-export default SummaryPage;
+export default SummaryOverviewPage;

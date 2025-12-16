@@ -20,6 +20,7 @@ export enum FilterDateRangePresets {
   LastWeek = 'last_week',
   ThisMonth = 'this_month',
   LastMonth = 'last_month',
+  Last6Months = 'last_6_months',
   ThisYear = 'this_year',
   LastYear = 'last_year',
   AllTime = 'all_time',
@@ -39,6 +40,7 @@ export const DATE_RANGE_PRESET_LABELS: Record<FilterDateRangePresets, string> = 
   [FilterDateRangePresets.LastWeek]: 'Last Week',
   [FilterDateRangePresets.ThisMonth]: 'This Month',
   [FilterDateRangePresets.LastMonth]: 'Last Month',
+  [FilterDateRangePresets.Last6Months]: 'Last 6 Months',
   [FilterDateRangePresets.ThisYear]: 'This Year',
   [FilterDateRangePresets.LastYear]: 'Last Year',
   [FilterDateRangePresets.AllTime]: 'All Time',
@@ -81,6 +83,11 @@ const getDateRangeFromPreset = (
     case FilterDateRangePresets.ThisMonth:
       return {
         dateFrom: now.startOf('month').toISOString(),
+        dateTo: now.endOf('month').toISOString(),
+      };
+    case FilterDateRangePresets.Last6Months:
+      return {
+        dateFrom: now.subtract(6, 'month').startOf('month').toISOString(),
         dateTo: now.endOf('month').toISOString(),
       };
     case FilterDateRangePresets.LastMonth:
@@ -133,7 +140,7 @@ export const useSummaryFilter = (opts?: UseFiltersOptions) => {
   const firstDate = dayjs(firstTransaction?.[0]?.date ?? dayjs().toISOString());
 
   // Default date range (last 7 days)
-  const defaultDateRange = getDateRangeFromPreset(FilterDateRangePresets.Last7Days, firstDate);
+  const defaultDateRange = getDateRangeFromPreset(FilterDateRangePresets.Last6Months, firstDate);
 
   // parse applied filters with proper typing, ensuring all 4 keys are always present
   const appliedFilters: Required<SummaryFilterModel> = {

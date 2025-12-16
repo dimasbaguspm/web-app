@@ -1,7 +1,6 @@
 import {
   FileText,
   PieChart,
-  ChartBarBigIcon,
   ChartNoAxesCombinedIcon,
   CogIcon,
   TagsIcon,
@@ -20,8 +19,7 @@ export const ROUTES = {
   ACCOUNTS: '/accounts',
   CATEGORIES: '/categories',
   SUMMARY: '/summary',
-  SUMMARY_TIMELINE: 'timeline',
-  SUMMARY_TRENDS: 'trends',
+  SUMMARY_BREAKDOWN: 'breakdown',
   SETTINGS: '/settings',
   SETTINGS_ACCOUNT_GROUPS: '/settings/account-groups',
   SETTINGS_CATEGORY_GROUPS: '/settings/category-groups',
@@ -70,15 +68,10 @@ export const DEEP_LINKS = {
     title: 'Summary',
     icon: PieChart,
   },
-  SUMMARY_TRENDS: {
-    path: '/summary/trends',
-    title: 'Trends',
+  SUMMARY_BREAKDOWN: {
+    path: '/summary/breakdown',
+    title: 'Breakdown',
     icon: ChartNoAxesCombinedIcon,
-  },
-  SUMMARY_TIMELINE: {
-    path: '/summary/timeline',
-    title: 'Timeline',
-    icon: ChartBarBigIcon,
   },
   SETTINGS: {
     path: '/settings',

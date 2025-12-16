@@ -71,14 +71,6 @@ const DashboardPage = () => {
     };
   }, [summaryTransactions]);
 
-  // Get recent transactions
-  const recentTransactionsList = useMemo(() => transactions?.items?.slice(0, 5) ?? [], [transactions]);
-
-  const upcomingScheduledTransactions = useMemo(
-    () => scheduledTransactions?.items?.slice(0, 5) ?? [],
-    [scheduledTransactions],
-  );
-
   const handleTransactionClick = (transaction: TransactionModel) => {
     openDrawer(DRAWER_ROUTES.DETAIL_TRANSACTION, { transactionId: transaction.id });
   };
@@ -146,14 +138,14 @@ const DashboardPage = () => {
               </ChipSingleInput>
               <If condition={transactionViewMode === DashboardTransactionViewMode.Upcoming}>
                 <ScheduledTransactions
-                  scheduledTransactions={upcomingScheduledTransactions}
+                  scheduledTransactions={scheduledTransactions?.items ?? []}
                   onScheduledTransactionClick={handleScheduledTransactionClick}
                   onViewAll={handleViewAllScheduled}
                 />
               </If>
               <If condition={transactionViewMode === DashboardTransactionViewMode.Recent}>
                 <RecentTransactions
-                  transactions={recentTransactionsList}
+                  transactions={transactions?.items ?? []}
                   onTransactionClick={handleTransactionClick}
                   onViewAll={handleViewAllTransactions}
                 />
