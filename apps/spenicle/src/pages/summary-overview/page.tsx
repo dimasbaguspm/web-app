@@ -97,7 +97,7 @@ const SummaryOverviewPage = () => {
                 variant="ghost"
                 onClick={() => handleNavigateToSummaryBreakdown(appliedFilters.dateFrom!, appliedFilters.dateTo!)}
               >
-                More Details
+                More
                 <Icon as={ArrowRightIcon} size="sm" color="inherit" />
               </Button>
             </div>

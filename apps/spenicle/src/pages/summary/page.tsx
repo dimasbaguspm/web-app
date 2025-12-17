@@ -61,7 +61,7 @@ const SummaryLayout = () => {
         />
       </PageLayout.HeaderRegion>
       <PageLayout.ContentRegion>
-        <PageContent size="wide" className={cx(isMobile && 'pb-20')}>
+        <PageContent size={isMobile ? 'narrow' : 'wide'} className={cx(isMobile && 'pb-20')}>
           <ActionHeader />
           <Outlet />
         </PageContent>

@@ -1,9 +1,11 @@
 import { CategoryModel } from '@dimasbaguspm/interfaces';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { Avatar, Card, Heading, Text } from '@dimasbaguspm/versaur';
+import { Avatar, Card, Heading, Hr, Text } from '@dimasbaguspm/versaur';
 import { useMemo } from 'react';
 
 import { CategoryCard } from '../../../components/category-card';
+import { DRAWER_ROUTES } from '../../../constants/drawer-routes';
 
 interface CategoryData {
   categoryId: number;
@@ -35,6 +37,12 @@ const COLORS = [
 ];
 
 export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCardProps) => {
+  const { openDrawer } = useDrawerRoute();
+
+  const handleCategoryClick = (category: CategoryModel) => {
+    openDrawer(DRAWER_ROUTES.DETAIL_CATEGORY, { categoryId: category.id });
+  };
+
   const processedData = useMemo(() => {
     if (!data || data.length === 0) {
       return {
@@ -145,9 +153,10 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
       </div>
 
       {/* Category List */}
-      <div className="space-y-3">
+      <ul>
         {processedData.categories.map(
           (item: { id: number; name: string; value: number; rawData: CategoryData }, index: number) => {
+            const isLastItem = index === processedData.categories.length - 1;
             const percentage = (item.value / total) * 100;
             const spent = item.value;
 
@@ -161,21 +170,24 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
             };
 
             return (
-              <div key={item.id} className="relative flex items-center gap-3">
-                <div
-                  className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                />
-                <div className="flex-1 min-w-0">
-                  <CategoryCard
-                    category={categoryModel as CategoryModel}
-                    hideGroup
-                    hideType
-                    as="div"
-                    supplementaryInfo={`${formatPrice(spent)} (${percentage.toFixed(1)}%)`}
+              <li key={item.id}>
+                <div className="relative flex items-center gap-3">
+                  <div
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   />
+                  <div className="flex-1 min-w-0">
+                    <CategoryCard
+                      category={categoryModel as CategoryModel}
+                      onClick={() => handleCategoryClick(categoryModel as CategoryModel)}
+                      hideGroup
+                      hideType
+                      supplementaryInfo={`${formatPrice(spent)} (${percentage.toFixed(1)}%)`}
+                    />
+                  </div>
                 </div>
-              </div>
+                {!isLastItem && <Hr />}
+              </li>
             );
           },
         )}
@@ -198,7 +210,7 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
             />
           </div>
         )}
-      </div>
+      </ul>
     </div>
   );
 };
