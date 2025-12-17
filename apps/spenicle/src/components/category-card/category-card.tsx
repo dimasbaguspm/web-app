@@ -8,9 +8,10 @@ interface CategoryCardProps extends Pick<CardProps, 'as' | 'size' | 'shape' | 'b
   category: CategoryModel;
   onClick?: (category: CategoryModel) => void;
   hideGroup?: boolean;
+  hideType?: boolean;
 }
 
-export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGroup, ...rest }) => {
+export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGroup, hideType, ...rest }) => {
   const { variant, name, initialName, type, hasGroup, groups, hasBudget, budgetLabel } =
     formatSpenicleCategory(category);
 
@@ -25,7 +26,9 @@ export const CategoryCard: FC<CategoryCardProps> = ({ category, onClick, hideGro
       title={name}
       badge={
         <BadgeGroup>
-          <Badge color={variant}>{type}</Badge>
+          <If condition={!hideType}>
+            <Badge color={variant}>{type}</Badge>
+          </If>
           <If condition={[hasGroup, !hideGroup]}>
             {groups.map(({ name }) => (
               <Badge key={name} color="accent_3">
