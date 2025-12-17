@@ -74,7 +74,7 @@ export const FloatingActionsButton: FC = () => {
         />
       )}
 
-      <div className={cx('fixed right-6 z-50 flex flex-col items-end gap-3', isDesktop ? 'bottom-6' : 'bottom-20')}>
+      <div className={cx('fixed right-6 z-40 flex flex-col items-end gap-3', isDesktop ? 'bottom-6' : 'bottom-20')}>
         {isOpen && (
           <div className="flex flex-col items-end gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
             {floatingActionButtons.map((button, index) => (
