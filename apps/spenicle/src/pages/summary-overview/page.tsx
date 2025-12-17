@@ -1,6 +1,7 @@
 import { useApiSpenicleSummaryTotalQuery, useApiSpenicleSummaryTransactionsQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { Heading, PageLoader } from '@dimasbaguspm/versaur';
+import { Button, Heading, Icon, PageLoader } from '@dimasbaguspm/versaur';
+import { ArrowRightIcon } from 'lucide-react';
 
 import { useSummaryFilter } from '../../hooks/use-summary-filter';
 
@@ -62,15 +63,21 @@ const SummaryOverviewPage = () => {
 
           {/* Breakdown table - always visible to explain the chart */}
           <div>
-            <Heading level={3} hasMargin>
-              {appliedFilters.frequency === 'daily'
-                ? 'Daily Breakdown'
-                : appliedFilters.frequency === 'weekly'
-                  ? 'Weekly Breakdown'
-                  : appliedFilters.frequency === 'yearly'
-                    ? 'Yearly Breakdown'
-                    : 'Monthly Breakdown'}
-            </Heading>
+            <div className="flex justify-between">
+              <Heading level={3} hasMargin>
+                {appliedFilters.frequency === 'daily'
+                  ? 'Daily Breakdown'
+                  : appliedFilters.frequency === 'weekly'
+                    ? 'Weekly Breakdown'
+                    : appliedFilters.frequency === 'yearly'
+                      ? 'Yearly Breakdown'
+                      : 'Monthly Breakdown'}
+              </Heading>
+              <Button variant="ghost">
+                See Transactions
+                <Icon as={ArrowRightIcon} size="sm" color="inherit" />
+              </Button>
+            </div>
             <AccountsSummaryTable accountsSummary={summaryTransactions ?? []} frequency={appliedFilters.frequency} />
           </div>
         </div>
