@@ -156,7 +156,6 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
       <ul>
         {processedData.categories.map(
           (item: { id: number; name: string; value: number; rawData: CategoryData }, index: number) => {
-            const isLastItem = index === processedData.categories.length - 1;
             const percentage = (item.value / total) * 100;
             const spent = item.value;
 
@@ -186,7 +185,7 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
                     />
                   </div>
                 </div>
-                {!isLastItem && <Hr />}
+                <Hr />
               </li>
             );
           },
@@ -194,7 +193,7 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
 
         {/* Others Category */}
         {processedData.others && (
-          <div className="relative flex items-center gap-3">
+          <li className="relative flex items-center gap-3">
             <div
               className="w-2 h-2 rounded-full flex-shrink-0"
               style={{ backgroundColor: COLORS[4 % COLORS.length] }}
@@ -208,7 +207,7 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
                 100
               ).toFixed(1)}%)`}
             />
-          </div>
+          </li>
         )}
       </ul>
     </div>
