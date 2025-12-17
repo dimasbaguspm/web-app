@@ -1,16 +1,19 @@
 import { SummaryTransactionsModel } from '@dimasbaguspm/interfaces';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { ButtonIcon } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
-import { ChevronRightIcon } from 'lucide-react';
 import { useMemo } from 'react';
 
 interface AccountsSummaryTableProps {
   accountsSummary: SummaryTransactionsModel;
   frequency?: string;
+  onRowClick?: (startDate: string, endDate: string) => void;
 }
 
-export const AccountsSummaryTable = ({ accountsSummary, frequency = 'monthly' }: AccountsSummaryTableProps) => {
+export const AccountsSummaryTable = ({
+  accountsSummary,
+  frequency = 'monthly',
+  onRowClick,
+}: AccountsSummaryTableProps) => {
   const tableData = useMemo(() => {
     if (!Array.isArray(accountsSummary) || accountsSummary.length === 0) return [];
 
@@ -40,14 +43,45 @@ export const AccountsSummaryTable = ({ accountsSummary, frequency = 'monthly' }:
       }
     };
 
+    // Calculate date range based on frequency
+    const getDateRange = (date: string) => {
+      const d = dayjs(date);
+      switch (frequency) {
+        case 'daily':
+          return {
+            start: d.startOf('day').toISOString(),
+            end: d.endOf('day').toISOString(),
+          };
+        case 'weekly':
+          return {
+            start: d.startOf('week').toISOString(),
+            end: d.endOf('week').toISOString(),
+          };
+        case 'yearly':
+          return {
+            start: d.startOf('year').toISOString(),
+            end: d.endOf('year').toISOString(),
+          };
+        case 'monthly':
+        default:
+          return {
+            start: d.startOf('month').toISOString(),
+            end: d.endOf('month').toISOString(),
+          };
+      }
+    };
+
     // Group by date and show transactions data
     const monthlyData = accountsSummary.reduce(
       (acc, item) => {
         const monthKey = getDateLabel(item.date);
+        const dateRange = getDateRange(item.date);
         if (!acc[monthKey]) {
           acc[monthKey] = {
             date: item.date,
             month: monthKey,
+            startDate: dateRange.start,
+            endDate: dateRange.end,
             totalExpense: Math.abs(item.expense ?? 0),
             totalIncome: Math.abs(item.income ?? 0),
             accounts: [],
@@ -61,6 +95,8 @@ export const AccountsSummaryTable = ({ accountsSummary, frequency = 'monthly' }:
         {
           date: string;
           month: string;
+          startDate: string;
+          endDate: string;
           totalExpense: number;
           totalIncome: number;
           accounts: Array<{
@@ -108,12 +144,15 @@ export const AccountsSummaryTable = ({ accountsSummary, frequency = 'monthly' }:
             <th className="w-[25%] px-2 sm:px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
               Net
             </th>
-            <th className="w-[10%] px-2 sm:px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {tableData.map((monthData, idx) => (
-            <tr key={idx} className="hover:bg-gray-50">
+            <tr
+              key={idx}
+              className="hover:bg-gray-50 cursor-pointer"
+              onClick={onRowClick ? () => onRowClick(monthData.startDate, monthData.endDate) : undefined}
+            >
               <td className="px-2 sm:px-4 py-3 text-xs sm:text-sm font-medium text-gray-900 truncate">
                 {monthData.month}
               </td>
@@ -125,18 +164,6 @@ export const AccountsSummaryTable = ({ accountsSummary, frequency = 'monthly' }:
               </td>
               <td className="px-2 sm:px-4 py-3 text-xs sm:text-sm text-right font-medium">
                 {formatPrice(monthData.totalIncome - monthData.totalExpense)}
-              </td>
-              <td className="px-2 sm:px-4 py-3 text-center">
-                <ButtonIcon
-                  as={ChevronRightIcon}
-                  size="sm"
-                  variant="ghost"
-                  aria-label="View transactions"
-                  onClick={() => {
-                    // TODO: Navigate to transactions page with date range filter
-                    console.log('View transactions for:', monthData.month, monthData.date);
-                  }}
-                />
               </td>
             </tr>
           ))}

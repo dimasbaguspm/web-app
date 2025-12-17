@@ -2,7 +2,7 @@ import { useApiSpenicleSummaryTotalQuery, useApiSpenicleSummaryTransactionsQuery
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { Button, Heading, Icon, PageLoader } from '@dimasbaguspm/versaur';
 import { ArrowRightIcon } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import { DEEP_LINKS } from '../../constants/page-routes';
 import { useSummaryFilter } from '../../hooks/use-summary-filter';
@@ -14,13 +14,23 @@ import { NetBalanceChart } from './components/net-balance-chart';
 const SummaryOverviewPage = () => {
   const { isMobile } = useWindowResize();
   const { appliedFilters, filters } = useSummaryFilter({ adapter: 'url' });
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const handleMoreDetailsClick = () => {
-    navigate({
-      pathname: DEEP_LINKS.SUMMARY_BREAKDOWN.path,
-      search: window.location.search,
-    });
+  const handleNavigateToSummaryBreakdown = (startDate: string, endDate: string) => {
+    const existingParams = new URLSearchParams(location.search);
+    existingParams.set('dateFrom', startDate);
+    existingParams.set('dateTo', endDate);
+
+    navigate(
+      {
+        pathname: DEEP_LINKS.SUMMARY_BREAKDOWN.path,
+        search: existingParams.toString(),
+      },
+      {
+        preventScrollReset: false,
+      },
+    );
   };
 
   // Get total summary with date range and account filter
@@ -83,12 +93,19 @@ const SummaryOverviewPage = () => {
                       ? 'Yearly Breakdown'
                       : 'Monthly Breakdown'}
               </Heading>
-              <Button variant="ghost" onClick={handleMoreDetailsClick}>
+              <Button
+                variant="ghost"
+                onClick={() => handleNavigateToSummaryBreakdown(appliedFilters.dateFrom!, appliedFilters.dateTo!)}
+              >
                 More Details
                 <Icon as={ArrowRightIcon} size="sm" color="inherit" />
               </Button>
             </div>
-            <AccountsSummaryTable accountsSummary={summaryTransactions ?? []} frequency={appliedFilters.frequency} />
+            <AccountsSummaryTable
+              accountsSummary={summaryTransactions ?? []}
+              frequency={appliedFilters.frequency}
+              onRowClick={handleNavigateToSummaryBreakdown}
+            />
           </div>
         </div>
 

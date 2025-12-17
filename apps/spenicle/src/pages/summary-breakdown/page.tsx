@@ -22,7 +22,6 @@ const SummaryBreakdownPage = () => {
   const [currentTotal] = useApiSpenicleSummaryTotalQuery({
     ...currentPeriodFilters,
     categoryId: appliedFilters.categoryId,
-    accountId: appliedFilters.accountId,
   });
 
   const [currentExpenseCategories, , { isLoading: isLoadingExpenseCategories }] = useApiSpenicleSummaryCategoriesQuery({
