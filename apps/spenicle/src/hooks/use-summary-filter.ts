@@ -139,7 +139,7 @@ export const useSummaryFilter = (opts?: UseFiltersOptions) => {
 
   const firstDate = dayjs(firstTransaction?.[0]?.date ?? dayjs().toISOString());
 
-  // Default date range (last 7 days)
+  // Default date range (last 6 months)
   const defaultDateRange = getDateRangeFromPreset(FilterDateRangePresets.Last6Months, firstDate);
 
   // parse applied filters with proper typing, ensuring all 4 keys are always present
@@ -187,7 +187,7 @@ export const useSummaryFilter = (opts?: UseFiltersOptions) => {
 
   // Method to set date range by preset
   const setDateRangePreset = (preset: FilterDateRangePresets) => {
-    const { dateFrom, dateTo } = getDateRangeFromPreset(preset);
+    const { dateFrom, dateTo } = getDateRangeFromPreset(preset, firstDate);
     filters.replaceAll({
       dateFrom,
       dateTo,
@@ -202,6 +202,11 @@ export const useSummaryFilter = (opts?: UseFiltersOptions) => {
     filters.replaceSingle('frequency', frequency);
   };
 
+  // Wrapper that includes firstDate
+  const getDateRangeFromPresetWithContext = (preset: FilterDateRangePresets) => {
+    return getDateRangeFromPreset(preset, firstDate);
+  };
+
   return {
     filters,
 
@@ -209,11 +214,12 @@ export const useSummaryFilter = (opts?: UseFiltersOptions) => {
     appliedFilters,
     humanizedFilters,
     currentDateRangePreset,
+    firstDate,
 
     // Date range preset utilities
     DATE_RANGE_PRESET_LABELS,
     setDateRangePreset,
-    getDateRangeFromPreset,
+    getDateRangeFromPreset: getDateRangeFromPresetWithContext,
 
     // Frequency utilities
     FREQUENCY_LABELS,

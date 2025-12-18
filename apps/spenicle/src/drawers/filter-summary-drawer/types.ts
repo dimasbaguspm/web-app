@@ -1,7 +1,7 @@
+import { FilterDateRangePresets } from '../../hooks/use-summary-filter';
+
 export interface FilterSummaryFormSchema {
-  startDate: string;
-  endDate: string;
-  frequency: string;
+  dateRangePreset: FilterDateRangePresets;
   accountIds: number[] | undefined;
   categoryIds: number[] | undefined;
 }

@@ -4,41 +4,64 @@ import {
 } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
 import {
   Button,
   ButtonGroup,
-  DateSinglePickerInput,
   Drawer,
   FormLayout,
   PageLoader,
   SelectInput,
   TextInputAsButton,
 } from '@dimasbaguspm/versaur';
-import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-import { FilterFrequency, FREQUENCY_LABELS, useSummaryFilter } from '../../hooks/use-summary-filter';
+import { FilterDateRangePresets, FilterFrequency, useSummaryFilter } from '../../hooks/use-summary-filter';
 
 import { FilterSummaryFormSchema } from './types';
+
+// Helper function to determine frequency based on date range preset
+const getFrequencyForPreset = (preset: FilterDateRangePresets): FilterFrequency => {
+  switch (preset) {
+    case FilterDateRangePresets.Last7Days:
+    case FilterDateRangePresets.ThisWeek:
+    case FilterDateRangePresets.LastWeek:
+      return FilterFrequency.Daily;
+    case FilterDateRangePresets.Last30Days:
+    case FilterDateRangePresets.ThisMonth:
+    case FilterDateRangePresets.LastMonth:
+      return FilterFrequency.Weekly;
+    case FilterDateRangePresets.Last6Months:
+    case FilterDateRangePresets.ThisYear:
+    case FilterDateRangePresets.LastYear:
+      return FilterFrequency.Monthly;
+    case FilterDateRangePresets.AllTime:
+      return FilterFrequency.Yearly;
+    default:
+      return FilterFrequency.Monthly;
+  }
+};
 
 interface FilterSummaryDrawer {
   payload?: Record<string, unknown>;
 }
 export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
   const { isDesktop } = useWindowResize();
-  const { appliedFilters, filters } = useSummaryFilter({ adapter: 'url' });
+  const { appliedFilters, filters, currentDateRangePreset, DATE_RANGE_PRESET_LABELS, getDateRangeFromPreset } =
+    useSummaryFilter({
+      adapter: 'url',
+    });
 
   const { openDrawer, closeDrawer } = useDrawerRoute();
 
-  const { control, handleSubmit, watch, getValues } = useForm<FilterSummaryFormSchema>({
+  const { control, handleSubmit, getValues } = useForm<FilterSummaryFormSchema>({
     defaultValues: {
-      startDate: formatDate((payload?.startDate as string) ?? appliedFilters.dateFrom, DateFormat.ISO_DATE),
-      endDate: formatDate((payload?.endDate as string) ?? appliedFilters.dateTo, DateFormat.ISO_DATE),
-      frequency: (payload?.frequency as string) || appliedFilters.frequency || FilterFrequency.Monthly,
+      dateRangePreset:
+        (payload?.dateRangePreset as FilterDateRangePresets) ??
+        currentDateRangePreset ??
+        FilterDateRangePresets.Last6Months,
       categoryIds: (payload?.categoryIds as number[]) || appliedFilters.categoryId || [],
       accountIds: (payload?.accountIds as number[]) || appliedFilters.accountId || [],
     },
@@ -63,11 +86,18 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
   );
 
   const handleOnValidSubmit: SubmitHandler<FilterSummaryFormSchema> = (data) => {
-    const { startDate, endDate, frequency, categoryIds, accountIds } = data ?? {};
+    const { dateRangePreset, categoryIds, accountIds } = data ?? {};
 
+    // Automatically determine frequency based on the preset
+    const frequency = getFrequencyForPreset(dateRangePreset);
+
+    // Get the date range for the selected preset
+    const { dateFrom, dateTo } = getDateRangeFromPreset(dateRangePreset);
+
+    // Apply all filters at once
     filters.replaceAll({
-      dateFrom: dayjs(startDate).startOf('day').toISOString(),
-      dateTo: dayjs(endDate).endOf('day').toISOString(),
+      dateFrom,
+      dateTo,
       frequency: frequency,
       accountId: accountIds,
       categoryId: categoryIds,
@@ -121,66 +151,19 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
         <Drawer.Body>
           <form id="filter-transaction-form" onSubmit={handleSubmit(handleOnValidSubmit)}>
             <FormLayout>
-              <FormLayout.Column span={6}>
-                <Controller
-                  name="startDate"
-                  control={control}
-                  rules={{
-                    deps: ['endDate'],
-                    validate: (value) => {
-                      const endDate = dayjs(watch('endDate'));
-                      const startDate = dayjs(value);
-
-                      return startDate.isBefore(endDate) ? true : 'Start date must be before end date';
-                    },
-                  }}
-                  render={({ field, formState }) => (
-                    <DateSinglePickerInput
-                      {...field}
-                      label="Start Date"
-                      max={watch('endDate')}
-                      placeholder="Select a start date"
-                      error={formState.errors.startDate?.message}
-                    />
-                  )}
-                />
-              </FormLayout.Column>
-              <FormLayout.Column span={6}>
-                <Controller
-                  name="endDate"
-                  control={control}
-                  rules={{
-                    deps: ['startDate'],
-                    validate: (value) => {
-                      const startDate = dayjs(watch('startDate'));
-                      const endDate = dayjs(value);
-                      return endDate.isAfter(startDate) ? true : 'End date must be after start date';
-                    },
-                  }}
-                  render={({ field, formState }) => (
-                    <DateSinglePickerInput
-                      {...field}
-                      label="End Date"
-                      max={dayjs().toISOString()}
-                      placeholder="Select an end date"
-                      error={formState.errors.endDate?.message}
-                    />
-                  )}
-                />
-              </FormLayout.Column>
               <FormLayout.Column span={12}>
                 <Controller
-                  name="frequency"
+                  name="dateRangePreset"
                   control={control}
                   render={({ field, fieldState }) => (
                     <SelectInput
                       {...field}
-                      label="Frequency"
+                      label="Date Range"
                       error={fieldState.error?.message}
-                      placeholder="Select frequency"
+                      placeholder="Select date range"
                     >
-                      {Object.entries(FREQUENCY_LABELS).map(([key, label], index) => (
-                        <SelectInput.Option key={index} value={key}>
+                      {Object.entries(DATE_RANGE_PRESET_LABELS).map(([key, label]) => (
+                        <SelectInput.Option key={key} value={key}>
                           {label}
                         </SelectInput.Option>
                       ))}
