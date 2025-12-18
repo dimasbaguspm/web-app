@@ -1,7 +1,8 @@
 import { CategoryModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { Avatar, Card, Heading, Hr, Text } from '@dimasbaguspm/versaur';
+import { Avatar, Card, Heading, Hr, NoResults, Text } from '@dimasbaguspm/versaur';
+import { SearchXIcon } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { CategoryCard } from '../../../components/category-card';
@@ -110,13 +111,15 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
 
   if (allCategories.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div>
         <Heading level={4} className="mb-4 capitalize">
           {type === 'expense' ? 'Expenses' : 'Income'}
         </Heading>
-        <Text color="gray" className="text-center py-8">
-          No {type} data available
-        </Text>
+        <NoResults
+          icon={SearchXIcon}
+          title={`${type === 'expense' ? 'Expenses' : 'Income'} Not Found`}
+          subtitle="Try changing the filters or check back later"
+        />
       </div>
     );
   }
