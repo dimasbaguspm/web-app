@@ -29,19 +29,29 @@ export const NetBalanceChart = ({
   const chartData = useMemo(() => {
     if (!Array.isArray(summaryTransactions) || summaryTransactions.length === 0) return [];
 
-    // Format date label based on frequency
+    // Format date label based on frequency (compact for chart display)
     const getDateLabel = (date: string) => {
       const d = dayjs(date);
       switch (frequency) {
         case 'daily':
           return d.format('MMM D');
-        case 'weekly':
-          return d.format('MMM D');
+        case 'weekly': {
+          // Show week range: start of week - end of week (compact)
+          const weekStart = d.startOf('week');
+          const weekEnd = d.endOf('week');
+          // If same month, show: "2-8 Jun"
+          // If different months, show: "30 May-5 Jun"
+          if (weekStart.month() === weekEnd.month()) {
+            return `${weekStart.format('D')}-${weekEnd.format('D MMM')}`;
+          } else {
+            return `${weekStart.format('D MMM')}-${weekEnd.format('D MMM')}`;
+          }
+        }
         case 'yearly':
           return d.format('YYYY');
         case 'monthly':
         default:
-          return d.format('MMM');
+          return d.format('MMM YY');
       }
     };
 
@@ -83,6 +93,21 @@ export const NetBalanceChart = ({
     return ((current - previous) / Math.abs(previous)) * 100;
   }, [chartData]);
 
+  // Get comparison period label based on frequency
+  const getComparisonLabel = () => {
+    switch (frequency) {
+      case 'daily':
+        return 'vs last day';
+      case 'weekly':
+        return 'vs last week';
+      case 'yearly':
+        return 'vs last year';
+      case 'monthly':
+      default:
+        return 'vs last month';
+    }
+  };
+
   return (
     <div className="bg-primary rounded-2xl p-6 text-white relative overflow-hidden">
       <div className="flex justify-between items-start mb-4">
@@ -96,15 +121,23 @@ export const NetBalanceChart = ({
               {percentageChange >= 0 ? '+' : ''}
               {percentageChange.toFixed(1)}%
             </Badge>
-            <span className="text-primary-light text-xs">vs last month</span>
+            <span className="text-primary-light text-xs">{getComparisonLabel()}</span>
           </div>
         </div>
       </div>
 
       {/* Recharts Area Chart */}
-      <div className={cx('relative mt-4', isMobile ? 'h-52' : 'h-76')}>
+      <div className={cx('relative mt-4', isMobile ? 'h-64' : 'h-82')}>
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
+          <AreaChart
+            data={chartData}
+            margin={{
+              top: 5,
+              right: 5,
+              left: -20,
+              bottom: frequency === 'weekly' ? 10 : 5,
+            }}
+          >
             <defs>
               <linearGradient id="colorNet" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#ffffff" stopOpacity={0.3} />
@@ -115,10 +148,10 @@ export const NetBalanceChart = ({
             <XAxis
               dataKey="month"
               stroke="rgba(255,255,255,0.6)"
-              tick={{ fontSize: 11 }}
+              tick={{ fontSize: 10 }}
               angle={frequency === 'daily' || frequency === 'weekly' ? -45 : 0}
               textAnchor={frequency === 'daily' || frequency === 'weekly' ? 'end' : 'middle'}
-              height={frequency === 'daily' || frequency === 'weekly' ? 60 : 30}
+              height={frequency === 'daily' || frequency === 'weekly' ? 50 : 30}
               interval={frequency === 'daily' ? 'preserveStartEnd' : 0}
             />
             <YAxis
