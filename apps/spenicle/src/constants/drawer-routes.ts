@@ -20,6 +20,7 @@ export const DRAWER_ROUTES = {
   DETAIL_TRANSACTION: 'transaction-detail',
   EDIT_TRANSACTION: 'edit-transaction',
   FILTER_TRANSACTION: 'filter-transaction',
+  TIMELINE_TRANSACTIONS: 'timeline-transactions',
 
   DETAIL_ACCOUNT_GROUP: 'account-group-detail',
   NEW_ACCOUNT_GROUP: 'new-account-group',

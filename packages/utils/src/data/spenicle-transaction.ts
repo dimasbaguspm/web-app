@@ -31,7 +31,7 @@ export const formatSpenicleTransaction = (transaction: TransactionModel | null) 
     note,
     time: transaction?.date ? formatDate(transaction.date, DateFormat.TIME_24H) : '',
     date: transaction?.date ? formatDate(transaction.date, DateFormat.LONG_DATE) : '',
-    dateTime: transaction?.date ? formatDate(transaction.date, DateFormat.SHORT_DATETIME) : '',
+    dateTime: transaction?.date ? formatDate(transaction.date, DateFormat.MEDIUM_DATETIME) : '',
     createdAt: transaction?.createdAt ? formatDate(transaction.createdAt, DateFormat.LONG_DATE) : '',
     updatedAt: transaction?.updatedAt ? formatDate(transaction.updatedAt, DateFormat.LONG_DATE) : '',
   } as const;

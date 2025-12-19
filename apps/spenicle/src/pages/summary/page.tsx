@@ -1,4 +1,5 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
+import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import {
   Badge,
@@ -17,6 +18,7 @@ import { startCase } from 'lodash';
 import { FileTextIcon } from 'lucide-react';
 import { Outlet } from 'react-router';
 
+import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { useSummaryFilter } from '../../hooks/use-summary-filter';
 
 import { ActionHeader } from './components/action-header';
@@ -24,8 +26,16 @@ import { ActionHeader } from './components/action-header';
 const SummaryLayout = () => {
   const { isMobile } = useWindowResize();
   const { appliedFilters } = useSummaryFilter();
+  const { openDrawer } = useDrawerRoute();
 
   const subTitleText = `${formatDate(appliedFilters.dateFrom, DateFormat.DAY_MONTH_YEAR)} until ${formatDate(appliedFilters.dateTo, DateFormat.DAY_MONTH_YEAR)}`;
+
+  const handleOnViewPeriodClick = () => {
+    openDrawer(DRAWER_ROUTES.TIMELINE_TRANSACTIONS, {
+      startDate: appliedFilters.dateFrom,
+      endDate: appliedFilters.dateTo,
+    });
+  };
 
   return (
     <PageLayout>
@@ -47,7 +57,7 @@ const SummaryLayout = () => {
           size="wide"
           actions={
             <ButtonGroup>
-              <Button variant="outline">
+              <Button variant="outline" onClick={handleOnViewPeriodClick}>
                 <Icon as={FileTextIcon} color="inherit" size="sm" />
                 View All Transactions
               </Button>

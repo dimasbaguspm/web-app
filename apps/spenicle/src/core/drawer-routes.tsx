@@ -37,6 +37,7 @@ import { SelectAccountDrawer } from '../drawers/select-account-drawer/drawer';
 import { SelectCategoryDrawer } from '../drawers/select-category-drawer/drawer';
 import { SelectMultipleAccountDrawer } from '../drawers/select-multiple-account-drawer/drawer';
 import { SelectMultipleCategoryDrawer } from '../drawers/select-multiple-category-drawer/drawer';
+import { TimelineTransactionsDrawer } from '../drawers/timeline-transactions-drawer/drawer';
 
 interface DrawerParams {
   appId?: string;
@@ -48,6 +49,8 @@ interface DrawerParams {
   categoryBudgetId?: number;
   scheduledTransactionId?: number;
   payloadId?: string;
+  startDate?: string;
+  endDate?: string;
   tabId?: string;
 }
 
@@ -186,6 +189,9 @@ export const DrawerRoutes: FC = () => {
       )}
       {is(DRAWER_ROUTES.EDIT_CATEGORY_BUDGET) && hasParam('categoryId') && hasParam('categoryBudgetId') && (
         <EditCategoryBudgetDrawer categoryId={params.categoryId!} categoryBudgetId={params.categoryBudgetId!} />
+      )}
+      {is(DRAWER_ROUTES.TIMELINE_TRANSACTIONS) && hasParam('startDate') && hasParam('endDate') && (
+        <TimelineTransactionsDrawer startDate={params.startDate!} endDate={params.endDate!} />
       )}
     </Drawer>
   );
