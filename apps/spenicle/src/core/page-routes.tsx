@@ -73,6 +73,11 @@ const router = createBrowserRouter([
                   link: DRAWER_ROUTES.NEW_TRANSACTION,
                   type: PAGE_HANDLES.DRAWER,
                 },
+                {
+                  label: 'Manage Scheduled Payments',
+                  link: DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS,
+                  type: PAGE_HANDLES.PAGE,
+                },
               ],
             },
           },
@@ -85,6 +90,11 @@ const router = createBrowserRouter([
                   label: 'Add Transaction',
                   link: DRAWER_ROUTES.NEW_TRANSACTION,
                   type: PAGE_HANDLES.DRAWER,
+                },
+                {
+                  label: 'Manage Scheduled Payments',
+                  link: DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS,
+                  type: PAGE_HANDLES.PAGE,
                 },
               ],
             },
@@ -132,10 +142,28 @@ const router = createBrowserRouter([
           {
             index: true,
             Component: lazyLoad(() => import('../pages/settings-scheduled-payments-installment/page')),
+            handle: {
+              floatingActionButton: [
+                {
+                  label: 'Add Installment Payment',
+                  link: DRAWER_ROUTES.NEW_SCHEDULED_PAYMENTS,
+                  type: PAGE_HANDLES.DRAWER,
+                },
+              ],
+            },
           },
           {
             path: ROUTES.SETTINGS_SCHEDULED_PAYMENTS_RECURRING,
             Component: lazyLoad(() => import('../pages/settings-scheduled-payments-recurring/page')),
+            handle: {
+              floatingActionButton: [
+                {
+                  label: 'Add Recurring Payment',
+                  link: DRAWER_ROUTES.NEW_SCHEDULED_PAYMENTS,
+                  type: PAGE_HANDLES.DRAWER,
+                },
+              ],
+            },
           },
         ],
       },

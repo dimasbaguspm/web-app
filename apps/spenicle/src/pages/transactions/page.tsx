@@ -3,18 +3,8 @@ import { TransactionModel } from '@dimasbaguspm/interfaces';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { DateFormat, formatDate } from '@dimasbaguspm/utils/date';
 import { If } from '@dimasbaguspm/utils/if';
-import {
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Icon,
-  PageContent,
-  PageHeader,
-  PageLayout,
-  PageLoader,
-} from '@dimasbaguspm/versaur';
+import { Button, ButtonGroup, PageContent, PageHeader, PageLayout, PageLoader } from '@dimasbaguspm/versaur';
 import { Dayjs } from 'dayjs';
-import { CalendarRangeIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useSwipeable } from 'react-swipeable';
@@ -87,10 +77,6 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
     navigateWithSearchParams(DEEP_LINKS.TRANSACTIONS_DATE.path(date.year(), date.month(), date.date()));
   };
 
-  const handleOnScheduledPaymentsClick = () => {
-    navigate(DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path);
-  };
-
   const containerHandlers = useSwipeable({
     onSwipedRight: () => {
       const previousDate = startDate.subtract(1, 'd');
@@ -112,24 +98,6 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
           title="Transactions"
           size="wide"
           subtitle={formatDate(startDate, DateFormat.MONTH_YEAR)}
-          actions={
-            <ButtonGroup>
-              <Button variant="outline" onClick={handleOnScheduledPaymentsClick}>
-                <Icon as={CalendarRangeIcon} color="inherit" size="sm" />
-                Scheduled Payments
-              </Button>
-            </ButtonGroup>
-          }
-          mobileActions={
-            <ButtonGroup>
-              <ButtonIcon
-                as={CalendarRangeIcon}
-                aria-label="Refresh"
-                variant="outline"
-                onClick={handleOnScheduledPaymentsClick}
-              />
-            </ButtonGroup>
-          }
           tabs={<TabsDate date={startDate} onDateChange={handleOnDateChange} />}
         />
       </PageLayout.HeaderRegion>
