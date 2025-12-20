@@ -1,19 +1,8 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
-import {
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  ChipSingleInput,
-  Icon,
-  PageContent,
-  PageHeader,
-  PageLayout,
-} from '@dimasbaguspm/versaur';
-import { PlusIcon, FilterIcon, CalendarRangeIcon, CalendarSyncIcon } from 'lucide-react';
+import { Button, ButtonGroup, ChipSingleInput, Icon, PageContent, PageHeader, PageLayout } from '@dimasbaguspm/versaur';
+import { FilterIcon, CalendarRangeIcon, CalendarSyncIcon } from 'lucide-react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 
-import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
 
 const enum ScheduledPaymentPage {
@@ -24,7 +13,6 @@ const enum ScheduledPaymentPage {
 const SettingsScheduledPaymentPage = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { openDrawer } = useDrawerRoute();
 
   const { isDesktop } = useWindowResize();
 
@@ -36,9 +24,6 @@ const SettingsScheduledPaymentPage = () => {
     }
   };
 
-  const handleOnNewScheduleClick = () => {
-    openDrawer(DRAWER_ROUTES.NEW_SCHEDULED_PAYMENTS);
-  };
   return (
     <PageLayout>
       <PageLayout.HeaderRegion>
@@ -46,19 +31,6 @@ const SettingsScheduledPaymentPage = () => {
           title="Scheduled Payments"
           subtitle="Manage your payment schedules and recurring transactions"
           size="wide"
-          actions={
-            <ButtonGroup>
-              <Button onClick={handleOnNewScheduleClick}>
-                <Icon as={PlusIcon} color="inherit" size="sm" />
-                New Schedule
-              </Button>
-            </ButtonGroup>
-          }
-          mobileActions={
-            <ButtonGroup>
-              <ButtonIcon as={PlusIcon} aria-label="New Schedule" onClick={handleOnNewScheduleClick} />
-            </ButtonGroup>
-          }
         />
       </PageLayout.HeaderRegion>
 
