@@ -67,8 +67,6 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     return <PageLoader fullscreen />;
   }
 
-  console.log('AuthProvider refresher data:', data);
-  console.log('AuthProvider refresher isError:', isError);
   if (!data) {
     // If refresher failed or returned no data (common when client_id/cookies
     // are missing on some mobile webviews), don't block the app UI by

@@ -21,7 +21,7 @@ export const ThisMonthSummaryCards = ({
     <div>
       <div className="flex flex-row justify-between items-center gap-3 mb-4">
         <Heading level={3} color="ghost">
-          Usage This Month
+          This Month At a Glance
         </Heading>
         {isMobile ? (
           <ButtonMenuIcon as={EllipsisVerticalIcon} variant="outline" aria-label="Actions" placement="bottom-right">
