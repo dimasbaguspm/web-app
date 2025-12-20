@@ -1,23 +1,30 @@
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { Button, Heading, Icon, Text, Tile } from '@dimasbaguspm/versaur';
-import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon } from 'lucide-react';
+import { ButtonMenuIcon, Heading, Icon, Text, Tile } from '@dimasbaguspm/versaur';
+import { ArrowDownIcon, ArrowUpIcon, EllipsisVerticalIcon } from 'lucide-react';
 
 interface ThisMonthSummaryCardsProps {
   totalIncome: number;
   totalExpense: number;
-  onViewMore?: () => void;
+  onViewSummaryClick: () => void;
+  onViewTransactionsClick: () => void;
 }
 
-export const ThisMonthSummaryCards = ({ totalIncome, totalExpense, onViewMore }: ThisMonthSummaryCardsProps) => {
+export const ThisMonthSummaryCards = ({
+  totalIncome,
+  totalExpense,
+  onViewSummaryClick,
+  onViewTransactionsClick,
+}: ThisMonthSummaryCardsProps) => {
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-row justify-between items-center gap-3 mb-4">
         <Heading level={3} color="ghost">
           This Month Summary
         </Heading>
-        <Button variant="ghost" size="sm" onClick={onViewMore}>
-          More <Icon as={ArrowRightIcon} color="inherit" size="sm" />
-        </Button>
+        <ButtonMenuIcon as={EllipsisVerticalIcon} variant="outline" aria-label="Actions" placement="bottom-right">
+          <ButtonMenuIcon.Item onClick={onViewSummaryClick}>View Summary</ButtonMenuIcon.Item>
+          <ButtonMenuIcon.Item onClick={onViewTransactionsClick}>View Transactions</ButtonMenuIcon.Item>
+        </ButtonMenuIcon>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Tile>

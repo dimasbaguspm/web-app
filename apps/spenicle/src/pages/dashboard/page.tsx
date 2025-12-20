@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { DEEP_LINKS } from '../../constants/page-routes';
+import { FilterFrequency } from '../../hooks/use-summary-filter';
 
 import { NetBalanceCard, RecentTransactions, ScheduledTransactions, ThisMonthSummaryCards } from './components';
 import { DashboardTransactionViewMode } from './types';
@@ -25,6 +26,7 @@ import { DashboardTransactionViewMode } from './types';
 const DashboardPage = () => {
   const { user } = useAuthProvider();
   const { isMobile } = useWindowResize();
+  const { openDrawer } = useDrawerRoute();
 
   const [totalSummary] = useApiSpenicleSummaryTotalQuery({});
   const [summaryTransactions] = useApiSpenicleSummaryTransactionsQuery({
@@ -46,7 +48,6 @@ const DashboardPage = () => {
   });
 
   const navigate = useNavigate();
-  const { openDrawer } = useDrawerRoute();
 
   const [transactionViewMode, setTransactionViewMode] = useState<DashboardTransactionViewMode>(
     DashboardTransactionViewMode.Recent,
@@ -87,8 +88,23 @@ const DashboardPage = () => {
     navigate(DEEP_LINKS.SETTINGS_SCHEDULED_PAYMENTS.path);
   };
 
-  const handleViewMoreSummary = () => {
-    navigate(DEEP_LINKS.SUMMARY.path);
+  const handleOnViewSummaryClick = () => {
+    const searchParams = new URLSearchParams();
+    searchParams.set('dateFrom', dayjs().startOf('month').toISOString());
+    searchParams.set('dateTo', dayjs().endOf('month').toISOString());
+    searchParams.set('frequency', FilterFrequency.Weekly);
+
+    navigate({
+      pathname: DEEP_LINKS.SUMMARY.path,
+      search: `?${searchParams.toString()}`,
+    });
+  };
+
+  const handleOnViewTransactionsClick = () => {
+    openDrawer(DRAWER_ROUTES.TIMELINE_TRANSACTIONS, {
+      startDate: dayjs().startOf('month').toISOString(),
+      endDate: dayjs().endOf('month').toISOString(),
+    });
   };
 
   const handleTransactionViewModeChange = (mode: string) => {
@@ -117,7 +133,8 @@ const DashboardPage = () => {
               <ThisMonthSummaryCards
                 totalIncome={currentMonthSummary.income}
                 totalExpense={currentMonthSummary.expense}
-                onViewMore={handleViewMoreSummary}
+                onViewSummaryClick={handleOnViewSummaryClick}
+                onViewTransactionsClick={handleOnViewTransactionsClick}
               />
             </div>
 
