@@ -3,6 +3,7 @@ import { useModalRoute } from '@dimasbaguspm/providers/modal-route-provider';
 import { formatSpenicleAccount, formatSpenicleCategory, formatSpenicleTransaction } from '@dimasbaguspm/utils/data';
 import { If } from '@dimasbaguspm/utils/if';
 import {
+  Anchor,
   AttributeList,
   Badge,
   BadgeGroup,
@@ -14,13 +15,12 @@ import {
   PageLoader,
   Text,
 } from '@dimasbaguspm/versaur';
-import { CopyIcon, Edit2Icon, TrashIcon } from 'lucide-react';
+import { Edit2Icon, TrashIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 import { MODAL_ROUTES } from '../../constants/modal-routes';
 
-import { generatePayloadCopyTransaction } from './helpers';
 import { useDetailTransactionData } from './hooks/use-detail-transaction-data';
 
 interface DetailTransactionDrawerProps {
@@ -46,17 +46,21 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({ tran
     });
   };
 
-  const handleOnCopyClick = () => {
-    openDrawer(DRAWER_ROUTES.NEW_TRANSACTION, undefined, {
-      state: {
-        payload: generatePayloadCopyTransaction(transactionData!),
-      },
-    });
-  };
-
   const handleDeleteClick = () => {
     openModal(MODAL_ROUTES.DELETE_TRANSACTION, {
       transactionId,
+    });
+  };
+
+  const handleCategoryClick = () => {
+    openDrawer(DRAWER_ROUTES.DETAIL_CATEGORY, {
+      categoryId: categoryData?.id.toString() || '',
+    });
+  };
+
+  const handleAccountClick = () => {
+    openDrawer(DRAWER_ROUTES.ACCOUNT_DETAIL, {
+      accountId: accountData?.id.toString() || '',
     });
   };
 
@@ -72,27 +76,22 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({ tran
 
       <If condition={[!isInitialLoading, transactionData]}>
         <Drawer.Body>
-          <ButtonGroup className="mb-4">
+          <ButtonGroup hasMargin>
             <Button variant="outline" onClick={handleOnEditClick}>
               <Icon as={Edit2Icon} size="sm" color="inherit" />
               Edit
-            </Button>
-
-            <Button variant="outline" onClick={handleOnCopyClick}>
-              <Icon as={CopyIcon} size="sm" color="inherit" />
-              Copy
             </Button>
 
             <ButtonIcon
               as={TrashIcon}
               onClick={handleDeleteClick}
               className="ml-auto"
-              variant="destructive"
+              variant="outline"
               aria-label="Delete transaction"
             />
           </ButtonGroup>
 
-          <BadgeGroup className="mb-4">
+          <BadgeGroup hasMargin>
             <Badge color={variant}>{capitalizedType}</Badge>
           </BadgeGroup>
 
@@ -107,10 +106,10 @@ export const DetailTransactionDrawer: FC<DetailTransactionDrawerProps> = ({ tran
               <Text>{amount}</Text>
             </AttributeList.Item>
             <AttributeList.Item title="Category">
-              <Text>{categoryName}</Text>
+              <Anchor onClick={handleCategoryClick}>{categoryName}</Anchor>
             </AttributeList.Item>
             <AttributeList.Item title="Source">
-              <Text>{accountName}</Text>
+              <Anchor onClick={handleAccountClick}>{accountName}</Anchor>
             </AttributeList.Item>
             <If condition={[destinationAccountName]}>
               <AttributeList.Item title="Destination">
