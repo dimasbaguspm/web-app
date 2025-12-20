@@ -9,7 +9,6 @@ import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 import { DetailsTab } from './sub-tabs/details-tab';
 import { HistoryTab } from './sub-tabs/history-tab';
-import { TrendsTab } from './sub-tabs/trends-tab';
 
 interface DetailAccountDrawerProps {
   accountId: number;
@@ -43,7 +42,6 @@ export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({ accountId, t
       <Drawer.Tab>
         <Tabs value={activeTab} onValueChange={handleOnTabChange}>
           <Tabs.Trigger value="details">Details</Tabs.Trigger>
-          <Tabs.Trigger value="trends">Trends</Tabs.Trigger>
           <Tabs.Trigger value="history">History</Tabs.Trigger>
         </Tabs>
       </Drawer.Tab>
@@ -55,7 +53,6 @@ export const DetailAccountDrawer: FC<DetailAccountDrawerProps> = ({ accountId, t
       <If condition={[!isLoading, account]}>
         <Drawer.Body>
           {activeTab === 'details' && <DetailsTab data={account!} />}
-          {activeTab === 'trends' && <TrendsTab data={account!} />}
           {activeTab === 'history' && <HistoryTab data={account!} />}
         </Drawer.Body>
       </If>
