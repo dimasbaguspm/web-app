@@ -12,17 +12,19 @@ import { TransactionCard } from '../../components/transaction-card';
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
 
 interface TimelineTransactionsDrawerProps {
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export const TimelineTransactionsDrawer: FC<TimelineTransactionsDrawerProps> = ({ startDate, endDate }) => {
+  const hasValidDateRange = startDate && endDate;
+
   const { openDrawer } = useDrawerRoute();
 
   const [transactions, , { isInitialFetching, hasNextPage, isFetchingNextPage }, { fetchNextPage }] =
     useApiSpenicleTransactionsInfiniteQuery({
-      dateFrom: dayjs(startDate).startOf('day').toISOString(),
-      dateTo: dayjs(endDate).endOf('day').toISOString(),
+      dateFrom: hasValidDateRange ? dayjs(startDate).startOf('day').toISOString() : undefined,
+      dateTo: hasValidDateRange ? dayjs(endDate).endOf('day').toISOString() : undefined,
       pageSize: 25,
     });
 
@@ -36,8 +38,14 @@ export const TimelineTransactionsDrawer: FC<TimelineTransactionsDrawerProps> = (
     <>
       <Drawer.Header>
         <Drawer.Title>
-          Transactions from {formatDate(startDate, DateFormat.DAY_MONTH_YEAR)} to{' '}
-          {formatDate(endDate, DateFormat.DAY_MONTH_YEAR)}
+          {hasValidDateRange ? (
+            <>
+              Transactions from {formatDate(startDate, DateFormat.DAY_MONTH_YEAR)} to{' '}
+              {formatDate(endDate, DateFormat.DAY_MONTH_YEAR)}
+            </>
+          ) : (
+            <>All Transactions</>
+          )}
         </Drawer.Title>
         <Drawer.CloseButton />
       </Drawer.Header>

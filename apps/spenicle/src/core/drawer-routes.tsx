@@ -190,8 +190,8 @@ export const DrawerRoutes: FC = () => {
       {is(DRAWER_ROUTES.EDIT_CATEGORY_BUDGET) && hasParam('categoryId') && hasParam('categoryBudgetId') && (
         <EditCategoryBudgetDrawer categoryId={params.categoryId!} categoryBudgetId={params.categoryBudgetId!} />
       )}
-      {is(DRAWER_ROUTES.TIMELINE_TRANSACTIONS) && hasParam('startDate') && hasParam('endDate') && (
-        <TimelineTransactionsDrawer startDate={params.startDate!} endDate={params.endDate!} />
+      {is(DRAWER_ROUTES.TIMELINE_TRANSACTIONS) && (
+        <TimelineTransactionsDrawer startDate={params?.startDate} endDate={params?.endDate} />
       )}
     </Drawer>
   );

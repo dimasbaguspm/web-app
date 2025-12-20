@@ -81,7 +81,7 @@ const DashboardPage = () => {
   };
 
   const handleViewAllTransactions = () => {
-    navigate(DEEP_LINKS.TRANSACTIONS_ALT.path);
+    openDrawer(DRAWER_ROUTES.TIMELINE_TRANSACTIONS);
   };
 
   const handleViewAllScheduled = () => {
