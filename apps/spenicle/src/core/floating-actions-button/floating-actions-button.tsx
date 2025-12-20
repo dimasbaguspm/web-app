@@ -2,7 +2,7 @@ import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Button, ButtonIcon } from '@dimasbaguspm/versaur';
 import { cx } from 'class-variance-authority';
-import { PlusIcon, XIcon } from 'lucide-react';
+import { EllipsisVerticalIcon, XIcon } from 'lucide-react';
 import { FC, useMemo, useState } from 'react';
 import { useMatches, useNavigate } from 'react-router';
 
@@ -97,7 +97,7 @@ export const FloatingActionsButton: FC = () => {
           size="lg"
           className="h-12 w-12"
           shape="circle"
-          as={isOpen ? XIcon : PlusIcon}
+          as={isOpen ? XIcon : EllipsisVerticalIcon}
           onClick={toggleMenu}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
         />

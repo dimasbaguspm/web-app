@@ -1,6 +1,7 @@
+import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { formatPrice } from '@dimasbaguspm/utils/price';
-import { ButtonMenuIcon, Heading, Icon, Text, Tile } from '@dimasbaguspm/versaur';
-import { ArrowDownIcon, ArrowUpIcon, EllipsisVerticalIcon } from 'lucide-react';
+import { Button, ButtonGroup, ButtonMenuIcon, Heading, Icon, Text, Tile } from '@dimasbaguspm/versaur';
+import { ArrowDownIcon, ArrowUpIcon, ChartColumnIcon, EllipsisVerticalIcon, ListCollapseIcon } from 'lucide-react';
 
 interface ThisMonthSummaryCardsProps {
   totalIncome: number;
@@ -15,16 +16,36 @@ export const ThisMonthSummaryCards = ({
   onViewSummaryClick,
   onViewTransactionsClick,
 }: ThisMonthSummaryCardsProps) => {
+  const { isMobile } = useWindowResize();
   return (
     <div>
       <div className="flex flex-row justify-between items-center gap-3 mb-4">
         <Heading level={3} color="ghost">
-          This Month Summary
+          Usage This Month
         </Heading>
-        <ButtonMenuIcon as={EllipsisVerticalIcon} variant="outline" aria-label="Actions" placement="bottom-right">
-          <ButtonMenuIcon.Item onClick={onViewSummaryClick}>View Summary</ButtonMenuIcon.Item>
-          <ButtonMenuIcon.Item onClick={onViewTransactionsClick}>View Transactions</ButtonMenuIcon.Item>
-        </ButtonMenuIcon>
+        {isMobile ? (
+          <ButtonMenuIcon as={EllipsisVerticalIcon} variant="outline" aria-label="Actions" placement="bottom-right">
+            <ButtonMenuIcon.Item onClick={onViewSummaryClick}>
+              <Icon as={ChartColumnIcon} color="inherit" size="sm" />
+              Summary
+            </ButtonMenuIcon.Item>
+            <ButtonMenuIcon.Item onClick={onViewTransactionsClick}>
+              <Icon as={ListCollapseIcon} color="inherit" size="sm" />
+              Transactions
+            </ButtonMenuIcon.Item>
+          </ButtonMenuIcon>
+        ) : (
+          <ButtonGroup>
+            <Button variant="outline" onClick={onViewSummaryClick}>
+              <Icon as={ChartColumnIcon} color="inherit" size="sm" />
+              Summary
+            </Button>
+            <Button variant="outline" onClick={onViewTransactionsClick}>
+              <Icon as={ListCollapseIcon} color="inherit" size="sm" />
+              Transactions
+            </Button>
+          </ButtonGroup>
+        )}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Tile>

@@ -1,6 +1,6 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
 import { ChipSingleInput, Icon } from '@dimasbaguspm/versaur';
-import { SquareChartGanttIcon, TargetIcon } from 'lucide-react';
+import { MenuIcon, TargetIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -37,7 +37,7 @@ export const ActionHeader: FC = () => {
             {isDesktop && 'Overview'}
           </ChipSingleInput.Option>
           <ChipSingleInput.Option value="breakdown">
-            <Icon as={SquareChartGanttIcon} color="inherit" size="sm" />
+            <Icon as={MenuIcon} color="inherit" size="sm" />
             {isDesktop && 'Breakdown'}
           </ChipSingleInput.Option>
         </ChipSingleInput>

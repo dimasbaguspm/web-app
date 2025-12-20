@@ -1,7 +1,6 @@
 import { useApiSpenicleSummaryTotalQuery, useApiSpenicleSummaryTransactionsQuery } from '@dimasbaguspm/hooks/use-api';
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { Button, Heading, Icon, PageLoader } from '@dimasbaguspm/versaur';
-import { ArrowRightIcon } from 'lucide-react';
+import { Heading, PageLoader } from '@dimasbaguspm/versaur';
 import { useLocation, useNavigate } from 'react-router';
 
 import { DEEP_LINKS } from '../../constants/page-routes';
@@ -93,13 +92,6 @@ const SummaryOverviewPage = () => {
                       ? 'Yearly Breakdown'
                       : 'Monthly Breakdown'}
               </Heading>
-              <Button
-                variant="ghost"
-                onClick={() => handleNavigateToSummaryBreakdown(appliedFilters.dateFrom!, appliedFilters.dateTo!)}
-              >
-                More
-                <Icon as={ArrowRightIcon} size="sm" color="inherit" />
-              </Button>
             </div>
             <AccountsSummaryTable
               accountsSummary={summaryTransactions ?? []}

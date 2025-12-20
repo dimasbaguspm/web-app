@@ -61,14 +61,33 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.TRANSACTIONS_ALT,
+
         children: [
           {
             index: true,
             Component: lazyLoad(() => import('../pages/transactions/page')),
+            handle: {
+              floatingActionButton: [
+                {
+                  label: 'Add Transaction',
+                  link: DRAWER_ROUTES.NEW_TRANSACTION,
+                  type: PAGE_HANDLES.DRAWER,
+                },
+              ],
+            },
           },
           {
             path: ROUTES.TRANSACTIONS_DATE,
             Component: lazyLoad(() => import('../pages/transactions/page')),
+            handle: {
+              floatingActionButton: [
+                {
+                  label: 'Add Transaction',
+                  link: DRAWER_ROUTES.NEW_TRANSACTION,
+                  type: PAGE_HANDLES.DRAWER,
+                },
+              ],
+            },
           },
         ],
       },

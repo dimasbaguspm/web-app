@@ -6,10 +6,10 @@ import { Avatar, Brand, ButtonMenuIcon, Hr, Icon, Text, TopBar } from '@dimasbag
 import {
   BoltIcon,
   ChevronsLeftRightEllipsisIcon,
-  EllipsisIcon,
   LogOutIcon,
   NotebookPenIcon,
   OrbitIcon,
+  Settings2Icon,
 } from 'lucide-react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -69,7 +69,7 @@ export const AppTopBar: FC = () => {
       </TopBar.Leading>
       <TopBar.Trailing>
         <Avatar size="md">{nameToInitials(profile.name)}</Avatar>
-        <ButtonMenuIcon variant="ghost" aria-label="Profile Menu" as={EllipsisIcon}>
+        <ButtonMenuIcon variant="ghost" aria-label="Profile Menu" as={Settings2Icon}>
           <ButtonMenuIcon.Item onClick={() => openModal(MODAL_ROUTES.PROFILE_SWITCHER)}>
             <Icon as={ChevronsLeftRightEllipsisIcon} size="sm" color="inherit" />
             Switch Profile

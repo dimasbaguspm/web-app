@@ -1,6 +1,5 @@
 import {
-  FileText,
-  PieChart,
+  ListCollapseIcon,
   ChartNoAxesCombinedIcon,
   CogIcon,
   TagsIcon,
@@ -8,8 +7,8 @@ import {
   CalendarSyncIcon,
   CalendarRangeIcon,
   DatabaseZapIcon,
-  FileTextIcon,
   HomeIcon,
+  ChartColumnIcon,
 } from 'lucide-react';
 
 export const ROUTES = {
@@ -46,12 +45,12 @@ export const DEEP_LINKS = {
   TRANSACTIONS_ALT: {
     path: '/transactions',
     title: 'Transactions',
-    icon: FileText,
+    icon: ListCollapseIcon,
   },
   TRANSACTIONS_DATE: {
     path: (year: number, month: number, day: number) => `/transactions/${year}/${month}/${day}`,
     title: 'Transactions by Date',
-    icon: FileText,
+    icon: ListCollapseIcon,
   },
   ACCOUNTS: {
     path: '/accounts',
@@ -66,7 +65,7 @@ export const DEEP_LINKS = {
   SUMMARY: {
     path: '/summary',
     title: 'Summary',
-    icon: PieChart,
+    icon: ChartColumnIcon,
   },
   SUMMARY_BREAKDOWN: {
     path: '/summary/breakdown',
@@ -106,7 +105,7 @@ export const DEEP_LINKS = {
   SETTINGS_REPORTS_DAILY_OVERVIEW: {
     path: '/settings/reports/daily-overview',
     title: 'Daily Overview',
-    icon: FileTextIcon,
+    icon: ListCollapseIcon,
   },
 } as const;
 

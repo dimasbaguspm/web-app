@@ -14,7 +14,7 @@ import {
   PageLoader,
 } from '@dimasbaguspm/versaur';
 import { Dayjs } from 'dayjs';
-import { CalendarRangeIcon, PlusIcon } from 'lucide-react';
+import { CalendarRangeIcon } from 'lucide-react';
 import { FC } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useSwipeable } from 'react-swipeable';
@@ -118,10 +118,6 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
                 <Icon as={CalendarRangeIcon} color="inherit" size="sm" />
                 Scheduled Payments
               </Button>
-              <Button onClick={handleOnNewTransactionClick}>
-                <Icon as={PlusIcon} color="inherit" size="sm" />
-                New Transaction
-              </Button>
             </ButtonGroup>
           }
           mobileActions={
@@ -132,7 +128,6 @@ const TransactionsPage: FC<TransactionsPageProps> = ({ startDate }) => {
                 variant="outline"
                 onClick={handleOnScheduledPaymentsClick}
               />
-              <ButtonIcon as={PlusIcon} aria-label="New Transaction" onClick={handleOnNewTransactionClick} />
             </ButtonGroup>
           }
           tabs={<TabsDate date={startDate} onDateChange={handleOnDateChange} />}

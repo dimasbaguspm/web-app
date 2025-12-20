@@ -15,7 +15,7 @@ import {
 } from '@dimasbaguspm/versaur';
 import { cx } from 'class-variance-authority';
 import { startCase } from 'lodash';
-import { FileTextIcon } from 'lucide-react';
+import { ListCollapseIcon } from 'lucide-react';
 import { Outlet } from 'react-router';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
@@ -58,7 +58,7 @@ const SummaryLayout = () => {
           actions={
             <ButtonGroup>
               <Button variant="outline" onClick={handleOnViewPeriodClick}>
-                <Icon as={FileTextIcon} color="inherit" size="sm" />
+                <Icon as={ListCollapseIcon} color="inherit" size="sm" />
                 View Period Transactions
               </Button>
             </ButtonGroup>
@@ -66,7 +66,7 @@ const SummaryLayout = () => {
           mobileActions={
             <ButtonGroup>
               <ButtonIcon
-                as={FileTextIcon}
+                as={ListCollapseIcon}
                 variant="outline"
                 aria-label="View Transactions"
                 onClick={handleOnViewPeriodClick}

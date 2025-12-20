@@ -1,6 +1,6 @@
 import { useBottomSheetRoute } from '@dimasbaguspm/providers/bottom-sheet-route-provider';
 import { BottomBar, Icon } from '@dimasbaguspm/versaur';
-import { MoreHorizontalIcon } from 'lucide-react';
+import { Settings2Icon } from 'lucide-react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -42,7 +42,7 @@ export const AppBottomBar: FC = () => {
       })}
 
       <BottomBar.Item onClick={() => openBottomSheet(BOTTOM_SHEET_ROUTES.MENU)}>
-        <Icon as={MoreHorizontalIcon} size="md" color={isActive(DEEP_LINKS.SETTINGS.path) ? 'primary' : 'inherit'} />
+        <Icon as={Settings2Icon} size="md" color={isActive(DEEP_LINKS.SETTINGS.path) ? 'primary' : 'inherit'} />
       </BottomBar.Item>
     </BottomBar>
   );
