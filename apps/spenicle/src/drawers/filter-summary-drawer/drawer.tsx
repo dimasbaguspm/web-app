@@ -12,59 +12,34 @@ import {
   FormLayout,
   PageLoader,
   SelectInput,
+  SwitchInput,
+  TextInput,
   TextInputAsButton,
 } from '@dimasbaguspm/versaur';
+import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DRAWER_ROUTES } from '../../constants/drawer-routes';
-import { FilterDateRangePresets, FilterFrequency, useSummaryFilter } from '../../hooks/use-summary-filter';
+import { FREQUENCY_LABELS, useSummaryFilter } from '../../hooks/use-summary-filter';
 
+import { getDefaultValues, getFrequencyForPreset } from './helpers';
 import { FilterSummaryFormSchema } from './types';
-
-// Helper function to determine frequency based on date range preset
-const getFrequencyForPreset = (preset: FilterDateRangePresets): FilterFrequency => {
-  switch (preset) {
-    case FilterDateRangePresets.Last7Days:
-    case FilterDateRangePresets.ThisWeek:
-    case FilterDateRangePresets.LastWeek:
-      return FilterFrequency.Daily;
-    case FilterDateRangePresets.Last30Days:
-    case FilterDateRangePresets.ThisMonth:
-    case FilterDateRangePresets.LastMonth:
-      return FilterFrequency.Weekly;
-    case FilterDateRangePresets.Last6Months:
-    case FilterDateRangePresets.ThisYear:
-    case FilterDateRangePresets.LastYear:
-      return FilterFrequency.Monthly;
-    case FilterDateRangePresets.AllTime:
-      return FilterFrequency.Yearly;
-    default:
-      return FilterFrequency.Monthly;
-  }
-};
 
 interface FilterSummaryDrawer {
   payload?: Record<string, unknown>;
 }
 export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
   const { isDesktop } = useWindowResize();
-  const { appliedFilters, filters, currentDateRangePreset, DATE_RANGE_PRESET_LABELS, getDateRangeFromPreset } =
-    useSummaryFilter({
-      adapter: 'url',
-    });
+  const summaryFilters = useSummaryFilter({
+    adapter: 'url',
+  });
+  const { filters, DATE_RANGE_PRESET_LABELS, getDateRangeFromPreset } = summaryFilters;
 
   const { openDrawer, closeDrawer } = useDrawerRoute();
 
-  const { control, handleSubmit, getValues } = useForm<FilterSummaryFormSchema>({
-    defaultValues: {
-      dateRangePreset:
-        (payload?.dateRangePreset as FilterDateRangePresets) ??
-        currentDateRangePreset ??
-        FilterDateRangePresets.Last6Months,
-      categoryIds: (payload?.categoryIds as number[]) || appliedFilters.categoryId || [],
-      accountIds: (payload?.accountIds as number[]) || appliedFilters.accountId || [],
-    },
+  const { control, handleSubmit, getValues, watch } = useForm<FilterSummaryFormSchema>({
+    defaultValues: getDefaultValues(summaryFilters, payload),
   });
 
   const [categories, , { isLoading: isCategoriesFetching }] = useApiSpenicleCategoriesPaginatedQuery(
@@ -86,7 +61,15 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
   );
 
   const handleOnValidSubmit: SubmitHandler<FilterSummaryFormSchema> = (data) => {
-    const { dateRangePreset, categoryIds, accountIds } = data ?? {};
+    const {
+      dateRangePreset,
+      categoryIds,
+      accountIds,
+      useCustomDateRange,
+      customDateFrom,
+      customDateTo,
+      customFrequency,
+    } = data ?? {};
 
     // Automatically determine frequency based on the preset
     const frequency = getFrequencyForPreset(dateRangePreset);
@@ -94,14 +77,24 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
     // Get the date range for the selected preset
     const { dateFrom, dateTo } = getDateRangeFromPreset(dateRangePreset);
 
-    // Apply all filters at once
-    filters.replaceAll({
-      dateFrom,
-      dateTo,
-      frequency: frequency,
-      accountId: accountIds,
-      categoryId: categoryIds,
-    });
+    if (useCustomDateRange) {
+      filters.replaceAll({
+        dateFrom: dayjs(customDateFrom).startOf('day').toISOString(),
+        dateTo: dayjs(customDateTo).endOf('day').toISOString(),
+        frequency: customFrequency,
+        accountId: accountIds,
+        categoryId: categoryIds,
+      });
+    } else {
+      // Apply all filters at once
+      filters.replaceAll({
+        dateFrom,
+        dateTo,
+        frequency: frequency,
+        accountId: accountIds,
+        categoryId: categoryIds,
+      });
+    }
   };
 
   const handleOnAccountClick = () => {
@@ -135,6 +128,8 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
       },
     );
   };
+
+  const useCustomDateRange = watch('useCustomDateRange', false);
 
   return (
     <>
@@ -171,6 +166,55 @@ export const FilterSummaryDrawer: FC<FilterSummaryDrawer> = ({ payload }) => {
                   )}
                 />
               </FormLayout.Column>
+              <FormLayout.Column span={12}>
+                <Controller
+                  control={control}
+                  name="useCustomDateRange"
+                  render={({ field }) => <SwitchInput {...field} label="Custom Date Range" />}
+                />
+              </FormLayout.Column>
+              {useCustomDateRange && (
+                <>
+                  <FormLayout.Column span={6}>
+                    <Controller
+                      name="customDateFrom"
+                      control={control}
+                      render={({ field, fieldState }) => (
+                        <TextInput {...field} type="date" label="From" error={fieldState.error?.message} />
+                      )}
+                    />
+                  </FormLayout.Column>
+                  <FormLayout.Column span={6}>
+                    <Controller
+                      name="customDateTo"
+                      control={control}
+                      render={({ field, fieldState }) => (
+                        <TextInput {...field} type="date" label="To" error={fieldState.error?.message} />
+                      )}
+                    />
+                  </FormLayout.Column>
+                  <FormLayout.Column span={12}>
+                    <Controller
+                      name="customFrequency"
+                      control={control}
+                      render={({ field, fieldState }) => (
+                        <SelectInput
+                          {...field}
+                          label="Frequency"
+                          error={fieldState.error?.message}
+                          placeholder="Select frequency"
+                        >
+                          {Object.entries(FREQUENCY_LABELS).map(([key, label]) => (
+                            <SelectInput.Option key={key} value={key}>
+                              {label}
+                            </SelectInput.Option>
+                          ))}
+                        </SelectInput>
+                      )}
+                    />
+                  </FormLayout.Column>
+                </>
+              )}
               <FormLayout.Column span={12}>
                 <Controller
                   name="accountIds"

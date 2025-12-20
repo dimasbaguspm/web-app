@@ -59,13 +59,18 @@ const SummaryLayout = () => {
             <ButtonGroup>
               <Button variant="outline" onClick={handleOnViewPeriodClick}>
                 <Icon as={FileTextIcon} color="inherit" size="sm" />
-                View All Transactions
+                View Period Transactions
               </Button>
             </ButtonGroup>
           }
           mobileActions={
             <ButtonGroup>
-              <ButtonIcon as={FileTextIcon} variant="outline" aria-label="View Transactions" />
+              <ButtonIcon
+                as={FileTextIcon}
+                variant="outline"
+                aria-label="View Transactions"
+                onClick={handleOnViewPeriodClick}
+              />
             </ButtonGroup>
           }
         />
