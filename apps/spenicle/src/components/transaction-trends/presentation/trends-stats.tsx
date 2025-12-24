@@ -54,15 +54,15 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric, freque
   return (
     <>
       <div className="mb-4">
-        <Heading level={3}>Summary</Heading>
+        <Heading as="h4">Summary</Heading>
       </div>
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <Tile size="sm" className="flex flex-col gap-1">
-          <Text fontWeight="medium" fontSize="sm" color="gray">
+          <Text fontWeight="medium" as="small" color="gray">
             Total
           </Text>
-          <Text fontWeight="semibold" fontSize="lg">
+          <Text fontWeight="semibold" as="strong">
             {formatPrice(generalStats.metricTotal, Currency.IDR, {
               compact: true,
             })}
@@ -70,10 +70,10 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric, freque
         </Tile>
 
         <Tile size="sm" className="flex flex-col gap-1">
-          <Text fontWeight="medium" fontSize="sm" color="gray">
+          <Text fontWeight="medium" as="small" color="gray">
             Average
           </Text>
-          <Text fontWeight="semibold" fontSize="lg">
+          <Text fontWeight="semibold" as="strong">
             {formatPrice(generalStats.metricAveragePerPeriod, Currency.IDR, {
               compact: true,
             })}
@@ -81,10 +81,10 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric, freque
         </Tile>
 
         <Tile size="sm" className="flex flex-col gap-1">
-          <Text fontWeight="medium" fontSize="sm" color="gray">
+          <Text fontWeight="medium" as="small" color="gray">
             Highest
           </Text>
-          <Text fontWeight="semibold" fontSize="lg">
+          <Text fontWeight="semibold" as="strong">
             {formatPrice(generalStats.metricMax, Currency.IDR, {
               compact: true,
             })}
@@ -93,15 +93,15 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric, freque
 
         <Tile size="sm" className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
-            <Text fontWeight="medium" fontSize="sm" color="gray">
+            <Text fontWeight="medium" as="small" color="gray">
               Growth
             </Text>
             <Icon as={growthStats.TrendIcon} size="xs" color={growthStats.getTrendColor(metric === 'expense')} />
           </div>
-          <Text fontWeight="semibold" fontSize="lg">
+          <Text fontWeight="semibold" as="strong">
             {growthStats.formattedPercentage}
           </Text>
-          <Text fontSize="xs" color="gray">
+          <Text as="small" color="gray">
             {growthStats.amount > 0 ? '+' : ''}
             {formatPrice(growthStats.amount, Currency.IDR, {
               compact: true,
@@ -110,25 +110,25 @@ export const TrendsStats: FC<TrendsStatsProps> = ({ transactions, metric, freque
         </Tile>
 
         <Tile size="sm" className="flex flex-col gap-1">
-          <Text fontWeight="medium" fontSize="sm" color="gray">
+          <Text fontWeight="medium" as="small" color="gray">
             Transactions
           </Text>
-          <Text fontWeight="semibold" fontSize="lg">
+          <Text fontWeight="semibold" as="strong">
             {generalStats.transactionCount}
           </Text>
-          <Text fontSize="xs" color="gray">
+          <Text as="small" color="gray">
             Total count
           </Text>
         </Tile>
 
         <Tile size="sm" className="flex flex-col gap-1">
-          <Text fontWeight="medium" fontSize="sm" color="gray">
+          <Text fontWeight="medium" as="small" color="gray">
             {getPeakLabel()}
           </Text>
-          <Text fontWeight="semibold" fontSize="lg">
+          <Text fontWeight="semibold" as="strong">
             {generalStats.peakPeriodFormatted}
           </Text>
-          <Text fontSize="xs" color="gray">
+          <Text as="small" color="gray">
             {formatPrice(generalStats.metricMax, Currency.IDR, {
               compact: true,
             })}

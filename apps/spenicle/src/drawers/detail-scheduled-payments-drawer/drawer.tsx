@@ -95,7 +95,7 @@ export const DetailScheduledPaymentsDrawer: FC<DetailScheduledPaymentsDrawerProp
         </If>
         <If condition={!isFirstLoading}>
           <Hr hasMargin />
-          <Heading hasMargin level={3}>
+          <Heading hasMargin as="h4">
             Past Transactions ({data.length})
           </Heading>
         </If>

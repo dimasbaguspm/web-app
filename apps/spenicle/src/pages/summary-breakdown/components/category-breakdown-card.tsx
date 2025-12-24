@@ -112,7 +112,7 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
   if (allCategories.length === 0) {
     return (
       <div>
-        <Heading level={4} className="mb-4 capitalize">
+        <Heading as="h5" className="mb-4 capitalize">
           {type === 'expense' ? 'Expenses' : 'Income'}
         </Heading>
         <NoResults
@@ -127,19 +127,17 @@ export const CategoryBreakdownCard = ({ data, type, total }: CategoryBreakdownCa
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <Heading level={4} className="capitalize">
+        <Heading as="h4" className="capitalize">
           {type === 'expense' ? 'Expenses' : 'Income'}
         </Heading>
         <div className="text-right">
-          <Text fontSize="xl" fontWeight="bold">
-            {formatPrice(total)}
-          </Text>
+          <Text as="strong">{formatPrice(total)}</Text>
         </div>
       </div>
 
       {/* Allocation Bar */}
       <div className="mb-4">
-        <Text fontSize="sm" color="gray" className="mb-2">
+        <Text as="small" color="gray" className="mb-2">
           Allocation
         </Text>
         <div className="flex h-2 rounded-full overflow-hidden">

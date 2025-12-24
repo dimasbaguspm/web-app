@@ -31,7 +31,7 @@ export const TabsDate: FC<TabsDateProps> = ({ date, onDateChange }) => {
             value={formatDate(mappedDate.toISOString(), DateFormat.ISO_DATE)}
             className="flex flex-col hover:text-primary"
           >
-            <Text fontSize="xs" align="center" color={isActive ? 'primary' : 'inherit'}>
+            <Text as="small" align="center" color={isActive ? 'primary' : 'inherit'}>
               {formatDate(mappedDate.toISOString(), DateFormat.SHORT_DAY)}
             </Text>
             {formatDate(mappedDate.toISOString(), DateFormat.NUMERIC_DAY)}

@@ -16,7 +16,7 @@
     "@dimasbaguspm/interfaces": "workspace:*",
     "@dimasbaguspm/providers": "workspace:*",
     "@dimasbaguspm/utils": "workspace:*",
-    "@dimasbaguspm/versaur": "0.0.60",
+    "@dimasbaguspm/versaur": "0.0.63",
     "@tailwindcss/vite": "4.1.16",
     "@tanstack/react-query": "5.90.5",
     "@tanstack/react-query-devtools": "5.90.2",

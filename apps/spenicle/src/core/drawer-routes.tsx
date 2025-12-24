@@ -82,7 +82,6 @@ export const DrawerRoutes: FC = () => {
       isOpen={isOpen}
       onClose={closeDrawer}
       size={isDesktop ? 'lg' : 'full'}
-      transitionType={isDesktop ? 'slide' : 'fade'}
       disableOverlayClickToClose={disableInteractive}
       disableEscapeKeyDown={disableInteractive}
     >

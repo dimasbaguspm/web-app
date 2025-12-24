@@ -37,7 +37,7 @@ export const AccountsListFilter = ({ selectedAccountIds, onAccountsChange }: Acc
 
     return (
       <div className="mb-6">
-        <Heading level={4} color="ghost">
+        <Heading as="h6" color="ghost">
           {title}
         </Heading>
         <ul>
@@ -66,8 +66,10 @@ export const AccountsListFilter = ({ selectedAccountIds, onAccountsChange }: Acc
   return (
     <div>
       <div className="mb-4">
-        <Heading level={3}>Filter Accounts</Heading>
-        <Text fontSize="xs" color="gray">
+        <Heading as="h5" color="neutral">
+          Filter Accounts
+        </Heading>
+        <Text as="small" color="gray">
           Select one or more accounts
         </Text>
       </div>

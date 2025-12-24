@@ -272,7 +272,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                         <div className="flex flex-row items-center gap-2 mb-2">
                           <If condition={isVisible}>
                             <Icon as={Wand2Icon} color="ghost" size="sm" />
-                            <Text fontSize="sm" color="gray">
+                            <Text as="small" color="gray">
                               Suggestions:
                             </Text>
                           </If>
@@ -314,7 +314,7 @@ export const NewTransactionForm: FC<NewTransactionFormProps> = ({ defaultValues,
                               </ul>
                             </If>
                             <If condition={!suggestions.length}>
-                              <Text fontSize="sm" color="gray">
+                              <Text as="small" color="gray">
                                 No suggestions available
                               </Text>
                             </If>

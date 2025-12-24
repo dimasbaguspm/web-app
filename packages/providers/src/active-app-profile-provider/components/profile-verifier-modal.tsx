@@ -34,7 +34,7 @@ export const ProfileVerifierModal: FC<ProfileVerifierModalProps> = ({ onSubmit }
   return (
     <Modal isOpen onClose={noop} disableEscapeKeyDown disableOverlayClickToClose>
       <Modal.Header>
-        <Heading level={3}>Enter PIN</Heading>
+        <Heading as="h3">Enter PIN</Heading>
       </Modal.Header>
 
       <Modal.Body>

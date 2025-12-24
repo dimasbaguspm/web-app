@@ -20,8 +20,8 @@ export const ThisMonthSummaryCards = ({
   return (
     <div>
       <div className="flex flex-row justify-between items-center gap-3 mb-4">
-        <Heading level={3} color="ghost">
-          This Month At a Glance
+        <Heading as="h5" color="ghost">
+          This Month At Glance
         </Heading>
         {isMobile ? (
           <ButtonMenuIcon as={EllipsisVerticalIcon} variant="outline" aria-label="Actions" placement="bottom-right">
@@ -53,13 +53,13 @@ export const ThisMonthSummaryCards = ({
             <div className="w-12 h-12 rounded-xl bg-secondary-soft flex items-center justify-center">
               <Icon as={ArrowUpIcon} color="secondary" />
             </div>
-            <div className="flex-1">
-              <Text as="p" fontSize="xs" fontWeight="medium" color="gray" className="uppercase">
+            <div className="flex flex-col">
+              <Text as="small" fontWeight="medium" color="gray" transform="uppercase">
                 Income
               </Text>
-              <Text as="p" fontSize="xl" fontWeight="bold">
+              <Heading as="h4" color="neutral">
                 {formatPrice(totalIncome)}
-              </Text>
+              </Heading>
             </div>
           </div>
         </Tile>
@@ -69,13 +69,13 @@ export const ThisMonthSummaryCards = ({
             <div className="w-12 h-12 rounded-xl bg-primary-soft flex items-center justify-center">
               <Icon as={ArrowDownIcon} color="primary" />
             </div>
-            <div className="flex-1">
-              <Text as="p" fontSize="xs" fontWeight="medium" color="gray" className="uppercase">
+            <div className="flex flex-col">
+              <Text as="small" fontWeight="medium" color="gray" transform="uppercase">
                 Expenses
               </Text>
-              <Text as="p" fontSize="xl" fontWeight="bold">
+              <Heading as="h4" color="neutral">
                 {formatPrice(totalExpense)}
-              </Text>
+              </Heading>
             </div>
           </div>
         </Tile>
