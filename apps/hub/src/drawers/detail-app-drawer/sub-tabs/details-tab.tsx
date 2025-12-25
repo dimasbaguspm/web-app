@@ -46,7 +46,7 @@ export const DetailsTab: FC<DetailsTabProps> = ({ app }) => {
         <Hr hasMargin />
 
         <div className="mb-4">
-          <Heading level={3} hasMargin>
+          <Heading as="h4" hasMargin>
             Links
           </Heading>
           <AttributeList>

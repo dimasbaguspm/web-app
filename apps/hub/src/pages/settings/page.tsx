@@ -25,11 +25,11 @@ const SettingPage = () => {
       <PageLayout.ContentRegion>
         <PageContent size="wide">
           <div className="flex flex-row items-center gap-2 mb-4">
-            <Text fontSize="lg" fontWeight="semibold">
+            <Text as="p" fontWeight="semibold">
               General
             </Text>
             {isDesktop && (
-              <Text color="gray" fontSize="sm" fontWeight="normal">
+              <Text color="gray" as="small" fontWeight="normal">
                 Manage your general account settings and preferences.
               </Text>
             )}
