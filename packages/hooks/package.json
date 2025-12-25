@@ -16,15 +16,15 @@
     "@dimasbaguspm/eslint": "workspace:*",
     "@dimasbaguspm/interfaces": "workspace:*",
     "@dimasbaguspm/typescript": "workspace:*",
-    "@types/lodash": "^4.17.20"
+    "@types/lodash": "4.17.21"
   },
   "peerDependencies": {
     "@dimasbaguspm/constants": "workspace:*",
     "@dimasbaguspm/providers": "workspace:*",
     "@dimasbaguspm/utils": "workspace:*",
-    "@dimasbaguspm/versaur": "0.0.30",
-    "@tanstack/react-query": "5.85.5",
-    "lodash": "4.17.21",
-    "react-router": "*"
+    "@dimasbaguspm/versaur": ">=0.0.30",
+    "@tanstack/react-query": ">=5",
+    "lodash": ">=4",
+    "react-router": ">=7"
   }
 }

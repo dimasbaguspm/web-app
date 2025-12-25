@@ -24,10 +24,10 @@
     "@dimasbaguspm/constants": "workspace:*",
     "@dimasbaguspm/hooks": "workspace:*",
     "@dimasbaguspm/utils": "workspace:*",
-    "@dimasbaguspm/versaur": "0.0.30",
-    "@tanstack/react-query": "5.85.5",
-    "lucide-react": "0.542.0",
-    "react": "19.1.1",
-    "react-router": "7.8.2"
+    "@dimasbaguspm/versaur": ">=0.0.30",
+    "@tanstack/react-query": ">=5",
+    "lodash": ">=4",
+    "react": ">=19",
+    "react-router": ">=7"
   }
 }
