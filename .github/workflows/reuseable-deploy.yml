@@ -7,6 +7,12 @@ on:
         required: true
         type: string
         description: 'The name of the app to deploy'
+  workflow_dispatch:
+    inputs:
+      app_name:
+        required: true
+        type: string
+        description: 'The name of the app to deploy'
 
 jobs:
   deploy:
