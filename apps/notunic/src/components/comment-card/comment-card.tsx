@@ -88,7 +88,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
         <div className="w-full mb-4">
           <div className="flex justify-between">
             <div className="flex items-center gap-2">
-              <Text fontWeight="semibold" fontSize="sm">
+              <Text fontWeight="semibold" as="small">
                 {senderName}
               </Text>
               {hasAction && !isActionDone && (
@@ -98,7 +98,7 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
                   color={isActionOverdue ? 'danger' : isActionNearDue ? 'warning' : 'ghost'}
                 />
               )}
-              <Text color="gray" fontWeight="normal" fontSize="xs">
+              <Text color="gray" fontWeight="normal" as="small">
                 {createdDateTime}
               </Text>
             </div>
@@ -116,14 +116,14 @@ export const CommentCard: FC<CommentCardProps> = (props) => {
           </div>
           <div className="flex flex-col gap-3 mb-2">
             {/* Main Comment Description */}
-            <Text color="gray" fontWeight="normal" fontSize="base" className="whitespace-pre-wrap leading-relaxed">
+            <Text color="gray" fontWeight="normal" as="p" className="whitespace-pre-wrap leading-relaxed">
               {description}
             </Text>
 
             {/* Follow-up Note - Visually Distinct */}
             {hasAction && isActionDone && (
               <div className="flex flex-row gap-2.5 items-start pl-3 py-2 border-l-2 border-primary-light bg-primary-soft rounded-r-lg">
-                <Text color="gray" fontWeight="normal" fontSize="sm" className="whitespace-pre-wrap leading-relaxed">
+                <Text color="gray" fontWeight="normal" as="p" className="whitespace-pre-wrap leading-relaxed">
                   {commentAction?.followUpNote}
                 </Text>
               </div>

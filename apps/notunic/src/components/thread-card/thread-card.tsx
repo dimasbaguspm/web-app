@@ -79,7 +79,7 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
       <div className="mb-2">
         <div className="flex justify-between w-full">
           <div className="w-full flex items-start gap-3">
-            <Text fontWeight="medium" fontSize="base">
+            <Text fontWeight="medium" as="p">
               {title}
             </Text>
             <If condition={!hideAction}>
@@ -112,7 +112,7 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
       <div className="w-full">
         <If condition={!hideDescription}>
           <div className="mb-4">
-            <Text color="gray" fontWeight="normal" fontSize="sm">
+            <Text color="gray" fontWeight="normal" as="small">
               {description}
             </Text>
           </div>
@@ -133,7 +133,7 @@ export const ThreadCard: FC<ThreadCardProps> = (props) => {
               </Badge>
             </If>
           </BadgeGroup>
-          <Text color="gray" fontWeight="normal" fontSize="sm" align="right">
+          <Text color="gray" fontWeight="normal" as="small" align="right">
             {createdDateTime}
           </Text>
         </div>
