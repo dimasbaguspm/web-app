@@ -1458,15 +1458,15 @@ __metadata:
     "@dimasbaguspm/eslint": "workspace:*"
     "@dimasbaguspm/interfaces": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
-    "@types/lodash": "npm:^4.17.21"
+    "@types/lodash": "npm:4.17.21"
   peerDependencies:
     "@dimasbaguspm/constants": "workspace:*"
     "@dimasbaguspm/providers": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": 0.0.30
-    "@tanstack/react-query": 5.85.5
-    lodash: 4.17.21
-    react-router: "*"
+    "@dimasbaguspm/versaur": ">=0.0.30"
+    "@tanstack/react-query": ">=5"
+    lodash: ">=4"
+    react-router: ">=7"
   languageName: unknown
   linkType: soft
 
@@ -1562,7 +1562,6 @@ __metadata:
     react-hook-form: "npm:7.69.0"
     react-router: "npm:7.11.0"
     react-swipeable: "npm:7.0.2"
-    recharts: "npm:3.6.0"
     tailwind-merge: "npm:3.4.0"
     tailwindcss: "npm:4.1.18"
     tailwindcss-animate: "npm:1.0.7"
@@ -1583,11 +1582,11 @@ __metadata:
     "@dimasbaguspm/constants": "workspace:*"
     "@dimasbaguspm/hooks": "workspace:*"
     "@dimasbaguspm/utils": "workspace:*"
-    "@dimasbaguspm/versaur": 0.0.30
-    "@tanstack/react-query": 5.85.5
-    lucide-react: 0.542.0
-    react: 19.1.1
-    react-router: 7.8.2
+    "@dimasbaguspm/versaur": ">=0.0.30"
+    "@tanstack/react-query": ">=5"
+    lodash: ">=4"
+    react: ">=19"
+    react-router: ">=7"
   languageName: unknown
   linkType: soft
 
@@ -1627,6 +1626,7 @@ __metadata:
     react: "npm:19.2.3"
     react-dom: "npm:19.2.3"
     react-hook-form: "npm:7.69.0"
+    react-is: "npm:19.2.3"
     react-router: "npm:7.11.0"
     react-swipeable: "npm:7.0.2"
     recharts: "npm:3.6.0"
@@ -1661,11 +1661,11 @@ __metadata:
     "@dimasbaguspm/constants": "workspace:*"
     "@dimasbaguspm/interfaces": "workspace:*"
     "@dimasbaguspm/providers": "workspace:*"
-    "@dimasbaguspm/versaur": ^0.0.40
-    dayjs: 1.11.13
-    lodash: 4.17.21
-    lucide-react: 0.542.0
-    react: 19.1.1
+    "@dimasbaguspm/versaur": ">=0.0.40"
+    dayjs: ">=1.11.13"
+    lodash: ">=4"
+    lucide-react: ">=0.542.0"
+    react: ">=19"
   languageName: unknown
   linkType: soft
 
@@ -1687,7 +1687,8 @@ __metadata:
     "@dimasbaguspm/eslint": "workspace:*"
     "@dimasbaguspm/typescript": "workspace:*"
     dayjs: "npm:1.11.19"
-    vite-plugin-pwa: "npm:^1.2.0"
+    vite: "npm:7.3.0"
+    vite-plugin-pwa: "npm:1.2.0"
   languageName: unknown
   linkType: soft
 
@@ -2893,17 +2894,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:4.17.21, @types/lodash@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "@types/lodash@npm:4.17.21"
+  checksum: 10/34920830a3bc82ba619cda05e606fef00c148a69b4f19f770645d2587ccdb8e42ef3ddfc174b7884c0c709fc0a1aeb48f7326da969bad12a1464a03efbbe414c
+  languageName: node
+  linkType: hard
+
 "@types/lodash@npm:^4.17.20":
   version: 4.17.20
   resolution: "@types/lodash@npm:4.17.20"
   checksum: 10/8cd8ad3bd78d2e06a93ae8d6c9907981d5673655fec7cb274a4d9a59549aab5bb5b3017361280773b8990ddfccf363e14d1b37c97af8a9fe363de677f9a61524
-  languageName: node
-  linkType: hard
-
-"@types/lodash@npm:^4.17.21":
-  version: 4.17.21
-  resolution: "@types/lodash@npm:4.17.21"
-  checksum: 10/34920830a3bc82ba619cda05e606fef00c148a69b4f19f770645d2587ccdb8e42ef3ddfc174b7884c0c709fc0a1aeb48f7326da969bad12a1464a03efbbe414c
   languageName: node
   linkType: hard
 
@@ -6770,6 +6771,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-is@npm:19.2.3":
+  version: 19.2.3
+  resolution: "react-is@npm:19.2.3"
+  checksum: 10/547ac397308204742447b5e4cf556cf09aa97f4cc1c95c4a28e4b2e73a7efab03e59d7b89b4a01f67bf9bf0ca87348a7f0e88bc87c0af6be458aaac1dec5e132
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^17.0.1":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
@@ -8210,7 +8218,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-pwa@npm:^1.2.0":
+"vite-plugin-pwa@npm:1.2.0":
   version: 1.2.0
   resolution: "vite-plugin-pwa@npm:1.2.0"
   dependencies:
