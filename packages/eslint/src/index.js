@@ -1,27 +1,17 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import prettierlint from 'eslint-plugin-prettier/recommended';
+import { defineConfig } from 'eslint/config';
 // @ts-expect-error
 import importPlugin from 'eslint-plugin-import';
 
-const configs = tseslint.config(eslint.configs.recommended, tseslint.configs.recommended, prettierlint, {
+const configs = defineConfig(eslint.configs.recommended, tseslint.configs.recommended, {
   files: ['**/*.{js,jsx,ts,tsx}'],
   plugins: {
     import: importPlugin,
   },
   ignores: ['eslint.config.js', '**/__assets__/'],
   rules: {
-    'prettier/prettier': [
-      'error',
-      {
-        singleQuote: true,
-        trailingComma: 'all',
-        semi: true,
-        tabWidth: 2,
-        useTabs: false,
-        printWidth: 120,
-      },
-    ],
     'import/no-cycle': 'error',
     'import/newline-after-import': 'error',
     'import/max-dependencies': ['error', { max: 20 }],
