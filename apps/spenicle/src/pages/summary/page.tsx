@@ -48,7 +48,7 @@ const SummaryLayout = () => {
                 <Badge shape="rounded">{startCase(appliedFilters.frequency)}</Badge>
               </Card.ListItem>
               <Card.ListItem>
-                <Text fontSize="sm" color="gray">
+                <Text as="small" color="gray">
                   {subTitleText}
                 </Text>
               </Card.ListItem>

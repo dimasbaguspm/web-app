@@ -68,7 +68,7 @@ export const AppTopBar: FC = () => {
             Logout
           </ButtonMenuIcon.Item>
           <Hr />
-          <Text fontSize="xs" color="gray" align="center">
+          <Text as="small" color="gray" align="center">
             {__APP_VERSION__}
           </Text>
         </ButtonMenuIcon>

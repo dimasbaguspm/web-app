@@ -26,7 +26,7 @@ export const AccountGroupCard: FC<AccountGroupCardProps> = ({ accountGroup, onCl
         <Card.List>
           <Card.ListItem>
             <Icon as={UsersIcon} size="sm" color="gray" className="mr-2" />
-            <Text fontSize="sm" color="gray">
+            <Text as="small" color="gray">
               {accountCount} {accountCount === 1 ? 'account' : 'accounts'}
             </Text>
           </Card.ListItem>

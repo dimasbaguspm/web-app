@@ -41,7 +41,7 @@ export const MenuBottomSheet: FC = () => {
           </Avatar>
           <div className="ml-4 flex flex-col">
             <Text fontWeight="medium">{profile?.name}</Text>
-            <Text fontSize="sm" color="gray">
+            <Text as="small" color="gray">
               {formatDate(profile?.createdAt, DateFormat.FULL_DATE)}
             </Text>
           </div>
@@ -100,7 +100,7 @@ export const MenuBottomSheet: FC = () => {
         </ul>
       </BottomSheet.Body>
       <BottomSheet.Footer className="mx-auto">
-        <Text fontSize="sm" color="gray">
+        <Text as="small" color="gray">
           Version {__APP_VERSION__}
         </Text>
       </BottomSheet.Footer>

@@ -40,18 +40,18 @@ export const CommentActionCard: FC<CommentActionCardProps> = ({ comment, ...rest
       </div>
       <div className="flex-grow flex flex-col text-left">
         <div className="flex items-center gap-2">
-          <Text fontWeight="semibold" fontSize="sm">
+          <Text fontWeight="semibold" as="small">
             {senderName}
           </Text>
           <Text
             color={isActionOverdue ? 'danger' : isActionNearDue ? 'warning' : 'ghost'}
             fontWeight="normal"
-            fontSize="xs"
+            as="small"
           >
             {time}
           </Text>
         </div>
-        <Text color="gray" fontWeight="normal" fontSize="base" className="mb-2 whitespace-pre-wrap">
+        <Text color="gray" fontWeight="normal" className="mb-2 whitespace-pre-wrap">
           {description}
         </Text>
       </div>

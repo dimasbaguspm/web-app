@@ -83,7 +83,7 @@ const SummaryOverviewPage = () => {
           {/* Breakdown table - always visible to explain the chart */}
           <div>
             <div className="flex justify-between">
-              <Heading level={3} hasMargin>
+              <Heading as="h5" hasMargin color="neutral">
                 {appliedFilters.frequency === 'daily'
                   ? 'Daily Breakdown'
                   : appliedFilters.frequency === 'weekly'

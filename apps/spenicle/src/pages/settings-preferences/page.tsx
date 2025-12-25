@@ -1,5 +1,15 @@
 import { useWindowResize } from '@dimasbaguspm/hooks/use-window-resize';
-import { Tile, Text, Icon, BadgeGroup, Badge, PageHeader, PageContent, PageLayout } from '@dimasbaguspm/versaur';
+import {
+  Tile,
+  Text,
+  Icon,
+  BadgeGroup,
+  Badge,
+  PageHeader,
+  PageContent,
+  PageLayout,
+  Heading,
+} from '@dimasbaguspm/versaur';
 import { ChevronRightIcon, InfoIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
@@ -24,11 +34,9 @@ const SettingsPreferencesPage = () => {
             {settingsGroups.map((group, groupIndex) => (
               <div key={groupIndex} className="space-y-3">
                 <div className="flex items-center gap-3 ">
-                  <Text as="h3" fontSize="lg" fontWeight="semibold">
-                    {group.title}
-                  </Text>
+                  <Heading as="h3">{group.title}</Heading>
                   <div className="hidden lg:block flex-1">
-                    <Text fontSize="sm" color="gray">
+                    <Text as="small" color="gray">
                       {group.description}
                     </Text>
                   </div>
@@ -59,7 +67,7 @@ const SettingsPreferencesPage = () => {
                               )}
                             </div>
                             {isDesktop && (
-                              <Text color="gray" fontSize="sm">
+                              <Text as="small" color="gray">
                                 {item.description}
                               </Text>
                             )}

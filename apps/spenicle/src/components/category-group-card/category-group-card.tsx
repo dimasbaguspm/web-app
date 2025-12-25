@@ -26,7 +26,7 @@ export const CategoryGroupCard: FC<CategoryGroupCardProps> = ({ categoryGroup, o
         <Card.List>
           <Card.ListItem>
             <Icon as={UsersIcon} size="sm" color="gray" className="mr-2" />
-            <Text fontSize="sm" color="gray">
+            <Text as="small" color="gray">
               {categoryCount} {categoryCount === 1 ? 'category' : 'categories'}
             </Text>
           </Card.ListItem>

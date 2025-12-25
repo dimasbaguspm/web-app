@@ -65,7 +65,7 @@ export const DetailsTab: FC<DetailsTabProps> = ({ categoryGroup }) => {
       </ButtonGroup>
 
       <div>
-        <Heading level={3} hasMargin>
+        <Heading as="h4" hasMargin>
           Members
         </Heading>
         <If condition={isFetchingCategories}>

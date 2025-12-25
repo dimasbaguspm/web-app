@@ -138,7 +138,7 @@ export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
       <If condition={Boolean(hasBudget)}>
         <Hr hasMargin />
         <div>
-          <Heading level={3} hasMargin>
+          <Heading as="h4" hasMargin>
             Budget
           </Heading>
           <div className="bg-white space-y-3">
@@ -172,10 +172,10 @@ export const DetailsTab: FC<DetailsTabProps> = ({ data }) => {
               />
             </div>
             <div className="flex justify-between">
-              <Text fontSize="xs" color="gray">
+              <Text as="small" color="gray">
                 {budgetPercentUsage.toFixed(0)}% of {isSpendingBudget ? 'limit used' : 'budget allocated'}
               </Text>
-              <Text fontSize="xs" color="gray">
+              <Text as="small" color="gray">
                 {budgetPeriod}
               </Text>
             </div>

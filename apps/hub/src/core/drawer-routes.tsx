@@ -41,12 +41,7 @@ export const DrawerRoutes: FC = () => {
   const hasState = (stateKey: keyof typeof state) => (state && typeof state === 'object' ? stateKey in state : false);
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      onClose={closeDrawer}
-      size={isDesktop ? 'lg' : 'full'}
-      transitionType={isDesktop ? 'slide' : 'fade'}
-    >
+    <Drawer isOpen={isOpen} onClose={closeDrawer} size={isDesktop ? 'lg' : 'full'}>
       {is(DRAWER_ROUTES.DETAIL_APP) && hasParam('appId') && (
         <DetailAppDrawer appId={params.appId!} tabId={params?.tabId} />
       )}

@@ -76,7 +76,7 @@ export const TrendsChart: FC<TrendsChartProps> = ({ transactions, metric, freque
   return (
     <>
       <div className="mb-4">
-        <Heading level={3}>{getChartTitle()}</Heading>
+        <Heading as="h5">{getChartTitle()}</Heading>
       </div>
 
       <div className="w-full h-80">
@@ -115,12 +115,12 @@ export const TrendsChart: FC<TrendsChartProps> = ({ transactions, metric, freque
                 if (active && payload && payload.length) {
                   return (
                     <div className="bg-white p-2 border border-border rounded shadow-lg max-w-48">
-                      <Text color="black" fontSize="sm">
+                      <Text color="black" as="small">
                         {formatDate((label ?? '').toString(), getTooltipDateFormat())}
                       </Text>
                       <div className="flex flex-col gap-1 mt-1">
                         {payload.map((entry) => (
-                          <Text color="gray" fontSize="xs" key={entry.name}>
+                          <Text color="gray" as="small" key={entry.name}>
                             {formatPrice(entry.value, Currency.IDR, {
                               compact: true,
                             })}

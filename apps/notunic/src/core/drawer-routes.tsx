@@ -53,12 +53,7 @@ export const DrawerRoutes: FC = () => {
   const hasState = (stateKey: keyof typeof state) => (state && typeof state === 'object' ? stateKey in state : false);
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      onClose={closeDrawer}
-      size={isDesktop ? 'lg' : 'full'}
-      transitionType={isDesktop ? 'slide' : 'fade'}
-    >
+    <Drawer isOpen={isOpen} onClose={closeDrawer} size={isDesktop ? 'lg' : 'full'}>
       {is(DRAWER_ROUTES.NEW_SPACE) && <NewSpaceDrawer />}
       {is(DRAWER_ROUTES.EDIT_SPACE) && hasParam('spaceId') && <EditSpaceDrawer spaceId={params.spaceId!} />}
       {is(DRAWER_ROUTES.NEW_THREAD) && hasParam('spaceId') && (
