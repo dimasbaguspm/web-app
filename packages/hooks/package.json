@@ -16,7 +16,7 @@
     "@dimasbaguspm/eslint": "workspace:*",
     "@dimasbaguspm/interfaces": "workspace:*",
     "@dimasbaguspm/typescript": "workspace:*",
-    "@types/lodash": "^4.17.20"
+    "@types/lodash": "^4.17.21"
   },
   "peerDependencies": {
     "@dimasbaguspm/constants": "workspace:*",
