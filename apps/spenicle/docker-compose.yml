@@ -1,0 +1,9 @@
+services:
+  cv:
+    image: nginx:alpine
+    container_name: spenicle-fe-app
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+    ports:
+      - '8003:80'
+    restart: unless-stopped
