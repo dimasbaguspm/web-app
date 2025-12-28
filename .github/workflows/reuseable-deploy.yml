@@ -61,10 +61,11 @@ jobs:
           RSYNC_SSH="sshpass -p '$VPS_PASSWORD' ssh -o StrictHostKeyChecking=no -o ProxyCommand=\"cloudflared access ssh --hostname %h\""
           rsync -avz --exclude '.git' -e "$RSYNC_SSH" ./ $VPS_USER@$VPS_HOST:~/web-app/${{ inputs.app_name }}
 
-      # - name: Deploy on VPS
-      #   env:
-      #     VPS_HOST: ${{ secrets.VPS_HOST }}
-      #     VPS_USER: ${{ secrets.VPS_USER }}
-      #     VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
-      #   run: |
-      #     sshpass -p "$VPS_PASSWORD" ssh -o StrictHostKeyChecking=no -o ProxyCommand="cloudflared access ssh --hostname %h" $VPS_USER@$VPS_HOST "cd ~/web-app/${{ inputs.app_name }}"
+      - name: Deploy on VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -o StrictHostKeyChecking=no -o ProxyCommand="cloudflared access ssh --hostname %h" $VPS_USER@$VPS_HOST "cd ~/web-app/${{ inputs.app_name }}/apps/${{ inputs.app_name }} \
+            && docker-compose up -d"

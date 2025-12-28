@@ -3,7 +3,7 @@ services:
     image: nginx:alpine
     container_name: notunic-fe-app
     volumes:
-      - ./:/usr/share/nginx/html:ro
+      - ./dist:/usr/share/nginx/html:ro
     ports:
       - '8002:80'
     restart: unless-stopped
