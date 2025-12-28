@@ -1,9 +1,9 @@
 services:
-  cv:
-    image: nginx:alpine
+  hub-fe-app:
     container_name: hub-fe-app
-    volumes:
-      - ./dist:/usr/share/nginx/html:ro
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - '8001:80'
     restart: unless-stopped

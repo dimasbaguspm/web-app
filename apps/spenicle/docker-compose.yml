@@ -1,9 +1,9 @@
 services:
-  cv:
-    image: nginx:alpine
+  spenicle-fe-app:
     container_name: spenicle-fe-app
-    volumes:
-      - ./dist:/usr/share/nginx/html:ro
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '8003:80'
+      - '8001:80'
     restart: unless-stopped

@@ -1,9 +1,9 @@
 services:
-  cv:
-    image: nginx:alpine
+  notunic-fe-app:
     container_name: notunic-fe-app
-    volumes:
-      - ./dist:/usr/share/nginx/html:ro
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '8002:80'
+      - '8001:80'
     restart: unless-stopped
