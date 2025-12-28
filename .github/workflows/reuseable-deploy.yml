@@ -47,7 +47,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build Storybook
+      - name: Build
         run: yarn workspace @dimasbaguspm/${{ inputs.app_name }} build
 
       - name: Copy source to VPS via cloudflared (rsync over SSH using password)
@@ -68,4 +68,5 @@ jobs:
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
           sshpass -p "$VPS_PASSWORD" ssh -o StrictHostKeyChecking=no -o ProxyCommand="cloudflared access ssh --hostname %h" $VPS_USER@$VPS_HOST "cd ~/web-app/${{ inputs.app_name }}/apps/${{ inputs.app_name }} \
-            && docker compose up -d"
+          && docker compose down \  
+          && docker compose up -d"
