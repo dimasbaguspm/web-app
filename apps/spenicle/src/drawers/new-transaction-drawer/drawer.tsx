@@ -4,9 +4,10 @@ import { useDrawerRoute } from '@dimasbaguspm/providers/drawer-route-provider';
 import { Button, ButtonGroup, Drawer, useSnackbars } from '@dimasbaguspm/versaur';
 import dayjs from 'dayjs';
 import { FC } from 'react';
+import { useParams } from 'react-router';
 
 import { NewTransactionForm } from './form';
-import { formatDefaultValues } from './helpers';
+import { extractDateTimeFromParams, formatDefaultValues } from './helpers';
 import { NewTransactionFormSchema } from './types';
 
 interface NewTransactionDrawerProps {
@@ -17,6 +18,7 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({ payload })
   const { closeDrawer } = useDrawerRoute();
   const { showSnack } = useSnackbars();
   const { isDesktop } = useWindowResize();
+  const params = useParams<{ year: string; month: string; day: string }>();
 
   const [createTransaction, , { isPending }] = useApiSpenicleCreateTransaction();
 
@@ -52,7 +54,10 @@ export const NewTransactionDrawer: FC<NewTransactionDrawerProps> = ({ payload })
       </Drawer.Header>
 
       <Drawer.Body>
-        <NewTransactionForm defaultValues={formatDefaultValues(payload)} onSubmit={handleOnValidSubmit} />
+        <NewTransactionForm
+          defaultValues={formatDefaultValues({ ...payload, ...extractDateTimeFromParams(params) })}
+          onSubmit={handleOnValidSubmit}
+        />
       </Drawer.Body>
 
       <Drawer.Footer>

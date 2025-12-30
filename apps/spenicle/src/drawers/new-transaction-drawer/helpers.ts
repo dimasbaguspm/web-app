@@ -32,3 +32,16 @@ export const formatDefaultValues = (payload?: Record<string, unknown>): NewTrans
     notes: typeof payload?.notes === 'string' ? payload?.notes : '',
   };
 };
+
+export const extractDateTimeFromParams = (params: Record<string, string | undefined>) => {
+  const year = params.year ? parseInt(params.year, 10) : dayjs().year();
+  const month = params.month ? parseInt(params.month, 10) : dayjs().month();
+  const day = params.day ? parseInt(params.day, 10) : dayjs().date();
+
+  const date = dayjs().set('year', year).set('month', month).set('date', day);
+
+  return {
+    date: formatDate(date, DateFormat.ISO_DATE),
+    time: formatDate(date, DateFormat.TIME_24H),
+  };
+};
